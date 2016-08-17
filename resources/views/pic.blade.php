@@ -38,7 +38,20 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Laravel 5</div>
+                <div class="title">上传测试</div>
+
+                <form name="loginForm" action="http://up-yk3-dev.goukuai.cn/2/web_upload" enctype="multipart/form-data" method="POST">
+                    <input name="file" type="file"  />
+                    <input name="org_client_id" type="text"  value="akLlMNgYQIg4rFFnCKCQKRV4O8"/>
+                    <input name="path" type="text"  value="wang"/>
+                    <input name="name" type="text"  value="yuxiang"/>
+                    <input name="filefield" type="text"  value="file"/>
+                    <div class="form-group">
+                        <button  class="btn btn-lg pb-button btn-block bt_submit">登陆</button>
+                    </div>
+                </form>
+
+
             </div>
         </div>
     </body>

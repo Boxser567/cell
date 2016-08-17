@@ -18,7 +18,7 @@ function is_debug()
 
 function inputWantsJson()
 {
-    return Request::wantsJson() || ($_SERVER["HTTP_X_REQUESTED_WITH"] == 'XMLHttpRequest');
+    return Request::wantsJson();
 }
 
 function inputGet($key, $default = '')
