@@ -6,16 +6,16 @@ if (!class_exists('GokuaiBase')) {
 
 class GokuaiEnt extends GokuaiBase
 {
-    protected $api_url = 'http://a-lib.goukuai.cn';
+    protected $api_url = 'http://yk3-api-ent.goukuai.cn';
     const TOKEN_TYPE_ENT = 'ent';
     private $token_type;
     private $token;
 
-    public function __construct($token, $client_id, $client_secret, $token_type = self::TOKEN_TYPE_ENT)
+    public function __construct($token, $client_id='', $client_secret='', $token_type = self::TOKEN_TYPE_ENT)
     {
         $this->token = $token;
-        $this->client_id = $client_id;
-        $this->client_secret = $client_secret;
+        $this->client_id = config("app.yunku.client_id");
+        $this->client_secret = config("app.yunku.client_secret");
         $this->token_type = $token_type;
     }
 

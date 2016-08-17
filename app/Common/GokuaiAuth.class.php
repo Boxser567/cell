@@ -6,15 +6,15 @@ if (!class_exists('GokuaiBase')) {
 
 class GokuaiAuth extends GokuaiBase
 {
-    protected $api_url = 'http://a.goukuai.cn';
+    protected $api_url = 'http://yk3-api.goukuai.cn';
 
     const GRANT_TYPE_PERSONAL_PASSWORD = 'password';
     const GRANT_TYPE_ENTERPRISE_PASSWORD = 'ent_password';
 
-    public function __construct($client_id, $client_secret)
+    public function __construct($client_id='', $client_secret='')
     {
-        $this->client_id =$client_id;
-        $this->client_secret = $client_secret;
+        $this->client_id = config("app.yunku.client_id");
+        $this->client_secret = config("app.yunku.client_secret");
     }
 
     /**

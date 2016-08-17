@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3a39a3e20f9b8098d6b5883e5a76b2fe",
-    "content-hash": "16e3d2c146b8b309a042b82b2135e4c3",
+    "hash": "ea259ea4eaf5e2e60661f41ec39c4044",
+    "content-hash": "b6b7db91b9371d1049c9e7229a2dd6ff",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -387,70 +387,33 @@
             "time": "2015-11-06 14:35:42"
         },
         {
-            "name": "guzzle/guzzle",
-            "version": "v3.9.3",
+            "name": "endroid/qrcode",
+            "version": "1.7.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9"
+                "url": "https://github.com/endroid/QrCode.git",
+                "reference": "ba35ed8f0686bc4ec82874752778ccb427261a41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/guzzle/guzzle3/0645b70d953bc1c067bbc8d5bc53194706b628d9.zip",
-                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9",
+                "url": "https://packagist.phpcomposer.com/files/endroid/QrCode/ba35ed8f0686bc4ec82874752778ccb427261a41.zip",
+                "reference": "ba35ed8f0686bc4ec82874752778ccb427261a41",
                 "shasum": ""
             },
             "require": {
-                "ext-curl": "*",
-                "php": ">=5.3.3",
-                "symfony/event-dispatcher": "~2.1"
-            },
-            "replace": {
-                "guzzle/batch": "self.version",
-                "guzzle/cache": "self.version",
-                "guzzle/common": "self.version",
-                "guzzle/http": "self.version",
-                "guzzle/inflection": "self.version",
-                "guzzle/iterator": "self.version",
-                "guzzle/log": "self.version",
-                "guzzle/parser": "self.version",
-                "guzzle/plugin": "self.version",
-                "guzzle/plugin-async": "self.version",
-                "guzzle/plugin-backoff": "self.version",
-                "guzzle/plugin-cache": "self.version",
-                "guzzle/plugin-cookie": "self.version",
-                "guzzle/plugin-curlauth": "self.version",
-                "guzzle/plugin-error-response": "self.version",
-                "guzzle/plugin-history": "self.version",
-                "guzzle/plugin-log": "self.version",
-                "guzzle/plugin-md5": "self.version",
-                "guzzle/plugin-mock": "self.version",
-                "guzzle/plugin-oauth": "self.version",
-                "guzzle/service": "self.version",
-                "guzzle/stream": "self.version"
-            },
-            "require-dev": {
-                "doctrine/cache": "~1.3",
-                "monolog/monolog": "~1.0",
-                "phpunit/phpunit": "3.7.*",
-                "psr/log": "~1.0",
-                "symfony/class-loader": "~2.1",
-                "zendframework/zend-cache": "2.*,<2.3",
-                "zendframework/zend-log": "2.*,<2.3"
-            },
-            "suggest": {
-                "guzzlehttp/guzzle": "Guzzle 5 has moved to a new package name. The package you have installed, Guzzle 3, is deprecated."
+                "ext-gd": "*",
+                "php": ">=5.3.0",
+                "symfony/options-resolver": "^2.3|^3.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.9-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Guzzle": "src/",
-                    "Guzzle\\Tests": "tests/"
+                "psr-4": {
+                    "Endroid\\QrCode\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -459,28 +422,20 @@
             ],
             "authors": [
                 {
-                    "name": "Michael Dowling",
-                    "email": "mtdowling@gmail.com",
-                    "homepage": "https://github.com/mtdowling"
-                },
-                {
-                    "name": "Guzzle Community",
-                    "homepage": "https://github.com/guzzle/guzzle/contributors"
+                    "name": "Jeroen van den Enden",
+                    "email": "info@endroid.nl",
+                    "homepage": "http://endroid.nl/"
                 }
             ],
-            "description": "PHP HTTP client. This library is deprecated in favor of https://packagist.org/packages/guzzlehttp/guzzle",
-            "homepage": "http://guzzlephp.org/",
+            "description": "Endroid QR Code",
+            "homepage": "https://github.com/endroid/QrCode",
             "keywords": [
-                "client",
-                "curl",
-                "framework",
-                "http",
-                "http client",
-                "rest",
-                "web service"
+                "code",
+                "endroid",
+                "qr",
+                "qrcode"
             ],
-            "abandoned": "guzzlehttp/guzzle",
-            "time": "2015-03-18 18:23:50"
+            "time": "2016-07-26 09:39:07"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1066,26 +1021,26 @@
         },
         {
             "name": "league/oauth1-client",
-            "version": "1.6.1",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth1-client.git",
-                "reference": "cef3ceda13c78f89c323e4d5e6301c0eb7cea422"
+                "reference": "fca5f160650cb74d23fc11aa570dd61f86dcf647"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/thephpleague/oauth1-client/cef3ceda13c78f89c323e4d5e6301c0eb7cea422.zip",
-                "reference": "cef3ceda13c78f89c323e4d5e6301c0eb7cea422",
+                "url": "https://packagist.phpcomposer.com/files/thephpleague/oauth1-client/fca5f160650cb74d23fc11aa570dd61f86dcf647.zip",
+                "reference": "fca5f160650cb74d23fc11aa570dd61f86dcf647",
                 "shasum": ""
             },
             "require": {
-                "guzzle/guzzle": "3.*",
-                "php": ">=5.3.0"
+                "guzzlehttp/guzzle": "^6.0",
+                "php": ">=5.5.0"
             },
             "require-dev": {
-                "mockery/mockery": "~0.9",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~2.0"
+                "mockery/mockery": "^0.9",
+                "phpunit/phpunit": "^4.0",
+                "squizlabs/php_codesniffer": "^2.0"
             },
             "type": "library",
             "extra": {
@@ -1125,7 +1080,7 @@
                 "tumblr",
                 "twitter"
             ],
-            "time": "2015-10-23 04:02:07"
+            "time": "2016-08-17 00:36:58"
         },
         {
             "name": "maximebf/debugbar",
@@ -1615,6 +1570,57 @@
                 "shell"
             ],
             "time": "2016-03-09 05:03:14"
+        },
+        {
+            "name": "qiniu/php-sdk",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/qiniu/php-sdk.git",
+                "reference": "861876692771e02e4d987ba219efcf678d787040"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/qiniu/php-sdk/861876692771e02e4d987ba219efcf678d787040.zip",
+                "reference": "861876692771e02e4d987ba219efcf678d787040",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Qiniu\\": "src/Qiniu"
+                },
+                "files": [
+                    "src/Qiniu/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Qiniu",
+                    "email": "sdk@qiniu.com",
+                    "homepage": "http://www.qiniu.com"
+                }
+            ],
+            "description": "Qiniu Resource (Cloud) Storage SDK for PHP",
+            "homepage": "http://developer.qiniu.com/",
+            "keywords": [
+                "cloud",
+                "qiniu",
+                "sdk",
+                "storage"
+            ],
+            "time": "2016-08-09 06:44:43"
         },
         {
             "name": "socialiteproviders/manager",
@@ -2274,6 +2280,60 @@
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
             "time": "2016-07-30 08:15:38"
+        },
+        {
+            "name": "symfony/options-resolver",
+            "version": "v3.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/options-resolver.git",
+                "reference": "30605874d99af0cde6c41fd39e18546330c38100"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/symfony/options-resolver/30605874d99af0cde6c41fd39e18546330c38100.zip",
+                "reference": "30605874d99af0cde6c41fd39e18546330c38100",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\OptionsResolver\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony OptionsResolver Component",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "config",
+                "configuration",
+                "options"
+            ],
+            "time": "2016-05-12 15:59:27"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -4160,7 +4220,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "qiniu/php-sdk": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

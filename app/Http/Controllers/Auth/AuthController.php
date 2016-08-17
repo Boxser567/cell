@@ -7,6 +7,8 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Request;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -61,5 +63,22 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function oauth(Request $request)
+    {
+        return Socialite::with('weixin')->redirect();
+    }
+
+# 微信的回调地址
+    public function callback(Request $request)
+    {
+        $oauthUser = Socialite::with('weixin')->user();
+
+        // 在这里可以获取到用户在微信的资料
+        dump($oauthUser);
+
+        // 接下来处理相关的业务逻辑
+
     }
 }

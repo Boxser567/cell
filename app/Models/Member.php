@@ -9,7 +9,11 @@
 namespace App\Models;
 
 
-class Member
+class Member extends User
 {
-
+    protected $table = 'member';
+    public static function getUniqueCode($name,$unionid)
+    {
+        return self::createWith()->where('name',$name)->where('unionid',$unionid)->first();
+    }
 }

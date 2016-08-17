@@ -1,14 +1,16 @@
-<?php class Member extends CreateBase
+<?php
+class Member extends CreateBase
 {
     protected $table = "member";
-    protected $connection = "yunku_boss";
 
     public function create(&$table)
     {
-        $table->string("name");
-        $table->interger("uniq_code");
-        $table->interger("ent_id");
-        $table->dataTime("created_at");
-        $table->dataTime("updated_at");
+        $table->increments('id');
+        $table->string("name",30);
+        $table->string("image",30);
+        $table->integer("unionid");
+        $table->integer("ent_id");
+        $table->dateTime("created_at");
+        $table->dateTime("updated_at");
     }
 }

@@ -10,7 +10,7 @@ namespace App\Logic;
 
 use GokuaiAuth;
 use Exception;
-class Yunku
+class YunkuOrg
 {
     private $ent_sdk;
     
@@ -33,6 +33,17 @@ class Yunku
          $this->checkResult($res,$this->ent_sdk);
          return $res;
      }
+
+    //获取库信息
+    public function getOrgInfo($org_id)
+    {
+        $data=[
+            "org_id"=>$org_id,
+        ];
+        $res = $this->ent_sdk->callAPI('GET', '/1/org/info',$data);
+        $this->checkResult($res,$this->ent_sdk);
+        return $res;
+    }
 
     //获取库列表
     public function getOrg()

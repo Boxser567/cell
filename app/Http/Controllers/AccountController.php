@@ -9,7 +9,10 @@
 namespace App\Http\Controllers;
 
 
-class AccountController
+class AccountController extends BaseController
 {
-
+    public function getInfo()
+    {
+     return $this->member;
+    }
 }

@@ -1,18 +1,22 @@
-<?php class EntExhibitionInfo extends CreateBase
+<?php 
+class EntExhibitionInfo extends CreateBase
 {
     protected $table = "ent_exhibition_info";
 
     public function create(&$table)
     {
-        $table->string("title");
-        $table->string("logo");
-        $table->interger("unique_code");
-        $table->string("banner");
+        $table->increments('id');
+        $table->string("title",30);
+        $table->string("logo",30);
+        $table->integer("unique_code");
+        $table->integer("org_id");
+        $table->string("banner",30);
         $table->date("start_date");
         $table->date("end_date");
-        $table->interger("ent_id");
-        $table->tinyInteger("resource_col");
-        $table->dataTime("created_at");
-        $table->dataTime("updated_at");
+        $table->integer("ent_id");
+        $table->tinyInteger("res_collect_lock");
+        $table->string("property",30);
+        $table->dateTime("created_at");
+        $table->dateTime("updated_at");
     }
 }

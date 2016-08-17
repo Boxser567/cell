@@ -38,10 +38,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Laravel 5</div>
-
-
-
+                <div class="title">会展信息列表</div>
 
 
                 <form name="loginForm" action="/auth/login" role="form" method="post">
@@ -60,7 +57,7 @@
                     </div>
 
                     <div class="form-group">
-                        <button  class="btn btn-lg pb-button btn-block bt_submit">登陆</button>
+                        <button  class="btn btn-lg pb-button btn-block bt_submit">保存</button>
                     </div>
                 </form>
 

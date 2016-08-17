@@ -38,26 +38,11 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Laravel 5</div>
-
-
-
-
+                <div class="title">添加会展请求</div>
 
                 <form name="loginForm" action="/auth/login" role="form" method="post">
                     <input name="__RequestVerificationToken" type="hidden" value="rt5Airmw3jY8JxfwdGzn-X6N_d_ytWSSxziBSHzOUPAh9bxIAg2mbsMJQkkjfxXmQpfsP1Uq_ZipFo2e16JVN6WU8ltGOL3wJd39W3CH4-I1" />
 
-
-                    <div class="form-group">
-                        <label for="Account">微信Unique_code</label>
-                        <input class="form-control" data-val="true" data-val-required="The Email field is required." id="Account" name="Account" type="text" value="" />
-                        <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="Password">name</label>
-                        <input class="form-control" data-val="true" data-val-required="The Password field is required." id="Password" name="Password" type="password" />
-                        <span class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
-                    </div>
 
                     <div class="form-group">
                         <button  class="btn btn-lg pb-button btn-block bt_submit">登陆</button>

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-
+use Illuminate\Support\Facades\Schema;
 class CreateBase extends Migration
 {
     /**
@@ -11,7 +11,7 @@ class CreateBase extends Migration
      */
     protected $table = '';
 
-    protected $connection = 'yunku_boss';
+
 
     public function up()
     {

@@ -26,7 +26,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function request($method, $actionName, $withValue = [])
     {
         $headers = ['accept' => 'application/json'];
-        $this->login(24);
+        $this->login(1);
         $server = $this->transformHeadersToServerVars($headers);
         $result_request = $this->call(
             $method, $actionName, $withValue, [], [], $server
@@ -36,8 +36,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     public function login($user_id)
     {
-        $user = \App\Models\User::find($user_id);
-        $this->session(['user' => $user]);
+        $user = \App\Models\Member::find($user_id);
+        $this->session(['member' => $user]);
     }
 
 
