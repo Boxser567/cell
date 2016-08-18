@@ -1,11 +1,3 @@
-.DS_Store
+.env
+/vendor
 .idea
-/app/Runtime
-/app/test.php
-/app/vendor
-/app/vendor2.0
-/app/vendor3.0
-/app/composer.lock
-/app/Logs/*.log
-/app/Test/test_*.php
-node_modules

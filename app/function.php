@@ -18,7 +18,7 @@ function is_debug()
 
 function inputWantsJson()
 {
-    return Request::wantsJson() || ($_SERVER["HTTP_X_REQUESTED_WITH"] == 'XMLHttpRequest');
+    return Request::wantsJson();
 }
 
 function inputGet($key, $default = '')
@@ -339,8 +339,8 @@ function dencode_license($data, $key)
     return $text;
 }
 
-function getTradeNo()
+function getUniqueCode()
 {
-    $microtime = str_pad(str_replace('.', '', microtime(true)), 14, '0');
+    $microtime = str_pad(str_replace('.', '', microtime(true)), 2, '0');
     return date('Ymd') . $microtime;
 }

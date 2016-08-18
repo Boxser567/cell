@@ -35,4 +35,11 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'weixin' => [
+        'client_id'     => env('WEIXIN_KEY'),
+        'client_secret' => env('WEIXIN_SECRET'),
+        'redirect'      => env('WEIXIN_REDIRECT_URI'),
+        'auth_base_uri' => 'https://open.weixin.qq.com/connect/qrconnect',
+    ],
+
 ];

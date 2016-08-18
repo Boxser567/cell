@@ -6,7 +6,7 @@ if (!class_exists('GokuaiBase')) {
 
 class GokuaiFile extends GokuaiBase
 {
-    protected $api_url = 'http://a-lib.goukuai.cn';
+    protected $api_url = 'http://yk3-api-ent.goukuai.cn';
 
     public function __construct($org_client_id, $org_client_secret)
     {
@@ -20,7 +20,7 @@ class GokuaiFile extends GokuaiBase
      * @param array $parameters
      * @return bool
      */
-    public function callAPI($http_method, $uri, array $parameters = [])
+    public function callAPI2($http_method, $uri, array $parameters = [])
     {
         $parameters['org_client_id'] = $this->client_id;
         $parameters['dateline'] = time();
@@ -28,4 +28,5 @@ class GokuaiFile extends GokuaiBase
         $this->sendRequest($this->api_url . $uri, $http_method, $parameters);
         return $this->isOK();
     }
+    
 }

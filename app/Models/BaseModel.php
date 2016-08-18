@@ -8,7 +8,7 @@
 
 namespace App\Models;
 
-use \Eloquent;
+use Eloquent;
 use \Exception;
 use \Cache;
 use App\Scope\BaseScope;
@@ -20,7 +20,6 @@ class BaseModel extends Eloquent
     use BaseScope, Rememberable;
     public $timestamps = false;
     const  CACHE_TIME = 10;//10min
-    protected $connection = "boss";
 
     public static function _max($key = '')
     {

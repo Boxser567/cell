@@ -28,6 +28,20 @@ return [
 
     'url' => 'http://localhost',
 
+    'yunku' => [
+        'client_id' => env('YUNKU_CLIENT_ID'),
+        'client_secret' => env('YUNKU_CLIENT_SECRET'),
+        'api' => env('YUNKU_API_URL'),
+        'username'=>env('YUNKU_USERNAME'),
+        'password'=>env('YUNKU_PASSWORD')
+    ],
+    'qiniu' => [
+        'access_key' => env('QINIU_ACCESS_KEY'),
+        'secret_key' => env('QINIU_SECRET_KEY'),
+        'bucket' => env('QINIU_BUCKET_NAME'),
+        'domain'=> env('QINIU_DOMAIN')
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -138,7 +152,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-       // \SocialiteProviders\Manager\ServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
 
 
 

@@ -8,7 +8,7 @@ class GokuaiBase
     public $timeout = 300;
     public $connecttimeout = 10;
     protected static $user_agent = 'Yunku-SDK-PHP_1.0';
-    protected $api_url = 'http://a.goukuai.cn';
+    protected $api_url = 'http://yk3-api-ent.goukuai.cn';
     protected $curl;
     protected $http_code;
     protected $http_error;
@@ -17,10 +17,10 @@ class GokuaiBase
     protected $client_id;
     protected $client_secret;
 
-    public function __construct($client_id, $client_secret)
+    public function __construct($client_id='', $client_secret='')
     {
-        $this->client_id = $client_id;
-        $this->client_secret = $client_secret;
+        $this->client_id = config("app.yunku.client_id");
+        $this->client_secret = config("app.yunku.client_secret");
     }
 
     /**
@@ -125,7 +125,6 @@ class GokuaiBase
                 curl_setopt($this->curl, CURLOPT_POSTFIELDS, $fields_string);
                 break;
         }
-
         $this->response = curl_exec($this->curl);
         $this->http_code = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
         $this->http_error = curl_error($this->curl);
