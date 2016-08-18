@@ -13,6 +13,12 @@ use Qiniu\Auth;
 
 class FileController extends BaseController
 {
+    //获取文件列表
+    public function getList()
+    {
+        $files = new YunkuFile(inputGetOrFail('org_id'));
+        return $files->getFileList(inputGetOrFail('fullpath'));
+    }
 
     //获取文件夹或文件详情
     public function getInfo()
@@ -28,6 +34,7 @@ class FileController extends BaseController
         return $files->setFolder(inputGetOrFail('fullpath'));
     }
 
+    //获取上传地址
     public function getUpAddress()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
@@ -43,6 +50,7 @@ class FileController extends BaseController
         return $files->deleteFile(inputGetOrFail('fullpath'));
     }
 
+    //获取图片上传参数
     public function getUpPicture()
     {
         $accessKey = config('app.qiniu.access_key');

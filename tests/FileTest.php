@@ -8,6 +8,18 @@
  */
 class FileTest extends TestCase
 {
+    public function testLists()
+    {
+        dump("获取文件列表");
+        $result = $this->request(
+            "GET", "/file/list", [
+                'org_id'=>'665030',
+                'fullpath'=>"wang",
+            ]
+        );
+        $this->checkOut($result);
+    }
+
     public function estList()
     {
         dump("获取文件(夹)详情");
@@ -33,7 +45,7 @@ class FileTest extends TestCase
 
     }
 
-    public function testSendMail()
+    public function estSendMail()
     {
         dump("删除文件(夹)");
         $result = $this->request(
