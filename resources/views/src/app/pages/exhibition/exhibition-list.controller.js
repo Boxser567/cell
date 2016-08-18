@@ -1,11 +1,11 @@
 'use strict';
 
-function ExhibitionListController($scope,Exhibition) {
-  'ngInject';
+function ExhibitionListController($scope, Exhibition) {
+    'ngInject';
 
- 	 Exhibition.list().then(function(data){
-  	$scope.exhibitions = data;
-  })
+    Exhibition.list().then(function (data) {
+        $scope.exhibitions = data;
+    })
 
 }
 
