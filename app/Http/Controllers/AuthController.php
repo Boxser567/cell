@@ -18,7 +18,7 @@ use URL;
 class AuthController extends Controller
 {
 
-    public function postLogin($oauthUser='')
+    public function login($oauthUser='')
     {
         $name=inputGetOrFail('name');
         $unionid=inputGetOrFail('unionid');
@@ -35,5 +35,11 @@ class AuthController extends Controller
             Session::regenerate();
         }
         return $member;
+    }
+
+    public function getLogout()
+    {
+        Session::flush();
+        view('index');
     }
 }

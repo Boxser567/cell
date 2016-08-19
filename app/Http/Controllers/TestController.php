@@ -68,7 +68,7 @@ class TestController extends Controller
     public function getJ()
     {
         $yunku = new YunkuFile(665030);
-        return $yunku->getInfo("/wang");
+        return $yunku->getInfo("/wang",1);
     }
 
     public function getK()
@@ -126,5 +126,10 @@ class TestController extends Controller
             $result[$table]=$columns;
         }
         return $result;
+    }
+
+    public function getN()
+    {
+        return config('data.BANNER')[random_int(0,5)];
     }
 }

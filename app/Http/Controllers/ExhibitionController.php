@@ -118,6 +118,10 @@ class ExhibitionController extends BaseController
             $this->fileFilter($file);
             if ($file['filename'] == self::RES_COLLECTION_FOLDER_NAME) {
                 unset($files[$key]);
+                //$res_col_info=$files->getInfo(self::RES_COLLECTION_FOLDER_NAME,1);
+                //$file_info['file_count']=$file_info['file_count']-$res_col_info['file_count'];
+                //$file_info['size_use']=$file_info['size_use'] -$res_col_info['files_size'];
+                //$file_info['dir_count']=$file_info['dir_count']-1;
             }
         }
         $file_info['list'] = $files;

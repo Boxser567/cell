@@ -131,11 +131,12 @@ class YunkuFile extends \GokuaiFile
     }
 
     //文件信息
-    public function getInfo($fullpath, $net = '')
+    public function getInfo($fullpath,$attribute=0, $net = '')
     {
         $data = [
             'fullpath' => $fullpath,
-            'net' => $net
+            'net' => $net,
+            'attribute'=>$attribute
         ];
         $res = $this->callAPI2('GET', '/1/file/info', $data);
         $this->checkResult($res);

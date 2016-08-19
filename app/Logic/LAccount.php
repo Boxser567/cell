@@ -40,17 +40,17 @@ class LAccount
         return $ent->id;
     }
 
-    public static function setExhibition($ent_id,$org_id,$id='',$res_collect_lock=1,$title='会展助手',$logo=ExhibitionInfo::INIT_LOGO_URL,$banner=ExhibitionInfo::INIT_BANNER_URL,$start_date='',$ent_date='',$web_site=ExhibitionInfo::INIT_WEB_SITE)
+    public static function setExhibition($ent_id,$org_id,$id='',$res_collect_lock=1,$title='会展助手',$start_date='',$ent_date='',$web_site=ExhibitionInfo::INIT_WEB_SITE)
     {
         if($id){
             $exhibition=ExhibitionInfo::_findOrFail($id);
         }else{
             $exhibition=new ExhibitionInfo();
+            $exhibition->banner=config('app.qiniu.domain')."/".config('data.BANNER')[random_int(0,4)];
+            $exhibition->logo=config('app.qiniu.domain')."/".config('data.LOGO')[random_int(0,4)];
         }
         $exhibition->title=$title;
-        $exhibition->logo=$logo;
         $exhibition->unique_code=getUniqueCode();
-        $exhibition->banner=$banner;
         $exhibition->ent_id=$ent_id;
         $exhibition->org_id=$org_id;
         $exhibition->start_date=$start_date?$start_date:get_date();
