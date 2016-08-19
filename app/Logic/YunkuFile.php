@@ -14,6 +14,7 @@ class YunkuFile extends \GokuaiFile
 {
     const UPLOAD_WEB_ADDRESS = "upload3";
     public $org_client_id;
+
     public function __construct($org_id)
     {
         $yunku_ent = new YunkuOrg();
@@ -29,16 +30,16 @@ class YunkuFile extends \GokuaiFile
         return $this->org_client_id;
     }
 
-    
+
     //文件列表
-    public function getFileList($fullpath = '', $start = '',$size='')
+    public function getFileList($fullpath = '', $start = '', $size = '')
     {
         $data = [
             'fullpath' => $fullpath,
             'start' => $start,
-            'size'=>$size
+            'size' => $size
         ];
-        $res = $this->callAPI2('GET', '/1/file/ls',$data);
+        $res = $this->callAPI2('GET', '/1/file/ls', $data);
         $this->checkResult($res);
         return $res;
     }
@@ -55,17 +56,17 @@ class YunkuFile extends \GokuaiFile
     }
 
     //文件直接上传
-    public function setFile($content,$fullpath,$filefield,$op_id='',$op_name='',$overwrite=1)
+    public function setFile($content, $fullpath, $filefield, $op_id = '', $op_name = '', $overwrite = 1)
     {
         $data = [
             $filefield => $content,
             'fullpath' => $fullpath,
-            'filefield'=>$filefield,
-            'op_id'=>$op_id,
-            'op_name'=>$op_name,
-            'overwrite'=>$overwrite
+            'filefield' => $filefield,
+            'op_id' => $op_id,
+            'op_name' => $op_name,
+            'overwrite' => $overwrite
         ];
-        $res = $this->callAPI2('POST', '/1/file/create_file',$data);
+        $res = $this->callAPI2('POST', '/1/file/create_file', $data);
         $this->checkResult($res);
         return $res;
     }
@@ -101,7 +102,7 @@ class YunkuFile extends \GokuaiFile
     }
 
     //删除文件(夹)
-    public function deleteFile($fullpath,$op_id='',$op_name='')
+    public function deleteFile($fullpath, $op_id = '', $op_name = '')
     {
         $data = [
             'fullpath' => $fullpath,
@@ -113,6 +114,22 @@ class YunkuFile extends \GokuaiFile
         return $res;
     }
 
+    //通过链接上传文件
+    public function setUrlFile($fullpath, $url, $op_id = '', $op_name = '', $overwrite = 1)
+    {
+        $data = [
+            'fullpath' => $fullpath,
+            'url' => $url,
+            'op_id' => $op_id,
+            'op_name' => $op_name,
+            'overwrite'=>$overwrite
+        ];
+        $res = $this->callAPI2('POST', '/1/file/create_file_by_url', $data);
+        $this->checkResult($res);
+        return $res;
+
+    }
+
     //文件信息
     public function getInfo($fullpath, $net = '')
     {
@@ -120,7 +137,7 @@ class YunkuFile extends \GokuaiFile
             'fullpath' => $fullpath,
             'net' => $net
         ];
-        $res = $this->callAPI2('GET', '/1/file/info',$data);
+        $res = $this->callAPI2('GET', '/1/file/info', $data);
         $this->checkResult($res);
         return $res;
     }

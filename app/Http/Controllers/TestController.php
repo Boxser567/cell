@@ -114,4 +114,17 @@ class TestController extends Controller
     {
         unset($file['create_dateline'], $file['create_member_name'], $file['filehash'], $file['last_dateline'], $file['last_member_name']);
     }
+
+    public function getM()
+    {
+        $result = array();
+        $tables = \DB::select("show tables");
+        foreach ($tables as $table) {
+            dump($table);die;
+            $sql="show columns from ".$table;
+            $columns=\DB::select($sql);
+            $result[$table]=$columns;
+        }
+        return $result;
+    }
 }

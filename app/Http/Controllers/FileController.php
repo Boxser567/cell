@@ -60,4 +60,11 @@ class FileController extends BaseController
         $token = $auth->uploadToken($bucket);
         return ["upload_domain"=>config('app.qiniu.domain'),'token'=>$token];
     }
+
+    //通过链接上传文件
+    public function postUrlUpload()
+    {
+        $files = new YunkuFile(inputGetOrFail('org_id'));
+        return $files->setUrlFile(inputGetOrFail('fullpath'),inputGetOrFail('url'));
+    }
 }

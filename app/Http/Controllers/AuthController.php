@@ -18,10 +18,13 @@ use URL;
 class AuthController extends Controller
 {
 
-    public function postLogin()
+    public function postLogin($oauthUser='')
     {
         $name=inputGetOrFail('name');
         $unionid=inputGetOrFail('unionid');
+        //$name=$oauthUser['nickname'];
+        //$unionid=$oauthUser['unionid'];
+        //$image=$oauthUser['headimgurl'];
         $member=LAccount::setUser($name,$unionid)->toArray();
         $ent=EntConfig::_findOrFail($member['ent_id'])->toArray();
         $member['edition']=$ent['edition'];
