@@ -22,9 +22,9 @@ class TestController extends Controller
     public function getClear()
     {
         Session::flush();
-       /* \DB::table("ent_exhibition_config")->truncate();
+        \DB::table("ent_exhibition_config")->truncate();
         \DB::table("ent_exhibition_info")->truncate();
-        \DB::table("member")->truncate();*/
+        \DB::table("member")->truncate();
         echo "清理缓存完毕";
     }
 

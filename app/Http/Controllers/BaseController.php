@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ExhibitionInfo;
 use Session;
 use Auth;
 use Exception;
@@ -45,4 +46,11 @@ class BaseController extends Controller
         $qrCode->render();
         exit();
     }
+
+    public function show($unique_code)
+    {
+        $exhibition=ExhibitionInfo::getUniqueCode($unique_code);
+        return view("show", $exhibition->toArray());
+    }
+
 }
