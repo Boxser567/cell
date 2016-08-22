@@ -1,25 +1,13 @@
 'use strict';
 
-function ExhibitionDetailController($scope, $log, currentExhibition) {
+function ExhibitionDetailController($scope, $stateParams, Exhibition) {
     'ngInject';
-    $scope.currentExhibition = currentExhibition;
+    Exhibition.getById($stateParams.id).then(function (data) {
+        console.log(data.data);
+        data.data.property=JSON.parse(data.data.property);
+        $scope.currentExbt = data.data;
+    });
 
-
-
-
-    $scope.copyHttp = function (e) {
-        // var client = new ZeroClipboard($("#copyme"));
-        // client.on("ready", function (readyEvent) {
-        //     // alert( "ZeroClipboard SWF is ready!" );
-        //
-        //     client.on("aftercopy", function (event) {
-        //         event.target.style.display = "none";
-        //         alert("Copied text to clipboard: " + event.data["text/plain"]);
-        //     });
-        // });
-
-    }
-    $log.debug('ExhibitionDetailController init');
 }
 
 export default ExhibitionDetailController;

@@ -2,15 +2,11 @@
 
 export default function (app) {
     app
-        .factory('Exhibition', ['$q', '$http',function ($q,$http) {
+        .factory('Exhibition', ['$q', '$http', function ($q, $http) {
             var exhibitions;
             return {
                 getById: function (id) {
-                    console.log('_', _);
-                    return {
-                        id: 1,
-                        name: '展会1'
-                    };
+                    return $http.get('/exhibition/detail', {params: {exhibition_id: id}});
                 },
                 list: function () {
                     return $http.get('/exhibition/list');

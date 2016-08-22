@@ -22,20 +22,22 @@
                             <div class="caption">
                                 <h4>{{exhibition.title}} <span class="pull-right"> {{GetexState(exhibition.start_date,exhibition.end_date)}} </span>
                                 </h4>
-                                <p>包含10个分类 128个文件 共233MB</p>
+                                <p>包含{{exhibition.files.dir_count}}个分类 {{exhibition.files.file_count}}个文件
+                                    共{{exhibition.files.size_use}} </p>
                                 <div class="mg">
                                     <i hover-trans></i>
                                     <a href="#/exhibition/{{exhibition.id}}">管理</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="thumcode">
+                        <div class="thumcode" code-leave>
                             <img src="../images/qcode.png" alt="等待加载">
                             <p>分享链接: <span>{{exhibition.property.web_site}}</span></p>
                             <a>复制链接</a>
                         </div>
                     </div>
                 </div>
+               
 
                 <div class="col-md-4">
                     <div class="trans">
@@ -69,7 +71,8 @@
                             </div>
                             <div class="caption">
                                 <h4>{{exhibition.title}} </h4>
-                                <p>包含10个分类 128个文件 共233MB</p>
+                                <p>包含{{exhibition.files.dir_count}}个分类 {{exhibition.files.file_count}}个文件
+                                    共{{exhibition.files.size_use}} </p>
                                 <div class="mg">
                                     <i hover-trans></i>
                                     <a href="#/exhibition/{{exhibition.id}}">查看</a>
