@@ -34,9 +34,9 @@ class ExhibitionController extends BaseController
             $ent_id = $this->ent_id;
         }
         $lists = ExhibitionInfo::getOfEntId($ent_id);
-        foreach ($lists as $key=>&$list) {
-            $this->format($list,true);
-            $lists[$key]=$list;
+        foreach ($lists as $key => &$list) {
+            $this->format($list, true);
+            $lists[$key] = $list;
         }
         return $lists->toArray();
     }
@@ -107,7 +107,7 @@ class ExhibitionController extends BaseController
     }
 
     //格式化展会详情
-    private function format(&$exhibition,$flag=false)
+    private function format(&$exhibition, $flag = false)
     {
         //获取文件列表
         $files = new YunkuFile($exhibition->org_id);
@@ -119,6 +119,7 @@ class ExhibitionController extends BaseController
         $file_info['size_use'] = $org_info['info']['size_org_use'];
         $file_list = $files->getFileList();
         $files = $file_list['list'];
+        $dir = array();
         foreach ($files as $key => &$file) {
             $this->fileFilter($file);
             if ($file['filename'] == self::RES_COLLECTION_FOLDER_NAME) {
@@ -127,10 +128,16 @@ class ExhibitionController extends BaseController
                 //$file_info['file_count']=$file_info['file_count']-$res_col_info['file_count'];
                 //$file_info['size_use']=$file_info['size_use'] -$res_col_info['files_size'];
                 //$file_info['dir_count']=$file_info['dir_count']-1;
+
+            }
+            if ($file['dir']) {
+                unset($files[$key]);
+                $dir[$key]=$file;
             }
         }
-        if(!$flag) {
+        if (!$flag) {
             $file_info['list'] = $files;
+            $file_info['dirs']=$dir;
         }
         $exhibition = $exhibition->toArray();
         $exhibition['files'] = $file_info;
