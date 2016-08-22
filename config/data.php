@@ -6,6 +6,6 @@
  * Time: 下午4:41
  */
 return[
-    'LOGO'=>[],
-    'BANNER'=>['1','2','3','4']
+    'LOGO'=>['aaaa.jpeg','15-080848_130.jpg'],
+    'BANNER'=>['aaaa.jpeg','15-080848_130.jpg','aaaa.jpeg','15-080848_130.jpg']
 ];

@@ -33,7 +33,12 @@ class ExhibitionController extends BaseController
         if (!$ent_id) {
             $ent_id = $this->ent_id;
         }
-        return ExhibitionInfo::getOfEntId($ent_id)->toArray();
+        $lists = ExhibitionInfo::getOfEntId($ent_id);
+        foreach ($lists as $key=>&$list) {
+            $this->format($list,true);
+            $lists[$key]=$list;
+        }
+        return $lists->toArray();
     }
 
     //创建展会
@@ -76,7 +81,7 @@ class ExhibitionController extends BaseController
             $exhibition->end_date = inputGet('end_date');
         }
         if (inputGet('website')) {
-            $exhibition->property = json_encode(["web_site"=>inputGet('website')]);
+            $exhibition->property = json_encode(["web_site" => inputGet('website')]);
         }
         $exhibition->save();
         ExhibitionInfo::cacheForget();
@@ -102,7 +107,7 @@ class ExhibitionController extends BaseController
     }
 
     //格式化展会详情
-    private function format(&$exhibition)
+    private function format(&$exhibition,$flag=false)
     {
         //获取文件列表
         $files = new YunkuFile($exhibition->org_id);
@@ -124,7 +129,9 @@ class ExhibitionController extends BaseController
                 //$file_info['dir_count']=$file_info['dir_count']-1;
             }
         }
-        $file_info['list'] = $files;
+        if(!$flag) {
+            $file_info['list'] = $files;
+        }
         $exhibition = $exhibition->toArray();
         $exhibition['files'] = $file_info;
     }
