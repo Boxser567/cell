@@ -1,8 +1,10 @@
 'use strict';
 
-function LoginController($log) {
+function LoginController($log, Login) {
     'ngInject';
-    $log.debug('Hello from login controller!');
+
+    Login.getLoginInfo();
+
 
 }
 
