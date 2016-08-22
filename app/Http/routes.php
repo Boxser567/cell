@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('upload');
+    View::addExtension('html','blade');
+    return view('index');
 });
 Route::get('/pic', function () {
     return view('pic');
