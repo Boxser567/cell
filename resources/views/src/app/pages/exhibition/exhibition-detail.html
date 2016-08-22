@@ -16,7 +16,7 @@
                     <i class="phone"></i>
                 </div>
                 <div class="pull-right">
-                    <span>10个分类   46个文件   共213MB</span>
+                    <span>{{currentExbt.files.dir_count}}个分类   {{currentExbt.files.files_count}}个文件   共{{currentExbt.files.size_use}}</span>
                 </div>
             </div>
         </div>
@@ -25,8 +25,8 @@
             <div class="file">
                 <input type="file" class="txt_img">
             </div>
-            <div class="name" edit-name>点击输入会展名称</div>
-            <p><i><img src="../images/qcode.png"></i><span>http:www.goukuai.com/xxxx</span>
+            <div class="name" edit-name>{{currentExbt.title}}</div>
+            <p><i><img src="../images/qcode.png"></i><span>{{currentExbt.property.web_site}}</span>
                 <a href="javascript:;" id="copyme" data-clipboard-text="Copy Me!" ng-click="copyHttp()">复制链接</a>
             </p>
         </div>
@@ -39,8 +39,8 @@
             <div class="navtl">常用文件下载</div>
 
             <div class="row">
-                <div class="col-md-4">
-                    <div class="files clearfix">
+                <div ng-repeat="file in currentExbt.files.list" class="col-md-4">
+                    <div class="files clearfix" >
                         <img src="../images/icon_excel.png" alt="">
                         <div class="info clearfix">
                             <p>企业公共资料.xls <i class="glyphicon glyphicon-trash"><span>删除</span></i></p>
@@ -48,33 +48,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="files clearfix">
-                        <img src="../images/icon_excel.png" alt="">
-                        <div class="info clearfix">
-                            <p>企业公共资料.xls <i class="glyphicon glyphicon-trash"><span>删除</span></i></p>
-                            <p>15KB</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="files clearfix">
-                        <img src="../images/icon_excel.png" alt="">
-                        <div class="info clearfix">
-                            <p>企业公共资料.xls <i class="glyphicon glyphicon-trash"><span>删除</span></i></p>
-                            <p>15KB</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="files clearfix">
-                        <img src="../images/icon_excel.png" alt="">
-                        <div class="info clearfix">
-                            <p>企业公共资料.xls <i class="glyphicon glyphicon-trash"><span>删除</span></i></p>
-                            <p>15KB</p>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="col-md-4">
                     <div class="files clearfix">
                         <div class="add-files"><i class="glyphicon glyphicon-plus"></i>上传新文件

@@ -14,7 +14,6 @@ module.exports = function(_path) {
       proxy: {
         '*': 'http://cell.com/',
         bypass:function (req,res) {
-          console.log('----',req,res);
           if(req.headers.accept.indexOf('html') != -1){
             return false;
           }
