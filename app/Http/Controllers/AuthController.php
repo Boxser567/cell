@@ -14,14 +14,17 @@ use App\Models\EntConfig;
 use Session;
 use Auth;
 use URL;
+use View;
 
 class AuthController extends Controller
 {
 
     public function login($oauthUser='')
     {
-        $name=inputGetOrFail('name');
-        $unionid=inputGetOrFail('unionid');
+        $name="wangyuxiang";
+        $unionid="12345";
+        //$name=inputGetOrFail('name');
+        //$unionid=inputGetOrFail('unionid');
         //$name=$oauthUser['nickname'];
         //$unionid=$oauthUser['unionid'];
         //$image=$oauthUser['headimgurl'];
@@ -40,6 +43,7 @@ class AuthController extends Controller
     public function getLogout()
     {
         Session::flush();
-        view('index');
+        View::addExtension('html','blade');
+        return  view('index');
     }
 }
