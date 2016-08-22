@@ -1,0 +1,181 @@
+$icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
+@import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background: #f2f2f2;
+}
+
+@each $size in 1, 2, 3, 4, 5, 6 {
+  h#{$size} {
+    margin: 0;
+  }
+}
+
+.wecontent {
+  max-width: 640px;
+  background: #eee;
+  margin: 0 auto;
+}
+
+.wecontent {
+  .navtop {
+    position: relative;
+    min-height: 250px;
+    & > img {
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    .tl{font-size: 20px; color: #fff; margin-top: 10px;}
+    .con {
+      position: absolute;
+      z-index: 3;
+      top: 30px;
+      left: 0;
+      text-align: center;
+      width: 100%;
+      .img {
+        border-radius: 40px;
+        text-align: center;
+        img {
+          border-radius: 50px;
+          width: 100px;
+        }
+      }
+    }
+    .time {
+      color: #999;
+    }
+    .code {
+      text-align: right;
+      padding-right: 30px;
+    }
+  }
+
+  .blocklist {
+    margin-top: 20px;
+    padding-bottom: 20px;
+    ul {
+      list-style: none;
+      padding: 0;
+      li a {
+        position: relative;
+        display: block;
+        background: #fff;
+        border-radius: 4px;
+        margin: 10px 15px;
+        img {
+          width: 60px;
+          display: inline-block;
+          border-bottom-left-radius: 4px;
+          border-top-left-radius: 4px;
+        }
+        div {
+          display: inline-block;
+          font-size: 14px;
+          color: #333;
+          position: relative;
+          text-indent: 10px;
+        }
+        i {
+          display: inline-block;
+          float: right;
+          width: 24px;
+          height: 24px;
+          background: url(../../../app/pages/images/icon_more.png);
+          background-size: 100% 100%;
+          position: absolute;
+          right: 10px;
+          top: 20px;
+        }
+      }
+
+    }
+  }
+
+  .listCollection {
+    ul {
+      list-style: none;
+      padding: 0;
+      li a {
+        border-bottom: 1px solid #eee;
+        padding: 20px 15px;
+        display: block;
+        height: 56px;
+        background: #fff;
+        color: #333;
+        .pull-left {
+          font-size: 14px;
+        }
+        .pull-right {
+          font-size: 12px;
+          color: #888;
+          position: relative;
+          min-width: 90px;
+          i {
+            position: absolute;
+            top: 2px;
+            right: 5px;
+          }
+        }
+      }
+    }
+  }
+
+  .wefooter {
+    text-align: center;
+    div {
+      display: inline-block;
+      width: 140px;
+      margin: 80px;
+      padding: 5px 10px;
+      border-radius: 15px;
+      color: #fff;
+      background: #019beb;
+      font-size: 14px;
+
+    }
+    p {
+      display: inline-block;
+      background: url(../../../app/pages/images/tec_support.png) no-repeat;
+      width: 120px;
+      height: 20px;
+      margin: 40px;
+      background-size: contain;
+    }
+  }
+
+  .wecontent {
+    .footer {
+      height: 44px;
+      color: #fff;
+      background: #09bb07;
+      font-size: 14px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      i {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background: url(../../../app/pages/images/icon_wechat.png);
+      }
+    }
+  }
+
+}
+
+
+
+
+

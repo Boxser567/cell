@@ -25,11 +25,11 @@
             <div class="file">
                 <input type="file" class="txt_img">
             </div>
-            <div class="name">点击输入会展名称</div>
-            <p><i></i><span>http:www.goukuai.com/xxxx</span><a href="javascript:;">复制链接</a></p>
-
+            <div class="name" edit-name>点击输入会展名称</div>
+            <p><i><img src="../images/qcode.png"></i><span>http:www.goukuai.com/xxxx</span>
+                <a href="javascript:;" id="copyme" data-clipboard-text="Copy Me!" ng-click="copyHttp()">复制链接</a>
+            </p>
         </div>
-
 
     </div>
 
@@ -40,38 +40,45 @@
 
             <div class="row">
                 <div class="col-md-4">
-                    <div class="files">
+                    <div class="files clearfix">
                         <img src="../images/icon_excel.png" alt="">
-                        <div class="info">
-                            <p>企业公共资料.xls <i></i></p>
+                        <div class="info clearfix">
+                            <p>企业公共资料.xls <i class="glyphicon glyphicon-trash"><span>删除</span></i></p>
                             <p>15KB</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="files">
+                    <div class="files clearfix">
                         <img src="../images/icon_excel.png" alt="">
-                        <div class="info">
-                            <p>企业公共资料.xls <i></i></p>
+                        <div class="info clearfix">
+                            <p>企业公共资料.xls <i class="glyphicon glyphicon-trash"><span>删除</span></i></p>
                             <p>15KB</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="files">
+                    <div class="files clearfix">
                         <img src="../images/icon_excel.png" alt="">
-                        <div class="info">
-                            <p>企业公共资料.xls <i></i></p>
+                        <div class="info clearfix">
+                            <p>企业公共资料.xls <i class="glyphicon glyphicon-trash"><span>删除</span></i></p>
                             <p>15KB</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="files">
+                    <div class="files clearfix">
                         <img src="../images/icon_excel.png" alt="">
-                        <div class="info">
-                            <p>企业公共资料.xls <i></i></p>
+                        <div class="info clearfix">
+                            <p>企业公共资料.xls <i class="glyphicon glyphicon-trash"><span>删除</span></i></p>
                             <p>15KB</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="files clearfix">
+                        <div class="add-files"><i class="glyphicon glyphicon-plus"></i>上传新文件
+                            <input type="file">
                         </div>
                     </div>
                 </div>
@@ -81,5 +88,99 @@
         </div>
     </div>
 
+    <div class="eb-filesort">
+        <div class="content">
+            <div class="navtl">常用文件下载</div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="files">
+                        <p class="title"><span>大会宣传资料</span> <i class="glyphicon glyphicon-trash"><span>删除</span></i>
+                        </p>
+                        <p class="size">48个文件 共235MB</p>
+                        <a class="btn-showfile" data-toggle="modal" data-target="#loadFileList">查看/上传文件</a>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="files files-add">
+                        <a class="btn-add" filesort-add><i class="glyphicon glyphicon-plus"></i>创建新分类</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="eb-footer">
+        <div class="content">
+            <div class="visit">
+                <a class="btn">访问会展官方主页</a>
+                <a class="edit">点击编辑主页地址</a>
+            </div>
+
+            <div class="fo">
+                <i></i>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="loadFileList" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h5 class="modal-title" id="myModalLabel">
+                        大会宣传资料
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li>
+                            <div class="col-sm-6">文件名</div>
+                            <div class="col-sm-3">大小</div>
+                            <div class="col-sm-3">上传时间</div>
+                        </li>
+                        <li>
+                            <div class="col-sm-6">迪士尼乐园.mv</div>
+                            <div class="col-sm-3">404.9MB</div>
+                            <div class="col-sm-3">2015-10-15</div>
+                        </li>
+                        <li>
+                            <div class="col-sm-6">迪士尼乐园.mv</div>
+                            <div class="col-sm-3">404.9MB</div>
+                            <div class="col-sm-3">2015-10-15</div>
+                        </li>
+                        <li>
+                            <div class="col-sm-6">迪士尼乐园.mv</div>
+                            <div class="col-sm-3">404.9MB</div>
+                            <div class="col-sm-3">2015-10-15</div>
+                        </li>
+                        <li>
+                            <div class="col-sm-6">迪士尼乐园.mv</div>
+                            <div class="col-sm-3">404.9MB</div>
+                            <div class="col-sm-3">2015-10-15</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn btn-primary">上传文件
+                    <input type="file" class="usual-fileLoad">
+                    </div>
+
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal"> 关 闭
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
 
 </div>
+
