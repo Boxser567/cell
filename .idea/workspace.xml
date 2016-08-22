@@ -2,33 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af2b0008-9545-463b-a4ce-a87c2f7c2d56" name="默认的" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/bgimg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/button_add.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_add.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_delete.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_excel.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_home.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_pc.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_phone.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_qcode.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_update.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/img_1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/img_2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/img_3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/img_4.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/img_5.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/img_6.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/logo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/qcode.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_doc.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_jpg.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_more.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_mp3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_mp4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_pdf.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_png.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_ppt.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_psd.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_qrcode.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_txt.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_wechat.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/icon_xls.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/profile.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/tec_support.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/images/we_bg.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/mobile/mobile.controller.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/mobile/mobile.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/mobile/mobile.module.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/mobile/mobile.route.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/src/assets/styles/sass/mobile.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/src/app/components/cell-header/cell-header.html" afterPath="$PROJECT_DIR$/resources/views/src/app/components/cell-header/cell-header.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/config/manifest.json" afterPath="$PROJECT_DIR$/resources/views/config/manifest.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/package.json" afterPath="$PROJECT_DIR$/resources/views/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/src/app/core/directives/validation-test/validation-test.directive.js" afterPath="$PROJECT_DIR$/resources/views/src/app/core/directives/validation-test/validation-test.directive.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/src/app/core/services/exhibition.js" afterPath="$PROJECT_DIR$/resources/views/src/app/core/services/exhibition.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/src/app/index.bootstrap.js" afterPath="$PROJECT_DIR$/resources/views/src/app/index.bootstrap.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/src/app/index.module.js" afterPath="$PROJECT_DIR$/resources/views/src/app/index.module.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/src/app/index.vendor.js" afterPath="$PROJECT_DIR$/resources/views/src/app/index.vendor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-detail.controller.js" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-detail.controller.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-detail.html" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-detail.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-list.controller.js" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-list.controller.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-list.html" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/src/app/pages/main/main.html" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/main/main.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition.route.js" afterPath="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition.route.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/src/assets/styles/sass/index.scss" afterPath="$PROJECT_DIR$/resources/views/src/assets/styles/sass/index.scss" />
     </list>
     <ignored path="cell.iws" />
@@ -49,6 +55,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="index.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/src/assets/styles/sass/index.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="435" column="36" selection-start-line="435" selection-start-column="36" selection-end-line="435" selection-end-column="36" />
+              <folding>
+                <element signature="e#378#601#0" expanded="false" />
+                <element signature="e#966#1043#0" expanded="false" />
+                <element signature="e#1056#1101#0" expanded="false" />
+                <element signature="e#1114#1473#0" expanded="false" />
+                <element signature="e#3187#3544#0" expanded="false" />
+                <element signature="e#3569#4055#0" expanded="false" />
+                <element signature="e#4204#4735#0" expanded="false" />
+                <element signature="e#7969#8718#0" expanded="false" />
+                <element signature="e#12569#14169#0" expanded="false" />
+                <element signature="e#14184#15049#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="main.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/main/main.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -59,39 +86,36 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="exhibition-detail.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="exhibition-detail.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="748">
-              <caret line="76" column="22" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
+            <state relative-caret-position="150">
+              <caret line="143" column="20" selection-start-line="143" selection-start-column="20" selection-end-line="143" selection-end-column="20" />
               <folding>
-                <element signature="n#div#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="e#4955#4962#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/src/assets/styles/sass/index.scss">
+      <file leaf-file-name="exhibition-list.controller.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-list.controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5117">
-              <caret line="489" column="27" selection-start-line="489" selection-start-column="27" selection-end-line="489" selection-end-column="27" />
-              <folding>
-                <element signature="e#378#601#0" expanded="false" />
-                <element signature="e#966#1043#0" expanded="false" />
-                <element signature="e#1056#1101#0" expanded="false" />
-                <element signature="e#1114#1473#0" expanded="false" />
-                <element signature="e#3187#3544#0" expanded="false" />
-                <element signature="e#3569#4055#0" expanded="false" />
-                <element signature="e#4204#4735#0" expanded="false" />
-                <element signature="e#7934#9849#0" expanded="false" />
-                <element signature="e#7969#8718#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="85">
+              <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -104,13 +128,26 @@
         <option value="$PROJECT_DIR$/public/web.config" />
         <option value="$PROJECT_DIR$/resources/views/src/app/components/cell-header/cell-header.html" />
         <option value="$PROJECT_DIR$/resources/views/config/webpack/environments/development.js" />
-        <option value="$PROJECT_DIR$/resources/views/src/app/core/directives/validation-test/validation-test.directive.js" />
         <option value="$PROJECT_DIR$/resources/views/src/app/pages/main/main.html" />
-        <option value="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-list.html" />
         <option value="$PROJECT_DIR$/resources/views/src/app/core/services/exhibition.js" />
         <option value="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-list.controller.js" />
-        <option value="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-detail.html" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-list.html" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/index.vendor.js" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-detail.controller.js" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/core/directives/validation-test/validation-test.directive.js" />
         <option value="$PROJECT_DIR$/resources/views/src/assets/styles/sass/index.scss" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/pages/mobile/wc_index.html" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition.route.js" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/pages/mobile/exhibition.module.js" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/pages/mobile/exhibition.route.js" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/pages/mobile/mobile.module.js" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-detail.html" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/pages/mobile/mobile.route.js" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/pages/mobile/mobile.controller.js" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/index.module.js" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/pages/mobile/mobile.html" />
+        <option value="$PROJECT_DIR$/resources/views/src/app/index.bootstrap.js" />
+        <option value="$PROJECT_DIR$/resources/views/src/assets/styles/sass/mobile.scss" />
       </list>
     </option>
   </component>
@@ -122,9 +159,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="1457" />
-    <option name="y" value="45" />
+    <option name="y" value="23" />
     <option name="width" value="1852" />
-    <option name="height" value="1155" />
+    <option name="height" value="1076" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -169,6 +206,160 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="exhibition" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cell" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -183,13 +374,15 @@
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
     <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/views/src/assets/styles/sass" />
       <recent name="$PROJECT_DIR$/resources/views/src/app/pages/images" />
+      <recent name="$PROJECT_DIR$/resources/views/src/app/pages/mobile" />
       <recent name="$PROJECT_DIR$/resources/views/src/app/pages" />
       <recent name="$PROJECT_DIR$/resources/views/src/assets/styles" />
-      <recent name="$PROJECT_DIR$/resources/views/src/app/style/images" />
     </key>
   </component>
   <component name="RunManager">
@@ -275,17 +468,21 @@
       <workItem from="1471400105248" duration="3427000" />
       <workItem from="1471413560304" duration="13435000" />
       <workItem from="1471485152310" duration="508000" />
+      <workItem from="1471487493664" duration="14567000" />
+      <workItem from="1471570332541" duration="5613000" />
+      <workItem from="1471599878878" duration="1842000" />
+      <workItem from="1471830332274" duration="654000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32416000" />
+    <option name="totallyTimeSpent" value="55092000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1457" y="45" width="1852" height="1155" extended-state="0" />
-    <editor active="false" />
+    <frame x="1457" y="23" width="1852" height="1076" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17203714" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18951392" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -319,83 +516,18 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/resources/views/src/app/pages/mobile/mobile.route.js</url>
+          <line>3</line>
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/views/app/index.html" />
-    <entry file="file://$PROJECT_DIR$/bootstrap/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/web.config">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/function.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/welcome.blade.php" />
-    <entry file="file://$PROJECT_DIR$/resources/views/errors/503.blade.php" />
-    <entry file="file://$PROJECT_DIR$/app/function.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Events/Event.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Console/Commands/Inspire.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="6" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="7" selection-start-line="25" selection-start-column="7" selection-end-line="25" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/web.config">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bootstrap/autoload.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -422,41 +554,6 @@
     <entry file="file://$PROJECT_DIR$/resources/views/app/js/on_config.js" />
     <entry file="file://$PROJECT_DIR$/resources/views/.travis.yml" />
     <entry file="file://$PROJECT_DIR$/resources/views/.eslintrc" />
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/index.module.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/index.routes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/components/cell-header/cell-header.directive.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/components/cell-header/cell-header.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/components/cell-header/cell-header.module.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="24" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/src/assets/styles/images/button_add.png" />
     <entry file="file://$PROJECT_DIR$/resources/views/config/webpack/global.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -486,27 +583,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/index.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/components/cell-header/cell-header.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/core/core.module.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/webpack.config.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -526,45 +602,38 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/tpl-index.html">
+    <entry file="file://$PROJECT_DIR$/resources/views/dist/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="54" selection-start-line="17" selection-start-column="54" selection-end-line="17" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="46" column="55" selection-start-line="46" selection-start-column="55" selection-end-line="46" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/components/cell-header/cell-header.directive.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/main/main.controller.js">
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/components/cell-header/cell-header.module.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="44" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="44" />
+        <state relative-caret-position="119">
+          <caret line="8" column="24" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/main/main.module.js">
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/components/cell-header/cell-header.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition.route.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/core/directives/validation-test/validation-test.directive.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/dist/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="54" selection-start-line="17" selection-start-column="54" selection-end-line="17" selection-end-column="54" />
+        <state relative-caret-position="204">
+          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -575,17 +644,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-list.controller.js">
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/core/services/constants.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/node_modules/zeroclipboard/dist/ZeroClipboard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4011">
+          <caret line="2579" column="15" selection-start-line="2579" selection-start-column="2" selection-end-line="2579" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/core/directives/validation-test/validation-test.directive.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="36" column="25" selection-start-line="36" selection-start-column="25" selection-end-line="36" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-detail.controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="65" selection-start-line="2" selection-start-column="48" selection-end-line="2" selection-end-column="65" />
+        <state relative-caret-position="136">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition.module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition.route.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="26" column="2" selection-start-line="26" selection-start-column="2" selection-end-line="26" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/main/main.module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -596,10 +700,145 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-list.html">
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/mobile/mobile.route.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="36" selection-end-column="22" />
+        <state relative-caret-position="136">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/mobile/mobile.module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/main/main.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="44" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/mobile/mobile.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="35" selection-start-line="4" selection-start-column="35" selection-end-line="4" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/images/bgimg.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/tpl-index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/index.run.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/index.routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/index.module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="11" column="15" selection-start-line="11" selection-start-column="15" selection-end-line="11" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/index.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/index.components.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/core/core.module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/components/cell-header/cell-header.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/index.vendor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/mobile/mobile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/index.bootstrap.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+          <folding>
+            <element signature="e#126#150#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/assets/styles/sass/mobile.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="60" selection-start-line="1" selection-start-column="60" selection-end-line="1" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/src/assets/styles/sass/index.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="435" column="36" selection-start-line="435" selection-start-column="36" selection-end-line="435" selection-end-column="36" />
+          <folding>
+            <element signature="e#378#601#0" expanded="false" />
+            <element signature="e#966#1043#0" expanded="false" />
+            <element signature="e#1056#1101#0" expanded="false" />
+            <element signature="e#1114#1473#0" expanded="false" />
+            <element signature="e#3187#3544#0" expanded="false" />
+            <element signature="e#3569#4055#0" expanded="false" />
+            <element signature="e#4204#4735#0" expanded="false" />
+            <element signature="e#7969#8718#0" expanded="false" />
+            <element signature="e#12569#14169#0" expanded="false" />
+            <element signature="e#14184#15049#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -613,29 +852,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="76" column="22" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
+        <state relative-caret-position="150">
+          <caret line="143" column="20" selection-start-line="143" selection-start-column="20" selection-end-line="143" selection-end-column="20" />
           <folding>
-            <element signature="n#div#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="e#4955#4962#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/src/assets/styles/sass/index.scss">
+    <entry file="file://$PROJECT_DIR$/resources/views/src/app/pages/exhibition/exhibition-list.controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5117">
-          <caret line="489" column="27" selection-start-line="489" selection-start-column="27" selection-end-line="489" selection-end-column="27" />
-          <folding>
-            <element signature="e#378#601#0" expanded="false" />
-            <element signature="e#966#1043#0" expanded="false" />
-            <element signature="e#1056#1101#0" expanded="false" />
-            <element signature="e#1114#1473#0" expanded="false" />
-            <element signature="e#3187#3544#0" expanded="false" />
-            <element signature="e#3569#4055#0" expanded="false" />
-            <element signature="e#4204#4735#0" expanded="false" />
-            <element signature="e#7934#9849#0" expanded="false" />
-            <element signature="e#7969#8718#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="85">
+          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -23,7 +23,9 @@ const App = angular.module(
     // pages
     require("./pages/main/main.module").name,
 
-    require("./pages/exhibition/exhibition.module").name
+    require("./pages/exhibition/exhibition.module").name,
+
+    require("./pages/mobile/mobile.module").name
 
   ]
 );

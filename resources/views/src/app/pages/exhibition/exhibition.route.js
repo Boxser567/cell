@@ -24,6 +24,6 @@ function routeConfig($stateProvider) {
       }
     });;
 
-}
+}``
 
 export default routeConfig;

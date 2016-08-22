@@ -7,6 +7,7 @@ import '!!file-loader?name=[name].[ext]!../favicon.ico';
 import "./index.module";
 
 import "../assets/styles/sass/index.scss";
+import "../assets/styles/sass/mobile.scss";
 
 angular.element(document).ready(function () {
   angular.bootstrap(document, ['cell-ui'], {

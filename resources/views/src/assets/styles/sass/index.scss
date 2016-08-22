@@ -424,6 +424,11 @@ body {
         margin-top: 10px;
         font-size: 24px;
         color: #fff;
+        cursor: pointer;
+        input {
+          background: none;
+          border: none;
+        }
       }
       p {
         margin-top: 15px;
@@ -435,6 +440,22 @@ body {
           height: 24px;
           position: relative;
           top: 5px;
+          img {
+            position: absolute;
+            top: -40px;
+            left: -40px;
+            width: 40px;
+            opacity: 0;
+            display: none;
+          }
+          &:hover {
+            img {
+              display: block;
+              -webkit-animation: myfirst 2s forwards;
+              -o-animation: myfirst 2s forwards;
+              animation: myfirst 2s forwards;
+            }
+          }
         }
         span {
           color: #999;
@@ -459,7 +480,7 @@ body {
   .eb-fileload {
     .content {
       background: #fff;
-      padding: 40px 0 60px 0;
+      padding: 40px 0 30px 0;
       .tl {
         font-size: 24px;
         color: #333;
@@ -481,17 +502,58 @@ body {
             box-shadow: 0px 0px 10px #ddd;
             z-index: 9;
             transform: scale(1.02);
+            .glyphicon-trash {
+              display: inline-block;
+            }
+          }
+          .add-files {
+            position: relative;
+            i {
+              margin-right: 5px;
+            }
+            input {
+              width: 100%;
+              height: 100%;
+              opacity: 0;
+              position: absolute;
+              left: 0;
+              top: 0;
+              border-radius: 30px;
+            }
+            width: auto;
+            cursor: pointer;
+            padding: 15px 50px;
+            background: #24292e;
+            color: #fff;
+            margin: 8px;
+            border-radius: 30px;
           }
           img {
-            display: inline-block;
+            float: left;
             vertical-align: bottom;
+            width: 16%;
           }
           div {
             margin-left: 10px;
-            margin-bottom: 5px;
-            display: inline-block;
+            margin-top: 5px;
+            float: left;
+            width: 80%;
             p {
               margin-bottom: 5px;
+              i {
+                display: none;
+                cursor: pointer;
+                color: #fff;
+                float: right;
+                font-size: 12px;
+                background: #ff5858;
+                padding: 8px 15px;
+                border-radius: 15px;
+                span {
+                  margin-left: 5px;
+                  vertical-align: text-top;
+                }
+              }
               &:nth-child(1) {
                 font-size: 16px;
               }
@@ -506,12 +568,167 @@ body {
 
       }
     }
+  }
+  .eb-filesort {
+    .content {
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      background: #fff;
+      padding-top: 60px;
+      padding-bottom: 60px;
+      .navtl {
+        font-size: 20px;
+        color: #333;
+        border-left: 6px solid #2cb7ff;
+      }
+      .col-md-4 {
+        color: #fff;
+        padding: 30px;
+
+        .files {
+          background: #00a0e9;
+          padding: 15px;
+          border-radius: 6px;
+          .title {
+            font-size: 16px;
+            i {
+              float: right;
+              font-style: normal;
+              display: inline-block;
+              width: 47px;
+              height: 14px;
+              font-size: 14px;
+              cursor: pointer;
+              span {
+                margin-left: 5px;
+              }
+            }
+          }
+          .size {
+            font-size: 14px;
+            margin-top: 10px;
+          }
+          .btn-showfile {
+            display: block;
+            margin-top: 35px;
+            height: 30px;
+            width: 120px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid #fff;
+            color: #fff;
+            font-size: 12px;
+            padding: 5px 15px;
+            cursor: pointer;
+          }
+        }
+        .files-add {
+          padding: 61px 0;
+          background: #484d53;
+          text-align: center;
+          .btn-add {
+            i {
+              margin-right: 5px;
+            }
+            padding: 20px 40px;
+            color: #fff;
+            cursor: pointer;
+          }
+        }
+
+      }
+
+    }
 
   }
 
+  .eb-footer {
+    .content {
+      background: #fff;
+      .visit {
+        padding-top: 120px;
+        text-align: center;
+        .btn {
+          background-color: #00bef6;
+          border-radius: 30px;
+          color: #fff;
+          padding: 15px 50px;
+          cursor: pointer;
+        }
+        .edit {
+          display: block;
+          font-size: 14px;
+          color: #00bef6;
+          margin-top: 20px;
+        }
+      }
+      .fo {
+        text-align: center;
+        i {
+          display: block;
+          width: 180px;
+          height: 20px;
+          background: url("../../../app/pages/images/tec_support.png") no-repeat;
+          background-size: contain;
+          position: relative;
+          left: 50%;
+          margin-left: -90px;
+        }
+        margin-top: 240px;
+        padding-bottom: 20px;
+        text-align: center;
+      }
+
+    }
+
+  }
+  #loadFileList {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      height: 280px;
+      overflow-y: scroll;
+      li {
+        height: 28px;
+        div {
+          display: inline-block;
+        }
+
+      }
+    }
+
+    .modal-footer {
+      .btn-primary {
+        position: relative;
+        input {
+          position: absolute;
+          top:0;
+          left:0;
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+        }
+      }
+    }
+
+  }
 }
 
+@keyframes myfirst {
+  0% {
+    left: -40px;
+    top: -40px;
+  }
 
+  100% {
+    left: -160px;
+    top: -160px;
+    width: 160px;
+    opacity: 1;
+  }
+}
 
 
 
