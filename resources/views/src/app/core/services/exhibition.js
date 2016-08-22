@@ -2,7 +2,7 @@
 
 export default function (app) {
     app
-        .factory('Exhibition', ['$q', function ($q) {
+        .factory('Exhibition', ['$q', '$http',function ($q,$http) {
             var exhibitions;
             return {
                 getById: function (id) {
@@ -13,14 +13,9 @@ export default function (app) {
                     };
                 },
                 list: function () {
-                    let defered = $q.defer();
-                    exhibitions = [];
-                    for (var i = 0; i < 5; i++) {
-                        exhibitions.push({id:i});
-                    }
-                    defered.resolve(exhibitions);
-                    return defered.promise;
+                    return $http.get('/exhibition/list');
                 }
             }
-        }]);
+        }])
+
 }

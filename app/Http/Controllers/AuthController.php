@@ -19,7 +19,7 @@ use View;
 class AuthController extends Controller
 {
 
-    public function login($oauthUser='')
+    public function getLogin($oauthUser='')
     {
         $name="wangyuxiang";
         $unionid="12345";

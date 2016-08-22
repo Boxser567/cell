@@ -6,6 +6,7 @@ const LoginModule = angular.module('login-module', [
     'ui.router'
 ]);
 
-LoginModule.config(route);
+LoginModule
+    .config(route);
 
 export default LoginModule;

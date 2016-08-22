@@ -10,7 +10,17 @@ module.exports = function(_path) {
       contentBase: './dist',
       info: true,
       hot: true,
-      inline: true
+      inline: true,
+      proxy: {
+        '*': 'http://cell.com/',
+        bypass:function (req,res) {
+          console.log('----',req,res);
+          if(req.headers.accept.indexOf('html') != -1){
+            return false;
+          }
+          return true;
+        }
+      }
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin()
