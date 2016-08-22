@@ -196,7 +196,8 @@ body {
             left: 50%;
             margin-left: -25px;
           }
-          p {
+          a {
+            display: block;
             margin-top: 19px;
             color: #333;
             font-size: 18px;
@@ -265,10 +266,15 @@ body {
       }
       .col-md-4 {
         .trans {
+          min-height: 347px;
           position: relative;
           transition: all .5s;
 
           .thumcode {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: rotateY(180deg);
             display: none;
             z-index: 1;
             border-radius: 4px;
@@ -299,6 +305,9 @@ body {
           }
 
           .thumbnail {
+            position: absolute;
+            top: 0;
+            left: 0;
             padding: 0;
             border: none;
             .img {
@@ -339,7 +348,7 @@ body {
                   margin-top: 12.5px;
                   background: url("../../../app/pages/images/icon_qcode.png");
                 }
-                span {
+                a {
                   padding-top: 12px;
                   cursor: pointer;
                   width: 140px;
@@ -353,7 +362,7 @@ body {
                   text-align: center;
 
                   &:hover {
-                    background: #a8aaac;
+                    background: rgba(168, 170, 172, 1);
                   }
 
                 }

@@ -16,6 +16,8 @@ import "angular-touch";
 
 import "angular-sanitize";
 
+import "../assets/scripts/util";
+
 import "zeroclipboard/dist/ZeroClipboard"
 
 

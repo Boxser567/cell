@@ -116,7 +116,6 @@ module.exports = function(_path) {
           "expose?_"
         ]
       }
-      
       ]
     },
 

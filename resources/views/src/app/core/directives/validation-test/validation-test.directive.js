@@ -7,10 +7,25 @@ export default function (app) {
     app.directive('hoverTrans', function () {
         return {
             restrict: 'A',
+            link: function (scope, elem, $timeout) {
+                $(elem).on("mouseenter", function () {
+                    // $timeout(function () {
+                    $(elem).parents('.trans').find(".thumcode").css("z-index", "11").show();
+                    $(elem).parents('.trans').css("transform", "rotateY(180deg)");
+                    // })
+                })
+            },
+
+
+        };
+    });
+    app.directive('codeLeave', function () {
+        return {
+            restrict: 'A',
             link: function (scope, elem) {
-                $(elem).hover(function () {
-                    // $(elem).parents('.trans').css("transform", "rotateY(180deg)");
-                    // $(elem).parents('.trans').find(".thumcode").css("z-index", "11");
+                $(elem).mouseout(function () {
+                    $(elem).css("z-index", "1").hide();
+                    $(elem).parent('.trans').css("transform", "rotateY(0deg)");
                 })
 
             },
@@ -18,6 +33,7 @@ export default function (app) {
 
         };
     });
+
     app.directive('editName', function () {
         return {
             restrict: 'A',
