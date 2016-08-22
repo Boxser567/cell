@@ -24,6 +24,32 @@ body {
   margin: 0 auto;
 }
 
+//登录页面
+.login {
+  width: 600px;
+  height: 420px;
+  position: relative;
+  left:50%;
+  margin-left: -300px;
+  top:100px;
+  padding: 40px;
+  text-align: center;
+  background: #fff;
+  .tl{
+    margin-top: 60px;
+    font-size: 24px;
+  }
+  p{
+    margin-top: 20px;
+    font-size:14px ;
+    color: #999;
+    padding: 0;
+  }
+  .code{
+    margin-top: 20px;
+  }
+}
+
 .navbar {
   width: 100%;
   height: 60px;
@@ -703,8 +729,8 @@ body {
         position: relative;
         input {
           position: absolute;
-          top:0;
-          left:0;
+          top: 0;
+          left: 0;
           display: inline-block;
           width: 100%;
           height: 100%;
