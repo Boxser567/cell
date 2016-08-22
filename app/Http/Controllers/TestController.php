@@ -22,9 +22,9 @@ class TestController extends Controller
     public function getClear()
     {
         Session::flush();
-       /* \DB::table("ent_exhibition_config")->truncate();
+        \DB::table("ent_exhibition_config")->truncate();
         \DB::table("ent_exhibition_info")->truncate();
-        \DB::table("member")->truncate();*/
+        \DB::table("member")->truncate();
         echo "清理缓存完毕";
     }
 
@@ -44,7 +44,7 @@ class TestController extends Controller
     public function getF()
     {
         $yunku = new YunkuFile(665030);
-        return $yunku->getFileList();
+        return $yunku->getFileList('wang');
     }
 
     public function getG()
@@ -68,7 +68,7 @@ class TestController extends Controller
     public function getJ()
     {
         $yunku = new YunkuFile(665030);
-        return $yunku->getInfo("/wang");
+        return $yunku->getInfo("/wang",1);
     }
 
     public function getK()
@@ -113,5 +113,23 @@ class TestController extends Controller
     private function fileFilter(&$file)
     {
         unset($file['create_dateline'], $file['create_member_name'], $file['filehash'], $file['last_dateline'], $file['last_member_name']);
+    }
+
+    public function getM()
+    {
+        $result = array();
+        $tables = \DB::select("show tables");
+        foreach ($tables as $table) {
+            dump($table);die;
+            $sql="show columns from ".$table;
+            $columns=\DB::select($sql);
+            $result[$table]=$columns;
+        }
+        return $result;
+    }
+
+    public function getN()
+    {
+        return config('data.BANNER')[random_int(0,5)];
     }
 }

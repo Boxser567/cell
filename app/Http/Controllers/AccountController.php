@@ -13,6 +13,6 @@ class AccountController extends BaseController
 {
     public function getInfo()
     {
-     return $this->member;
+       return $this->member;
     }
 }
