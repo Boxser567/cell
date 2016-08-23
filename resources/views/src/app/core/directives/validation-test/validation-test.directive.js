@@ -34,10 +34,10 @@ export default function (app) {
         };
     });
 
-    app.directive('editName', function () {
+    app.directive('editName', function (Exhibition) {
         return {
             restrict: 'A',
-            link: function (scope, elem) {
+            link: function (scope, elem, attrs) {
                 $(elem).click(function () {
                     var name = $(elem).text();
                     var input = '<input type="text" class="exhibitionName" value="' + name + '" />';
@@ -49,7 +49,32 @@ export default function (app) {
                         if (text.trim() == "") {
                             $(elem).empty().text(name);
                         } else {
-                            $(elem).empty().text(text);
+                            if (attrs.dataedit == "title") {
+                                Exhibition.editExTitle({exhibition_id: attrs.dataid, title: text}).then(function (res) {
+                                    $(elem).empty().text(text);
+                                })
+                            }
+                            if (attrs.dataedit == "filename") {
+                                Exhibition.editExFilename({
+                                    org_id: attrs.dataid,
+                                    fullpath: attrs.datapath,
+                                    newpath: text
+                                }).then(function (res) {
+                                    $(elem).empty().text(text);
+                                })
+                            }
+                            if (attrs.dataedit == "dirname") {
+                                Exhibition.editExDirname({
+                                    org_id: attrs.dataid,
+                                    fullpath: attrs.datapath,
+                                    newpath: text
+                                }).then(function (res) {
+                                    console.log(res);
+                                    $(elem).empty().text(text);
+                                })
+                            }
+
+
                         }
                     })
                 })
@@ -59,24 +84,7 @@ export default function (app) {
 
         };
     });
-    app.directive('filesortAdd', function () {
-        return {
-            restrict: 'A',
-            link: function (scope, elem) {
-                $(elem).click(function () {
-                    var htm = '<div class="col-md-4">'
-                        + '<div class="files">'
-                        + '<p class="title"><span>请填写分类名称</span> <i class="glyphicon glyphicon-trash"><span>删除</span></i>'
-                        + '</p>'
-                        + '<p class="size"> 0个文件 共 0 MB</p>'
-                        + '<a class="btn-showfile">查看/上传文件</a>'
-                        + '</div>'
-                        + '</div>';
-                    var index = $(elem).parents('.col-md-4').before(htm);
-                })
-            },
-        };
-    });
+
     function validationTestDirective() {
         'ngInject';
 

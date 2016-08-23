@@ -665,12 +665,32 @@ body {
           background: #00a0e9;
           padding: 15px;
           border-radius: 6px;
+          &:hover {
+            box-shadow: 0px 0px 30px #999;
+            z-index: 9;
+            .title {
+              i {
+                display: block;
+              }
+            }
+          }
           .title {
             font-size: 16px;
+            & > span {
+              input {
+                border: none;
+                outline: medium;
+                color: #333;
+                height: 20px;
+                width: 200px;
+                padding-left: 5px;
+                font-size: 14px;
+              }
+            }
             i {
               float: right;
               font-style: normal;
-              display: inline-block;
+              display: none;
               width: 47px;
               height: 14px;
               font-size: 14px;
