@@ -142,10 +142,11 @@ class ExhibitionController extends BaseController
             }
         }
         if (!$flag) {
-            $file_info['list'] = $list;
-            $file_info['dirs'] = $dir;
+            $file_info['list'] = array_values($list);
+            $file_info['dirs'] = array_values($dir);
         }
         $exhibition = $exhibition->toArray();
+        $exhibition['unique_code']="http://".config("app.view_domain")."/". $exhibition['unique_code'];
         $exhibition['files'] = $file_info;
     }
 
