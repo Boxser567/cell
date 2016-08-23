@@ -18,7 +18,7 @@ import "angular-sanitize";
 
 import "../assets/scripts/util";
 
-import "zeroclipboard/dist/ZeroClipboard"
+
 
 
 // local scripts
