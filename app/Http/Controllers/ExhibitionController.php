@@ -146,6 +146,7 @@ class ExhibitionController extends BaseController
             $file_info['dirs'] = array_values($dir);
         }
         $exhibition = $exhibition->toArray();
+        $exhibition['unique_code']="http://".config("app.view_domain")."/". $exhibition['unique_code'];
         $exhibition['files'] = $file_info;
     }
 
