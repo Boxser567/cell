@@ -71,6 +71,19 @@ class YunkuFile extends \GokuaiFile
         return $res;
     }
 
+    //修改文件(夹)名
+    public function setName($fullpath,$dest_fullpath,$op_id='',$op_name='')
+    {
+        $data = [
+            'fullpath' => $fullpath,
+            'dest_fullpath' => $dest_fullpath,
+            'op_id' => $op_id,
+            'op_name' => $op_name,
+        ];
+        $res = $this->callAPI2('POST', '/1/file/move', $data);
+        $this->checkResult($res);
+        return $res;
+    }
 
     //web直接上传文件
     //步骤1

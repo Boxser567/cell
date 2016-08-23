@@ -40,7 +40,7 @@ class LAccount
         return $ent->id;
     }
 
-    public static function setExhibition($ent_id,$org_id,$id='',$res_collect_lock=1,$title='会展助手',$start_date='',$ent_date='',$web_site=ExhibitionInfo::INIT_WEB_SITE)
+    public static function setExhibition($ent_id,$org_id,$id='',$res_collect_lock=0,$title='会展助手',$start_date='',$ent_date='',$web_site=ExhibitionInfo::INIT_WEB_SITE)
     {
         if($id){
             $exhibition=ExhibitionInfo::_findOrFail($id);

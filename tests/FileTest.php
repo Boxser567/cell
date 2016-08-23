@@ -8,7 +8,7 @@
  */
 class FileTest extends TestCase
 {
-    public function testLists()
+    public function estLists()
     {
         dump("获取文件列表");
         $result = $this->request(
@@ -37,8 +37,8 @@ class FileTest extends TestCase
         dump("创建新文件夹");
         $result = $this->request(
             "POST", "/file/create-folder", [
-                'org_id'=>'665030',
-                'fullpath'=>'goukuai',
+                'org_id'=>'665215',
+                'fullpath'=>'keji1',
             ]
         );
         $this->checkOut($result);
@@ -52,6 +52,20 @@ class FileTest extends TestCase
             "POST", "/file/del", [
                 'org_id'=>'665030',
                 'fullpath'=>'logo',
+            ]
+        );
+        $this->checkOut($result);
+    }
+
+    public function testSendMa()
+    {
+        dump("修改文件(夹)名");
+        $result = $this->request(
+            "POST", "/file/reset-name", [
+                'org_id'=>'665030',
+                'fullpath'=>'概况RESTful.md',
+                "newpath"=>"newName.md"
+
             ]
         );
         $this->checkOut($result);

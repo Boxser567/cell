@@ -43,6 +43,13 @@ class FileController extends BaseController
         return ['url' => $api_address, 'org_client_id' => $files->getOrgClientId()];
     }
 
+    //修改文件(夹)名称
+    public function postResetName()
+    {
+        $files = new YunkuFile(inputGetOrFail('org_id'));
+        return $files->setName(inputGetOrFail('fullpath'),inputGetOrFail('newpath'));
+    }
+
     //删除文件(夹)
     public function postDel()
     {

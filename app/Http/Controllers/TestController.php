@@ -22,9 +22,9 @@ class TestController extends Controller
     public function getClear()
     {
         Session::flush();
-        \DB::table("ent_exhibition_config")->truncate();
-        \DB::table("ent_exhibition_info")->truncate();
-        \DB::table("member")->truncate();
+      //  \DB::table("ent_exhibition_config")->truncate();
+       // \DB::table("ent_exhibition_info")->truncate();
+      //  \DB::table("member")->truncate();
         echo "清理缓存完毕";
     }
 
@@ -131,5 +131,11 @@ class TestController extends Controller
     public function getN()
     {
         return config('data.BANNER')[random_int(0,5)];
+    }
+
+
+    public function getO()
+    {
+        return $_SERVER['SERVER_NAME'];
     }
 }
