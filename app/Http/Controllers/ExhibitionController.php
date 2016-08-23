@@ -142,8 +142,8 @@ class ExhibitionController extends BaseController
             }
         }
         if (!$flag) {
-            $file_info['list'] = $list;
-            $file_info['dirs'] = $dir;
+            $file_info['list'] = array_values($list);
+            $file_info['dirs'] = array_values($dir);
         }
         $exhibition = $exhibition->toArray();
         $exhibition['files'] = $file_info;
