@@ -94,12 +94,12 @@ class ExhibitionController extends BaseController
         $action = inputGetOrFail('action');
         switch ($action) {
             case "open":
-                $exhibition->res_collect_lock = 0;
+                $exhibition->res_collect_lock = 1;
                 $org_file = new YunkuFile($exhibition->org_id);
                 $org_file->setFolder(self::RES_COLLECTION_FOLDER_NAME);
                 break;
             case "close":
-                $exhibition->res_collect_lock = 1;
+                $exhibition->res_collect_lock = 0;
                 break;
             default:
                 throw new \Exception("参数错误");
@@ -147,6 +147,9 @@ class ExhibitionController extends BaseController
         }
         $exhibition = $exhibition->toArray();
         $exhibition['unique_code']="http://".config("app.view_domain")."/". $exhibition['unique_code'];
+        if($exhibition['res_collect_lock']){
+            $exhibition['res_collect_lock']=self::RES_COLLECTION_FOLDER_NAME;
+        }
         $exhibition['files'] = $file_info;
     }
 
