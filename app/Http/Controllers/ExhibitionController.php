@@ -95,6 +95,8 @@ class ExhibitionController extends BaseController
         switch ($action) {
             case "open":
                 $exhibition->res_collect_lock = 0;
+                $org_file = new YunkuFile($exhibition->org_id);
+                $org_file->setFolder(self::RES_COLLECTION_FOLDER_NAME);
                 break;
             case "close":
                 $exhibition->res_collect_lock = 1;
@@ -110,34 +112,38 @@ class ExhibitionController extends BaseController
     private function format(&$exhibition, $flag = false)
     {
         //获取文件列表
-        $files = new YunkuFile($exhibition->org_id);
+        $org_file = new YunkuFile($exhibition->org_id);
         $yunku_org = new YunkuOrg();
         $org_info = $yunku_org->getOrgInfo($exhibition->org_id);
         $file_info = array();
         $file_info['dir_count'] = $org_info['info']['dir_count'];
         $file_info['file_count'] = $org_info['info']['file_count'];
         $file_info['size_use'] = $org_info['info']['size_org_use'];
-        $file_list = $files->getFileList();
+        $file_list = $org_file->getFileList();
         $files = $file_list['list'];
         $dir = array();
+        $list = array();
         foreach ($files as $key => &$file) {
             $this->fileFilter($file);
             if ($file['filename'] == self::RES_COLLECTION_FOLDER_NAME) {
-                unset($files[$key]);
-                //$res_col_info=$files->getInfo(self::RES_COLLECTION_FOLDER_NAME,1);
-                //$file_info['file_count']=$file_info['file_count']-$res_col_info['file_count'];
-                //$file_info['size_use']=$file_info['size_use'] -$res_col_info['files_size'];
-                //$file_info['dir_count']=$file_info['dir_count']-1;
-
+                $res_col_info=$org_file->getInfo(self::RES_COLLECTION_FOLDER_NAME,1);
+                $file_info['file_count']=$file_info['file_count']-$res_col_info['file_count'];
+                $file_info['size_use']=$file_info['size_use'] -$res_col_info['files_size'];
+                $file_info['dir_count']=$file_info['dir_count']-1;
             }
-            if ($file['dir']) {
-                unset($files[$key]);
-                $dir[$key]=$file;
+            if ($file['dir'] && $file['filename'] != self::RES_COLLECTION_FOLDER_NAME) {
+                $res_col_info=$org_file->getFileList($file['fullpath']);
+                $res_col_detail=$org_file->getInfo($file['fullpath'],1);
+                $file+=["filespace"=>$res_col_detail['files_size']];
+                $file+=["filecount"=>$res_col_info['count']];
+                $dir[$key] = $file;
+            } else if(!$file['dir'] && $file['filename'] != self::RES_COLLECTION_FOLDER_NAME){
+                $list[$key] = $file;
             }
         }
         if (!$flag) {
-            $file_info['list'] = $files;
-            $file_info['dirs']=$dir;
+            $file_info['list'] = $list;
+            $file_info['dirs'] = $dir;
         }
         $exhibition = $exhibition->toArray();
         $exhibition['files'] = $file_info;
