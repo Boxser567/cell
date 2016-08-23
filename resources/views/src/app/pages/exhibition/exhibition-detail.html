@@ -6,24 +6,31 @@
                 <div class="pull-left">
                     <i class="home"></i>
                     编辑模式
-                    <span>资料收集</span>
-                    <i class="button"></i>
-                    <s>直销</s>
+                    <!--<span>资料收集</span>-->
+                    <!--<i class="button"></i>-->
+                    <!--<s>直销</s>-->
                 </div>
+
+                <button id="copy-button" data-clipboard-text="Copy Me!" title="Click to copy me."  ng-click="getboard()">Copy to Clipboard</button>
 
                 <div class="mode">
                     <i class="pc"></i>
                     <i class="phone"></i>
                 </div>
                 <div class="pull-right">
-                    <span>{{currentExbt.files.dir_count}}个分类   {{currentExbt.files.files_count}}个文件   共{{currentExbt.files.size_use}}</span>
+                    <span>{{currentExbt.files.dir_count}}个分类 &nbsp;{{currentExbt.files.file_count}}个文件 &nbsp;共{{  getSize(currentExbt.files.size_use)}}</span>
                 </div>
             </div>
         </div>
 
-        <div class="nav-con">
+        <div class="nav-con" style="text-align: center">
             <div class="file">
-                <input type="file" class="txt_img">
+                <img src="{{currentExbt.logo}}" alt="" ng-if="currentExbt.logo!='' ">
+                <div ng-if="currentExbt.logo=='' ">
+                    <span>请上传160x160像素会展Logo</span>
+                </div>
+                <input type="file" class="txt_img" accept="image/png,image/gif" value="">
+
             </div>
             <div class="name" edit-name>{{currentExbt.title}}</div>
             <p><i><img src="../images/qcode.png"></i><span>{{currentExbt.property.web_site}}</span>
@@ -40,11 +47,11 @@
 
             <div class="row">
                 <div ng-repeat="file in currentExbt.files.list" class="col-md-4">
-                    <div class="files clearfix" >
+                    <div class="files clearfix">
                         <img src="../images/icon_excel.png" alt="">
                         <div class="info clearfix">
-                            <p>企业公共资料.xls <i class="glyphicon glyphicon-trash"><span>删除</span></i></p>
-                            <p>15KB</p>
+                            <p>{{file.filename}} <i class="glyphicon glyphicon-trash"><span>删除</span></i></p>
+                            <p>{{getSize(file.filesize)}}</p>
                         </div>
                     </div>
                 </div>
@@ -66,11 +73,12 @@
         <div class="content">
             <div class="navtl">常用文件下载</div>
             <div class="row">
-                <div class="col-md-4">
-                    <div class="files">
-                        <p class="title"><span>大会宣传资料</span> <i class="glyphicon glyphicon-trash"><span>删除</span></i>
+                <div class="col-md-4" ng-repeat="dir in currentExbt.files.dirs">
+                    <div class="files" datapath="{{dir.fullpath}}">
+                        <p class="title"><span>{{dir.filename}}</span> <i
+                                class="glyphicon glyphicon-trash"><span>删除</span></i>
                         </p>
-                        <p class="size">48个文件 共235MB</p>
+                        <p class="size">48个文件 共{{getSize(dir.filesize)}}</p>
                         <a class="btn-showfile" data-toggle="modal" data-target="#loadFileList">查看/上传文件</a>
                     </div>
                 </div>
@@ -144,7 +152,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="btn btn-primary">上传文件
-                    <input type="file" class="usual-fileLoad">
+                        <input type="file" class="usual-fileLoad">
                     </div>
 
                     <button type="button" class="btn btn-default"

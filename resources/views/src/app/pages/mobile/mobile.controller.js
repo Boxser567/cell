@@ -1,8 +1,7 @@
 'use strict';
 
-function MobileController($log) {
+function MobileController() {
     'ngInject';
-    $log.debug('Hello from main controller!');
 
 }
 

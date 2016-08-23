@@ -1,114 +1,98 @@
 /**
  *项目/框架无关的工具方法
+ *v0.06
  */
+
+ ;(function (root, factory) {
+  'use strict';
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = factory(root);
+  } else if (typeof define === 'function' && define.amd) {
+    define([root], factory);
+  } else {
+    root.Util = factory(root);
+  }
+}(window,function(window){
+
 var Util = {
     //检测某个方法是不是原生的本地方法
     // http://peter.michaux.ca/articles/feature-detection-state-of-the-art-browser-scripting
-    isHostMethod: function(object, property) {
+    isHostMethod: function (object, property) {
         var t = typeof object[property];
         return t == 'function' ||
-                (!!(t == 'object' && object[property])) ||
-                t == 'unknown';
+        (!!(t == 'object' && object[property])) ||
+        t == 'unknown';
     },
-    getUuid: function() {
+    getUuid: function () {
         var uuid = "";
         for (var i = 0; i < 32; i++) {
             uuid += Math.floor(Math.random() * 16).toString(16);
         }
         return uuid;
+    },
+    param: function (paramObject) {
+        var queryStr = '',
+            val;
+        for (var key in paramObject) {
+            if (paramObject.hasOwnProperty(key)) {
+                val = paramObject[key];
+                queryStr += '&' + key + (typeof val !== 'undefined' ? '=' + encodeURIComponent(val) : '');
+            }
+        }
+        return queryStr.slice(1);
     }
 };
 
-Util.object = {
-    //比较两个对象是否具有相同的属性和相同的属性值
-     checkObjEquils:function(obj1,obj2){
-        var objKeys_1 = [];
-        var objKeys_2 = [];
-        for(var key_1 in obj1){
-            objKeys_1.push(key_1);
-        }
-        for(var key_2 in obj2){
-            objKeys_2.push(key_2);
-        }
-        objKeys_1.sort();
-        objKeys_2.sort();
-        if(objKeys_1.length != objKeys_2.length) return false;
-        var eqLen = 0;
-        for(var i=0;i<objKeys_1.length;i++){
-            if(objKeys_1[i] == objKeys_2[i]){
-                if(obj1[objKeys_1[i]] == obj2[objKeys_2[i]]){
-                    eqLen++;
-                }else{return false;}
-            }else{return false;}
-        }
-        if(eqLen == objKeys_1.length) return true;
-        return false;
-    },
-    getCurrentMountId:function(fullMountIds){
-        fullMountIds = fullMountIds+"";
-        var mountIdArr = fullMountIds.split(".");
-        return Number(mountIdArr[mountIdArr.length - 1]);
-    },
-    getRootMountId:function(fullMountIds){
-        fullMountIds = fullMountIds+"";
-        var mountIdArr = fullMountIds.split(".");
-        return Number(mountIdArr[0]);
-    },
-    newObj:function(_obj,keys){
-        var _new = {};
-        for(var _i=0;_i<keys.length;_i++){
-            _new[keys[_i]] = _obj[keys[_i]];
-        }
-        return _new;
-    }
-}
-
 Util.String = {
-    escapeHtml:function(text){
-        return text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    },
-    getExt: function(filename) {
-        filename =  String(filename);
-        var lastIndex =  filename.lastIndexOf('.');
-        if(lastIndex<0){
-            return '';
+    mbLen:function(str){
+        var totalLength = 0;
+        var i;
+        var charCode;
+        for (i = 0; i < str.length; i++) {
+            charCode = str.charCodeAt(i);
+            if (charCode < 0x007f) {
+                totalLength = totalLength + 1;
+            } else if ((0x0080 <= charCode) && (charCode <= 0x07ff)) {
+                totalLength += 2;
+            } else if ((0x0800 <= charCode) && (charCode <= 0xffff)) {
+                totalLength += 3;
+            }
         }
-        return filename.slice(filename.lastIndexOf('.') + 1).toLowerCase();
+        return totalLength;
     },
-    baseName: function(path) {
-        path = String(path);
+    getExt: function (filename) {
+        var ext = filename.slice(filename.lastIndexOf('.') + 1).toLowerCase();
+        return ext;
+    },
+    baseName: function (path) {
+        path = path.toString();
         return path.replace(/\\/g, '/').replace(/.*\//, '');
     },
-    dirName: function(path) {
-        path = String(path);
+    dirName: function (path) {
+        path = path.toString();
         return path.indexOf('/') < 0 ? '' : path.replace(/\\/g, '/').replace(/\/[^\/]*$/, '');
     },
-    ltrim: function(str, charlist) {
+    ltrim: function (str, charlist) {
         charlist = !charlist ? ' \\s\u00A0' : (charlist + '').replace(/([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])/g, '$1');
         var re = new RegExp('^[' + charlist + ']+', 'g');
         return (str + '').replace(re, '');
     },
-    rtrim: function(str, charlist) {
+    rtrim: function (str, charlist) {
         charlist = !charlist ? ' \\s\u00A0' : (charlist + '').replace(/([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])/g, '\\$1');
         var re = new RegExp('[' + charlist + ']+$', 'g');
         return (str + '').replace(re, '');
     },
     //返回字符串的最后一个字符
-    lastChar: function(str) {
+    lastChar: function (str) {
         str = String(str);
         return str.charAt(str.length - 1);
     },
     //根据某个分隔符获取分隔符后面的字符
-    getNextStr: function(str, separate) {
+    getNextStr: function (str, separate) {
         return str.slice(str.lastIndexOf(separate) + 1);
     },
     //根据某个分隔符获取分隔符前面面的字符
-    getPrevStr: function(str, separate) {
+    getPrevStr: function (str, separate) {
         if (str.indexOf(separate) < 0) {
             return '';
         }
@@ -116,10 +100,10 @@ Util.String = {
             return str.slice(0, str.lastIndexOf(separate));
         }
     },
-    strLen: function(str) {
+    strLen: function (str) {
         return str.replace(/[^\x00-\xff]/g, "rr").length;
     },
-    subStr: function(str, n) {
+    subStr: function (str, n) {
         var r = /[^\x00-\xff]/g;
         if (str.replace(r, "mm").length <= n)
             return str;
@@ -135,13 +119,13 @@ Util.String = {
     //获取参数对象/值
     getQuery: function (paras) {
         var url = location.href;
-        if(url.indexOf("?") < 0){
+        if (url.indexOf("?") < 0) {
             url += '?';
         }
         var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
         var paraObj = {}, i, j;
         for (i = 0; j = paraString[i]; i++) {
-            paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = decodeURIComponent(j.substring(j.indexOf("=") + 1, j.length).replace('+','%20'));
+            paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = decodeURIComponent(j.substring(j.indexOf("=") + 1, j.length).replace('+', '%20'));
         }
         if (paras) {
             var returnValue = paraObj[paras.toLowerCase()];
@@ -158,56 +142,35 @@ Util.String = {
      * uri编码
      * @param request_uri
      */
-    encodeRequestUri:function(request_uri) {
-    if (request_uri == '/') {
-        return request_uri;
-    }
-    var arr_uri = request_uri.split("/");
-    var uri = '';
-    for (var i=0;i<arr_uri.length;i++) {
-        var v = arr_uri[i];
-        if (v) {
-            uri += '/' + encodeURIComponent(v);
-        } else {
-            uri += '/';
+    encodeRequestUri: function (request_uri) {
+        if (request_uri == '/') {
+            return request_uri;
         }
-    }
-    return uri;
+        var arr_uri = request_uri.split("/");
+        var uri = '';
+        for (var i = 0; i < arr_uri.length; i++) {
+            var v = arr_uri[i];
+            if (v) {
+                uri += '/' + encodeURIComponent(v);
+            } else {
+                uri += '/';
+            }
+        }
+        return uri;
     },
-    sizeof:function(str,charset){
-        var total = 0,
-            charCode,
-            i,
-            len;
-        charset = charset ? charset.toLowerCase() : '';
-        if(charset === 'utf-16' || charset === 'utf16'){
-            for(i = 0, len = str.length; i < len; i++){
-                charCode = str.charCodeAt(i);
-                if(charCode <= 0xffff){
-                    total += 2;
-                }else{
-                    total += 4;
-                }
-            }
-        }else{
-            for(i = 0, len = str.length; i < len; i++){
-                charCode = str.charCodeAt(i);
-                if(charCode <= 0x007f) {
-                    total += 1;
-                }else if(charCode <= 0x07ff){
-                    total += 2;
-                }else if(charCode <= 0xffff){
-                    total += 3;
-                }else{
-                    total += 4;
-                }
-            }
-        }
-        return total;
+    escapeHtml: function (text) {
+        return text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
     }
 };
+
 Util.RegExp = {
-    Name: /^[a-zA-Z0-9_\u4e00-\u9fa5（）().·\-]+$/,
+    Password: /^[a-zA-Z0-9]+$/,
+    Name: /^[a-zA-Z0-9_\u4e00-\u9fa5()（）-]+$/,
     HTTPALL: /http(s?):\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*/g,
     HTTP: /^http(s?):\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/,
     Email: /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i,
@@ -216,53 +179,52 @@ Util.RegExp = {
     NonNegativeNum: /^(0|[1-9]\d*)$/, //非负整数，即0和正整数
     IP: /^((1?\d?\d|(2([0-4]\d|5[0-5])))\.){3}(1?\d?\d|(2([0-4]\d|5[0-5])))$/,
     URL: /^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/,
-    PhoneNumber: /^((0\d{2,3})-)?(\d{7,8})(-(\d{3,}))?$|^(13|15|18)[0-9]{9}$/,
-    MobileNumber: /^(0|86|17951)?1\d{10}$/,
+    PhoneNumber: /^((0\d{2,3})-)?(\d{7,8})(-(\d{3,}))?$|^(1)[0-9]{10}$/,
     QQ: /^\d{1,10}$/,
     Date: /^((?!0000)[0-9]{4}-((0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-8])|(0[13-9]|1[0-2])-(29|30)|(0[13578]|1[02])-31)|([0-9]{2}(0[48]|[2468][048]|[13579][26])|(0[48]|[2468][048]|[13579][26])00)-02-29)$/,
-    HTTPStrict:/((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?|www+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)/gi,
+    HTTPStrict: /((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?|www+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)/gi,
     POUND_TOPIC: /^#([^\/|\\|\:|\*|\?|\"|<|>|\|]+?)#/,
     AT: /(@[a-zA-Z0-9_\u4e00-\u9fa5（）()]+)(\W|$)/gi,
-    ATTRANS: /\[@ id=(\d+|all)\](@(\w|\s|[\u4e00-\u9fa5])+)\[\/@\]/g,//@返回的转义内容
-    URLTRANS: /\[url=(.+)\](.+)\[\/url\]/g,
-    IMGTRANS: /\[img\](.+)\[\/img\]/g,
-    MessageHTTPStrict:/([^"']|^)(((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?|www+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?))/gi,
+    mobile: /^0?(1)[0-9]{10}$/
 };
 
 Util.Validation = {
-    isRegName: function(name) {
+    isRegName: function (name) {
         return Util.RegExp.Name.test(name);
     },
-    isHttp: function(str) {
+    isPassword: function (str) {
+        return Util.RegExp.Password.test(str);
+    },
+    isHttp: function (str) {
         return Util.RegExp.HTTP.test(str);
     },
-    isEmail: function(str) {
+    isEmail: function (str) {
         return Util.RegExp.Email.test(str);
     },
     //是否为非负整数
-    isNonNegativeNum: function(str) {
+    isNonNegativeNum: function (str) {
         return Util.RegExp.NonNegativeNum.test(str);
     },
     //是否为正整数
-    isPositiveNumber: function(str) {
+    isPositiveNumber: function (str) {
         return Util.RegExp.PositiveNumber.test(str);
     },
-    isPhoneNum: function(str) {
+    isPhoneNum: function (str) {
         return Util.RegExp.PhoneNumber.test(str);
     },
-    isQQNum: function(str) {
+    isQQNum: function (str) {
         return Util.RegExp.QQ.test(str);
     },
-    isDate: function(str) {
+    isDate: function (str) {
         return Util.RegExp.Date.test(str);
     },
-    isMobileNum: function(str) {
-        return Util.RegExp.MobileNumber.test(str);
+    isMobile: function (str) {
+        return Util.RegExp.mobile.test(str);
     }
 };
 
 Util.Date = {
-    format: function(date, format) {
+    format: function (date, format) {
         var o = {
             "M+": date.getMonth() + 1, //month
             "d+": date.getDate(), //day
@@ -273,23 +235,37 @@ Util.Date = {
             "q+": Math.floor((date.getMonth() + 3) / 3), //quarter
             "S": date.getMilliseconds() //millisecond
         };
-        if (/(y+)/.test(format))
-        {
+        if (/(y+)/.test(format)) {
             format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
         }
-        for (var k in o)
-        {
-            if (new RegExp("(" + k + ")").test(format))
-            {
+        for (var k in o) {
+            if (new RegExp("(" + k + ")").test(format)) {
                 format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
             }
         }
         return format;
     },
-    day_diff: function(timestamp1, timestamp2) {
+    timeAgo: function (dateline) {
+        var now = new Date().getTime();
+        var dateObj = new Date(dateline);
+        var today = this.format(new Date(), 'yyyy-MM-dd');
+        var yesterdayTimestamp = now - 24 * 3600 * 1000;
+        var yesterday = this.format(new Date(yesterdayTimestamp), 'yyyy-MM-dd');
+        var date = this.format(dateObj, 'yyyy-MM-dd');
+        var dateText = '';
+        if (date == today) {
+            dateText = this.format(dateObj, 'hh:mm');
+        } else if (date == yesterday) {
+            dateText = '昨天，' + this.format(dateObj, 'hh:mm');
+        } else {
+            dateText = this.format(dateObj, 'yyyy年M月d日 hh:mm');
+        }
+        return dateText;
+    },
+    dayDiff: function (timestamp1, timestamp2) {
         var diff_time = timestamp2 - timestamp1,
-                suffix = '',
-                abs_diff = Math.abs(diff_time);
+            suffix = '',
+            abs_diff = Math.abs(diff_time);
         if (diff_time > 0) {
             suffix = L('later');
         }
@@ -301,10 +277,10 @@ Util.Date = {
         if (v == 0) {
             return L('today');
         } else {
-            return v+(v>1?L('days'):L('day')) + suffix;
+            return v + (v > 1 ? L('days') : L('day')) + suffix;
         }
     },
-    timeTohhmmss: function(seconds) {
+    timeTohhmmss: function (seconds) {
         var hh;
         var mm;
         var ss;
@@ -328,12 +304,12 @@ Util.Date = {
         if (ss < 10) {
             ss = "0" + ss;
         }
-        return hh + hh>1?L('hours'):L('hour') + mm + (mm>1?L('minutes'):L('minute')) + ss + (ss>1?L('seconds'):L('second'));
+        return hh + hh > 1 ? L('hours') : L('hour') + mm + (mm > 1 ? L('minutes') : L('minute')) + ss + (ss > 1 ? L('seconds') : L('second'));
     },
-    parseISO8601: function(dateStringInRange) {
+    parseISO8601: function (dateStringInRange) {
         var isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/,
-                date = new Date(NaN), month,
-                parts = isoExp.exec(dateStringInRange);
+            date = new Date(NaN), month,
+            parts = isoExp.exec(dateStringInRange);
 
         if (parts) {
             month = +parts[2];
@@ -350,7 +326,7 @@ Util.Browser = {
     /*
      *检测浏览器是否安装了flash
      **/
-    isInstallFlash: function() {
+    isInstallFlash: function () {
 
         var name = "Shockwave Flash", mimeType = "application/x-shockwave-flash";
         var flashVersion = 0;
@@ -378,7 +354,7 @@ Util.Browser = {
         HAS_FLASH_THROTTLED_BUG = major > 9 && minor > 0;
         return true;
     },
-    isMobile: function() {
+    isMobile: function () {
         var moblie = false;
         var userAgent = navigator.userAgent.toLowerCase();
         var keywords = ["android", "iphone", "ipod", "ipad", "windows phone", "mqqbrowser"];
@@ -400,50 +376,24 @@ Util.Browser = {
      *比较软件版本号的大小
      *如果nowVersion>outVersion,返回1,nowVersion<outVersion 返回-1，nowVersion=outVersion 返回0
      * */
-    compareVersion:function(nowVersion, outVersion){
+    compareVersion: function (nowVersion, outVersion) {
         if (outVersion !== nowVersion) {
             var nowArray = nowVersion.split('.');
-            var outArray =  outVersion.split('.');
+            var outArray = outVersion.split('.');
             for (var i = 0; i < nowArray.length; i++) {
                 var result = parseInt(nowArray[i]) - parseInt(outArray[i]);
                 if (result) {
-                    return result > 0?1:-1;
+                    return result > 0 ? 1 : -1;
                 }
             }
         }
         return 0;
-    },
-
-    isIE: function() {
-        var ua = navigator.userAgent;
-
-        var msie = ua.indexOf('MSIE ');
-        if (msie > 0) {
-            // IE 10 or older => return version number
-            return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
-        }
-
-        var trident = ua.indexOf('Trident/');
-        if (trident > 0) {
-            // IE 11 => return version number
-            var rv = ua.indexOf('rv:');
-            return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
-        }
-
-        var edge = ua.indexOf('Edge/');
-        if (edge > 0) {
-            // IE 12 => return version number
-            return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
-        }
-
-        // other browser
-        return false;
     }
 };
 
 
 Util.Input = {
-    getInputPositon: function(elem) {
+    getInputPositon: function (elem) {
         if (document.selection) {   //IE Support
             elem.focus();
             var Sel = document.selection.createRange();
@@ -494,7 +444,7 @@ Util.Input = {
         }
     },
     // 克隆元素样式并返回类
-    _cloneStyle: function(elem, cache) {
+    _cloneStyle: function (elem, cache) {
         if (!cache && elem['${cloneName}'])
             return elem['${cloneName}'];
         var className, name, rstyle = /^(number|string)$/;
@@ -522,7 +472,7 @@ Util.Input = {
         return className;
     },
     // 向页头插入样式
-    _addHeadStyle: function(content) {
+    _addHeadStyle: function (content) {
         var style = this._style[document];
         if (!style) {
             style = this._style[document] = document.createElement('style');
@@ -533,13 +483,13 @@ Util.Input = {
     },
     _style: {},
     // 获取最终样式
-    _getStyle: 'getComputedStyle' in window ? function(elem, name) {
+    _getStyle: 'getComputedStyle' in window ? function (elem, name) {
         return getComputedStyle(elem, null)[name];
-    } : function(elem, name) {
+    } : function (elem, name) {
         return elem.currentStyle[name];
     },
     // 获取光标在文本框的位置
-    _getFocus: function(elem) {
+    _getFocus: function (elem) {
         var index = 0;
         if (document.selection) {// IE Support
             elem.focus();
@@ -565,7 +515,7 @@ Util.Input = {
         return (index);
     },
     // 获取元素在页面中位置
-    _offset: function(elem) {
+    _offset: function (elem) {
         var box = elem.getBoundingClientRect(), doc = elem.ownerDocument, body = doc.body, docElem = doc.documentElement;
         var clientTop = docElem.clientTop || body.clientTop || 0, clientLeft = docElem.clientLeft || body.clientLeft || 0;
         var top = box.top + (self.pageYOffset || docElem.scrollTop) - clientTop, left = box.left + (self.pageXOffset || docElem.scrollLeft) - clientLeft;
@@ -576,14 +526,15 @@ Util.Input = {
             bottom: top + box.height
         };
     },
-    getCurSor: function(obj) {
-        var val = obj.value != undefined ? obj.value : obj.innerHTML;
+    getCurSor: function (obj) {
+        var val = obj.value !== undefined ? obj.value : obj.innerHTML;
         var result = 0;
         if (obj.selectionStart != undefined) {
             result = obj.selectionStart + "|" + obj.selectionEnd;
         } else {
             var rng;
-            if (obj.tagName == "TEXTAREA") {
+            if (obj.tagName.toLowerCase() == "textarea") {
+                obj.focus();
                 var range = obj.ownerDocument.selection.createRange();
                 var range_all = obj.ownerDocument.body.createTextRange();
                 range_all.moveToElementText(obj);
@@ -594,7 +545,7 @@ Util.Input = {
                     if (val.charAt(i) == '\n')
                         start++;
                 }
-                //var range_all=obj.ownerDocument.body.createTextRange();
+                var range_all = obj.ownerDocument.body.createTextRange();
                 range_all.moveToElementText(obj);
                 for (var end = 0; range_all.compareEndPoints('StartToEnd', range) < 0; end++) {
                     range_all.moveStart('character', 1);
@@ -613,7 +564,7 @@ Util.Input = {
         }
         return result;
     },
-    moveCur: function(obj, n) {
+    moveCur: function (obj, n) {
         if (obj.selectionStart != undefined) {
             obj.selectionStart = n;
             obj.selectionEnd = n;
@@ -632,11 +583,38 @@ Util.Input = {
             rng.collapse(true);
             rng.select();
         }
+    },
+    insertChar: function (textareaElem, input, curPos, insertPos) {
+        var val = textareaElem.value !== undefined ? textareaElem.value : textareaElem.innerHTML;
+        var input_pos;
+        if ($.isNumeric(insertPos)) {
+            input_pos = [insertPos, 0]
+        } else {
+            input_pos = Util.Input.getCurSor(textareaElem).split('|');
+        }
+
+        var is_insert = input_pos[1] != val.length ? 1 : 0;
+        var l = val.substr(0, input_pos[0]);
+        var r = val.substr(input_pos[1], val.length);
+        val = l + input + r;
+        if (textareaElem.value !== undefined) {
+            textareaElem.value = val;
+        } else {
+            textareaElem.innerHTML = val;
+        }
+        if (!$.isNumeric(curPos)) {
+            if (is_insert) {
+                curPos = parseInt(input_pos[0]) + input.length;
+            } else {
+                curPos = val.length;
+            }
+        }
+        Util.Input.moveCur(textareaElem, curPos);
     }
 };
 
 Util.Email = {
-    getSMTPByEmail: function(email) {
+    getSMTPByEmail: function (email) {
         var temp = email.split('@');
         var host = temp[1].toLowerCase();
         if (host == 'gmail.com') {
@@ -644,9 +622,6 @@ Util.Email = {
         }
         if (host == 'vip.sina.com') {
             return 'vip.sina.com.cn';
-        }
-        if (host == 'hotmail.com') {
-            return 'login.live.com'
         }
         var allow_hosts = ['126', '163', 'sina', 'qq', '139', 'hotmail', 'live', 'yahoo', '21cn', 'sohu'];
         var temp = host.split('.');
@@ -657,14 +632,10 @@ Util.Email = {
     }
 };
 
-
 Util.Number = {
-    bitSize: function(num,  decimal) {
+    bitSize: function (num) {
         if (typeof(num) != 'number') {
             num = Number(num);
-        }
-        if (typeof(decimal) != 'number'){
-            decimal = 2;
         }
         if (num < 0) {
             return '';
@@ -678,50 +649,143 @@ Util.Number = {
             j++;
         }
         if (num == 0) {
-            return num + 'B';
+            return num;
         } else {
-            var dec = 1;
-            for (var i = 0; i < decimal; i++) {
-                dec = dec * 10;
-            }
-            return Math.round(num * dec) / dec + type[j];
+            return Math.round(num * 100) / 100 + type[j];
         }
     }
 };
 
 Util.Array = {
-  getObjectByKeyValue:function(array,key,value){
-      var obj = null,
-          len = array.length;
-      for(var i=0;i<len;i++){
-        if(array[i] !== undefined && typeof array[i][key] !=='undefined' && array[i][key] == value){
-            obj =  array[i];
-            break;
+    getObjectByKeyValue: function (array, key, value) {
+        var obj = null,
+            len = array.length;
+        for (var i = 0; i < len; i++) {
+            if (array[i] !== undefined && typeof array[i][key] !== 'undefined' && array[i][key] == value) {
+                obj = array[i];
+                break;
+            }
         }
-      }
-      return obj;
-  },
-  removeByValue:function(array,value){
-      var len = array.length;
-      for(var i=0;i<len;i++){
-          if(array[i] == value){
-              array.splice(i,1);
-              break;
-          }
-      }
-      return array;
-  },
-  unique:function(arr){
-          var newArray=[];
-          var provisionalTable = {};
-          for (var i = 0, item; (item= arr[i]) != null; i++) {
-              if (!provisionalTable[item]) {
-                  newArray.push(item);
-                  provisionalTable[item] = true;
-              }
-          }
-          return newArray;
-  }
+        return obj;
+    },
+    removeByValue: function (array, value) {
+        var len = array.length;
+        for (var i = 0; i < len; i++) {
+            if (array[i] == value) {
+                array.splice(i, 1);
+                break;
+            }
+        }
+        return array;
+    },
+    unique: function (arr) {
+        var newArray = [];
+        var provisionalTable = {};
+        for (var i = 0, item; (item = arr[i]) != null; i++) {
+            if (!provisionalTable[item]) {
+                newArray.push(item);
+                provisionalTable[item] = true;
+            }
+        }
+        return newArray;
+    }
 };
 
-export default Util;
+Util.Canvas = {
+    wrapText: function (context, text, x, y, maxWidth, lineHeight) {
+        var cars = text.split("\n");
+        for (var ii = 0; ii < cars.length; ii++) {
+
+            var line = "";
+            var words = cars[ii].split(" ");
+
+            for (var n = 0; n < words.length; n++) {
+                var testLine = line + words[n] + " ";
+                var metrics = context.measureText(testLine);
+                var testWidth = metrics.width;
+
+                if (testWidth > maxWidth) {
+                    context.fillText(line, x, y);
+                    line = words[n] + " ";
+                    y += lineHeight;
+                }
+                else {
+                    line = testLine;
+                }
+            }
+
+            context.fillText(line, x, y);
+            y += lineHeight;
+        }
+    }
+};
+
+var getLogTime = function(){
+    return Util.Date.format(new Date(),'yyyy-MM-dd hh:mm:ss:S');
+};
+
+var getPageName = function(){
+    if(window.location){
+        return Util.String.baseName(window.location.pathname);
+    }
+    return null;
+};
+
+window.printLog = true;
+window.writeLog = true;
+window.appVersion = 'b098e2cc';
+Util.Log = {
+    _log:function(name,color,info){
+        if(window.printLog){
+            var args = Array.prototype.slice.call(arguments,0);
+            args[0] = '%c '+ '['+ window.appVersion + '][' + getLogTime() +']['+ args[0] + ']';
+            console.log.apply(console,args);
+        }
+        if(window.writeLog){
+            try{
+                args.splice(0,2);
+                gkClient.gLog( '[UI:' + window.appVersion +']'+ '[' +  getPageName() + '][' + name + ']' + (args.length ? JSON.stringify(args) : ''));
+            }catch(e){
+
+            }
+        }
+    },
+    log:function(){
+        if(!arguments.length){
+            return;
+        }
+        var args = Array.prototype.slice.call(arguments,0);
+        args.splice(1,0,'background:blue;color:white');
+        this._log.apply(this,args);
+    },
+    error:function(){
+        if(!arguments.length){
+            return;
+        }
+        var args = Array.prototype.slice.call(arguments,0);
+        args.splice(1,0,'background:red;color:white');
+        this._log.apply(this,args);
+    },
+    warn:function(){
+        if(!arguments.length){
+            return;
+        }
+        var args = Array.prototype.slice.call(arguments,0);
+        args.splice(1,0,'background:yellow;color:white');
+        this._log.apply(this,args);
+    }
+};
+
+Util.Array.remove = function(array,removeItems){
+    for(var i=0;i<removeItems.length;i++){
+        var index = array.indexOf(removeItems[i]);
+        if(index < 0){
+            break;
+        }
+        array.splice(index,1);
+    }
+};
+
+
+return Util;    
+}));

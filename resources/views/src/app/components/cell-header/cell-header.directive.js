@@ -16,7 +16,7 @@ function cellHeaderComponent($log) {
   return directive;
 
   function cellHeaderController () {
-	  $log.debug('Hello from footer controller!');
+	  // $log.debug('Hello from footer controller!');
   }
 
 }

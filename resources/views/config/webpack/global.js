@@ -23,7 +23,6 @@ module.exports = function(_path) {
       app: _path + '/src/app/index.bootstrap.js',
       polyfill: 'babel-polyfill'
     },
-
     // output system
     output: {
       path: 'dist',
@@ -115,7 +114,18 @@ module.exports = function(_path) {
         loaders: [
           "expose?_"
         ]
-      }
+      },
+        {
+          test: /\.swf$/,
+          loader: 'file?name=assets/scripts/[name].[ext]'
+        },
+        {
+          test: path.resolve(_path,"./src/assets/scripts/util.js"),
+          loaders: [
+            "expose?Util"
+          ]
+        },
+
       ]
     },
 
