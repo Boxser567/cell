@@ -16,7 +16,7 @@ Route::get('/', function () {
     return view('index');
 });
 Route::get('/pic', function () {
-    return view('pic');
+    return view('upload');
 });
 Route::get('/login', function () {
     return view('welcome');
