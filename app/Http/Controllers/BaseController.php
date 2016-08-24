@@ -15,10 +15,11 @@ use Exception;
 use Endroid\QrCode\QrCode;
 use App\Logic\YunkuFile;
 use App\Logic\YunkuOrg;
+
 class BaseController extends Controller
 {
     public $member;
-    
+
     public function __construct($member = [])
     {
         $member = Session::get('member', $member);
@@ -32,9 +33,9 @@ class BaseController extends Controller
 
     public function getQr()
     {
-        $text=inputGetOrFail("text");
-        $type=inputGet('type','png');
-        $size=inputGet('size',100);
+        $text = inputGetOrFail("text");
+        $type = inputGet('type', 'png');
+        $size = inputGet('size', 100);
         $qrCode = new QrCode();
         $qrCode
             ->setText($text)
@@ -44,20 +45,21 @@ class BaseController extends Controller
             ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
             ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
             ->setErrorCorrection(QrCode::LEVEL_MEDIUM);
-           header('Content-Type: '.$qrCode->getContentType());
+        header('Content-Type: ' . $qrCode->getContentType());
         $qrCode->render();
         exit();
     }
 
     public function show($unique_code)
     {
-        $exhibition=ExhibitionInfo::getUniqueCode($unique_code);
+        $exhibition = ExhibitionInfo::getUniqueCode($unique_code);
         $this->format($exhibition);
         return $exhibition;
         return view("show", $exhibition);
     }
 
-    private function format(&$exhibition, $flag = false)
+    //格式化会展资料详情
+    public function format(&$exhibition, $flag = false)
     {
         //获取文件列表
         $org_file = new YunkuFile($exhibition->org_id);
@@ -74,19 +76,21 @@ class BaseController extends Controller
         foreach ($files as $key => &$file) {
             $this->fileFilter($file);
             if ($file['filename'] == ExhibitionController::RES_COLLECTION_FOLDER_NAME) {
-                $res_col_info=$org_file->getInfo(ExhibitionController::RES_COLLECTION_FOLDER_NAME,1);
-                $file_info['file_count']=$file_info['file_count']-$res_col_info['file_count'];
-                $file_info['size_use']=$file_info['size_use'] -$res_col_info['files_size'];
-                $file_info['dir_count']=$file_info['dir_count']-1;
+                $res_col_info = $org_file->getInfo(ExhibitionController::RES_COLLECTION_FOLDER_NAME, 1);
+                $file_info['file_count'] = $file_info['file_count'] - $res_col_info['file_count'];
+                $file_info['size_use'] = $file_info['size_use'] - $res_col_info['files_size'];
+                $file_info['dir_count'] = $file_info['dir_count'] - 1;
             }
             if ($file['dir'] && $file['filename'] != ExhibitionController::RES_COLLECTION_FOLDER_NAME) {
-                $res_col_info=$org_file->getFileList($file['fullpath']);
-                $res_col_detail=$org_file->getInfo($file['fullpath'],1);
-                $file+=["filespace"=>$res_col_detail['files_size']];
-                $file+=["filecount"=>$res_col_info['count']];
+                $res_col_info = $org_file->getFileList($file['fullpath']);
+                $res_col_detail = $org_file->getInfo($file['fullpath'], 1);
+                $file += ["filespace" => $res_col_detail['files_size']];
+                $file += ["filecount" => $res_col_info['count']];
                 $dir[$key] = $file;
-            } else if(!$file['dir'] && $file['filename'] != ExhibitionController::RES_COLLECTION_FOLDER_NAME){
-                $list[$key] = $file;
+            } else {
+                if (!$file['dir'] && $file['filename'] != ExhibitionController::RES_COLLECTION_FOLDER_NAME) {
+                    $list[$key] = $file;
+                }
             }
         }
         if (!$flag) {
@@ -94,15 +98,15 @@ class BaseController extends Controller
             $file_info['dirs'] = array_values($dir);
         }
         $exhibition = $exhibition->toArray();
-        $exhibition['unique_code']="http://".config("app.view_domain")."/". $exhibition['unique_code'];
-        if($exhibition['res_collect_lock']){
-            $exhibition['res_collect_lock']=ExhibitionController::RES_COLLECTION_FOLDER_NAME;
+        $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/" . $exhibition['unique_code'];
+        if ($exhibition['res_collect_lock']) {
+            $exhibition['res_collect_lock'] = ExhibitionController::RES_COLLECTION_FOLDER_NAME;
         }
         $exhibition['files'] = $file_info;
     }
 
     //过滤无效字段
-    private function fileFilter(&$file)
+    public function fileFilter(&$file)
     {
         unset($file['create_dateline'], $file['create_member_name'], $file['filehash'], $file['last_dateline'], $file['last_member_name']);
     }

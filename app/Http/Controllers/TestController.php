@@ -138,4 +138,9 @@ class TestController extends Controller
     {
         return $_SERVER['SERVER_NAME'];
     }
+
+    public function getP()
+    {
+        return getUniqueCode();
+    }
 }

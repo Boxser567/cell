@@ -65,7 +65,7 @@ class FileController extends Controller
         $auth = new Auth($accessKey, $secretKey);
         $bucket = config('app.qiniu.bucket');
         $token = $auth->uploadToken($bucket);
-        return ["upload_domain"=>config('app.qiniu.domain'),'token'=>$token];
+        return ["upload_domain"=>config('app.qiniu.domain'),'token'=>$token,'file_name'=>sha1(uniqid())];
     }
 
     //通过链接上传文件
