@@ -11,7 +11,9 @@
                     <!--<s>直销</s>-->
                 </div>
 
-                <button id="copy-button" data-clipboard-text="Copy Me!" title="Click to copy me."  ng-click="getboard()">Copy to Clipboard</button>
+                <button id="copy-button" data-clipboard-text="Copy Me!" title="Click to copy me." ng-click="getboard()">
+                    Copy to Clipboard
+                </button>
 
                 <div class="mode">
                     <i class="pc"></i>
@@ -32,8 +34,8 @@
                 <input type="file" class="txt_img" accept="image/png,image/gif" value="">
 
             </div>
-            <div class="name" edit-name>{{currentExbt.title}}</div>
-            <p><i><img src="../images/qcode.png"></i><span>{{currentExbt.property.web_site}}</span>
+            <div class="name" dataid="{{currentExbt.id}}" dataedit="title" edit-name>{{currentExbt.title}}</div>
+            <p><i><img src="http://cell.com/base/qr?size=160&text={{currentExbt.unique_code}}"></i><span>{{currentExbt.unique_code}}</span>
                 <a href="javascript:;" id="copyme" data-clipboard-text="Copy Me!" ng-click="copyHttp()">复制链接</a>
             </p>
         </div>
@@ -44,13 +46,15 @@
         <div class="content">
             <div class="tl">资料下载中心</div>
             <div class="navtl">常用文件下载</div>
-
             <div class="row">
                 <div ng-repeat="file in currentExbt.files.list" class="col-md-4">
                     <div class="files clearfix">
                         <img src="../images/icon_excel.png" alt="">
                         <div class="info clearfix">
-                            <p>{{file.filename}} <i class="glyphicon glyphicon-trash"><span>删除</span></i></p>
+                            <p><span datapath="{{file.fullpath}}" dataid="{{currentExbt.org_id}}" dataedit="filename"
+                                     edit-name>{{file.filename}}</span>
+                                <i class="glyphicon glyphicon-trash"><span
+                                        ng-click="delFile(currentExbt.org_id,file.fullpath)">删除</span></i></p>
                             <p>{{getSize(file.filesize)}}</p>
                         </div>
                     </div>
@@ -75,17 +79,20 @@
             <div class="row">
                 <div class="col-md-4" ng-repeat="dir in currentExbt.files.dirs">
                     <div class="files" datapath="{{dir.fullpath}}">
-                        <p class="title"><span>{{dir.filename}}</span> <i
-                                class="glyphicon glyphicon-trash"><span>删除</span></i>
+                        <p class="title"><span datapath="{{dir.fullpath}}" dataid="{{currentExbt.org_id}}"
+                                               dataedit="dirname" edit-name>   {{dir.filename}}</span>
+                            <i class="glyphicon glyphicon-trash"><span
+                                    ng-click="delFile(currentExbt.org_id,dir.fullpath)">删除</span></i>
                         </p>
-                        <p class="size">48个文件 共{{getSize(dir.filesize)}}</p>
+                        <p class="size">{{dir.filecount}}个文件&nbsp; 共{{getSize(dir.filesize)}}</p>
                         <a class="btn-showfile" data-toggle="modal" data-target="#loadFileList">查看/上传文件</a>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="files files-add">
-                        <a class="btn-add" filesort-add><i class="glyphicon glyphicon-plus"></i>创建新分类</a>
+                        <a class="btn-add" ng-click="addFolder(currentExbt.org_id)"><i
+                                class="glyphicon glyphicon-plus"></i>创建新分类</a>
                     </div>
                 </div>
             </div>

@@ -117,7 +117,7 @@ module.exports = function(_path) {
       },
         {
           test: /\.swf$/,
-          loader: 'file?name=assets/scripts/[name].[ext]'
+          loader: 'url-loader?name=assets/scripts/[name].[ext]'
         },
         {
           test: path.resolve(_path,"./src/assets/scripts/util.js"),
