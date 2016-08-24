@@ -26,9 +26,14 @@ export default function (app) {
                 },
 
 
-                addFolder:function (id) {
-                    return $http.post('/file/create-folder', {org_id:id,fullpath:"请输入分类名称"});
-                }
+                addFolder: function (id) {
+                    return $http.post('/file/create-folder', {org_id: id, fullpath: "请输入分类名称"});
+                },
+
+
+                getUrlToken: function () {
+                    return $http.get('/file/up-picture');
+                },
 
             }
         }])

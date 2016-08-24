@@ -604,16 +604,20 @@ body {
             margin: 8px;
             border-radius: 30px;
           }
-          img {
+          .img {
+            display: inline-block;
             float: left;
             vertical-align: bottom;
-            width: 16%;
+            width: 57.6px;
+            height: 67.2px;
+            -webkit-background-size: cover;
+            background-size: cover;
           }
           div {
             margin-left: 10px;
             margin-top: 5px;
             float: left;
-            width: 80%;
+            width: 76%;
             p {
               margin-bottom: 5px;
               i {

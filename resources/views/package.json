@@ -49,6 +49,7 @@
     "url-loader": "^0.5.6",
     "webpack": "^1.12.12",
     "webpack-dev-server": "1.14.0",
+    "webuploader": "^0.1.8",
     "zeroclipboard": "git+https://github.com/zeroclipboard/zeroclipboard.git"
   },
   "engines": {

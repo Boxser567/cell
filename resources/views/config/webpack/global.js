@@ -116,7 +116,7 @@ module.exports = function(_path) {
         ]
       },
         {
-          test: /\.swf$/,
+          test: /\.swf\?noCache=.+$/,
           loader: 'url-loader?name=assets/scripts/[name].[ext]'
         },
         {

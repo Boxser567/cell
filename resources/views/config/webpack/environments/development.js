@@ -14,8 +14,7 @@ module.exports = function(_path) {
       proxy: {
         '*': 'http://cell.com/',
         bypass:function (req,res) {
-          console.log('req',req);
-          if(req.headers.accept.indexOf('html') != -1 || req.url.indexOf('.swf') != -1){
+          if(req.headers.accept.indexOf('html') != -1 || req.url.indexOf('swf') != -1){
             return false;
           }
           return true;
