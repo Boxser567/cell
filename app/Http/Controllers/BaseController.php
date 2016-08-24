@@ -53,6 +53,7 @@ class BaseController extends Controller
     {
         $exhibition=ExhibitionInfo::getUniqueCode($unique_code);
         $this->format($exhibition);
+        return $exhibition;
         return view("show", $exhibition);
     }
 
@@ -98,5 +99,11 @@ class BaseController extends Controller
             $exhibition['res_collect_lock']=ExhibitionController::RES_COLLECTION_FOLDER_NAME;
         }
         $exhibition['files'] = $file_info;
+    }
+
+    //过滤无效字段
+    private function fileFilter(&$file)
+    {
+        unset($file['create_dateline'], $file['create_member_name'], $file['filehash'], $file['last_dateline'], $file['last_member_name']);
     }
 }
