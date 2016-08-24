@@ -341,6 +341,5 @@ function dencode_license($data, $key)
 
 function getUniqueCode()
 {
-    $microtime = str_pad(str_replace('.', '', microtime(true)), 2, '0');
-    return date('Ymd') . $microtime;
+    return date('His') . rand(1111,9999);
 }
