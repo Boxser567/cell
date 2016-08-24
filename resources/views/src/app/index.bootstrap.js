@@ -5,12 +5,12 @@ import '!!file-loader?name=[name].[ext]!../favicon.ico';
 
 // main App module
 import "./index.module";
-
+import "../assets/styles/sass/iconCollect.scss";
 import "../assets/styles/sass/index.scss";
 import "../assets/styles/sass/mobile.scss";
 
 angular.element(document).ready(function () {
-  angular.bootstrap(document, ['cell-ui'], {
-    strictDi: true
-  });
+    angular.bootstrap(document, ['cell-ui'], {
+        strictDi: true
+    });
 });
