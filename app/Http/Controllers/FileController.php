@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 use App\Logic\YunkuFile;
 use Qiniu\Auth;
 
-class FileController extends BaseController
+class FileController extends Controller
 {
     //获取文件列表
     public function getList()
