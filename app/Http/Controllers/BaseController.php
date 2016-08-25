@@ -50,13 +50,7 @@ class BaseController extends Controller
         exit();
     }
 
-    public function show($unique_code)
-    {
-        $exhibition = ExhibitionInfo::getUniqueCode($unique_code);
-        $this->format($exhibition);
-        return $exhibition;
-        return view("show", $exhibition);
-    }
+   
 
     //格式化会展资料详情
     public function format(&$exhibition, $flag = false)
