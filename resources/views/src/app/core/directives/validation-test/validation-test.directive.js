@@ -95,9 +95,11 @@ export default function (app) {
                                 index = scope.currentExbt.files.list.indexOf(r);
                             }
                         });
-                        console.log("当前索引", index);
                         $(".eb-fileload .row .col-md-4:nth-child(" + (index + 1) + ")").find(".slide-line i").on('click', function () {
                             uploader.cancelFile(fileObj.id);
+                            scope.$apply(function () {
+                                scope.currentExbt.files.list.splice(index, 1);
+                            })
                         });
 
                         if (file) {
