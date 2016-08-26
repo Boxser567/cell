@@ -83,7 +83,7 @@ class BaseController extends Controller
                 $dir[$key] = $file;
             } else {
                 if (!$file['dir'] && $file['filename'] != ExhibitionController::RES_COLLECTION_FOLDER_NAME) {
-                    $list[$key] = $file;
+                    $list[$key] = $org_file->getInfo($file['fullpath']);
                 }
             }
         }

@@ -72,7 +72,7 @@ class YunkuFile extends \GokuaiFile
     }
 
     //修改文件(夹)名
-    public function setName($fullpath,$dest_fullpath,$op_id='',$op_name='')
+    public function setName($fullpath, $dest_fullpath, $op_id = '', $op_name = '')
     {
         $data = [
             'fullpath' => $fullpath,
@@ -135,7 +135,7 @@ class YunkuFile extends \GokuaiFile
             'url' => $url,
             'op_id' => $op_id,
             'op_name' => $op_name,
-            'overwrite'=>$overwrite
+            'overwrite' => $overwrite
         ];
         $res = $this->callAPI2('POST', '/1/file/create_file_by_url', $data);
         $this->checkResult($res);
@@ -144,16 +144,27 @@ class YunkuFile extends \GokuaiFile
     }
 
     //文件信息
-    public function getInfo($fullpath,$attribute=0, $net = '')
+    public function getInfo($fullpath, $attribute = 0, $net = '')
     {
         $data = [
             'fullpath' => $fullpath,
             'net' => $net,
-            'attribute'=>$attribute
+            'attribute' => $attribute
         ];
         $res = $this->callAPI2('GET', '/1/file/info', $data);
         $this->checkResult($res);
+        $this->checkPreview($res);
         return $res;
+    }
+
+    public function checkPreview(&$res)
+    {
+        $pattern="/.(txt|doc|dot|docm|docx|dotm|odt|rtf|mht|wps|wri|xls|xlt|xlw|xlsb|xlsm|xlsx|xltm|xltx|csv|ods|pot|ppt|pps|potm|potx|ppsm|ppsx|pptm|pptx|odp|pdf|jpeg|jpg|png|gif|psd|ai|bmp|js|c|cpp|h|cs|vb|vbs|java|sql|ruby|php|asp|aspx|html|htm|py|jsp|pl|rb|m|css|go|xml|erl|lua|md|json|gknote|dwg|dxf|3gp|avi|flv|mp4|m3u8|mpg|asf|wmv|mkv|mov|ts|webm)$/";
+        if (preg_match($pattern,$res['filename'])) {
+            $res+=["pre_flag"=>1];
+        }else{
+            $res+=["pre_flag"=>0];
+        }
     }
 
     public function checkResult(&$res)
