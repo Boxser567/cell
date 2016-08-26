@@ -11,7 +11,6 @@
         "watson/rememberable": "^1.0",
         "barryvdh/laravel-debugbar": "^2.2",
         "laravel/socialite": "^2.0",
-        "socialiteproviders/weixin": "^2.1",
         "endroid/qrcode": "^1.7",
         "qiniu/php-sdk": "dev-master"
     },
@@ -24,7 +23,7 @@
     "autoload": {
         "classmap": [
             "database",
-            "app/common"
+            "app/Common"
         ],
         "files": [
             "app/function.php"
