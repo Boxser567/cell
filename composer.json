@@ -23,7 +23,7 @@
     "autoload": {
         "classmap": [
             "database",
-            "app/common"
+            "app/Common"
         ],
         "files": [
             "app/function.php"
