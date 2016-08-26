@@ -15,7 +15,7 @@ return [
 
     'debug' => env('APP_DEBUG', true),
 
-   // 'view_domain'=>env('VIEW_DOMAIN',$_SERVER['SERVER_NAME']),
+    'view_domain'=>env('VIEW_DOMAIN',$_SERVER['SERVER_NAME']),
     /*
     |--------------------------------------------------------------------------
     | Application URL

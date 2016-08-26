@@ -23,198 +23,247 @@
 
         <div class="nav-con" style="text-align: center">
             <div class="file">
-                <!--<img src="{{currentExbt.logo}}" alt="" ng-if="currentExbt.logo!='' ">-->
-                <div data-toggle="modal" data-target="#uploadImgdiv">
-                    <span>请上传160x160像素会展Logo</span>
+                <img src="{{currentExbt.logo}}" alt="" ng-if="currentExbt.logo!=''">
+                <span ng-if="currentExbt.logo==''">请上传160x160像素会展Logo</span>
+                <div class="loding" ng-if="imgloading">
+                    <img src="../images/pass.gif" alt="">
                 </div>
-                <!--<input type="file" class="txt_img" accept="image/png,image/gif" value="">-->
-
+                <div id="uploadImgdiv" dataid="{{currentExbt.id}}" upload-logo></div>
             </div>
             <div class="name" dataid="{{currentExbt.id}}" dataedit="title" edit-name>{{currentExbt.title}}</div>
-            <p><i><img src="http://cell.com/base/qr?size=160&text={{currentExbt.unique_code}}"></i><span>{{currentExbt.unique_code}}</span>
+            <p class="time" data-toggle="modal" data-target="#modalTime">{{currentExbt.start_date}}&nbsp;-&nbsp;{{currentExbt.end_date}}</p>
+            <p class="code"><i><img
+                    src="http://cell.goukuai.cn/base/qr?size=160&text={{currentExbt.unique_code}}"></i><span>{{currentExbt.unique_code}}</span>
                 <a href="javascript:;" id="copyme" data-clipboard-text="文本复制啦" ng-click="copyHttp()">复制链接</a>
             </p>
         </div>
 
-    </div>
-
-    <div class="eb-fileload">
-        <div class="content">
-            <div class="tl">资料下载中心</div>
-            <div class="navtl">常用文件下载</div>
-            <div class="row">
-                <div ng-repeat="file in currentExbt.files.list" class="col-md-4">
-                    <div class="files clearfix">
-                        <i class="img {{ file.filename  | getFileIconSuffix }}"></i>
-                        <div class="info clearfix">
-                            <p><span datapath="{{file.fullpath}}" dataid="{{currentExbt.org_id}}" dataedit="filename"
-                                     edit-name>{{file.filename}}</span>
-                                <i class="glyphicon glyphicon-trash"><span
-                                        ng-click="delFile(currentExbt.org_id,file.fullpath)">删除</span></i></p>
-                            <p>{{getSize(file.filesize)}}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="files clearfix">
-                        <div class="add-files"><i class="glyphicon glyphicon-plus"></i>上传新文件
-                            <input type="file">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
-
-    <div class="eb-filesort">
-        <div class="content">
-            <div class="navtl">所有文件分类下载</div>
-            <div class="row">
-                <div class="col-md-4" ng-repeat="dir in currentExbt.files.dirs">
-                    <div class="files" datapath="{{dir.fullpath}}">
-                        <p class="title"><span datapath="{{dir.fullpath}}" dataid="{{currentExbt.org_id}}"
-                                               dataedit="dirname" edit-name>   {{dir.filename}}</span>
-                            <i class="glyphicon glyphicon-trash"><span
-                                    ng-click="delFile(currentExbt.org_id,dir.fullpath)">删除</span></i>
-                        </p>
-                        <p class="size">{{dir.filecount}}个文件&nbsp; 共{{getSize(dir.filesize)}}</p>
-                        <a class="btn-showfile" data-toggle="modal" data-target="#loadFileList">查看/上传文件</a>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="files files-add">
-                        <a class="btn-add" ng-click="addFolder(currentExbt.org_id)"><i
-                                class="glyphicon glyphicon-plus"></i>创建新分类</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <div class="eb-footer">
-        <div class="content">
-            <div class="visit">
-                <a class="btn">访问会展官方主页</a>
-                <a class="edit">点击编辑主页地址</a>
-            </div>
-
-            <div class="fo">
-                <i></i>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="loadFileList" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close"
-                            data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h5 class="modal-title" id="myModalLabel">
-                        大会宣传资料
-                    </h5>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        <li>
-                            <div class="col-sm-6">文件名</div>
-                            <div class="col-sm-3">大小</div>
-                            <div class="col-sm-3">上传时间</div>
-                        </li>
-                        <li>
-                            <div class="col-sm-6">迪士尼乐园.mv</div>
-                            <div class="col-sm-3">404.9MB</div>
-                            <div class="col-sm-3">2015-10-15</div>
-                        </li>
-                        <li>
-                            <div class="col-sm-6">迪士尼乐园.mv</div>
-                            <div class="col-sm-3">404.9MB</div>
-                            <div class="col-sm-3">2015-10-15</div>
-                        </li>
-                        <li>
-                            <div class="col-sm-6">迪士尼乐园.mv</div>
-                            <div class="col-sm-3">404.9MB</div>
-                            <div class="col-sm-3">2015-10-15</div>
-                        </li>
-                        <li>
-                            <div class="col-sm-6">迪士尼乐园.mv</div>
-                            <div class="col-sm-3">404.9MB</div>
-                            <div class="col-sm-3">2015-10-15</div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <div class="btn btn-primary">上传文件
-                        <input type="file" class="usual-fileLoad">
-                    </div>
-
-                    <button type="button" class="btn btn-default"
-                            data-dismiss="modal"> 关 闭
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
-
-
-    <div class="modal fade" id="uploadImgdiv" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times;</button>
-                    <h5 class="modal-title" id="myModalLabel1">
-                        头像上传
-                    </h5>
-                </div>
-                <div class="modal-body">
-
-
-                    <div id="wrapper">
-                        <div id="container">
-                            <!--头部，相册选择和格式选择-->
-
-                            <div id="uploader">
-                                <div class="queueList">
-                                    <div id="dndArea" class="placeholder">
-                                        <div id="filePicker"></div>
-                                        <p>或将照片拖到这里，单次最多可选300张</p>
-                                    </div>
+        <div class="eb-fileload">
+            <div class="content">
+                <div class="tl">资料下载中心</div>
+                <div class="navtl">常用文件下载</div>
+                <div class="row">
+                    <div ng-repeat="file in currentExbt.files.list" class="col-md-4">
+                        <div class="files clearfix">
+                            <i class="img {{ file.filename | getFileIconSuffix }}"></i>
+                            <div class="info clearfix">
+                                <p><span datapath="{{file.fullpath}}" dataid="{{currentExbt.org_id}}"
+                                         dataedit="filename"
+                                         edit-name>{{file.filename}}</span>
+                                </p>
+                                <p>{{getSize(file.filesize)}}</p>
+                                <i class="glyphicon glyphicon-trash">
+                                    <span ng-click="delFile(currentExbt.org_id,file.fullpath)">删除</span></i>
+                            </div>
+                            <div class="slide-line" ng-if="file.filewidth && file.filewidth!=100">
+                                <div style="width: {{file.filewidth}}%">
                                 </div>
-                                <div class="statusBar" style="display:none;">
-                                    <div class="progress">
-                                        <span class="text">0%</span>
-                                        <span class="percentage"></span>
-                                    </div><div class="info"></div>
-                                    <div class="btns">
-                                        <div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
-                                    </div>
-                                </div>
+                                <i>删除</i>
                             </div>
                         </div>
                     </div>
 
+                    <div class="col-md-4">
+                        <div class="files clearfix">
+                            <div class="add-files" ng-if="currentExbt.org_id" dataorgid="{{currentExbt.org_id}}"
+                                 upload-files>
+                                <i class="glyphicon glyphicon-plus"></i>上传新文件
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+
+            </div>
+        </div>
+
+        <div class="eb-filesort">
+            <div class="content">
+                <div class="navtl">所有文件分类下载</div>
+                <div class="row">
+                    <div class="col-md-4" ng-repeat="dir in currentExbt.files.dirs">
+                        <div class="files" datapath="{{dir.fullpath}}">
+                            <p class="title"><span datapath="{{dir.fullpath}}" dataid="{{currentExbt.org_id}}"
+                                                   dataedit="dirname" edit-name>   {{dir.filename}}</span>
+                                <i class="glyphicon glyphicon-trash"><span
+                                        ng-click="delFile(currentExbt.org_id,dir.fullpath)">删除</span></i>
+                            </p>
+                            <p class="size">{{dir.filecount}}个文件&nbsp; 共{{getSize(dir.filesize)}}</p>
+                            <a class="btn-showfile" ng-click="getDirList(dir.fullpath)" data-toggle="modal"
+                               data-target="#loadFileList">查看/上传文件</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="files files-add">
+                            <a class="btn-add" data-target="#modalAddDir" data-toggle="modal"><i
+                                    class="glyphicon glyphicon-plus"></i>创建新分类</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
-                            data-dismiss="modal"> 关 闭
-                    </button>
+
+            </div>
+        </div>
+
+
+        <div class="eb-footer">
+            <div class="content">
+                <div class="visit">
+                    <a class="btn">访问会展官方主页</a>
+                    <a class="edit">点击编辑主页地址</a>
                 </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
+
+                <div class="fo">
+                    <i></i>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="loadFileList" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close"
+                                data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="myModalLabel">
+                            大会宣传资料
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                            <li>
+                                <div class="col-sm-6">文件名</div>
+                                <div class="col-sm-3">大小</div>
+                                <div class="col-sm-3">上传时间</div>
+                            </li>
+                            <li ng-repeat="f in dirList">
+                                <div class="col-sm-6">{{f.filename}}</div>
+                                <div class="col-sm-3">{{f.filesize}}</div>
+                                <div class="col-sm-3"></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn btn-primary">上传文件
+                            <input type="file" class="usual-fileLoad">
+                        </div>
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal"> 关 闭
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
+        <div class="modal fade" id="uploadImgdiv1" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times;</button>
+                        <h5 class="modal-title" id="myModalLabel1">
+                            头像上传
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+
+
+                        <div id="wrapper">
+                            <div id="container">
+                                <!--头部，相册选择和格式选择-->
+                                <div id="uploader">
+                                    <div class="queueList">
+                                        <div id="dndArea" class="placeholder">
+                                            <div id="filePicker"></div>
+                                            <p>会展logo上传或修改，最大只能 1MB,单次最多可选 1 张</p>
+                                        </div>
+                                    </div>
+                                    <div class="statusBar" style="display:none;">
+                                        <div class="progress">
+                                            <span class="text">0%</span>
+                                            <span class="percentage"></span>
+                                        </div>
+                                        <div class="info"></div>
+                                        <div class="btns">
+                                            <div id="filePicker2"></div>
+                                            <div class="uploadBtn">开始上传</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal"> 关 闭
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
+        <div class="modal fade" id="modalAddDir" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel4" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close"
+                                data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="myModalLabel5">
+                            创建文件分类
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>请输入新建文件分类名称:</p>
+                        <input type="text" class="form-control txt_dirname">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="addFolder(currentExbt.org_id)"> 确定添加
+                        </button>
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal"> 关 闭
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
+        <div class="modal fade" id="modalTime" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel4" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close"
+                                data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h5 class="modal-title" id="myModalLabel4">
+                            设置会展开始和结束时间
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="datetime1">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal"> 关 闭
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
     </div>
-
-
-</div>
 

@@ -36,7 +36,11 @@ body {
       left: 0;
       z-index: 1;
     }
-    .tl{font-size: 20px; color: #fff; margin-top: 10px;}
+    .tl {
+      font-size: 20px;
+      color: #fff;
+      margin-top: 10px;
+    }
     .con {
       position: absolute;
       z-index: 3;
@@ -59,47 +63,6 @@ body {
     .code {
       text-align: right;
       padding-right: 30px;
-    }
-  }
-
-  .blocklist {
-    margin-top: 20px;
-    padding-bottom: 20px;
-    ul {
-      list-style: none;
-      padding: 0;
-      li a {
-        position: relative;
-        display: block;
-        background: #fff;
-        border-radius: 4px;
-        margin: 10px 15px;
-        img {
-          width: 60px;
-          display: inline-block;
-          border-bottom-left-radius: 4px;
-          border-top-left-radius: 4px;
-        }
-        div {
-          display: inline-block;
-          font-size: 14px;
-          color: #333;
-          position: relative;
-          text-indent: 10px;
-        }
-        i {
-          display: inline-block;
-          float: right;
-          width: 24px;
-          height: 24px;
-          background: url(../../../app/pages/images/icon_more.png);
-          background-size: 100% 100%;
-          position: absolute;
-          right: 10px;
-          top: 20px;
-        }
-      }
-
     }
   }
 
@@ -143,70 +106,125 @@ body {
       color: #fff;
       background: #019beb;
       font-size: 14px;
-
     }
     p {
-      display: inline-block;
-      background: url(../../../app/pages/images/tec_support.png) no-repeat;
-      width: 120px;
-      height: 20px;
-      margin: 40px;
-      background-size: contain;
-    }
-  }
-
-  .wecontent {
-    .footer {
-      height: 44px;
-      color: #fff;
-      background: #09bb07;
-      font-size: 14px;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      i {
+      text-align: center;
+      a {
         display: inline-block;
-        width: 24px;
-        height: 24px;
-        background: url(../../../app/pages/images/icon_wechat.png);
+        background: url(../../../app/pages/images/tec_support.png) no-repeat;
+        width: 120px;
+        height: 20px;
+        margin: 40px;
+        background-size: contain;
       }
     }
   }
 
+  .footer {
+    height: 44px;
+    color: #fff;
+    background: #09bb07;
+    font-size: 14px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    i {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+
+      background: url(../../../app/pages/images/icon_wechat.png) no-repeat center center;
+      background-size: auto 80%;
+      position: relative;
+      top: 6px;
+
+    }
+  }
+
+}
+
+#ModalCode {
+  .modal-content {
+    top: 60px;
+    background: rgba(0, 0, 0, .3);
+    text-align: center;
+    color: #fff;
+    p {
+      text-align: left;
+      font-size: 14px;
+    }
+    img {
+
+    }
+
+  }
+
 }
 
 
 
-
-
-
-.webuploader-container {
-  position: relative;
-}
-.webuploader-element-invisible {
-  position: absolute !important;
-  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
-  clip: rect(1px,1px,1px,1px);
-}
-.webuploader-pick {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  background: #00b7ee;
-  padding: 10px 15px;
+.mobiletitle{
+  height: 40px;
+  line-height: 40px;
   color: #fff;
+  background: #24292e;
   text-align: center;
-  border-radius: 3px;
-  overflow: hidden;
 }
-.webuploader-pick-hover {
-  background: #00a2d4;
+.blocklist {
+  margin-top: 20px;
+  padding-bottom: 20px;
+  ul {
+    list-style: none;
+    padding: 0;
+    li a {
+      position: relative;
+      display: block;
+      height: 56px;
+      background: #fff;
+      border-radius: 4px;
+      margin: 10px 15px;
+      .img {
+        width: 52px;
+        height: 56px;
+        display: inline-block;
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+        background-size: cover;
+      }
+      div {
+        top: -20px;
+        display: inline-block;
+        font-size: 14px;
+        color: #333;
+        position: relative;
+        text-indent: 10px;
+
+        max-width: 240px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+
+
+      }
+      i {
+        display: inline-block;
+        float: right;
+        width: 24px;
+        height: 24px;
+        background: url(../../../app/pages/images/icon_more.png);
+        background-size: 100% 100%;
+        position: absolute;
+        right: 10px;
+        top: 16px;
+      }
+    }
+
+  }
 }
 
-.webuploader-pick-disable {
-  opacity: 0.6;
-  pointer-events:none;
-}
 
 
 

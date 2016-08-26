@@ -5,6 +5,9 @@ export default function (app) {
         .factory('Exhibition', ['$q', '$http', function ($q, $http) {
             var exhibitions;
             return {
+                createEx:function () {
+                    return $http.post('/exhibition/create');
+                },
                 getById: function (id) {
                     return $http.get('/exhibition/detail', {params: {exhibition_id: id}});
                 },
@@ -26,14 +29,27 @@ export default function (app) {
                 },
 
 
-                addFolder: function (id) {
-                    return $http.post('/file/create-folder', {org_id: id, fullpath: "请输入分类名称"});
+                addFolder: function (params) {
+                    return $http.post('/file/create-folder', params);
                 },
 
+                getDirFilesByID(params){
+                    return $http.get('/file/list', {params: params});
+                },
 
                 getUrlToken: function () {
                     return $http.get('/file/up-picture');
                 },
+                getFileToken: function (orgid) {
+                    return $http.get('/file/up-address',{params:{org_id:orgid}});
+                },
+
+                m_getfileShow:function (code) {
+                    return $http.get('/file/show', {params: {unique_code:code}});
+                },
+                m_getFileInfo:function (param) {
+                    return $http.get('/file/info',{params:param})
+                }
 
             }
         }])

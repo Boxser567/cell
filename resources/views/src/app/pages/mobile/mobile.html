@@ -1,76 +1,67 @@
 <div class="wecontent">
     <div class="navtop">
-        <img src="../images/we_bg.png" alt="" width="100%" />
+        <img src="../images/we_bg.png" alt="" width="100%"/>
         <div class="con">
-            <div class="img"><img src="../images/profile.png" alt="" /></div>
-            <p class="tl">够快云创新科技大会</p>
-            <p class="time">2016.05.20-2016-08-14</p>
+            <div class="img"><img src="../images/profile.png" alt=""/></div>
+            <p class="tl">{{EXfileList.title}}</p>
+            <p class="time">{{EXfileList.start_date}} - {{EXfileList.end_date}}</p>
             <div class="code">
-                <img src="../images/icon_qcode.png" alt="" />
+                <img src="../images/icon_qcode.png" alt="" data-toggle="modal" data-target="#ModalCode"/>
             </div>
         </div>
     </div>
 
     <div class="blocklist">
         <ul>
-            <li>
-                <a>
-                    <img src="../images/icon_pdf.png" alt="" />
-                    <div>
-                        2016国际茶业博览会简介
-
-                    </div>
-                    <i class="pull-right"></i>
-                </a>
-            </li>
-            <li>
-                <a>
-                    <img src="../images/icon_pdf.png" alt="" />
-                    <div>2016国际茶业博览会简介</div>
+            <li ng-repeat="file in EXfileList.files.list">
+                <a href="{{file.preview}}">
+                    <span class="img {{ file.filename | getFileIconSuffix }}"></span>
+                    <!--<img src="../images/icon_pdf.png" alt=""/>-->
+                    <div>{{file.filename}}</div>
                     <i class="pull-right"></i>
                 </a>
             </li>
         </ul>
-
     </div>
 
     <div class="listCollection">
         <ul>
-            <li>
-                <a>
-                    <p class="pull-left">够快云库资料整合</p>
-                    <p class="pull-right"> 10 条内容 <i class="glyphicon glyphicon-menu-right"></i></p>
-                </a>
-            </li>
-            <li>
-                <a>
-                    <p class="pull-left">够快云库资料整合</p>
-                    <p class="pull-right"> 10条内容 <i class="glyphicon glyphicon-menu-right"></i></p>
-                </a>
-            </li>
-            <li>
-                <a>
-                    <p class="pull-left">够快云库资料整合</p>
-                    <p class="pull-right"> 10条内容 <i class="glyphicon glyphicon-menu-right"></i></p>
-                </a>
-            </li>
-            <li>
-                <a>
-                    <p class="pull-left">够快云库资料整合</p>
-                    <p class="pull-right"> 10条内容 <i class="glyphicon glyphicon-menu-right"></i></p>
+            <li ng-repeat="dir in EXfileList.files.dirs">
+                <a href="#/mobile_file/{{dir.filename}}/{{EXfileList.org_id}}">
+                    <p class="pull-left">{{dir.filename}}</p>
+                    <p class="pull-right">{{dir.filecount}} 条内容 <i class="glyphicon glyphicon-menu-right"></i></p>
                 </a>
             </li>
 
         </ul>
     </div>
     <div class="wefooter">
-        <div>访问会展官方主页</div>
-        <p></p>
+        <!--<div>访问会展官方主页</div>-->
+        <p>
+            <a></a>
+        </p>
     </div>
 
 
-    <div class="footer">
-        <i></i>
-        收藏并保存会展文件
-    </div>
+    <!--<div class="footer">-->
+    <!--<i></i>-->
+    <!--<span>收藏并保存会展文件</span>-->
+    <!--</div>-->
+
 </div>
+
+
+<div class="modal fade" id="ModalCode" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>提示: 请扫描二维码访问当前会展</p>
+                <img src="http://cell.com/base/qr?size=160&text={{EXfileList.unique_code}}" alt="等待加载">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
