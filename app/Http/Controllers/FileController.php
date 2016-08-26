@@ -115,7 +115,7 @@ class FileController extends Controller
                 $dir[$key] = $file;
             } else {
                 if (!$file['dir'] && $file['filename'] != ExhibitionController::RES_COLLECTION_FOLDER_NAME) {
-                    $list[$key] = $file;
+                    $list[$key] = $org_file->getInfo($file['fullpath']);
                 }
             }
         }
@@ -130,7 +130,6 @@ class FileController extends Controller
         }
         $exhibition['files'] = $file_info;
     }
-
     //过滤无效字段
     public function fileFilter(&$file)
     {
