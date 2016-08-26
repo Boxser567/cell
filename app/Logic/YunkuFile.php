@@ -41,6 +41,11 @@ class YunkuFile extends \GokuaiFile
         ];
         $res = $this->callAPI2('GET', '/1/file/ls', $data);
         $this->checkResult($res);
+        foreach ($res['list'] as $key=>$re){
+            if(!$re['dir']){
+                $res['list'][$key]=$this->getInfo($re['fullpath']);
+            }
+        }
         return $res;
     }
 
