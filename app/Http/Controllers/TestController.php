@@ -141,6 +141,8 @@ class TestController extends Controller
 
     public function getP()
     {
-        return getUniqueCode();
+        $org_file = new YunkuFile(665030);
+        $file_list = $org_file->getFileList();
+        return $file_list;
     }
 }

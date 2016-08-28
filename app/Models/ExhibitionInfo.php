@@ -25,4 +25,11 @@ class ExhibitionInfo extends BaseModel
         return self::createWith()->where('unique_code', $unique_code)->first();
     }
 
+    public static function getOfOrgId($org_id)
+    {
+        return self::createWith()->where('org_id', $org_id)->first();
+
+    }
+    
+
 }

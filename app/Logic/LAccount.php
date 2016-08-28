@@ -64,4 +64,16 @@ class LAccount
     }
 
 
+    //更新会展大小
+    public static function postUpdateExhibition($org_id,$dirs,$files,$size)
+    {
+        $exhibition = ExhibitionInfo::getOfOrgId($org_id);
+        $property=json_decode($exhibition->property,true);
+        $property['file_count']=$files;
+        $property['size_use']=$size;
+        $property['dir_count']=$dirs;
+        $exhibition->property=json_encode($property);
+        $exhibition->save();
+        ExhibitionInfo::cacheForget();
+    }
 }
