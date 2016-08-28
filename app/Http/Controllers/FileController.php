@@ -21,7 +21,8 @@ class FileController extends Controller
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
         $file_list=$files->getFileList(inputGet('fullpath',''));
-        if(!$file_list) {
+        $type=inputGet("type",'')?1:0;
+        if(!$file_list && !$type) {
             $this->updateStatistic($file_list['list'], inputGetOrFail('org_id'));
         }
         return $file_list;
