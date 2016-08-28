@@ -158,18 +158,7 @@ class YunkuFile extends \GokuaiFile
         ];
         $res = $this->callAPI2('GET', '/1/file/info', $data);
         $this->checkResult($res);
-        $this->checkPreview($res);
         return $res;
-    }
-
-    public function checkPreview(&$res)
-    {
-        $pattern="/.(txt|doc|dot|docm|docx|dotm|odt|rtf|mht|wps|wri|xls|xlt|xlw|xlsb|xlsm|xlsx|xltm|xltx|csv|ods|pot|ppt|pps|potm|potx|ppsm|ppsx|pptm|pptx|odp|pdf|jpeg|jpg|png|gif|psd|ai|bmp|js|c|cpp|h|cs|vb|vbs|java|sql|ruby|php|asp|aspx|html|htm|py|jsp|pl|rb|m|css|go|xml|erl|lua|md|json|gknote|dwg|dxf|3gp|avi|flv|mp4|m3u8|mpg|asf|wmv|mkv|mov|ts|webm)$/";
-        if (preg_match($pattern,$res['filename'])) {
-            $res+=["pre_flag"=>1];
-        }else{
-            $res+=["pre_flag"=>0];
-        }
     }
 
     public function checkResult(&$res)

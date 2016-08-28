@@ -56,7 +56,7 @@ class LAccount
         $exhibition->start_date=$start_date?$start_date:get_date();
         $exhibition->end_date=$ent_date?$ent_date:get_date();
         $exhibition->res_collect_lock=$res_collect_lock;
-        $property=["web_site"=>$web_site];
+        $property=["web_site"=>$web_site,"file_count"=>0,"size_use"=>0,"dir_count"=>0];
         $exhibition->property=json_encode($property);
         $exhibition->save();
         ExhibitionInfo::cacheForget();

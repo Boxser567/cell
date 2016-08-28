@@ -19,14 +19,16 @@ class FileController extends Controller
     public function getList()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        return $files->getFileList(inputGetOrFail('fullpath'));
+        $file_list=$files->getFileList();
+        return $file_list;
+        
     }
 
     //获取文件夹或文件详情
     public function getInfo()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        return $files->getInfo(inputGetOrFail('fullpath'));
+        return $files->getInfo(inputGetOrFail('fullpath'),1);
     }
 
     //创建文件夹
@@ -45,7 +47,7 @@ class FileController extends Controller
         return ['url' => $api_address, 'org_client_id' => $files->getOrgClientId()];
     }
 
-    //修改文件(夹)名称
+    //修改文件(夹)名称 
     public function postResetName()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
