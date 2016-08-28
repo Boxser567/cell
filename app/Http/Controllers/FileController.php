@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Logic\LAccount;
 use App\Logic\YunkuFile;
 use Qiniu\Auth;
 use App\Models\ExhibitionInfo;
@@ -19,9 +20,31 @@ class FileController extends Controller
     public function getList()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        $file_list=$files->getFileList();
+        $file_list=$files->getFileList(inputGet('fullpath'));
+        $this->updateStatistic($file_list['list'],inputGetOrFail('org_id'));
         return $file_list;
-        
+    }
+
+
+    // 更新文件大小
+    private function updateStatistic($files,$org_id)
+    {
+        $yunku_org = new YunkuOrg();
+        $org_info = $yunku_org->getOrgInfo($org_id);
+        $file_info = array();
+        $file_info['dir_count'] =  $org_info['info']['dir_count'];
+        $file_info['file_count'] = $org_info['info']['file_count'];
+        $file_info['size_use'] =   $org_info['info']['size_org_use'];
+        $org_file = new YunkuFile($org_id);
+            foreach ($files as $key => &$file) {
+                if ($file['filename'] == ExhibitionController::RES_COLLECTION_FOLDER_NAME) {
+                    $res_col_info = $org_file->getInfo(ExhibitionController::RES_COLLECTION_FOLDER_NAME, 1);
+                    $file_info['file_count'] = $file_info['file_count'] - $res_col_info['file_count'];
+                    $file_info['size_use'] = $file_info['size_use'] - $res_col_info['files_size'];
+                    $file_info['dir_count'] = $file_info['dir_count'] - 1;
+                }
+            }
+        LAccount::postUpdateExhibition($org_id,$dirs,$files,$size);
     }
 
     //获取文件夹或文件详情
