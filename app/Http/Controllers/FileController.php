@@ -21,8 +21,9 @@ class FileController extends Controller
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
         $file_list=$files->getFileList(inputGet('fullpath',''));
+        $input=inputGet('fullpath','')?1:0;
         $type=inputGet("type",'')?1:0;
-        if(!$file_list && !$type) {
+        if(!$input && !$type) {
             $this->updateStatistic($file_list['list'], inputGetOrFail('org_id'));
         }
         return $file_list;
@@ -34,7 +35,10 @@ class FileController extends Controller
     {
         $yunku_org = new YunkuOrg();
         $org_info = $yunku_org->getOrgInfo($org_id);
-        $dirs=$files=$size=0;
+        dump($org_info);
+        $dirs=$org_info['info']['dir_count'];
+        $files=$org_info['info']['file_count'];
+        $size=$org_info['info']['size_org_use'];
         $org_file = new YunkuFile($org_id);
             foreach ($file_list as $key => $file) {
                 if ($file['filename'] == ExhibitionController::RES_COLLECTION_FOLDER_NAME) {
