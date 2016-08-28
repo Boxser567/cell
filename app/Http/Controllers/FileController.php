@@ -20,8 +20,8 @@ class FileController extends Controller
     public function getList()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        $file_list=$files->getFileList(inputGet('fullpath'));
-        $this->updateStatistic($file_list['list'],inputGetOrFail('org_id'));
+        $file_list=$files->getFileList(inputGet('fullpath',''));
+        //$this->updateStatistic($file_list['list'],inputGetOrFail('org_id'));
         return $file_list;
     }
 
