@@ -51,23 +51,12 @@ class ExhibitionController extends BaseController
     public function getDetail()
     {
         $exhibition = ExhibitionInfo::_findOrFail(inputGetOrFail('exhibition_id'));
-        $this->format($exhibition);
+      //  $this->format($exhibition);
      //   $this->postUpdateExhibition($exhibition['id'],$exhibition['files']['dir_count'],$exhibition['files']['file_count'],$exhibition['files']['size_use']);
-        return $exhibition;
+        return $exhibition->toArray();
     }
 
-    //更新会展大小
-    public function postUpdateExhibition($id,$dirs,$files,$size)
-    {
-        $exhibition = ExhibitionInfo::_findOrFail($id);
-        $property=json_decode($exhibition->property,true);
-        $property['file_count']=$files;
-        $property['size_use']=$size;
-        $property['dir_count']=$dirs;
-        $exhibition->property=json_encode($property);
-        $exhibition->save();
-        ExhibitionInfo::cacheForget();
-    }
+    
 
     //修改展会详情
     public function postInfo()
@@ -142,7 +131,7 @@ class ExhibitionController extends BaseController
                 }
             }
         }
-        $file_info['list'] = $files;
+       //$file_info['list'] = $files;
         $exhibition = $exhibition->toArray();
         $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/" . $exhibition['unique_code'];
         if ($exhibition['res_collect_lock']) {
