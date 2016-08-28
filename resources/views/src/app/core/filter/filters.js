@@ -37,6 +37,13 @@ export default function (app) {
         }])
 
 
+        .filter("bitSize", function () {
+            return function (num) {
+                return Util.Number.bitSize(num);
+            }
+        })
+
+
 }
 
 

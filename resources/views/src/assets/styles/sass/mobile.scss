@@ -163,15 +163,22 @@ body {
 
 }
 
-
-
-.mobiletitle{
+.mobiletitle {
   height: 40px;
   line-height: 40px;
   color: #fff;
   background: #24292e;
   text-align: center;
+  a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    position: absolute;
+    top: 10px;
+    left: 20px;
+  }
 }
+
 .blocklist {
   margin-top: 20px;
   padding-bottom: 20px;
@@ -205,8 +212,6 @@ body {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-
-
 
       }
       i {

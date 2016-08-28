@@ -71,7 +71,7 @@ export default function (app) {
                         console.log("文件队列", file);
                         uploader.options.formData.name = file.name;
                         $timeout(function () {
-                            scope.currentExbt.files.list.push({
+                            scope.FilesList.push({
                                 filename: file.name,
                                 fullpath: file.name,
                                 filesize: file.size,
@@ -86,19 +86,19 @@ export default function (app) {
                     });
                     uploader.on('uploadProgress', function (fileObj, progress) {
                         console.log("上传进度", arguments);
-                        var file = _.findWhere(scope.currentExbt.files.list, {
+                        var file = _.findWhere(scope.FilesList, {
                             wid: fileObj.id
                         });
                         var index = "";
-                        _.each(scope.currentExbt.files.list, function (r) {
+                        _.each(scope.FilesList, function (r) {
                             if (r.wid == fileObj.id) {
-                                index = scope.currentExbt.files.list.indexOf(r);
+                                index = scope.FilesList.indexOf(r);
                             }
                         });
                         $(".eb-fileload .row .col-md-4:nth-child(" + (index + 1) + ")").find(".slide-line i").on('click', function () {
                             uploader.cancelFile(fileObj.id);
                             scope.$apply(function () {
-                                scope.currentExbt.files.list.splice(index, 1);
+                                scope.FilesList.splice(index, 1);
                             })
                         });
 
@@ -172,6 +172,95 @@ export default function (app) {
                     uploader.on('error', function (err) {
                         console.log("图片上传报错", err);
                         alert("上传有误! \n\n 温馨提示您:会展logo不能上传大于1MB的文件。");
+                    });
+
+                }
+
+
+            },
+
+
+        };
+    });
+
+
+    app.directive('uploadDirFiles', function ($timeout, Exhibition) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                $timeout(function () {
+                    $timeout(function () {
+                        Exhibition.getFileToken(attrs.dataorgid).then(function (da) {
+                            uploadimg(da.data.url, attrs.datadirpath, da.data.org_client_id);
+                        });
+                    });
+                });
+                function uploadimg(url, dirPath, clientid) {
+                    console.debug("参数", url, dirPath, clientid);
+                    var uploader = WebUploader.create({
+                        pick: {
+                            id: elem,
+                        },
+                        auto: true,
+                        swf: 'http://cdn.staticfile.org/webuploader/0.1.0/Uploader.swf',
+                        server: url,
+                        formData: {
+                            org_client_id: clientid,
+                            path: dirPath,
+                            name: '',
+                            filefield: 'file',
+                            file: 'file',
+                        },
+                        //fileNumLimit: 100,
+                        //fileSizeLimit: 10240 * 1024 * 1024,  //最大文件 10 个G
+                        //fileSingleSizeLimit: 1024 * 1024 * 1024
+                    });
+                    uploader.on('fileQueued', function (file) {
+                        console.log("文件队列", file);
+                        uploader.options.formData.name = file.name;
+                        var timestamp = Date.parse(new Date());
+                        timestamp = timestamp / 1000;
+                        $timeout(function () {
+                            scope.dirList.push({
+                                filename: file.name,
+                                filesize: file.size,
+                                create_dateline: timestamp,
+                                filewidth: 0,
+                                wid: file.id
+                            })
+                        })
+                    });
+                    uploader.on('uploadSuccess', function () {
+                        console.log("12313", arguments);
+                    });
+                    uploader.on('uploadProgress', function (fileObj, progress) {
+                        console.log("上传进度", arguments);
+                        var file = _.findWhere(scope.dirList, {
+                            wid: fileObj.id
+                        });
+                        var index = "";
+                        _.each(scope.dirList, function (r) {
+                            if (r.wid == fileObj.id) {
+                                index = scope.dirList.indexOf(r);
+                            }
+                        });
+                        // $(".eb-fileload .row .col-md-4:nth-child(" + (index + 1) + ")").find(".slide-line i").on('click', function () {
+                        //     uploader.cancelFile(fileObj.id);
+                        //     scope.$apply(function () {
+                        //         scope.dirList.splice(index, 1);
+                        //     })
+                        // });
+
+                        if (file) {
+                            scope.$apply(function () {
+                                file.filewidth = Number(progress) * 100;
+                            })
+                        }
+
+                    });
+                    uploader.on('error', function (err) {
+                        console.log("图片上传报错", err);
+                        alert("上传有误! \n\n 温馨提示您:。");
                     });
 
                 }

@@ -19,7 +19,7 @@ function routeConfig($stateProvider) {
             resolve: {
                 currentExhibition: ['Exhibition', '$stateParams', function (Exhibition, $stateParams) {
                     console.log("参数集合",$stateParams);
-                    return Exhibition.getDirFilesByID({fullpath:$stateParams.path, org_id:$stateParams.id});
+                    return Exhibition.m_getfileShow("2147483647");
                 }]
             }
         });

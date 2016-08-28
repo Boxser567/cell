@@ -16,7 +16,7 @@
                     <i class="phone"></i>
                 </div>
                 <div class="pull-right">
-                    <span>{{currentExbt.files.dir_count}}个分类 &nbsp;{{currentExbt.files.file_count}}个文件 &nbsp;共{{  getSize(currentExbt.files.size_use)}}</span>
+                    <span>{{currentExbt.files.dir_count}}个分类 &nbsp;{{currentExbt.files.file_count}}个文件 &nbsp;共{{currentExbt.files.size_use | bitSize}}</span>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                 <div class="tl">资料下载中心</div>
                 <div class="navtl">常用文件下载</div>
                 <div class="row">
-                    <div ng-repeat="file in currentExbt.files.list" class="col-md-4">
+                    <div ng-repeat="file in FilesList" class="col-md-4">
                         <div class="files clearfix">
                             <i class="img {{ file.filename | getFileIconSuffix }}"></i>
                             <div class="info clearfix">
@@ -81,8 +81,8 @@
             <div class="content">
                 <div class="navtl">所有文件分类下载</div>
                 <div class="row">
-                    <div class="col-md-4" ng-repeat="dir in currentExbt.files.dirs">
-                        <div class="files" datapath="{{dir.fullpath}}">
+                    <div class="col-md-4" ng-repeat="dir in DirsList">
+                        <div class="files">
                             <p class="title"><span datapath="{{dir.fullpath}}" dataid="{{currentExbt.org_id}}"
                                                    dataedit="dirname" edit-name>   {{dir.filename}}</span>
                                 <i class="glyphicon glyphicon-trash"><span
@@ -130,26 +130,35 @@
                             &times;
                         </button>
                         <h5 class="modal-title" id="myModalLabel">
-                            大会宣传资料
+                            文件上传
                         </h5>
                     </div>
                     <div class="modal-body">
                         <ul>
                             <li>
                                 <div class="col-sm-6">文件名</div>
-                                <div class="col-sm-3">大小</div>
+                                <div class="col-sm-2">大小</div>
                                 <div class="col-sm-3">上传时间</div>
+                                <div class="col-sm-1"></div>
                             </li>
                             <li ng-repeat="f in dirList">
-                                <div class="col-sm-6">{{f.filename}}</div>
-                                <div class="col-sm-3">{{f.filesize}}</div>
-                                <div class="col-sm-3"></div>
+                                <div class="col-sm-6" title="{{f.filename}}">{{f.filename}}</div>
+                                <div class="col-sm-2">{{getSize(f.filesize)}}</div>
+                                <div class="col-sm-3">{{f.create_dateline * 1000 | date:"yyyy-MM-dd"}}</div>
+                                <div class="col-sm-1"><i class="glyphicon glyphicon-trash"
+                                                         ng-click="delDirFiles(currentExbt.org_id,f.filename)"></i>
+                                </div>
+                                <div class="col-sm-12" ng-if="f.filewidth && f.filewidth!=100">
+                                    <div style="width: {{f.filewidth}}%"></div>
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </div>
                             </li>
                         </ul>
                     </div>
                     <div class="modal-footer">
-                        <div class="btn btn-primary">上传文件
-                            <input type="file" class="usual-fileLoad">
+                        <div class="btn-dir-upload" ng-if="currentExbt.org_id && thisDirPath"
+                             dataDirPath="{{thisDirPath}}" dataorgid="{{currentExbt.org_id}}"
+                             upload-dir-files>文件上传
                         </div>
                         <button type="button" class="btn btn-default"
                                 data-dismiss="modal"> 关 闭

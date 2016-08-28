@@ -7,9 +7,11 @@ function ExhibitionListController($scope, Exhibition) {
         var start = [], end = [];
         var date = new Date();
         console.log("会展列表", res.data);
+        console.log(date);
         _.each(res.data, function (d) {
             d.property = JSON.parse(d.property);
             var t = new Date(Date.parse(d.end_date.replace("-", "/")));
+            t.setDate(t.getDate() + 1);
             if (t < date) {
                 end.push(d);
             } else {

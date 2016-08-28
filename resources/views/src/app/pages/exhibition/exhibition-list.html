@@ -22,8 +22,8 @@
                             <div class="caption">
                                 <h4>{{exhibition.title}} <span class="pull-right"> {{GetexState(exhibition.start_date,exhibition.end_date)}} </span>
                                 </h4>
-                                <p>包含{{exhibition.files.dir_count}}个分类 {{exhibition.files.file_count}}个文件
-                                    共{{exhibition.files.size_use}} </p>
+                                <p>包含{{exhibition.property.dir_count}}个分类 {{exhibition.property.file_count}}个文件
+                                    共{{exhibition.property.size_use | bitSize}} </p>
                                 <div class="mg">
                                     <i hover-trans></i>
                                     <a href="#/exhibition/{{exhibition.id}}">管理</a>
@@ -70,8 +70,8 @@
                             </div>
                             <div class="caption">
                                 <h4>{{exhibition.title}} </h4>
-                                <p>包含{{exhibition.files.dir_count}}个分类 {{exhibition.files.file_count}}个文件
-                                    共{{exhibition.files.size_use}} </p>
+                                <p>包含{{exhibition.property.dir_count}}个分类 {{exhibition.property.file_count}}个文件
+                                    共{{exhibition.property.size_use}} </p>
                                 <div class="mg">
                                     <i hover-trans></i>
                                     <a href="#/exhibition/{{exhibition.id}}">查看</a>
