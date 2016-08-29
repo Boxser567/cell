@@ -85,11 +85,11 @@ class FileController extends Controller
         switch (inputGet('type',$type)) {
             case "add":
                 $folder_info->file_count += 1;
-                $folder_info->file_siza+=inputGet('size',$size);
+                $folder_info->file_size+=inputGet('size',$size);
                 break;
             case "delete":
                 $folder_info->file_count -= 1;
-                $folder_info->file_siza-=inputGet('size',$size);
+                $folder_info->file_size-=inputGet('size',$size);
                 break;
             default:
                 throw new \Exception("无效的操作");
