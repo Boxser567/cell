@@ -88,7 +88,6 @@ class FileController extends Controller
     {
         $folder_info = FolderInfo::getByHash(inputGet('hash', $hash));
         $type = inputGet('type', $type);
-        dump($type);
         switch ($type) {
             case "add":
                 $folder_info->file_count = $folder_info->file_count + 1;
@@ -101,6 +100,7 @@ class FileController extends Controller
             default:
                 throw new \Exception("无效的操作");
         }
+        dump($folder_info);
         $folder_info->save();
         FolderInfo::cacheForget();
     }
