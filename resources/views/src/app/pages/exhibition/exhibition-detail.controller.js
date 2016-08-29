@@ -8,7 +8,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
 
 
     console.log("返回详情数据", currentExhibition);
-    // currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
+    currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $scope.orgid = currentExhibition.data.org_id;
     var dataLoad = function () {
