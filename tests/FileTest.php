@@ -8,13 +8,13 @@
  */
 class FileTest extends TestCase
 {
-    public function estLists()
+    public function testLists()
     {
         dump("获取文件列表");
         $result = $this->request(
             "GET", "/file/list", [
                 'org_id'=>'665030',
-                'fullpath'=>"wang",
+                'fullpath'=>" ",
             ]
         );
         $this->checkOut($result);
@@ -57,7 +57,7 @@ class FileTest extends TestCase
         $this->checkOut($result);
     }
 
-    public function testSendMa()
+    public function estSendMa()
     {
         dump("修改文件(夹)名");
         $result = $this->request(
