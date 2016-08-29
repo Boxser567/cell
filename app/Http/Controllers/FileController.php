@@ -90,17 +90,17 @@ class FileController extends Controller
         $type = inputGet('type', $type);
         switch ($type) {
             case "add":
-                $folder_info->file_count = $folder_info->file_count + 1;
-                $folder_info->file_size = $folder_info->file_size + inputGet('size', $size);
+                $file_count = $folder_info->file_count + 1;
+                $file_size = $folder_info->file_size + inputGet('size', $size);
                 break;
             case "delete":
-                $folder_info->file_count = $folder_info->file_count - 1;
-                $folder_info->file_size = $folder_info->file_size - inputGet('size', $size);
+                $file_count = $folder_info->file_count - 1;
+                $file_size = $folder_info->file_size - inputGet('size', $size);
                 break;
             default:
                 throw new \Exception("无效的操作");
         }
-        $folder_info->save();
+        $folder_info->update(["file_count"=>$file_count,"file_size"=>$file_size]);
         FolderInfo::cacheForget();
     }
 
