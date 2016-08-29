@@ -31,7 +31,7 @@ class FileController extends Controller
         }*/
         foreach ($file_list["list"] as $key => $file) {
             if($file['dir']) {
-               // $file_list["list"][$key]+=["info" => FolderInfo::getByHash($file['hash'])->toArray()];
+               $file_list["list"][$key]+=["info" => FolderInfo::getByHash($file['hash'])->toArray()];
             }
         }
         return $file_list;

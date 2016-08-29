@@ -201,6 +201,8 @@ export default function (app) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
+                console.log('hashhahshhahsh',attrs);
+
                 $timeout(function () {
                     Exhibition.getFileToken(attrs.dataorgid).then(function (da) {
                         uploadimg(da.data.url, da.data.org_client_id);
@@ -247,17 +249,15 @@ export default function (app) {
                             })
                         })
                     });
-                    uploader.on('uploadSuccess', function () {
-                        // $timeout(function () {
-                        //     Exhibition.m_getFileInfo({
-                        //         org_id: scope.orgid,
-                        //         fullpath: scope.DirsList.fullpath
-                        //     }).then(function (resp) {
-                        //         scope.DirsList.filecount = resp.data.file_count;
-                        //         scope.DirsList.filesize = resp.data.filesize;
-                        //     });
-                        // }
-                        console.log("12313", arguments);
+                    uploader.on('uploadSuccess', function (wufile, succfile) {
+
+                        Exhibition.fileUploadSuss({
+                            hash: attrs.datadirhash,
+                            type: 'add',
+                            size: succfile.filesize
+                        }).then(function (res) {
+                            console.log(res);
+                        })
                     });
                     uploader.on('uploadProgress', function (fileObj, progress) {
                         console.log("上传进度", arguments);
@@ -270,7 +270,7 @@ export default function (app) {
                                 index = scope.dirList.indexOf(r);
                             }
                         });
-                        $("#loadFileList ul li:nth-child(" + (index + 1) + ")").find(".col-sm-12 i").on('click', function () {
+                        $("#loadFileList ul li:nth-child(" + (index + 2) + ")").find(".col-sm-12 i").on('click', function () {
                             uploader.cancelFile(fileObj.id);
                             scope.$apply(function () {
                                 scope.dirList.splice(index, 1);

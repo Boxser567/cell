@@ -62,6 +62,8 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
             $(".txt_dirname").val("");
         });
     }
+
+    //普通文件的删除
     $scope.delFile = function (id, path) {
         if (confirm("确定要删除该文件(夹)吗?")) {
             var params = {
@@ -75,8 +77,12 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
         }
     }
 
-    $scope.getDirList = function (path) {
-        $scope.thisDirPath = path;
+    $scope.getDirList = function (path,hash) {
+        $timeout(function () {
+            $scope.thisDirPath = path;
+            $scope.thisDirHash = hash;
+        })
+
         $timeout(function () {
             $scope.dirList = [];
         })
@@ -88,11 +94,16 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
             })
         });
     }
-    $scope.delDirFiles = function (id, filename) {
+
+    //文件夹内部文件的删除
+    $scope.delDirFiles = function (filename) {
         var dir = $scope.thisDirPath;
+        var hash =$scope.thisDirHash;
         if (confirm("确定要删除该文件吗?")) {
             var params = {
-                org_id: id,
+                org_id: $scope.orgid,
+                is_dir:0,
+                hash:hash,
                 fullpath: dir + "/" + filename
             };
             console.log("参数", params);
@@ -102,6 +113,24 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
             })
         }
     }
+    //文件夹的删除
+    $scope.delDirs=function (filename,hash) {
+        if (confirm("确定要删除该文件夹吗?")) {
+            var params = {
+                org_id: $scope.orgid,
+                is_dir:1,
+                hash:hash,
+                fullpath:filename
+            };
+            Exhibition.delExFile(params).then(function (res) {
+                console.log(res);
+                dataLoad();
+            })
+
+
+        }
+    }
+
 
 
     $scope.getSize = function (num) {

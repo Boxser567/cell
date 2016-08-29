@@ -5,7 +5,10 @@ export default function (app) {
         .factory('Exhibition', ['$q', '$http', function ($q, $http) {
             var exhibitions;
             return {
-                createEx:function () {
+                login: function () {
+                    return $http.get('/auth/login');
+                },
+                createEx: function () {
                     return $http.post('/exhibition/create');
                 },
                 getById: function (id) {
@@ -41,16 +44,22 @@ export default function (app) {
                     return $http.get('/file/up-picture');
                 },
                 getFileToken: function (orgid) {
-                    return $http.get('/file/up-address',{params:{org_id:orgid}});
+                    return $http.get('/file/up-address', {params: {org_id: orgid}});
                 },
 
-                m_getfileShow:function (code) {
-                    return $http.get('/file/show', {params: {unique_code:code}}).then(function (res) {
+                m_getfileShow: function (code) {
+                    return $http.get('/file/show', {params: {unique_code: code}}).then(function (res) {
                         return res.data;
                     });
                 },
-                m_getFileInfo:function (param) {
-                    return $http.get('/file/info',{params:param})
+                m_getFileInfo: function (param) {
+                    return $http.get('/file/info', {params: param})
+                },
+
+
+                //文件上传成功
+                fileUploadSuss: function (params) {
+                    return $http.post("/file/update-folder", params);
                 }
 
             }

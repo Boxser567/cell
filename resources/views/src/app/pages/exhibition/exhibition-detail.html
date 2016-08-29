@@ -87,17 +87,17 @@
                             <p class="title"><span datapath="{{dir.fullpath}}" dataid="{{currentExbt.org_id}}"
                                                    dataedit="dirname" edit-name>   {{dir.filename}}</span>
                                 <i class="glyphicon glyphicon-trash"><span
-                                        ng-click="delFile(currentExbt.org_id,dir.fullpath)">删除</span></i>
+                                        ng-click="delDirs(dir.fullpath,dir.hash)">删除</span></i>
                             </p>
-                            <p class="size">{{dir.filecount}}个文件&nbsp; 共{{getSize(dir.filesize)}}</p>
-                            <a class="btn-showfile" ng-click="getDirList(dir.fullpath)">查看/上传文件</a>
+                            <p class="size">{{dir.info.file_count}}个文件&nbsp; 共{{getSize(dir.info.file_size)}}</p>
+                            <a class="btn-showfile" ng-click="getDirList(dir.fullpath,dir.hash)">查看/上传文件</a>
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="files files-add">
-                            <a class="btn-add" filesort-add>
-                                <!--data-target="#modalAddDir" data-toggle="modal"-->
+                            <a class="btn-add" data-target="#modalAddDir" data-toggle="modal">
+                                <!--filesort-add-->
                                 <i class="glyphicon glyphicon-plus"></i>创建新分类</a>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                                 <div class="col-sm-2">{{getSize(f.filesize)}}</div>
                                 <div class="col-sm-3">{{f.create_dateline * 1000 | date:"yyyy-MM-dd"}}</div>
                                 <div class="col-sm-1"><i class="glyphicon glyphicon-trash"
-                                                         ng-click="delDirFiles(currentExbt.org_id,f.filename)"></i>
+                                                         ng-click="delDirFiles(f.filename)"></i>
                                 </div>
                                 <div class="col-sm-12" ng-if="f.filewidth && f.filewidth!=100">
                                     <div style="width: {{f.filewidth}}%"></div>
@@ -157,8 +157,9 @@
                         </ul>
                     </div>
                     <div class="modal-footer">
-                        <div class="btn-dir-upload" ng-if="currentExbt.org_id && thisDirPath"
-                             dataDirPath="{{thisDirPath}}" dataorgid="{{currentExbt.org_id}}"
+                        <div class="btn-dir-upload" ng-if="currentExbt.org_id && thisDirPath && thisDirHash"
+                             dataDirPath="{{thisDirPath}}" dataDirhash="{{thisDirHash}}"
+                             dataorgid="{{currentExbt.org_id}}"
                              upload-dir-files>文件上传
                         </div>
                         <button type="button" class="btn btn-default"
