@@ -9,11 +9,19 @@
 namespace App\Models;
 
 
-class Member extends User
+class FolderInfo extends User
 {
-    protected $table = 'member';
-    public static function getUniqueCode($name,$unionid)
+    protected $table = 'folder_info';
+
+
+    public static function getByHash($hash)
     {
-        return self::createWith()->where('name',$name)->where('unionid',$unionid)->first();
+        return self::createWith()->where("folder_hash", $hash)->select("file_count","file_size")->first();
+    }
+
+    public static function deleteByHash($hash)
+    {
+        return self::where("folder_hash", $hash)->delete();
+
     }
 }
