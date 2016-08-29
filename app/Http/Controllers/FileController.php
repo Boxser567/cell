@@ -14,6 +14,8 @@ use App\Models\FolderInfo;
 use Qiniu\Auth;
 use App\Models\ExhibitionInfo;
 use App\Logic\YunkuOrg;
+use Endroid\QrCode\QrCode;
+
 
 class FileController extends Controller
 {
@@ -79,7 +81,7 @@ class FileController extends Controller
 
 
     //更新文件夹信息
-    public function postUpdateFolder($hash,$type,$size)
+    public function postUpdateFolder($hash='',$type='',$size='')
     {
         $folder_info=FolderInfo::getByHash(inputGet('hash',$hash));
         switch (inputGet('type',$type)) {
@@ -126,10 +128,13 @@ class FileController extends Controller
     {   
         $files = new YunkuFile(inputGetOrFail('org_id'));
         $files->deleteFile(inputGetOrFail('fullpath'));
-        if(inputGetOrFail('is_dir')){
-            FolderInfo::deleteByHash(inputGetOrFail('hash'));
-        }else{
-            $this->postUpdateFolder(inputGetOrFail('hash'),"delete",inputGetOrFail('size'));
+        if(inputGet('is_dir')) {
+            if (inputGetOrFail('is_dir')) {
+                FolderInfo::deleteByHash(inputGetOrFail('hash'));
+                FolderInfo::cacheForget();
+            } else {
+                $this->postUpdateFolder(inputGetOrFail('hash'), "delete", inputGetOrFail('size'));
+            }
         }
     }
 
@@ -165,6 +170,25 @@ class FileController extends Controller
         if ($exhibition['res_collect_lock']) {
             $exhibition['res_collect_lock'] = ExhibitionController::RES_COLLECTION_FOLDER_NAME;
         }
+    }
+
+    public function getQr()
+    {
+        $text = inputGetOrFail("text");
+        $type = inputGet('type', 'png');
+        $size = inputGet('size', 100);
+        $qrCode = new QrCode();
+        $qrCode
+            ->setText($text)
+            ->setExtension($type)
+            ->setSize($size)
+            ->setPadding(10)
+            ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
+            ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
+            ->setErrorCorrection(QrCode::LEVEL_MEDIUM);
+        header('Content-Type: ' . $qrCode->getContentType());
+        $qrCode->render();
+        exit();
     }
 
 }

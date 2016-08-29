@@ -69,6 +69,7 @@ class YunkuOrg
     public function checkResult(&$res,$ent_sdk)
     {
         if (!$res) {
+            \Log::info("云库错误");
             throw new Exception($ent_sdk->getHttpResponse());
         } else {
             $res=json_decode($ent_sdk->getHttpResponse(),true);
