@@ -100,7 +100,6 @@ class FileController extends Controller
             default:
                 throw new \Exception("无效的操作");
         }
-        dump($folder_info);
         $folder_info->save();
         FolderInfo::cacheForget();
     }
