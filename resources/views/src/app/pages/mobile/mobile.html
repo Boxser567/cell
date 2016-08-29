@@ -14,7 +14,7 @@
     <div class="blocklist">
         <ul>
             <li ng-repeat="file in FilesList">
-                <a href="#/mobile_file/{{EXfileList.unique_code}}/{{file.fullpath}}">
+                <a href="#/mobile_file/{{thisunicode}}/{{file.fullpath}}">
                     <span class="img {{ file.filename | getFileIconSuffix }}"></span>
                     <!--<img src="../images/icon_pdf.png" alt=""/>-->
                     <div>{{file.filename}}</div>
@@ -29,7 +29,7 @@
             <li ng-repeat="dir in DirsList">
                 <a href="#/mobile_folder/{{EXfileList.unique_code}}/{{dir.fullpath}}">
                     <p class="pull-left">{{dir.filename}}</p>
-                    <p class="pull-right">{{dir.filecount}} 条内容 <i class="glyphicon glyphicon-menu-right"></i></p>
+                    <p class="pull-right">{{dir.info.file_count}} 条内容 <i class="glyphicon glyphicon-menu-right"></i></p>
                 </a>
             </li>
 
@@ -57,7 +57,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <p>提示: 请扫描二维码访问当前会展</p>
-                <img src="http://cell.goukuai.cn/file/qr?size=160&text=cell.goukuai.cn/#/mobile/{{EXfileList.unique_code}}"
+                <img src="http://cell.goukuai.cn/file/qr?size=160&text={{pageCode | encodeURIComponent}}"
                      alt="等待加载">
             </div>
         </div><!-- /.modal-content -->

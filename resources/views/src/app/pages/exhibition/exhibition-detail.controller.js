@@ -112,7 +112,12 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
             };
             console.log("参数", params);
             Exhibition.delExFile(params).then(function (res) {
-                console.log(res);
+                Exhibition.getDirFilesByID({org_id: $scope.orgid, fullpath: dir}).then(function (res) {
+                    $timeout(function () {
+                        $scope.dirList = res.data.list;
+                    })
+                });
+
                 dataLoad();
             })
         }

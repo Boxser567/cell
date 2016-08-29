@@ -42,6 +42,9 @@ export default function (app) {
                 return Util.Number.bitSize(num);
             }
         })
+       　.filter('encodeURIComponent',[function (text) {
+            return encodeURIComponent;
+        }])
 
 
 }

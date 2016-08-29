@@ -34,7 +34,7 @@
             <p class="time">{{currentExbt.start_date}}&nbsp;-&nbsp;{{currentExbt.end_date}}</p>
             <!--data-toggle="modal" data-target="#modalTime"-->
             <p class="code"><i><img
-                    src="http://cell.goukuai.cn/file/qr?size=160&text={{currentExbt.unique_code}}"></i><span>{{currentExbt.unique_code}}</span>
+                    src="http://cell.goukuai.cn/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}"></i><span>{{currentExbt.unique_code}}</span>
                 <a href="javascript:;" id="copyme" data-clipboard-text="文本复制啦" ng-click="copyHttp()">复制链接</a>
             </p>
         </div>
