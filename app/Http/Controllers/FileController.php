@@ -35,7 +35,7 @@ class FileController extends Controller
     {
         $yunku_org = new YunkuOrg();
         $org_info = $yunku_org->getOrgInfo($org_id);
-        dump($org_info);
+        //dump($org_info);
         $dirs=$org_info['info']['dir_count'];
         $files=$org_info['info']['file_count'];
         $size=$org_info['info']['size_org_use'];
