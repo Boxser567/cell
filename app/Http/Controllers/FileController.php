@@ -100,7 +100,7 @@ class FileController extends Controller
             default:
                 throw new \Exception("无效的操作");
         }
-        $folder_info->update(["file_count"=>$file_count,"file_size"=>$file_size]);
+        FolderInfo::updateInfo(inputGet('hash', $hash),$file_count,$file_size);
         FolderInfo::cacheForget();
     }
 

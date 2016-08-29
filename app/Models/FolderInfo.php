@@ -24,4 +24,9 @@ class FolderInfo extends User
         return self::where("folder_hash", $hash)->delete();
 
     }
+
+    public static function updateInfo($hash,$file_count,$file_size)
+    {
+        return self::where("folder_hash", $hash)->update(["file_size"=>$file_size,"file_count"=>$file_count]);
+    }
 }
