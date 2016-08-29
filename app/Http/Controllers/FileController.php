@@ -23,15 +23,18 @@ class FileController extends Controller
     public function getList()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        $file_list=$files->getFileList(inputGet('fullpath',''));
+        $file_list = $files->getFileList(inputGet('fullpath', ''));
         /*$input=inputGet('fullpath','')?1:0;
          $type=inputGet("type",'')?1:0;
         if(!$input && !$type) {
           $this->updateStatistic($file_list['list'], inputGetOrFail('org_id'));
         }*/
-        foreach ($file_list["list"] as $key => $file) {
-            if($file['dir']) {
-               $file_list["list"][$key]+=["info" => FolderInfo::getByHash($file['hash'])->toArray()];
+        $type=inputGet("type",'')?1:0;
+        if(!$type) {
+            foreach ($file_list["list"] as $key => $file) {
+                if ($file['dir']) {
+                    $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
+                }
             }
         }
         return $file_list;
@@ -39,41 +42,41 @@ class FileController extends Controller
 
 
     // 更新文件大小
-    private function updateStatistic($file_list,$org_id)
+    private function updateStatistic($file_list, $org_id)
     {
         $yunku_org = new YunkuOrg();
         $org_info = $yunku_org->getOrgInfo($org_id);
-       // dump($org_info);
-        $dirs=$org_info['info']['dir_count'];
-        $files=$org_info['info']['file_count'];
-        $size=$org_info['info']['size_org_use'];
+        // dump($org_info);
+        $dirs = $org_info['info']['dir_count'];
+        $files = $org_info['info']['file_count'];
+        $size = $org_info['info']['size_org_use'];
         $org_file = new YunkuFile($org_id);
-            foreach ($file_list as $key => $file) {
-                if ($file['filename'] == ExhibitionController::RES_COLLECTION_FOLDER_NAME) {
-                    $res_col_info = $org_file->getInfo(ExhibitionController::RES_COLLECTION_FOLDER_NAME, 1);
-                    $files =$org_info['info']['file_count'] - $res_col_info['file_count'];
-                    $size = $org_info['info']['size_org_use'] - $res_col_info['files_size'];
-                    $dirs =$org_info['info']['dir_count'] - 1;
-                }
+        foreach ($file_list as $key => $file) {
+            if ($file['filename'] == ExhibitionController::RES_COLLECTION_FOLDER_NAME) {
+                $res_col_info = $org_file->getInfo(ExhibitionController::RES_COLLECTION_FOLDER_NAME, 1);
+                $files = $org_info['info']['file_count'] - $res_col_info['file_count'];
+                $size = $org_info['info']['size_org_use'] - $res_col_info['files_size'];
+                $dirs = $org_info['info']['dir_count'] - 1;
             }
-        LAccount::postUpdateExhibition($org_id,$dirs,$files,$size);
+        }
+        LAccount::postUpdateExhibition($org_id, $dirs, $files, $size);
     }
 
     //获取文件夹或文件详情
     public function getInfo()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        return $files->getInfo(inputGetOrFail('fullpath'),1);
+        return $files->getInfo(inputGetOrFail('fullpath'), 1);
     }
 
     //创建文件夹
     public function postCreateFolder()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        $files_info=$files->setFolder(inputGetOrFail('fullpath'));
-        $folder_info=new FolderInfo();
-        $folder_info->org_id=inputGetOrFail('org_id');
-        $folder_info->folder_hash=$files_info['hash'];
+        $files_info = $files->setFolder(inputGetOrFail('fullpath'));
+        $folder_info = new FolderInfo();
+        $folder_info->org_id = inputGetOrFail('org_id');
+        $folder_info->folder_hash = $files_info['hash'];
         $folder_info->save();
         FolderInfo::cacheForget();
         return $files_info;
@@ -81,22 +84,23 @@ class FileController extends Controller
 
 
     //更新文件夹信息
-    public function postUpdateFolder($hash='',$type='',$size='')
+    public function postUpdateFolder($hash = '', $type = '', $size = 0)
     {
-        $folder_info=FolderInfo::getByHash(inputGet('hash',$hash));
-        switch (inputGet('type',$type)) {
+        $folder_info = FolderInfo::getByHash(inputGet('hash', $hash));
+        $type = inputGet('type', $type);
+        switch ($type) {
             case "add":
-                $folder_info->file_count += 1;
-                $folder_info->file_size+=inputGet('size',$size);
+                $file_count = $folder_info->file_count + 1;
+                $file_size = $folder_info->file_size + inputGet('size', $size);
                 break;
             case "delete":
-                $folder_info->file_count -= 1;
-                $folder_info->file_size-=inputGet('size',$size);
+                $file_count = $folder_info->file_count - 1;
+                $file_size = $folder_info->file_size - inputGet('size', $size);
                 break;
             default:
                 throw new \Exception("无效的操作");
         }
-        $folder_info->save();
+        FolderInfo::updateInfo(inputGet('hash', $hash),$file_count,$file_size);
         FolderInfo::cacheForget();
     }
 
@@ -120,15 +124,15 @@ class FileController extends Controller
     public function postResetName()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        return $files->setName(inputGetOrFail('fullpath'),inputGetOrFail('newpath'));
+        return $files->setName(inputGetOrFail('fullpath'), inputGetOrFail('newpath'));
     }
 
     //删除文件(夹)
     public function postDel()
-    {   
+    {
         $files = new YunkuFile(inputGetOrFail('org_id'));
         $files->deleteFile(inputGetOrFail('fullpath'));
-        if(inputGet('is_dir')) {
+        if (inputGet('is_dir')) {
             if (inputGetOrFail('is_dir')) {
                 FolderInfo::deleteByHash(inputGetOrFail('hash'));
                 FolderInfo::cacheForget();
@@ -146,14 +150,14 @@ class FileController extends Controller
         $auth = new Auth($accessKey, $secretKey);
         $bucket = config('app.qiniu.bucket');
         $token = $auth->uploadToken($bucket);
-        return ["upload_domain"=>config('app.qiniu.domain'),'token'=>$token,'file_name'=>sha1(uniqid())];
+        return ["upload_domain" => config('app.qiniu.domain'), 'token' => $token, 'file_name' => sha1(uniqid())];
     }
 
     //通过链接上传文件
     public function postUrlUpload()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        return $files->setUrlFile(inputGetOrFail('fullpath'),inputGetOrFail('url'));
+        return $files->setUrlFile(inputGetOrFail('fullpath'), inputGetOrFail('url'));
     }
 
     public function getShow()
