@@ -14,7 +14,7 @@
     <div class="blocklist">
         <ul>
             <li ng-repeat="file in FilesList">
-                <a href="{{file.preview}}">
+                <a href="#/preview/{{file.preview}}">
                     <span class="img {{ file.filename | getFileIconSuffix }}"></span>
                     <!--<img src="../images/icon_pdf.png" alt=""/>-->
                     <div>{{file.filename}}</div>

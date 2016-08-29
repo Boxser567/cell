@@ -231,6 +231,16 @@ export default function (app) {
                         })
                     });
                     uploader.on('uploadSuccess', function () {
+                        // $timeout(function () {
+                        //     Exhibition.m_getFileInfo({
+                        //         org_id: scope.orgid,
+                        //         fullpath: scope.DirsList.fullpath
+                        //     }).then(function (resp) {
+                        //         scope.DirsList.filecount = resp.data.file_count;
+                        //         scope.DirsList.filesize = resp.data.filesize;
+                        //     });
+                        // }
+
                         console.log("12313", arguments);
                     });
                     uploader.on('uploadProgress', function (fileObj, progress) {
@@ -266,7 +276,9 @@ export default function (app) {
                 }
 
 
-            },
+            }
+
+            ,
 
 
         };
