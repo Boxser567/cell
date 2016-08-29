@@ -41,9 +41,9 @@ class ExhibitionController extends BaseController
     public function postCreate()
     {
         $yunku_org = new YunkuOrg();
-        $org = $yunku_org->setOrg(self::PRE_FIX . $this->ent_id);
+        $org = $yunku_org->setOrg(self::PRE_FIX . $this->member['id']);
         $exhibition = LAccount::setExhibition($this->ent_id, $org['org_id']);
-        $this->format($exhibition,true);
+        $this->format($exhibition);
         return $exhibition;
     }
 
@@ -52,10 +52,40 @@ class ExhibitionController extends BaseController
     {
         $exhibition = ExhibitionInfo::_findOrFail(inputGetOrFail('exhibition_id'));
         $this->format($exhibition);
+        /*************************************/
+        $files = new YunkuFile($exhibition['org_id']);
+        $file_list=$files->getFileList(inputGet('fullpath',''));
+        $statistics=$this->updateStatistic($file_list['list'], $exhibition['org_id']);
+        $property=json_decode($exhibition["property"],true);
+        $property['file_count']=$statistics['files'];
+        $property['size_use']=$statistics['size'];
+        $property['dir_count']=$statistics['dirs'];
+        $exhibition["property"]=json_encode($property);
+        /*************************************/
         return $exhibition;
     }
 
-    
+
+    private function updateStatistic($file_list,$org_id)
+    {
+        $yunku_org = new YunkuOrg();
+        $org_info = $yunku_org->getOrgInfo($org_id);
+        // dump($org_info);
+        $dirs=$org_info['info']['dir_count'];
+        $files=$org_info['info']['file_count'];
+        $size=$org_info['info']['size_org_use'];
+        $org_file = new YunkuFile($org_id);
+        foreach ($file_list as $key => $file) {
+            if ($file['filename'] == ExhibitionController::RES_COLLECTION_FOLDER_NAME) {
+                $res_col_info = $org_file->getInfo(ExhibitionController::RES_COLLECTION_FOLDER_NAME, 1);
+                $files =$org_info['info']['file_count'] - $res_col_info['file_count'];
+                $size = $org_info['info']['size_org_use'] - $res_col_info['files_size'];
+                $dirs =$org_info['info']['dir_count'] - 1;
+            }
+        }
+        LAccount::postUpdateExhibition($org_id,$dirs,$files,$size);
+        return ['dirs'=>$dirs,'files'=>$files,'size'=>$size];
+    }
 
     //修改展会详情
     public function postInfo()

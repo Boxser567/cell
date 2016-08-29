@@ -21,11 +21,11 @@ class FileController extends Controller
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
         $file_list=$files->getFileList(inputGet('fullpath',''));
-        $input=inputGet('fullpath','')?1:0;
-        $type=inputGet("type",'')?1:0;
+        /*$input=inputGet('fullpath','')?1:0;
+       $type=inputGet("type",'')?1:0;
         if(!$input && !$type) {
-            $this->updateStatistic($file_list['list'], inputGetOrFail('org_id'));
-        }
+          $this->updateStatistic($file_list['list'], inputGetOrFail('org_id'));
+        }*/
         return $file_list;
     }
 
@@ -35,7 +35,7 @@ class FileController extends Controller
     {
         $yunku_org = new YunkuOrg();
         $org_info = $yunku_org->getOrgInfo($org_id);
-        //dump($org_info);
+       // dump($org_info);
         $dirs=$org_info['info']['dir_count'];
         $files=$org_info['info']['file_count'];
         $size=$org_info['info']['size_org_use'];
