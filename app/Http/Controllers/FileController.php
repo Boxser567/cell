@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Logic\LAccount;
 use App\Logic\YunkuFile;
+use App\Models\FolderInfo;
 use Qiniu\Auth;
 use App\Models\ExhibitionInfo;
 use App\Logic\YunkuOrg;
@@ -22,10 +23,15 @@ class FileController extends Controller
         $files = new YunkuFile(inputGetOrFail('org_id'));
         $file_list=$files->getFileList(inputGet('fullpath',''));
         /*$input=inputGet('fullpath','')?1:0;
-       $type=inputGet("type",'')?1:0;
+         $type=inputGet("type",'')?1:0;
         if(!$input && !$type) {
           $this->updateStatistic($file_list['list'], inputGetOrFail('org_id'));
         }*/
+        foreach ($file_list["list"] as $key => $file) {
+            if($file['dir']) {
+               // $file_list["list"][$key]+=["info" => FolderInfo::getByHash($file['hash'])->toArray()];
+            }
+        }
         return $file_list;
     }
 
@@ -62,7 +68,41 @@ class FileController extends Controller
     public function postCreateFolder()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        return $files->setFolder(inputGetOrFail('fullpath'));
+        $files_info=$files->setFolder(inputGetOrFail('fullpath'));
+        $folder_info=new FolderInfo();
+        $folder_info->org_id=inputGetOrFail('org_id');
+        $folder_info->folder_hash=$files_info['hash'];
+        $folder_info->save();
+        FolderInfo::cacheForget();
+        return $files_info;
+    }
+
+
+    //更新文件夹信息
+    public function postUpdateFolder($hash,$type,$size)
+    {
+        $folder_info=FolderInfo::getByHash(inputGet('hash',$hash));
+        switch (inputGet('type',$type)) {
+            case "add":
+                $folder_info->file_count += 1;
+                $folder_info->file_siza+=inputGet('size',$size);
+                break;
+            case "delete":
+                $folder_info->file_count -= 1;
+                $folder_info->file_siza-=inputGet('size',$size);
+                break;
+            default:
+                throw new \Exception("无效的操作");
+        }
+        $folder_info->save();
+        FolderInfo::cacheForget();
+    }
+
+
+    //获取文件夹大小及文件个数
+    public function getFolderDetail()
+    {
+        return FolderInfo::getByHash(inputGetOrFail('hash'))->toArray();
     }
 
     //获取上传地址
@@ -83,9 +123,14 @@ class FileController extends Controller
 
     //删除文件(夹)
     public function postDel()
-    {
+    {   
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        return $files->deleteFile(inputGetOrFail('fullpath'));
+        $files->deleteFile(inputGetOrFail('fullpath'));
+        if(inputGetOrFail('is_dir')){
+            FolderInfo::deleteByHash(inputGetOrFail('hash'));
+        }else{
+            $this->postUpdateFolder(inputGetOrFail('hash'),"delete",inputGetOrFail('size'));
+        }
     }
 
     //获取图片上传参数
@@ -109,7 +154,17 @@ class FileController extends Controller
     public function getShow()
     {
         $exhibition = ExhibitionInfo::getUniqueCode(inputGetOrFail('unique_code'));
-        return $exhibition->toArray();
+        $this->format($exhibition);
+        return $exhibition;
+    }
+
+    public function format(&$exhibition)
+    {
+        $exhibition = $exhibition->toArray();
+        $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/#/mobile/" . $exhibition['unique_code'];
+        if ($exhibition['res_collect_lock']) {
+            $exhibition['res_collect_lock'] = ExhibitionController::RES_COLLECTION_FOLDER_NAME;
+        }
     }
 
 }
