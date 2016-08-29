@@ -10,25 +10,38 @@ export default function (app) {
         return {
             restrict: 'A',
             link: function (scope, elem) {
-                $(elem).on("mouseenter", function () {
-                    $timeout(function () {
-                        $(elem).parents('.trans').find(".thumcode").css("z-index", "11").show();
-                        $(elem).parents('.trans').css("transform", "rotateY(180deg)");
-                    })
-                })
+                var isQrCode = false;
+                elem.find(".code-img").on("mouseenter", function () {
+                    if (!isQrCode) {
+                        isQrCode = true;
+                        $(elem).find(".thumcode").css("z-index", "11").show();
+                        $(elem).css("transform", "rotateY(180deg)");
+                    }
+
+                });
+                elem.on('mouseleave', function () {
+                    isQrCode = false;
+                    $(elem).find('.thumcode').css("z-index", "1").hide();
+                    $(elem).css("transform", "rotateY(0deg)");
+
+                });
             },
 
 
         };
     });
-    app.directive('codeLeave', function () {
+    app.directive('codeLeave', function ($timeout) {
         return {
             restrict: 'A',
             link: function (scope, elem) {
-                $(elem).mouseout(function () {
-                    $(elem).css("z-index", "1").hide();
-                    $(elem).parent('.trans').css("transform", "rotateY(0deg)");
+                $timeout(function () {
+                    $(elem).on('mouseenter', function () {
+                    }).on('mouseleave', function () {
+                        console.log('mouseleave')
+
+                    })
                 })
+
 
             },
 
@@ -189,14 +202,11 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 $timeout(function () {
-                    $timeout(function () {
-                        Exhibition.getFileToken(attrs.dataorgid).then(function (da) {
-                            uploadimg(da.data.url, attrs.datadirpath, da.data.org_client_id);
-                        });
+                    Exhibition.getFileToken(attrs.dataorgid).then(function (da) {
+                        uploadimg(da.data.url, da.data.org_client_id);
                     });
                 });
-                function uploadimg(url, dirPath, clientid) {
-                    console.debug("参数", url, dirPath, clientid);
+                function uploadimg(url, clientid) {
                     var uploader = WebUploader.create({
                         pick: {
                             id: elem,
@@ -206,7 +216,6 @@ export default function (app) {
                         server: url,
                         formData: {
                             org_client_id: clientid,
-                            path: dirPath,
                             name: '',
                             filefield: 'file',
                             file: 'file',
@@ -215,6 +224,14 @@ export default function (app) {
                         //fileSizeLimit: 10240 * 1024 * 1024,  //最大文件 10 个G
                         //fileSingleSizeLimit: 1024 * 1024 * 1024
                     });
+                    uploader.on('uploadStart', function () {
+                        uploader.options.formData.path = attrs.datadirpath
+                        console.log("datadirpath", uploader.options.formData.path);
+
+
+                    });
+
+
                     uploader.on('fileQueued', function (file) {
                         console.log("文件队列", file);
                         uploader.options.formData.name = file.name;
@@ -240,7 +257,6 @@ export default function (app) {
                         //         scope.DirsList.filesize = resp.data.filesize;
                         //     });
                         // }
-
                         console.log("12313", arguments);
                     });
                     uploader.on('uploadProgress', function (fileObj, progress) {
@@ -254,12 +270,12 @@ export default function (app) {
                                 index = scope.dirList.indexOf(r);
                             }
                         });
-                        // $(".eb-fileload .row .col-md-4:nth-child(" + (index + 1) + ")").find(".slide-line i").on('click', function () {
-                        //     uploader.cancelFile(fileObj.id);
-                        //     scope.$apply(function () {
-                        //         scope.dirList.splice(index, 1);
-                        //     })
-                        // });
+                        $("#loadFileList ul li:nth-child(" + (index + 1) + ")").find(".col-sm-12 i").on('click', function () {
+                            uploader.cancelFile(fileObj.id);
+                            scope.$apply(function () {
+                                scope.dirList.splice(index, 1);
+                            })
+                        });
 
                         if (file) {
                             scope.$apply(function () {
@@ -333,6 +349,37 @@ export default function (app) {
 
         };
     });
+    // <div class="col-md-4">
+    //     <div class="files">
+    //     <p class="title"><span datapath="{{dir.fullpath}}" dataid="{{currentExbt.org_id}}"
+    // dataedit="dirname" edit-name> {{dir.filename}}</span>
+    // <i class="glyphicon glyphicon-trash"><span
+    // ng-click="delFile(currentExbt.org_id,dir.fullpath)">删除</span></i>
+    //     </p>
+    //     <p class="size">{{dir.filecount}}个文件&nbsp; 共{{getSize(dir.filesize)}}</p>
+    // <a class="btn-showfile" ng-click="getDirList(dir.fullpath)">查看/上传文件</a>
+    //     </div>
+    //     </div>
+
+    app.directive('filesortAdd', function ($compile) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem) {
+                elem.click(function () {
+                    var htm = '<div class="col-md-4">'
+                        + '<div class="files">'
+                        + '<p class="title"><span edit-name>请填写分类名称</span> <i class="glyphicon glyphicon-trash"><span>删除</span></i>'
+                        + '</p>'
+                        + '<p class="size"> 0个文件 共 0 MB</p>'
+                        + '<a class="btn-showfile" ng-click="getDirList(dir.fullpath)">查看/上传文件</a>'
+                        + '</div>'
+                        + '</div>';
+                    var index = elem.parents('.col-md-4').before($compile(htm)(scope));
+                })
+            },
+        };
+    });
+
 
     function validationTestDirective() {
         'ngInject';

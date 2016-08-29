@@ -1,11 +1,11 @@
 <div class="mobiletitle">
     <a class="glyphicon glyphicon-menu-left" href="javascript:history.back();"></a>
-    {{ExbtCurrent.dirName}}
+    {{dirName}}
 </div>
 <div class="blocklist">
     <ul>
         <li ng-repeat="file in ExbtCurrent.list">
-            <a href="{{file.preview}}">
+            <a href="#/mobile_file/{{ExbtCurrent.unique_code}}/{{file.fullpath}}">
                 <span class="img {{file.filename | getFileIconSuffix}}"></span>
                 <div>
                     {{file.filename}}

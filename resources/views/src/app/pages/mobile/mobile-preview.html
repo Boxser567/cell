@@ -1,3 +1,9 @@
-<br>
-w文件预览页面了
-
+<div class="mobiletitle">
+    <a class="glyphicon glyphicon-menu-left" href="javascript:history.back();"></a>
+    {{dirName}}
+</div>
+<div class="preview">
+    <a class="img {{previewExbt.filename | getFileIconSuffix}}"></a>
+    <p class="tl">{{previewExbt.filename}}</p>
+    <iframe src="{{previewExbt.preview}}" width="500" height="400"></iframe>
+</div>

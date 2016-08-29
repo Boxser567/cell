@@ -31,7 +31,8 @@
                 <div id="uploadImgdiv" dataid="{{currentExbt.id}}" upload-logo></div>
             </div>
             <div class="name" dataid="{{currentExbt.id}}" dataedit="title" edit-name>{{currentExbt.title}}</div>
-            <p class="time" data-toggle="modal" data-target="#modalTime">{{currentExbt.start_date}}&nbsp;-&nbsp;{{currentExbt.end_date}}</p>
+            <p class="time">{{currentExbt.start_date}}&nbsp;-&nbsp;{{currentExbt.end_date}}</p>
+            <!--data-toggle="modal" data-target="#modalTime"-->
             <p class="code"><i><img
                     src="http://cell.goukuai.cn/base/qr?size=160&text={{currentExbt.unique_code}}"></i><span>{{currentExbt.unique_code}}</span>
                 <a href="javascript:;" id="copyme" data-clipboard-text="文本复制啦" ng-click="copyHttp()">复制链接</a>
@@ -89,15 +90,15 @@
                                         ng-click="delFile(currentExbt.org_id,dir.fullpath)">删除</span></i>
                             </p>
                             <p class="size">{{dir.filecount}}个文件&nbsp; 共{{getSize(dir.filesize)}}</p>
-                            <a class="btn-showfile" ng-click="getDirList(dir.fullpath)" data-toggle="modal"
-                               data-target="#loadFileList">查看/上传文件</a>
+                            <a class="btn-showfile" ng-click="getDirList(dir.fullpath)">查看/上传文件</a>
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="files files-add">
-                            <a class="btn-add" data-target="#modalAddDir" data-toggle="modal"><i
-                                    class="glyphicon glyphicon-plus"></i>创建新分类</a>
+                            <a class="btn-add" filesort-add>
+                                <!--data-target="#modalAddDir" data-toggle="modal"-->
+                                <i class="glyphicon glyphicon-plus"></i>创建新分类</a>
                         </div>
                     </div>
                 </div>

@@ -1,12 +1,15 @@
 'use strict';
 
-function MobileFilesController($scope, $stateParams, currentExhibition) {
+function MobileFilesController($scope, $stateParams, currentMobileExbt, Exhibition) {
     'ngInject';
 
 
-    $scope.ExbtCurrent = currentExhibition.data;
-    $scope.ExbtCurrent.dirName=$stateParams.path;
-    console.log("列表文件",$stateParams, $scope.ExbtCurrent);
+    $scope.dirName = $stateParams.path;
+    Exhibition.getDirFilesByID({org_id: currentMobileExbt.org_id, fullpath: $stateParams.path}).then(function (data) {
+        console.debug("data",data);
+        $scope.ExbtCurrent = data.data;
+    })
+
 
 }
 

@@ -11,16 +11,17 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $scope.orgid = currentExhibition.data.org_id;
+
     var dataLoad = function () {
         Exhibition.getDirFilesByID({org_id: $scope.orgid}).then(function (data) {
             var files = [], dirs = [];
             _.each(data.data.list, function (list) {
                 if (list.dir) {
-                    Exhibition.m_getFileInfo({org_id: $scope.orgid, fullpath: list.fullpath}).then(function (resp) {
-                        list.filecount=resp.data.file_count;
-                        list.filesize=resp.data.filesize;
-                        dirs.push(list);
-                    });
+                    // Exhibition.m_getFileInfo({org_id: $scope.orgid, fullpath: list.fullpath}).then(function (resp) {
+                    //     list.filecount = resp.data.file_count;
+                    //     list.filesize = resp.data.filesize;
+                    // });
+                    dirs.push(list);
                 }
                 else {
                     files.push(list);
@@ -30,6 +31,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
             $scope.DirsList = dirs;
         })
     }
+
     dataLoad();
     $scope.imgloading = false;
 
@@ -75,6 +77,10 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
 
     $scope.getDirList = function (path) {
         $scope.thisDirPath = path;
+        $timeout(function () {
+            $scope.dirList = [];
+        })
+        $("#loadFileList").modal('show');
         Exhibition.getDirFilesByID({org_id: $scope.orgid, fullpath: path}).then(function (res) {
             console.log("加载列表信息", res);
             $timeout(function () {

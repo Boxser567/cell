@@ -1,11 +1,11 @@
 'use strict';
 
 // node_modules
+import 'jquery';
+
 import "angular";
 
 import "angular-ui-router";
-
-import 'jquery';
 
 import 'bootstrap-sass/assets/javascripts/bootstrap';
 

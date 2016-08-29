@@ -6,31 +6,32 @@ import mobileViewsTpl from './mobile-preview.html';
 
 function routeConfig($stateProvider) {
     'ngInject';
+    var resolves = {
+        currentMobileExbt: ['Exhibition', '$stateParams', function (Exhibition, $stateParams) {
+            return Exhibition.m_getfileShow($stateParams.code);
+        }]
+    };
 
     $stateProvider
         .state('mobile', {
-            url: '/mobile',
+            url: '/mobile/:code',
             templateUrl: mobileTpl,
-            controller: require('./mobile.controller')
+            controller: require('./mobile.controller'),
+            resolve: resolves
         })
 
-        .state('mobile-files', {
-            url: '/mobile_file/:path/:id',
+        .state('mobile_folder', {
+            url: '/mobile_folder/:code/:path',
             templateUrl: mobileFileTpl,
             controller: require('./mobile-files.controller'),
-            resolve: {
-                currentExhibition: ['Exhibition', '$stateParams', function (Exhibition, $stateParams) {
-                    console.log("参数集合", $stateParams);
-                    return Exhibition.m_getfileShow("2147483647");
-                }]
-            }
+            resolve: resolves
         })
 
-        .state('mobile-preview', {
-            url: '/preview/:url',
+        .state('mobile_file', {
+            url: '/mobile_file/:code/:path',
             templateUrl: mobileViewsTpl,
             controller: require('./mobile-preview.controller'),
-            resolve: {}
+            resolve: resolves
         });
 
 }

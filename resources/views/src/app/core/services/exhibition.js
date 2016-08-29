@@ -45,7 +45,9 @@ export default function (app) {
                 },
 
                 m_getfileShow:function (code) {
-                    return $http.get('/file/show', {params: {unique_code:code}});
+                    return $http.get('/file/show', {params: {unique_code:code}}).then(function (res) {
+                        return res.data;
+                    });
                 },
                 m_getFileInfo:function (param) {
                     return $http.get('/file/info',{params:param})

@@ -78,7 +78,7 @@ body {
         background: #fff;
         color: #333;
         .pull-left {
-          font-size: 14px;
+          font-size: 16px;
         }
         .pull-right {
           font-size: 12px;
@@ -227,6 +227,22 @@ body {
       }
     }
 
+  }
+}
+
+.preview{
+  text-align: center;
+  .img{
+    display: inline-block;
+    vertical-align: bottom;
+    width: 57.6px;
+    height: 67.2px;
+    background-size: cover;
+    margin-top:15px;
+  }
+  .tl{
+    font-size: 18px;
+    margin:10px 0;
   }
 }
 
