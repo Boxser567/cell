@@ -34,7 +34,7 @@
             <p class="time">{{currentExbt.start_date}}&nbsp;-&nbsp;{{currentExbt.end_date}}</p>
             <!--data-toggle="modal" data-target="#modalTime"-->
             <p class="code"><i><img
-                    src="http://cell.goukuai.cn/base/qr?size=160&text={{currentExbt.unique_code}}"></i><span>{{currentExbt.unique_code}}</span>
+                    src="http://cell.goukuai.cn/file/qr?size=160&text={{currentExbt.unique_code}}"></i><span>{{currentExbt.unique_code}}</span>
                 <a href="javascript:;" id="copyme" data-clipboard-text="文本复制啦" ng-click="copyHttp()">复制链接</a>
             </p>
         </div>
@@ -66,7 +66,7 @@
 
                     <div class="col-md-4">
                         <div class="files clearfix">
-                            <div class="add-files" ng-if="currentExbt.org_id" dataorgid="{{currentExbt.org_id}}"
+                            <div class="add-files" ng-if="orgid" dataorgid="{{currentExbt.org_id}}"
                                  upload-files>
                                 <i class="glyphicon glyphicon-plus"></i>上传新文件
                             </div>

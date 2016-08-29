@@ -55,10 +55,8 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 $timeout(function () {
-                    $timeout(function () {
-                        Exhibition.getFileToken(attrs.dataorgid).then(function (da) {
-                            uploadimg(da.data.url, da.data.org_client_id);
-                        });
+                    Exhibition.getFileToken(attrs.dataorgid).then(function (da) {
+                        uploadimg(da.data.url, da.data.org_client_id);
                     });
                 });
                 function uploadimg(url, clientid) {
@@ -76,12 +74,11 @@ export default function (app) {
                             file: 'file',
 
                         },
-                        fileNumLimit: 100,
-                        fileSizeLimit: 10240 * 1024 * 1024,  //最大文件 10 个G
-                        fileSingleSizeLimit: 1024 * 1024 * 1024
+                        // fileNumLimit: 100,
+                        // fileSizeLimit: 10240 * 1024 * 1024,  //最大文件 10 个G
+                        // fileSingleSizeLimit: 1024 * 1024 * 1024
                     });
                     uploader.on('fileQueued', function (file) {
-                        console.log("文件队列", file);
                         uploader.options.formData.name = file.name;
                         $timeout(function () {
                             scope.FilesList.push({
@@ -201,7 +198,7 @@ export default function (app) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
-                console.log('hashhahshhahsh',attrs);
+                console.log('hashhahshhahsh', attrs);
 
                 $timeout(function () {
                     Exhibition.getFileToken(attrs.dataorgid).then(function (da) {

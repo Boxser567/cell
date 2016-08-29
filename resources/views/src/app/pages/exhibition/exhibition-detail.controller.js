@@ -7,7 +7,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
     'ngInject';
 
 
-    console.log("返回详情数据", currentExhibition);
+    console.log("返回详情数据he穿餐",$stateParams, currentExhibition);
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $scope.orgid = currentExhibition.data.org_id;
@@ -28,6 +28,10 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
                 }
             })
             $scope.FilesList = files;
+
+            console.log("$scope.FilesList", $scope.FilesList);
+
+
             $scope.DirsList = dirs;
         })
     }
@@ -77,7 +81,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
         }
     }
 
-    $scope.getDirList = function (path,hash) {
+    $scope.getDirList = function (path, hash) {
         $timeout(function () {
             $scope.thisDirPath = path;
             $scope.thisDirHash = hash;
@@ -98,12 +102,12 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
     //文件夹内部文件的删除
     $scope.delDirFiles = function (filename) {
         var dir = $scope.thisDirPath;
-        var hash =$scope.thisDirHash;
+        var hash = $scope.thisDirHash;
         if (confirm("确定要删除该文件吗?")) {
             var params = {
                 org_id: $scope.orgid,
-                is_dir:0,
-                hash:hash,
+                is_dir: 0,
+                hash: hash,
                 fullpath: dir + "/" + filename
             };
             console.log("参数", params);
@@ -114,13 +118,13 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
         }
     }
     //文件夹的删除
-    $scope.delDirs=function (filename,hash) {
+    $scope.delDirs = function (filename, hash) {
         if (confirm("确定要删除该文件夹吗?")) {
             var params = {
                 org_id: $scope.orgid,
-                is_dir:1,
-                hash:hash,
-                fullpath:filename
+                is_dir: 1,
+                hash: hash,
+                fullpath: filename
             };
             Exhibition.delExFile(params).then(function (res) {
                 console.log(res);
@@ -130,7 +134,6 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
 
         }
     }
-
 
 
     $scope.getSize = function (num) {
