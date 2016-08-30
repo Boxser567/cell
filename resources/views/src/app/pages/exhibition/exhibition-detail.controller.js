@@ -7,7 +7,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
     'ngInject';
 
 
-    console.log("返回详情数据he穿餐",$stateParams, currentExhibition);
+    console.log("返回详情数据",$stateParams, currentExhibition);
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $scope.orgid = currentExhibition.data.org_id;

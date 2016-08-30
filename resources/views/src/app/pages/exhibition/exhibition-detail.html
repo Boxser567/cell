@@ -4,7 +4,7 @@
         <div class="nav">
             <div class="content">
                 <div class="pull-left">
-                    <i class="home"></i>
+                    <a href="http://cell.goukuai.cn"><i class="home"></i></a>
                     编辑模式
                     <!--<span>资料收集</span>-->
                     <!--<i class="button"></i>-->
@@ -49,12 +49,12 @@
                             <i class="img {{ file.filename | getFileIconSuffix }}"></i>
                             <div class="info clearfix">
                                 <p><span datapath="{{file.fullpath}}" dataid="{{currentExbt.org_id}}"
-                                         dataedit="filename"
-                                         edit-name>{{file.filename}}</span>
+                                         dataedit="filename" edit-name>{{file.filename}}</span>
                                 </p>
                                 <p>{{getSize(file.filesize)}}</p>
-                                <i class="glyphicon glyphicon-trash">
-                                    <span ng-click="delFile(currentExbt.org_id,file.fullpath)">删除</span></i>
+                                <i class="glyphicon glyphicon-trash"
+                                   ng-click="delFile(currentExbt.org_id,file.fullpath)">
+                                    <span>删除</span></i>
                             </div>
                             <div class="slide-line" ng-if="file.filewidth && file.filewidth!=100">
                                 <div style="width: {{file.filewidth}}%">

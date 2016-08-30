@@ -5,7 +5,7 @@
 <div class="blocklist">
     <ul>
         <li ng-repeat="file in ExbtCurrent.list">
-            <a href="#/mobile_file/{{ExbtCurrent.unique_code}}/{{file.fullpath}}">
+            <a href="#/mobile_file/{{pageunicode}}/{{file.fullpath}}">
                 <span class="img {{file.filename | getFileIconSuffix}}"></span>
                 <div>
                     {{file.filename}}

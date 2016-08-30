@@ -5,12 +5,9 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
     console.log("二维码扫描进来", currentMobileExbt);
     $scope.EXfileList = currentMobileExbt;
     $scope.pageCode = window.location.href;
-    console.log("123123123", );
+    console.log("123123123",);
 
-    $scope.thisunicode=Util.String.baseName(currentMobileExbt.unique_code);
-
-
-
+    $scope.pageunicode = Util.String.baseName(currentMobileExbt.unique_code);
 
 
     var Loadlist = function (orgid) {
@@ -26,7 +23,7 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
             })
             $scope.FilesList = files;
             $scope.DirsList = dirs;
-
+            console.log($scope.DirsList);
 
         })
     }
