@@ -14,7 +14,7 @@
     <div class="blocklist">
         <ul>
             <li ng-repeat="file in FilesList">
-                <a href="#/mobile_file/{{thisunicode}}/{{file.fullpath}}">
+                <a href="#/mobile_file/{{pageunicode}}/{{file.fullpath}}">
                     <span class="img {{ file.filename | getFileIconSuffix }}"></span>
                     <!--<img src="../images/icon_pdf.png" alt=""/>-->
                     <div>{{file.filename}}</div>
@@ -27,7 +27,7 @@
     <div class="listCollection">
         <ul>
             <li ng-repeat="dir in DirsList">
-                <a href="#/mobile_folder/{{EXfileList.unique_code}}/{{dir.fullpath}}">
+                <a href="#/mobile_folder/{{pageunicode}}/{{dir.fullpath}}">
                     <p class="pull-left">{{dir.filename}}</p>
                     <p class="pull-right">{{dir.info.file_count}} 条内容 <i class="glyphicon glyphicon-menu-right"></i></p>
                 </a>

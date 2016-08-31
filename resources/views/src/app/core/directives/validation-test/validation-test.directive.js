@@ -30,24 +30,6 @@ export default function (app) {
 
         };
     });
-    app.directive('codeLeave', function ($timeout) {
-        return {
-            restrict: 'A',
-            link: function (scope, elem) {
-                $timeout(function () {
-                    $(elem).on('mouseenter', function () {
-                    }).on('mouseleave', function () {
-                        console.log('mouseleave')
-
-                    })
-                })
-
-
-            },
-
-
-        };
-    });
 
 
     app.directive('uploadFiles', function ($timeout, Exhibition) {
@@ -74,9 +56,10 @@ export default function (app) {
                             file: 'file',
 
                         },
+                        duplicate: true,
                         // fileNumLimit: 100,
-                        // fileSizeLimit: 10240 * 1024 * 1024,  //最大文件 10 个G
-                        // fileSingleSizeLimit: 1024 * 1024 * 1024
+                        fileSizeLimit: 1024 * 1024 * 1024,  //最大文件 1 个G
+                        fileSingleSizeLimit: 10240 * 1024 * 1024 //文件上传总量 10 个G
                     });
                     uploader.on('fileQueued', function (file) {
                         uploader.options.formData.name = file.name;
@@ -91,11 +74,11 @@ export default function (app) {
                         })
                     });
                     uploader.on('uploadSuccess', function () {
-                        console.log("12313", arguments);
+                        console.log("上传成功", arguments);
 
                     });
                     uploader.on('uploadProgress', function (fileObj, progress) {
-                        console.log("上传进度", arguments);
+                        //console.log("上传进度", arguments);
                         var file = _.findWhere(scope.FilesList, {
                             wid: fileObj.id
                         });
@@ -120,8 +103,8 @@ export default function (app) {
 
                     });
                     uploader.on('error', function (err) {
-                        console.log("图片上传报错", err);
-                        alert("上传有误! \n\n 温馨提示您:。");
+                        console.log("文件上传报错", err);
+                        alert("上传有误! \n\n 温馨提示您:单次上传文件大小不得大于1G。");
                     });
 
                 }
@@ -198,8 +181,6 @@ export default function (app) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
-                console.log('hashhahshhahsh', attrs);
-
                 $timeout(function () {
                     Exhibition.getFileToken(attrs.dataorgid).then(function (da) {
                         uploadimg(da.data.url, da.data.org_client_id);
@@ -220,19 +201,17 @@ export default function (app) {
                             file: 'file',
                         },
                         //fileNumLimit: 100,
-                        //fileSizeLimit: 10240 * 1024 * 1024,  //最大文件 10 个G
-                        //fileSingleSizeLimit: 1024 * 1024 * 1024
+                        fileSizeLimit: 10240 * 1024 * 1024,  //最大文件 10 个G
+                        fileSingleSizeLimit: 1024 * 1024 * 1024
                     });
                     uploader.on('uploadStart', function () {
                         uploader.options.formData.path = attrs.datadirpath
-                        console.log("datadirpath", uploader.options.formData.path);
-
-
+                        // console.log("datadirpath", uploader.options.formData.path);
                     });
 
 
                     uploader.on('fileQueued', function (file) {
-                        console.log("文件队列", file);
+                        // console.log("文件队列", file);
                         uploader.options.formData.name = file.name;
                         var timestamp = Date.parse(new Date());
                         timestamp = timestamp / 1000;
@@ -257,7 +236,7 @@ export default function (app) {
                         })
                     });
                     uploader.on('uploadProgress', function (fileObj, progress) {
-                        console.log("上传进度", arguments);
+                        // console.log("上传进度", arguments);
                         var file = _.findWhere(scope.dirList, {
                             wid: fileObj.id
                         });
@@ -283,7 +262,7 @@ export default function (app) {
                     });
                     uploader.on('error', function (err) {
                         console.log("图片上传报错", err);
-                        alert("上传有误! \n\n 温馨提示您:。");
+                        alert("上传有误! \n\n 温馨提示您:单次上传文件大小不得大于1G。");
                     });
 
                 }
@@ -298,46 +277,61 @@ export default function (app) {
     });
 
 
-    app.directive('editName', function (Exhibition) {
+    app.directive('editName', function (Exhibition, $timeout) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 $(elem).click(function () {
-                    var name = $(elem).text();
-                    var input = '<input type="text" class="exhibitionName" value="' + name + '" />';
-                    $(elem).empty().append(input);
-                    $(elem).find('input').focus().select();
-                    $(elem).find('input').blur(function () {
-                        var text = $(this).val();
-                        console.log(text);
-                        if (text.trim() == "") {
-                            $(elem).empty().text(name);
-                        } else {
-                            if (attrs.dataedit == "title") {
-                                Exhibition.editExTitle({exhibition_id: attrs.dataid, title: text}).then(function (res) {
-                                    $(elem).empty().text(text);
-                                })
-                            }
-                            if (attrs.dataedit == "filename") {
-                                Exhibition.editExFilename({
-                                    org_id: attrs.dataid,
-                                    fullpath: attrs.datapath,
-                                    newpath: text
-                                }).then(function (res) {
-                                    $(elem).empty().text(text);
-                                })
-                            }
-                            if (attrs.dataedit == "dirname") {
-                                Exhibition.editExDirname({
-                                    org_id: attrs.dataid,
-                                    fullpath: attrs.datapath,
-                                    newpath: text
-                                }).then(function (res) {
-                                    console.log(res);
-                                    $(elem).empty().text(text);
-                                })
-                            }
+                    $timeout(function () {
+                        var name = $.trim(elem.text());
+                        var input = '<input type="text" class="exhibitionName" value="' + name + '" />';
+                        $(elem).empty().append(input);
+                        if (attrs.dataedit == "filename") {
+                            // var lenEnd =name.length;
+                            // var lenIndex =name.lastIndexOf('.');
+                            // $(elem).find('input').lenEnd=0;
+                            // $(elem).find('input').lenIndex=lenEnd
+                            // $(elem).find('input').focus().select();
                         }
+                        else
+                            $(elem).find('input').focus().select();
+                        $(elem).find('input').blur(function () {
+                            var text = $.trim($(this).val());
+                            console.log(text);
+                            if (text.trim() == "") {
+                                $(elem).empty().text(name);
+                            } else {
+                                if (attrs.dataedit == "title") {
+                                    Exhibition.editExTitle({
+                                        exhibition_id: attrs.dataid,
+                                        title: text
+                                    }).then(function (res) {
+                                        $(elem).empty().text(text);
+                                    })
+                                }
+                                if (attrs.dataedit == "filename") {
+                                    scope.file.fullpath = text;
+                                    Exhibition.editExFilename({
+                                        org_id: attrs.dataid,
+                                        fullpath: attrs.datapath,
+                                        newpath: text
+                                    }).then(function (res) {
+                                        $(elem).empty().text(text);
+                                    })
+                                }
+                                if (attrs.dataedit == "dirname") {
+                                    scope.dir.fullpath = text;
+                                    Exhibition.editExDirname({
+                                        org_id: attrs.dataid,
+                                        fullpath: attrs.datapath,
+                                        newpath: text
+                                    }).then(function (res) {
+                                        console.log(res);
+                                        $(elem).empty().text(text);
+                                    })
+                                }
+                            }
+                        })
                     })
                 })
 
@@ -346,33 +340,38 @@ export default function (app) {
 
         };
     });
-    // <div class="col-md-4">
-    //     <div class="files">
-    //     <p class="title"><span datapath="{{dir.fullpath}}" dataid="{{currentExbt.org_id}}"
-    // dataedit="dirname" edit-name> {{dir.filename}}</span>
-    // <i class="glyphicon glyphicon-trash"><span
-    // ng-click="delFile(currentExbt.org_id,dir.fullpath)">删除</span></i>
-    //     </p>
-    //     <p class="size">{{dir.filecount}}个文件&nbsp; 共{{getSize(dir.filesize)}}</p>
-    // <a class="btn-showfile" ng-click="getDirList(dir.fullpath)">查看/上传文件</a>
-    //     </div>
-    //     </div>
 
-    app.directive('filesortAdd', function ($compile) {
+    app.directive('filesortAdd', function ($compile, Exhibition, $timeout) {
         return {
             restrict: 'A',
-            link: function (scope, elem) {
+            link: function (scope, elem, attrs) {
                 elem.click(function () {
-                    var htm = '<div class="col-md-4">'
-                        + '<div class="files">'
-                        + '<p class="title"><span edit-name>请填写分类名称</span> <i class="glyphicon glyphicon-trash"><span>删除</span></i>'
-                        + '</p>'
-                        + '<p class="size"> 0个文件 共 0 MB</p>'
-                        + '<a class="btn-showfile" ng-click="getDirList(dir.fullpath)">查看/上传文件</a>'
-                        + '</div>'
-                        + '</div>';
-                    var index = elem.parents('.col-md-4').before($compile(htm)(scope));
+                    var arr = attrs;
+                    var state = false;
+                    _.each(scope.DirsList, function (d) {
+                        if (d.filename == "请填写分类名称" || d.fullpath == "请填写分类名称") {
+                            alert("请先给原始文件夹命名!");
+                            state = true;
+                        }
+                    })
+                    if (state) {
+                        return;
+                    }
+
+
+                    Exhibition.addFolder({org_id: arr.dataorgid, fullpath: "请填写分类名称"}).then(function (r) {
+                        var data = r.data;
+                        $timeout(function () {
+                            scope.DirsList.push({
+                                fullpath: data.fullpath,
+                                hash: data.hash,
+                                filename: data.fullpath,
+                                info: {file_count: 0, file_size: 0}
+                            });
+                        })
+                    });
                 })
+
             },
         };
     });

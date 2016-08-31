@@ -8,10 +8,12 @@ import "./index.module";
 import "../assets/styles/sass/iconCollect.scss";
 import "../assets/styles/sass/index.scss";
 import "../assets/styles/sass/mobile.scss";
-// import "../../bower_components/eonasdan-bootstrap-datetimepicker/src/sass/bootstrap-datetimepicker-build.scss";
+import "angular-bootstrap-datetimepicker/src/scss/datetimepicker.scss";
+
 
 angular.element(document).ready(function () {
     angular.bootstrap(document, ['cell-ui'], {
         strictDi: true
     });
 });
+

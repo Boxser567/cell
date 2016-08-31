@@ -7,7 +7,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
     'ngInject';
 
 
-    console.log("返回详情数据he穿餐",$stateParams, currentExhibition);
+    console.log("返回详情数据", $stateParams, currentExhibition);
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $scope.orgid = currentExhibition.data.org_id;
@@ -17,10 +17,6 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
             var files = [], dirs = [];
             _.each(data.data.list, function (list) {
                 if (list.dir) {
-                    // Exhibition.m_getFileInfo({org_id: $scope.orgid, fullpath: list.fullpath}).then(function (resp) {
-                    //     list.filecount = resp.data.file_count;
-                    //     list.filesize = resp.data.filesize;
-                    // });
                     dirs.push(list);
                 }
                 else {
@@ -28,17 +24,12 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
                 }
             })
             $scope.FilesList = files;
-
-            console.log("$scope.FilesList", $scope.FilesList);
-
-
             $scope.DirsList = dirs;
+            console.log("问店家", $scope.DirsList);
         })
     }
-
     dataLoad();
     $scope.imgloading = false;
-
 
     $scope.copyHttp = function () {
         var client = new ZeroClipboard($("#copyme"));
@@ -60,7 +51,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
             return;
         }
         Exhibition.addFolder({org_id: id, fullpath: _name}).then(function (r) {
-            console.log(r);
+            console.log("新建文件夹后返回的数据", r);
             $("#modalAddDir").modal("hide");
             dataLoad();
             $(".txt_dirname").val("");
