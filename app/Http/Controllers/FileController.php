@@ -29,34 +29,12 @@ class FileController extends Controller
         if(!$input && !$type) {
           $this->updateStatistic($file_list['list'], inputGetOrFail('org_id'));
         }*/
-            foreach ($file_list["list"] as $key => $file) {
-                if ($file['dir']) {
-                    $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
-                }
-            }
-        return $file_list;
-    }
-
-
-    // 更新文件大小
-    private function updateStatistic($file_list, $org_id)
-    {
-        $yunku_org = new YunkuOrg();
-        $org_info = $yunku_org->getOrgInfo($org_id);
-        // dump($org_info);
-        $dirs = $org_info['info']['dir_count'];
-        $files = $org_info['info']['file_count'];
-        $size = $org_info['info']['size_org_use'];
-        $org_file = new YunkuFile($org_id);
-        foreach ($file_list as $key => $file) {
-            if ($file['filename'] == ExhibitionController::RES_COLLECTION_FOLDER_NAME) {
-                $res_col_info = $org_file->getInfo(ExhibitionController::RES_COLLECTION_FOLDER_NAME, 1);
-                $files = $org_info['info']['file_count'] - $res_col_info['file_count'];
-                $size = $org_info['info']['size_org_use'] - $res_col_info['files_size'];
-                $dirs = $org_info['info']['dir_count'] - 1;
+        foreach ($file_list["list"] as $key => $file) {
+            if ($file['dir']) {
+                $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
             }
         }
-        LAccount::postUpdateExhibition($org_id, $dirs, $files, $size);
+        return $file_list;
     }
 
     //获取文件夹或文件详情
@@ -97,7 +75,7 @@ class FileController extends Controller
             default:
                 throw new \Exception("无效的操作");
         }
-        FolderInfo::updateInfo(inputGet('hash', $hash),$file_count,$file_size);
+        FolderInfo::updateInfo(inputGet('hash', $hash), $file_count, $file_size);
         FolderInfo::cacheForget();
     }
 
@@ -129,7 +107,7 @@ class FileController extends Controller
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
         $files->deleteFile(inputGetOrFail('fullpath'));
-        if (inputGet('is_dir')) {
+        if (\Request::has('is_dir')) {
             if (inputGetOrFail('is_dir')) {
                 FolderInfo::deleteByHash(inputGetOrFail('hash'));
                 FolderInfo::cacheForget();
@@ -168,9 +146,6 @@ class FileController extends Controller
     {
         $exhibition = $exhibition->toArray();
         $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/#/mobile/" . $exhibition['unique_code'];
-        if ($exhibition['res_collect_lock']) {
-            $exhibition['res_collect_lock'] = ExhibitionController::RES_COLLECTION_FOLDER_NAME;
-        }
     }
 
     public function getQr()
