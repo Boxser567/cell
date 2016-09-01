@@ -6,8 +6,8 @@ class Member extends CreateBase
     public function create(&$table)
     {
         $table->increments('id');
-        $table->string("name",30);
-        $table->string("image",30);
+        $table->string("name",100);
+        $table->string("image",100);
         $table->integer("unionid");
         $table->integer("ent_id");
         $table->dateTime("created_at");

@@ -52,8 +52,11 @@ class FileController extends Controller
         $folder_info = new FolderInfo();
         $folder_info->org_id = inputGetOrFail('org_id');
         $folder_info->folder_hash = $files_info['hash'];
+        $img_url=config('app.qiniu.domain')."/".config('data.FOLDER')[random_int(0,8)];
+        $folder_info->img_url =json_encode(["0"=>$img_url]);
         $folder_info->save();
         FolderInfo::cacheForget();
+        $files_info+=["img_url"=>json_decode($folder_info->img_url,true)];
         return $files_info;
     }
 
@@ -76,6 +79,17 @@ class FileController extends Controller
                 throw new \Exception("无效的操作");
         }
         FolderInfo::updateInfo(inputGet('hash', $hash), $file_count, $file_size);
+        FolderInfo::cacheForget();
+    }
+
+    //上传文件夹图片
+    public function postUpdateImg()
+    {
+        $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
+        $img_url=json_decode($folder_info->img_url,true);
+        array_push($img_url,inputGetOrFail("img_url"));
+        $folder_info->img_url=json_encode($img_url);
+        $folder_info->save();
         FolderInfo::cacheForget();
     }
 
