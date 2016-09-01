@@ -8,7 +8,7 @@
  */
 class FileTest extends TestCase
 {
-    public function testLists()
+    public function estLists()
     {
         dump("获取文件列表");
         $result = $this->request(
@@ -44,6 +44,20 @@ class FileTest extends TestCase
         $this->checkOut($result);
 
     }
+
+    public function testImg()
+    {
+        dump("创建新文件夹");
+        $result = $this->request(
+            "POST", "/file/update-img", [
+                'hash'=>'aa3b47059a4ee92bae6101eae4e46452d2cd972c',
+                'img_url'=>'dsfdfsfsdfsdfsd',
+            ]
+        );
+        $this->checkOut($result);
+
+    }
+
 
     public function estSendMail()
     {

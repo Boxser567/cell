@@ -14,7 +14,7 @@ use App\Models\Member;
 class LAccount
 {
     
-    const LOGO_URL="60c5b4874a958023eaee2f8ed76cab2c1b75acd2.png";
+    const LOGO_URL="ce8cfebaec8af2164e9f171006852d8d943229e7.png-160";
     public static function setUser($name = '', $unionid = '',$image='')
     {
         $member = Member::getUniqueCode($name, $unionid);

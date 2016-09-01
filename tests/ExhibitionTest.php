@@ -18,7 +18,7 @@ class ExhibitionTest extends TestCase
         $this->checkOut($result);
     }
 
-    public function testReport()
+    public function estReport()
     {
         dump("创建会展");
         $result = $this->request(
@@ -40,18 +40,18 @@ class ExhibitionTest extends TestCase
         $this->checkOut($result);
     }
 
-    public function estInfo()
+    public function testInfo()
     {
         dump("修改会展详情");
         $result = $this->request(
             "POST", "/exhibition/info", [
-                "exhibition_id"=>1,
-                "title"=>"被修改的标题",
-                "logo"=>"狗头",
-                "banner"=>"banner",
+                "exhibition_id"=>74,
+               // "title"=>"被修改的标题",
+               // "logo"=>"狗头",
+               // "banner"=>"banner",
                 "start_date"=>"2016-09-09",
-                "end_date"=>"2019-09-09",
-                "website"=>"www.nbai.com",
+                "end_date"=>"2019-09-29",
+               // "website"=>"www.nbai.com",
             ]
         );
         $this->checkOut($result);

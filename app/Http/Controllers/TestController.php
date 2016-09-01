@@ -136,7 +136,7 @@ class TestController extends Controller
 
     public function getO()
     {
-        return $_SERVER['SERVER_NAME'];
+        return config('app.qiniu.domain')."/".config('data.BANNER')[random_int(0,8)];
     }
 
     public function getP()
