@@ -163,14 +163,6 @@ function get_page_size($size = 20)
     return inputGet('size', $size);
 }
 
-function get_system_user()
-{
-    return \App\Models\User::_find('24')->toArray();
-    /*return [
-        'id' => 0,
-        'name' => \App\Models\User::SYSTEM_NAME
-    ];*/
-}
 
 function get_http_host()
 {

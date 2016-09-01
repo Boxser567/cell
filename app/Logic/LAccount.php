@@ -13,6 +13,8 @@ use App\Models\Member;
  */
 class LAccount
 {
+    
+    const LOGO_URL="60c5b4874a958023eaee2f8ed76cab2c1b75acd2.png";
     public static function setUser($name = '', $unionid = '',$image='')
     {
         $member = Member::getUniqueCode($name, $unionid);
@@ -46,8 +48,8 @@ class LAccount
             $exhibition=ExhibitionInfo::_findOrFail($id);
         }else{
             $exhibition=new ExhibitionInfo();
-            $exhibition->banner=config('app.qiniu.domain')."/".config('data.BANNER')[random_int(0,4)];
-            $exhibition->logo=config('app.qiniu.domain')."/".config('data.LOGO')[random_int(0,4)];
+            $exhibition->logo=config('app.qiniu.domain')."/".self::LOGO_URL;
+            $exhibition->banner=config('app.qiniu.domain')."/".config('data.BANNER')[random_int(0,8)];
         }
         $exhibition->title=$title;
         $exhibition->unique_code=getUniqueCode();

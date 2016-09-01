@@ -53,7 +53,7 @@ class ExhibitionController extends BaseController
         $exhibition = ExhibitionInfo::_findOrFail(inputGetOrFail('exhibition_id'));
         $this->format($exhibition);
       /*************************************/
-          $files = new YunkuFile($exhibition['org_id']);
+        $files = new YunkuFile($exhibition['org_id']);
         $file_list=$files->getFileList(inputGet('fullpath',''));
         $statistics=$this->updateStatistic($file_list['list'], $exhibition['org_id']);
         $property=json_decode($exhibition["property"],true);

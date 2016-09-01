@@ -128,6 +128,7 @@ class GokuaiBase
         $this->response = curl_exec($this->curl);
         $this->http_code = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
         $this->http_error = curl_error($this->curl);
+        \Log::info($url.$fields_string);
         curl_close($this->curl);
     }
 }
