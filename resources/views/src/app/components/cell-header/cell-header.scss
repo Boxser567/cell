@@ -1,6 +1,10 @@
 header{
 	height:60px;
 	background-color:#333;
+	.rg{
+		min-width: 300px;
+		text-align: right;
+	}
 	a{
 		margin-left: 15px;
 		color: #fff;

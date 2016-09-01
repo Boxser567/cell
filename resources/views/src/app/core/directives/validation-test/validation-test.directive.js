@@ -5,7 +5,6 @@ import WebUploader from 'webuploader/dist/webuploader';
 import Clipboard from "clipboard/dist/clipboard";
 
 
-
 export default function (app) {
 
     app.directive('validationTest', validationTestDirective);
@@ -29,8 +28,6 @@ export default function (app) {
 
                 });
             },
-
-
         };
     });
 
@@ -110,7 +107,7 @@ export default function (app) {
                             file: 'file',
 
                         },
-                        duplicate: true,
+                        duplicate: true,//重复文件
                         // fileNumLimit: 100,
                         fileSizeLimit: 1024 * 1024 * 1024,  //最大文件 1 个G
                         fileSingleSizeLimit: 10240 * 1024 * 1024 //文件上传总量 10 个G
@@ -194,6 +191,7 @@ export default function (app) {
                             key: '',
                             token: token
                         },
+                        duplicate: true,//重复文件
                         accept: {
                             title: 'logo',
                             extensions: 'gif,jpg,jpeg,bmp,png',
@@ -213,8 +211,6 @@ export default function (app) {
                                 scope.currentExbt.logo = arg;
                             })
                         });
-
-
                     });
                     uploader.on('error', function (err) {
                         console.log("图片上传报错", err);
@@ -254,6 +250,7 @@ export default function (app) {
                             filefield: 'file',
                             file: 'file',
                         },
+                        duplicate: true,//重复文件
                         //fileNumLimit: 100,
                         fileSizeLimit: 10240 * 1024 * 1024,  //最大文件 10 个G
                         fileSingleSizeLimit: 1024 * 1024 * 1024
@@ -286,20 +283,22 @@ export default function (app) {
                             size: succfile.filesize
                         }).then(function (res) {
 
-                            console.log("数据上传ces", scope.DirsList, scope.thisDirPath);
+                            // console.log("数据上传ces", scope.DirsList, scope.thisDirPath);
 
 
                             Exhibition.getDirCountSize({hash: attrs.datadirhash}).then(function (data) {
-                                // console.log("数据上传成功后更新", data)
+                                console.log("数据上传成功后更新", data)
                                 for (var n = 0; n < scope.DirsList.length; n++) {
                                     if (scope.DirsList[n].fullpath == scope.thisDirPath) {
                                         break;
                                     }
                                 }
+                                console.log("敌机向", n,scope.DirsList[n]);
                                 $timeout(function () {
                                     scope.DirsList[n].info = {
                                         file_count: data.file_count,
-                                        file_size: data.file_size
+                                        file_size: data.file_size,
+                                        img_url: [scope.DirsList[n].info.img_url[0]]
                                     };
                                     var allCount = Number(scope.currentExbt.property.file_count);
                                     scope.currentExbt.property.file_count = allCount + 1;
@@ -447,16 +446,15 @@ export default function (app) {
                     if (state) {
                         return;
                     }
-
-
                     Exhibition.addFolder({org_id: arr.dataorgid, fullpath: "请填写分类名称"}).then(function (r) {
                         var data = r.data;
+                        console.log(data);
                         $timeout(function () {
                             scope.DirsList.push({
                                 fullpath: data.fullpath,
                                 hash: data.hash,
                                 filename: data.fullpath,
-                                info: {file_count: 0, file_size: 0}
+                                info: {file_count: 0, file_size: 0, img_url: [data.img_url[0]]}
                             });
                         })
                     });

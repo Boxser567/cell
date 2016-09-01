@@ -1,6 +1,6 @@
 <div class="eb-details">
     <div class="eb-slide">
-        <img src="../images/bgimg.png">
+        <img src="{{currentExbt.banner}}">
         <div class="nav">
             <div class="content">
                 <div class="pull-left">
@@ -22,9 +22,9 @@
         </div>
 
         <div class="nav-con" style="text-align: center">
-            <div class="file">
-                <img src="{{currentExbt.logo}}" alt="" ng-if="currentExbt.logo!=''">
-                <span ng-if="currentExbt.logo==''">请上传160x160像素会展Logo</span>
+            <div class="file"  title="请上传160x160像素会展Logo" >
+                <img src="{{currentExbt.logo}}"alt="" ng-if="currentExbt.logo!=''">
+                <!--<span ng-if="currentExbt.logo==''">请上传160x160像素会展Logo</span>-->
                 <div class="loding" ng-if="imgloading">
                     <img src="../images/pass.gif" alt="">
                 </div>
@@ -35,7 +35,7 @@
             <input class="time" date-range-picker class="form-control date-picker" type="text"
                    ng-model="date" options="opts" />
             <p class="code">
-                <i><img src="http://cell.goukuai.cn/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}"></i>
+                <i><img src="/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}"></i>
                 <span>{{currentExbt.unique_code}}</span>
                 <a href="javascript:;" data-clipboard-text="{{currentExbt.unique_code}}" id="copythat" ng-if="currentExbt.unique_code" copy-website>复制链接</a>
             </p>
@@ -43,8 +43,8 @@
 
         <div class="eb-fileload">
             <div class="content">
-                <div class="tl">资料下载中心</div>
-                <div class="navtl">常用文件下载</div>
+                <!--<div class="tl">资料下载中心</div>-->
+                <div class="navtl">常用文件</div>
                 <div class="row">
                     <div ng-repeat="file in FilesList" class="col-md-4">
                         <div class="files clearfix">
@@ -82,20 +82,34 @@
 
         <div class="eb-filesort">
             <div class="content">
-                <div class="navtl">所有文件分类下载</div>
+                <div class="navtl">分类文件</div>
                 <div class="row">
-                    <div class="col-md-4" ng-repeat="dir in DirsList">
-                        <div class="files">
-                            <p class="title">
-                                <span datapath="{{dir.fullpath}}" dataid="{{currentExbt.org_id}}"
-                                      dataedit="dirname" edit-name>   {{dir.filename}}</span>
-                                <i class="glyphicon glyphicon-trash">
-                                    <span ng-click="delDirs($event,dir.fullpath,dir.hash)">删除</span></i>
-                            </p>
+                    <!--<div class="col-md-4" ng-repeat="dir in DirsList">-->
+                        <!--<div class="files">-->
+                            <!--<p class="title">-->
+                                <!--<span datapath="{{dir.fullpath}}" dataid="{{currentExbt.org_id}}"-->
+                                      <!--dataedit="dirname" edit-name>   {{dir.filename}}</span>-->
+                                <!--<i class="glyphicon glyphicon-trash">-->
+                                    <!--<span ng-click="delDirs($event,dir.fullpath,dir.hash)">删除</span></i>-->
+                            <!--</p>-->
+                            <!--<p class="size">{{dir.info.file_count}}个文件&nbsp; 共{{dir.info.file_size | bitSize}}</p>-->
+                            <!--<a class="btn-showfile" data-toggle="modal" data-target="#loadFileList" ng-click="getDirList(dir.fullpath,dir.hash)">查看/上传文件</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <div class="col-md-4"  ng-repeat="dir in DirsList">
+                        <div class="dirs">
+                            <img src="{{dir.info.img_url[0]}}-340" alt="">
+                            <p class="tl"  datapath="{{dir.fullpath}}" dataid="{{currentExbt.org_id}}" dataedit="dirname" edit-name>{{dir.fullpath}}</p>
                             <p class="size">{{dir.info.file_count}}个文件&nbsp; 共{{dir.info.file_size | bitSize}}</p>
-                            <a class="btn-showfile" data-toggle="modal" data-target="#loadFileList" ng-click="getDirList(dir.fullpath,dir.hash)">查看/上传文件</a>
+                            <span class="glyphicon glyphicon-trash"  ng-click="delDirs($event,dir.fullpath,dir.hash)"> </span>
+                            <div>
+                                <a class="btn-showfile btn" data-toggle="modal" data-target="#loadFileList" ng-click="getDirList($event,dir.info.img_url[0],dir.fullpath,dir.hash)">查看/上传文件</a>
+                            </div>
                         </div>
                     </div>
+
+
 
                     <div class="col-md-4">
                         <div class="files files-add">
@@ -129,27 +143,31 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <div>
+                            <img src="{{thisDirImg}}-340" alt="">
+                        </div>
                         <button type="button" class="close"
                                 data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
-                        <h5 class="modal-title" id="myModalLabel">
-                            文件上传
-                        </h5>
+                        <h3 class="modal-title" id="myModalLabel" ng-if="thisDirPath">
+                            {{thisDirPath}}
+                        </h3>
                     </div>
                     <div class="modal-body">
                         <ul>
                             <li>
-                                <div class="col-sm-6">文件名</div>
+                                <div class="col-sm-5">文件名</div>
                                 <div class="col-sm-2">大小</div>
                                 <div class="col-sm-3">上传时间</div>
-                                <div class="col-sm-1"></div>
+                                <div class="col-sm-2">操作</div>
                             </li>
                             <li ng-repeat="f in dirList">
-                                <div class="col-sm-6" title="{{f.filename}}">{{f.filename}}</div>
+                                <div class="col-sm-5" title="{{f.filename}}">{{f.filename}}</div>
                                 <div class="col-sm-2">{{f.filesize | bitSize}}</div>
                                 <div class="col-sm-3">{{f.create_dateline * 1000 | date:"yyyy-MM-dd"}}</div>
-                                <div class="col-sm-1">
+                                <div class="col-sm-2">
+                                    <a href="{{f.uri}}"><i class="glyphicon glyphicon-save"></i></a>
                                     <i class="glyphicon glyphicon-trash" ng-click="delDirFiles($event,f.filesize,f.filename,f.hash)"></i>
                                 </div>
                                 <div class="col-sm-12" ng-if="f.filewidth && f.filewidth!=100">
@@ -165,9 +183,6 @@
                              dataorgid="{{currentExbt.org_id}}"
                              upload-dir-files>文件上传
                         </div>
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal"> 关 闭
-                        </button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->

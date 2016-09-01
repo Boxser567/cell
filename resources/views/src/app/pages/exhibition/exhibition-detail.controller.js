@@ -4,16 +4,17 @@
 function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhibition, Exhibition) {
     'ngInject';
     console.log("返回详情数据", $stateParams, currentExhibition);
-
-
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $scope.orgid = currentExhibition.data.org_id;
     $scope.imgloading = false;
+    $scope.FilesList = [];
+    $scope.DirsList = [];
     Exhibition.getDirFilesByID({org_id: $scope.orgid}).then(function (data) {
         var files = [], dirs = [];
         _.each(data.data.list, function (list) {
             if (list.dir) {
+                list.info.img_url = JSON.parse(list.info.img_url);
                 dirs.push(list);
             }
             else {
@@ -22,6 +23,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
         })
         $scope.FilesList = files;
         $scope.DirsList = dirs;
+        console.log("文件夹信息", $scope.DirsList);
     });
     // $scope.Extiming = false;
     $scope.date = {
@@ -48,6 +50,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
             if (start == $scope.currentExbt.start_date && end == $scope.currentExbt.end_date) {
             } else {
                 Exhibition.editExTitle({
+                    exhibition_id: $stateParams.id,
                     start_date: start,
                     end_date: end
                 }).then(function (res) {
@@ -74,10 +77,12 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
         }
     }
 
-    $scope.getDirList = function (path, hash) {
+    $scope.getDirList = function (event,img, path, hash) {
         $timeout(function () {
+            $scope.thisDirImg = img;
             $scope.thisDirPath = path;
             $scope.thisDirHash = hash;
+            $scope.thisDirIndex=$(event.currentTarget).parents(".col-md-4").index();
         })
 
         $timeout(function () {
@@ -106,18 +111,26 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
                 fullpath: dir + "/" + filename
             };
             Exhibition.delExFile(params).then(function (respon) {
-                $timeout(function () {
-                    Exhibition.getDirCountSize({hash: hash}).then(function (data) {
-
-                        $scope.dirList[index].info = {
+                Exhibition.getDirCountSize({hash: hash}).then(function (data) {
+                    console.log("数据删除", data);
+                    $timeout(function () {
+                        //文件夹内部文件列表
+                        // $scope.dirList[index].info = {
+                        //     file_count: data.file_count,
+                        //     file_size: data.file_size
+                        // }
+//文件夹信息修改
+                        $scope.DirsList[$scope.thisDirIndex].info = {
                             file_count: data.file_count,
-                            file_size: data.file_size
+                            file_size: data.file_size,
+                            img_url: [$scope.thisDirImg]
                         }
                         $scope.currentExbt.property.file_count = Number($scope.currentExbt.property.file_count) - 1;
                         $scope.currentExbt.property.size_use = Number($scope.currentExbt.property.size_use) - filesize;
                         $scope.dirList.splice(index, 1);
-                    });
-                })
+                    })
+                });
+
             })
         }
     };

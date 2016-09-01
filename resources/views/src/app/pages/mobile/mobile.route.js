@@ -28,7 +28,7 @@ function routeConfig($stateProvider) {
         })
 
         .state('mobile_file', {
-            url: '/mobile_file/:code/:path',
+            url: '/mobile_file/:code/*path',
             templateUrl: mobileViewsTpl,
             controller: require('./mobile-preview.controller'),
             resolve: resolves

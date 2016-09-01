@@ -40,3 +40,34 @@
   background: url("../../../app/pages/images/icon_unknow.png") no-repeat;
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track-piece {
+  -webkit-border-radius: 1px;
+  background-color: #E8E8E8;
+}
+
+::-webkit-scrollbar-thumb{
+  background-color: #c3c3c3;
+  -webkit-border-radius: 1px;
+}
+::-webkit-scrollbar-thumb:hover{
+  background-color: #ADADAD;
+}
+::-webkit-scrollbar-thumb:active{
+  background-color: #888888;
+}
+::-webkit-scrollbar-thumb:vertical {
+  min-height: 40px;
+}
+::-webkit-scrollbar-thumb:horizontal {
+  min-width: 40px;
+}
+::-webkit-scrollbar-button:vertical {
+  /*height: 3px*/
+}
+::-webkit-scrollbar-button:horizontal {
+  /*width: 3px;*/
+}

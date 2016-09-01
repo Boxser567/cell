@@ -92,7 +92,7 @@ body {
       margin-left: 0;
     }
     .col-md-4 {
-      padding-top: 30px;
+      padding: 25px;
       .trans {
         position: relative;
         transition: all .5s;
@@ -111,6 +111,7 @@ body {
           img {
             margin: 60px auto;
             margin-bottom: 30px;
+
           }
           p {
             text-align: center;
@@ -143,6 +144,8 @@ body {
             img {
               margin: 0;
               width: 100%;
+              border-top-left-radius: 4px;
+              border-top-right-radius: 4px;
               transition: All 0.8s ease-in-out;
               &:hover {
                 transform: scale(1.1);
@@ -168,7 +171,7 @@ body {
               height: 90px;
               padding-top: 30px;
               position: relative;
-              span{
+              span {
                 display: inline-block;
                 padding: 10px 25px;
                 i {
@@ -208,8 +211,7 @@ body {
 
         .thumbadd {
           background: #fff;
-          padding: 116px 60px;
-
+          padding: 120px 60px;
           a {
             display: block;
             margin-top: 19px;
@@ -228,27 +230,26 @@ body {
     }
 
     .tl {
-      position: relative;
       text-align: center;
       height: 120px;
-      line-height: 120px;
+      padding-top: 40px;
       span {
         z-index: 3;
-        padding: 0 20px;
+        padding: 0 30px;
         font-size: 24px;
         color: #333;
         background: #f2f2f2;
+        display: inline-block;
         position: relative;
-        left: 70px;
       }
       p {
         z-index: 1;
         border-top: 2px solid #333;
-        width: 300px;
-        position: absolute;
-        top: 60px;
+        width: 360px;
+        position: relative;
+        top: -20px;
         left: 50%;
-        margin-left: -150px;
+        margin-left: -180px;
       }
     }
 
@@ -266,7 +267,7 @@ body {
         line-height: 120px;
         span {
           z-index: 3;
-          padding: 0 20px;
+          padding: 0 30px;
           font-size: 24px;
           color: #333;
           background-color: rgba(230, 230, 230, 1);
@@ -275,11 +276,11 @@ body {
         p {
           z-index: 1;
           border-top: 2px solid #333;
-          width: 300px;
+          width: 360px;
           position: absolute;
           top: 60px;
           left: 50%;
-          margin-left: -150px;
+          margin-left: -180px;
         }
       }
       .col-md-4 {
@@ -332,7 +333,10 @@ body {
             .img {
               overflow: hidden;
               max-height: 190px;
+
               img {
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
                 margin: 0;
                 width: 100%;
                 transition: All 0.8s ease-in-out;
@@ -433,7 +437,14 @@ body {
 //详情页面
 .eb-details {
   .eb-slide {
+    width: 100%;
     position: relative;
+    overflow: hidden;
+    top: -1px;
+    > img {
+      width: 100%;
+      min-height: 350px;
+    }
     .nav {
       height: 50px;
       background: rgba(0, 0, 0, .2);
@@ -480,7 +491,6 @@ body {
       .file {
         width: 120px;
         height: 120px;
-        background: #909090;
         border-radius: 50%;
         margin-left: 165px;
         position: relative;
@@ -582,10 +592,6 @@ body {
       }
     }
 
-    > img {
-      margin-top: -1px;
-      width: 100%;
-    }
   }
 
   .eb-fileload {
@@ -600,6 +606,7 @@ body {
       .navtl {
         margin: 40px 0;
         font-size: 20px;
+        text-indent: 10px;
         color: #333;
         border-left: 6px solid #2cb7ff;
       }
@@ -728,6 +735,7 @@ body {
       padding-top: 60px;
       padding-bottom: 60px;
       .navtl {
+        text-indent: 10px;
         font-size: 20px;
         color: #333;
         border-left: 6px solid #2cb7ff;
@@ -735,6 +743,74 @@ body {
       .col-md-4 {
         color: #fff;
         padding: 30px;
+
+        .dirs {
+          position: relative;
+          box-shadow: 0 0 5px #ddd;
+          &:hover {
+            box-shadow: 0 0 20px #eee;
+            z-index: 9;
+            .glyphicon-trash {
+              display: inline-block;
+            }
+          }
+          .tl {
+            display: block;
+            position: absolute;
+            top: 10px;
+            width: 95%;
+            left: 0;
+            font-size: 16px;
+            text-indent: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            input {
+              width: 280px;
+              height: 26px;
+              color: #333;
+            }
+          }
+          .glyphicon-trash {
+            display: none;
+            top: 120px;
+            right: 25px;
+            position: absolute;
+            background: #fa4f4f;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            padding-top: 12px;
+          }
+          .size {
+            font-size: 14px;
+            position: absolute;
+            top: 40px;
+            text-indent: 10px;
+            color: #ddd;
+          }
+          > div {
+            text-align: center;
+            vertical-align: middle;
+            height: 100px;
+            padding-top: 32.5px;
+          }
+          img {
+            width: 100%;
+            z-index: -1;
+          }
+          .btn-showfile {
+            background-color: #00bef6;
+            border-radius: 30px;
+            color: #fff;
+            padding: 7px 20px;
+            cursor: pointer;
+            vertical-align: super;
+            display: inline-block;
+          }
+        }
 
         .files {
           background: #00a0e9;
@@ -794,7 +870,7 @@ body {
           }
         }
         .files-add {
-          padding: 61px 0;
+          padding: 110px 0;
           background: #484d53;
           text-align: center;
           .btn-add {
@@ -854,26 +930,60 @@ body {
 
   }
   #loadFileList {
+    .modal-header {
+      padding: 0;
+      div {
+        img {
+          width: 100%;
+        }
+      }
+      .modal-title {
+        position: absolute;
+        top: 18px;
+        color: #fff;
+        text-indent: 15px;
+      }
+      button {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 36px;
+        color: #fff;
+      }
+    }
+    .modal-body {
+      padding: 0;
+      padding-top: 15px;
+    }
     ul {
       list-style: none;
       padding: 0;
       margin: 0;
       height: 280px;
-      overflow-y: scroll;
+      margin-right: 10px;
       li {
         position: relative;
-        height: 28px;
-        line-height: 28px;
+        height: 35px;
+        line-height: 35px;
+        &:nth-child(1) {
+          div {
+            color: #999;
+          }
+        }
         div {
           display: inline-block;
         }
-        .col-sm-6 {
-          width: 50%;
+        .col-sm-5 {
+          width: 41.66667%;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
         }
-        .col-sm-1 {
+        .col-sm-2 {
+          .glyphicon-save {
+            color: #01a5f1;
+            margin-right: 10px;
+          }
           i {
             cursor: pointer;
           }
@@ -895,7 +1005,7 @@ body {
             color: #fff;
             position: absolute;
             top: 6px;
-            right: 12px;
+            right: 29px;
             background: #ff5858;
             padding: 2px 10px;
             border-radius: 12px;
@@ -906,15 +1016,20 @@ body {
     }
 
     .modal-footer {
+      border: none;
+      text-align: center;
+      padding-bottom: 25px;
       .btn-dir-upload {
         position: relative;
-        width: 100px;
+        width: 150px;
         display: inline-block;
-        height: 30px;
-        line-height: 13px;
-        margin-right: 10px;
-        border-radius: 4px;
+        height: 40px;
+        line-height: 18px;
         vertical-align: middle;
+        .webuploader-pick {
+          border-radius: 25px;
+
+        }
         & > div {
           position: absolute;
           top: 0;
