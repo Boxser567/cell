@@ -9,8 +9,6 @@
                     <!--<span>资料收集</span>-->
                     <!--<i class="button"></i>-->
                     <!--<s>直销</s>-->
-
-                    <input type="text" class="txt_timing">
                 </div>
 
                 <div class="mode">
@@ -33,12 +31,13 @@
                 <div id="uploadImgdiv" dataid="{{currentExbt.id}}" upload-logo></div>
             </div>
             <div class="name" dataid="{{currentExbt.id}}" dataedit="title" edit-name>{{currentExbt.title}}</div>
-            <p class="time">{{currentExbt.start_date}}&nbsp;-&nbsp;{{currentExbt.end_date}}</p>
-            <!--data-toggle="modal" data-target="#modalTime"-->
+
+            <input class="time" date-range-picker class="form-control date-picker" type="text"
+                   ng-model="date" options="opts" />
             <p class="code">
                 <i><img src="http://cell.goukuai.cn/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}"></i>
                 <span>{{currentExbt.unique_code}}</span>
-                <a href="javascript:;" id="copyme" data-clipboard-text="文本复制啦" ng-click="copyHttp()">复制链接</a>
+                <a href="javascript:;" data-clipboard-text="{{currentExbt.unique_code}}" id="copythat" ng-if="currentExbt.unique_code" copy-website>复制链接</a>
             </p>
         </div>
 
@@ -54,9 +53,9 @@
                                 <p><span datapath="{{file.fullpath}}" dataid="{{currentExbt.org_id}}"
                                          dataedit="filename" edit-name>{{file.filename}}</span>
                                 </p>
-                                <p>{{getSize(file.filesize)}}</p>
+                                <p>{{file.filesize | bitSize}}</p>
                                 <i class="glyphicon glyphicon-trash"
-                                   ng-click="delFile(currentExbt.org_id,file.fullpath)">
+                                   ng-click="delFile($event,currentExbt.org_id,file.fullpath,file.filesize)">
                                     <span>删除</span></i>
                             </div>
                             <div class="slide-line" ng-if="file.filewidth && file.filewidth!=100">
@@ -89,12 +88,12 @@
                         <div class="files">
                             <p class="title">
                                 <span datapath="{{dir.fullpath}}" dataid="{{currentExbt.org_id}}"
-                                                   dataedit="dirname" edit-name>   {{dir.filename}}</span>
+                                      dataedit="dirname" edit-name>   {{dir.filename}}</span>
                                 <i class="glyphicon glyphicon-trash">
-                                    <span ng-click="delDirs(dir.fullpath,dir.hash)">删除</span></i>
+                                    <span ng-click="delDirs($event,dir.fullpath,dir.hash)">删除</span></i>
                             </p>
-                            <p class="size">{{dir.info.file_count}}个文件&nbsp; 共{{getSize(dir.info.file_size)}}</p>
-                            <a class="btn-showfile" ng-click="getDirList(dir.fullpath,dir.hash)">查看/上传文件</a>
+                            <p class="size">{{dir.info.file_count}}个文件&nbsp; 共{{dir.info.file_size | bitSize}}</p>
+                            <a class="btn-showfile" data-toggle="modal" data-target="#loadFileList" ng-click="getDirList(dir.fullpath,dir.hash)">查看/上传文件</a>
                         </div>
                     </div>
 
@@ -114,7 +113,7 @@
         <div class="eb-footer">
             <div class="content">
                 <div class="visit">
-                    <a class="btn">访问会展官方主页</a>
+                    <a class="btn" href="cell.goukuai.cn">访问会展官方主页</a>
                     <a class="edit">点击编辑主页地址</a>
                 </div>
 
@@ -148,10 +147,10 @@
                             </li>
                             <li ng-repeat="f in dirList">
                                 <div class="col-sm-6" title="{{f.filename}}">{{f.filename}}</div>
-                                <div class="col-sm-2">{{getSize(f.filesize)}}</div>
+                                <div class="col-sm-2">{{f.filesize | bitSize}}</div>
                                 <div class="col-sm-3">{{f.create_dateline * 1000 | date:"yyyy-MM-dd"}}</div>
-                                <div class="col-sm-1"><i class="glyphicon glyphicon-trash"
-                                                         ng-click="delDirFiles(f.filename)"></i>
+                                <div class="col-sm-1">
+                                    <i class="glyphicon glyphicon-trash" ng-click="delDirFiles($event,f.filesize,f.filename,f.hash)"></i>
                                 </div>
                                 <div class="col-sm-12" ng-if="f.filewidth && f.filewidth!=100">
                                     <div style="width: {{f.filewidth}}%"></div>
@@ -186,8 +185,6 @@
                         </h5>
                     </div>
                     <div class="modal-body">
-
-
                         <div id="wrapper">
                             <div id="container">
                                 <!--头部，相册选择和格式选择-->

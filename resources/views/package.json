@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "angular": "^1.5.8",
-    "angular-bootstrap-datetimepicker": "^1.0.1",
+    "angular-daterangepicker": "^0.2.3-alpha1",
     "angular-sanitize": "^1.5.8",
     "angular-touch": "^1.5.8",
     "angular-ui-router": "^0.3.1",
@@ -26,6 +26,7 @@
     "baggage-loader": "^0.2.4",
     "bootstrap-sass": "^3.3.7",
     "clean-webpack-plugin": "^0.1.8",
+    "clipboard": "^1.5.12",
     "cross-env": "^1.0.7",
     "css-loader": "^0.23.0",
     "eonasdan-bootstrap-datetimepicker": "^4.17.42",
@@ -51,8 +52,7 @@
     "url-loader": "^0.5.6",
     "webpack": "^1.12.12",
     "webpack-dev-server": "1.14.0",
-    "webuploader": "^0.1.8",
-    "zeroclipboard": "git+https://github.com/zeroclipboard/zeroclipboard.git"
+    "webuploader": "^0.1.8"
   },
   "engines": {
     "node": ">=0.12.0"

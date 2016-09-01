@@ -3,15 +3,14 @@
 // node_modules
 import 'jquery';
 
-import  'moment/moment';
+
 import  "angular";
 
 import "angular-ui-router";
 
 import 'bootstrap-sass/assets/javascripts/bootstrap';
 
-import  'angular-bootstrap-datetimepicker/src/js/datetimepicker';
-import  'angular-bootstrap-datetimepicker/src/js/datetimepicker.templates';
+import 'angular-daterangepicker/js/angular-daterangepicker.min';
 
 import 'underscore';
 

@@ -109,6 +109,12 @@ module.exports = function(_path) {
           "expose?jQuery"
         ]
       },
+        {
+          test: require.resolve("moment"),
+          loaders: [
+            "expose?moment"
+          ]
+        },
       {
         test: require.resolve("underscore"),
         loaders: [
@@ -138,7 +144,8 @@ module.exports = function(_path) {
       new webpack.ProvidePlugin({
         $: 'jquery',
         jQuery: 'jquery',
-        _:'underscore'
+        _:'underscore',
+        moment:'moment'
       }),
       new webpack.DefinePlugin({
         'NODE_ENV': JSON.stringify(NODE_ENV)

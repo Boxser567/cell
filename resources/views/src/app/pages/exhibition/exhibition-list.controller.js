@@ -20,7 +20,7 @@ function ExhibitionListController($scope, Exhibition) {
         $scope.start_ebts = start;
         $scope.end_ebts = end;
         console.log($scope.end_ebts);
-    })
+    });
 
 
     $scope.GetexState = function (a, b) {

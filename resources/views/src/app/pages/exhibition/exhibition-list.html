@@ -17,7 +17,7 @@
                         <div class="trans" hover-trans>
                             <div class="thumbnail">
                                 <div class="img">
-                                    <img src="../images/img_1.png" alt="等待加载">
+                                    <img src="../images/img_1.png" alt="刷新重试">
                                 </div>
                                 <div class="caption">
                                     <h4>{{exhibition.title}} <span class="pull-right"> {{GetexState(exhibition.start_date,exhibition.end_date)}} </span>
@@ -31,9 +31,9 @@
                                 </div>
                             </div>
                             <div class="thumcode">
-                                <img src="../images/qcode.png" alt="等待加载">
+                                <img src="http://cell.goukuai.cn/file/qr?size=160&text={{exhibition.unique_code | encodeURIComponent}}" alt="刷新重试">
                                 <p>分享链接: <span>{{exhibition.property.web_site}}</span></p>
-                                <a>复制链接</a>
+                                <a copyWebsite data-clipboard-text="{{exhibition.unique_code}}">复制链接</a>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                     <div class="col-md-4">
                         <div class="trans">
                             <div class="thumbadd">
-                                <a href="#/exhibition/-1"><img src="../images/button_add.png" alt="等待加载">
+                                <a href="#/exhibition/-1"><img src="../images/button_add.png" alt="刷新重试">
                                     <p>创建新会展</p>
                                 </a>
                             </div>
@@ -65,7 +65,7 @@
             <div>
                 <div class="row">
                     <div class="col-md-4" ng-repeat="exhibition in end_ebts">
-                        <div class="trans">
+                        <div class="trans" hover-trans>
                             <div class="thumbnail">
                                 <div class="img">
                                     <img src="../images/img_4.png" alt="等待加载">
@@ -75,13 +75,13 @@
                                     <p>包含{{exhibition.property.dir_count}}个分类 {{exhibition.property.file_count}}个文件
                                         共{{exhibition.property.size_use}} </p>
                                     <div class="mg">
-                                        <i hover-trans></i>
+                                        <i class="code-img"></i>
                                         <a href="#/exhibition/{{exhibition.id}}">查看</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="thumcode" code-leave>
-                                <img src="../images/qcode.png" alt="等待加载">
+                            <div class="thumcode">
+                                <img src="http://cell.goukuai.cn/file/qr?size=160&text={{exhibition.unique_code | encodeURIComponent}}" alt="刷新重试">
                                 <p>分享链接: <span>{{exhibition.property.web_site}}</span></p>
                                 <a>关闭站点</a>
                             </div>

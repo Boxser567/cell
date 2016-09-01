@@ -2,6 +2,10 @@
 
 import WebUploader from 'webuploader/dist/webuploader';
 
+import Clipboard from "clipboard/dist/clipboard";
+
+
+
 export default function (app) {
 
     app.directive('validationTest', validationTestDirective);
@@ -17,7 +21,6 @@ export default function (app) {
                         $(elem).find(".thumcode").css("z-index", "11").show();
                         $(elem).css("transform", "rotateY(180deg)");
                     }
-
                 });
                 elem.on('mouseleave', function () {
                     isQrCode = false;
@@ -28,6 +31,57 @@ export default function (app) {
             },
 
 
+        };
+    });
+
+    //设置会展时间
+    // app.directive('exhitionTime', function ($timeout, Exhibition) {
+    //     return {
+    //         restrict: 'A',
+    //         link: function (scope, elem) {
+    //             elem.click(function () {
+    //                 scope.Extiming = true;
+    //                 $('#Extiming').daterangepicker({
+    //                     "startDate": scope.currentExbt.start_date,
+    //                     "endDate": scope.currentExbt.end_date,
+    //                     locale: {
+    //                         format: 'YYYY-MM-DD',
+    //                     },
+    //
+    //                 }, function (start, end) {
+    //                     if (confirm("您确定将会展时间设置为当前选中的时间吗?")) {
+    //                         Exhibition.editExTitle({
+    //                             start_date: start.format('YYYY-MM-DD'),
+    //                             end_date: end.format('YYYY-MM-DD')
+    //                         }).then(function (res) {
+    //                             $timeout(function () {
+    //                                 scope.Extiming = false;
+    //                                 scope.currentExbt.start_date = start.format('YYYY-MM-DD');
+    //                                 scope.currentExbt.end_date = end.format('YYYY-MM-DD');
+    //                             })
+    //                         })
+    //                     }
+    //                     console.log("" + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'))
+    //                 });
+    //
+    //
+    //             })
+    //         },
+    //
+    //
+    //     };
+    // });
+
+    app.directive("copyWebsite", function () {
+        return {
+            restrict: 'A',
+            link: function (scope, elem) {
+                var clipboard = new Clipboard(elem[0], {
+                    text: function (trigger) {
+                        return trigger.getAttribute('data-clipboard-text');
+                    }
+                });
+            },
         };
     });
 
@@ -226,15 +280,36 @@ export default function (app) {
                         })
                     });
                     uploader.on('uploadSuccess', function (wufile, succfile) {
-
                         Exhibition.fileUploadSuss({
                             hash: attrs.datadirhash,
                             type: 'add',
                             size: succfile.filesize
                         }).then(function (res) {
-                            console.log(res);
+
+                            console.log("数据上传ces", scope.DirsList, scope.thisDirPath);
+
+
+                            Exhibition.getDirCountSize({hash: attrs.datadirhash}).then(function (data) {
+                                // console.log("数据上传成功后更新", data)
+                                for (var n = 0; n < scope.DirsList.length; n++) {
+                                    if (scope.DirsList[n].fullpath == scope.thisDirPath) {
+                                        break;
+                                    }
+                                }
+                                $timeout(function () {
+                                    scope.DirsList[n].info = {
+                                        file_count: data.file_count,
+                                        file_size: data.file_size
+                                    };
+                                    var allCount = Number(scope.currentExbt.property.file_count);
+                                    scope.currentExbt.property.file_count = allCount + 1;
+                                    scope.currentExbt.property.size_use = Number(scope.currentExbt.property.size_use) + data.file_size;
+                                })
+                            })
                         })
                     });
+
+
                     uploader.on('uploadProgress', function (fileObj, progress) {
                         // console.log("上传进度", arguments);
                         var file = _.findWhere(scope.dirList, {
@@ -281,24 +356,33 @@ export default function (app) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
-                $(elem).click(function () {
+
+                $(elem).click(function (event) {
+                    if (event.target.nodeName == "INPUT") {
+                        return;
+                    }
                     $timeout(function () {
                         var name = $.trim(elem.text());
                         var input = '<input type="text" class="exhibitionName" value="' + name + '" />';
                         $(elem).empty().append(input);
                         if (attrs.dataedit == "filename") {
-                            // var lenEnd =name.length;
-                            // var lenIndex =name.lastIndexOf('.');
-                            // $(elem).find('input').lenEnd=0;
-                            // $(elem).find('input').lenIndex=lenEnd
-                            // $(elem).find('input').focus().select();
+                            var selectionEnd = name.length;
+                            var lenIndex = name.lastIndexOf('.');
+                            console.log("selectionEnd", selectionEnd, lenIndex);
+                            if (lenIndex > 0) {
+                                selectionEnd = lenIndex;
+                            }
+                            elem.find('input')[0].selectionStart = 0;
+                            elem.find('input')[0].selectionEnd = selectionEnd;
+                            elem.find('input').focus();
                         }
-                        else
+                        else {
                             $(elem).find('input').focus().select();
+                        }
                         $(elem).find('input').blur(function () {
                             var text = $.trim($(this).val());
                             console.log(text);
-                            if (text.trim() == "") {
+                            if (text == "") {
                                 $(elem).empty().text(name);
                             } else {
                                 if (attrs.dataedit == "title") {
@@ -317,6 +401,9 @@ export default function (app) {
                                         newpath: text
                                     }).then(function (res) {
                                         $(elem).empty().text(text);
+                                        var idx = elem.parents('.col-md-4').index();
+                                        scope.FilesList[idx].fullpath = text;
+                                        scope.FilesList[idx].filename = text;
                                     })
                                 }
                                 if (attrs.dataedit == "dirname") {
@@ -328,6 +415,9 @@ export default function (app) {
                                     }).then(function (res) {
                                         console.log(res);
                                         $(elem).empty().text(text);
+                                        var idx = elem.parents('.col-md-4').index();
+                                        scope.DirsList[idx].fullpath = text;
+                                        scope.DirsList[idx].filename = text;
                                     })
                                 }
                             }

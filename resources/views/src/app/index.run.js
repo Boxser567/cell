@@ -1,6 +1,5 @@
 'use strict';
 
-import ZeroClipboard from "zeroclipboard/dist/ZeroClipboard"
 
 function runBlock($log,$rootScope) {
 	'ngInject';
@@ -11,11 +10,6 @@ function runBlock($log,$rootScope) {
 		$log.error('$stateChangeError',arguments);
 	})
 
-	try {
-		ZeroClipboard && ZeroClipboard.config({
-			swfPath: "assets/scripts/ZeroClipboard.swf"
-		});
-	} catch (e) {}
 }
 
 export default runBlock;

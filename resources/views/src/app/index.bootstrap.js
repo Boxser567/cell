@@ -8,11 +8,12 @@ import "./index.module";
 import "../assets/styles/sass/iconCollect.scss";
 import "../assets/styles/sass/index.scss";
 import "../assets/styles/sass/mobile.scss";
-import "angular-bootstrap-datetimepicker/src/scss/datetimepicker.scss";
+
+import daterangepicker from 'bootstrap-daterangepicker/daterangepicker';
 
 
 angular.element(document).ready(function () {
-    angular.bootstrap(document, ['cell-ui'], {
+    angular.bootstrap(document, ['cell-ui', 'daterangepicker'], {
         strictDi: true
     });
 });

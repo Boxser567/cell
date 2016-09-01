@@ -19,8 +19,11 @@ function cellHeaderComponent($log) {
         'ngInject';
         $scope.reload = function () {
             Exhibition.login().then(function (res) {
-                console.debug("登录信息显示", res);
+                $scope.loginName = res.name;
             })
+        }
+        $scope.register=function () {
+            $scope.loginName = "";
         }
     }
 

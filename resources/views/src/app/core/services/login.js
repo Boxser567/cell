@@ -8,9 +8,6 @@ export default function (app) {
                 getLoginInfo: function () {
                     return $http.get('/auth/login');
                 },
-                getByID: function () {
-                    return "99";
-                }
             }
         }]);
 
