@@ -17,7 +17,7 @@ class ExhibitionInfo extends BaseModel
 
     public static function getOfEntId($ent_id)
     {
-        return self::createWith()->where('ent_id', $ent_id)->get();
+        return self::createWith()->where('ent_id', $ent_id)->orderBy('id','desc')->get();
     }
 
     public static function getUniqueCode($unique_code)

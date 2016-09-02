@@ -29,9 +29,12 @@ class FileController extends Controller
         if(!$input && !$type) {
           $this->updateStatistic($file_list['list'], inputGetOrFail('org_id'));
         }*/
-        foreach ($file_list["list"] as $key => $file) {
-            if ($file['dir']) {
-                $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
+
+        if(!\Request::has('fullpath')) {
+            foreach ($file_list["list"] as $key => $file) {
+                if ($file['dir']) {
+                    $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
+                }
             }
         }
         return $file_list;
