@@ -20,6 +20,7 @@ function cellHeaderComponent($log) {
         $scope.reload = function () {
             Exhibition.login().then(function (res) {
                 $scope.loginName = res.name;
+                window.location.href="/#/exhibition";
             })
         }
         $scope.register=function () {

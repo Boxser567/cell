@@ -27,9 +27,8 @@
                     </a>
                 </li>
             </ul>
-            <div class="more">
-                查看更多
-            </div>
+            <div class="more" ng-if="showMore" ng-click="showMoreFile()">查看更多</div>
+            <div class="more" ng-if="!showMore" ng-click="showLessFile()">收起文件</div>
         </div>
 
         <div class="listCollection">

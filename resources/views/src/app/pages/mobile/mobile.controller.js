@@ -6,11 +6,12 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
     $scope.EXfileList = currentMobileExbt;
     $scope.pageCode = window.location.href;
     $scope.pageunicode = Util.String.baseName(currentMobileExbt.unique_code);
-
+    $scope.showMore = false;
+    $scope.AllFileList = [], $scope.FilesList = [];
+    var files = [], dirs = [];
 
     var Loadlist = function (orgid) {
         Exhibition.getDirFilesByID({org_id: $scope.EXfileList.org_id, type: "mobile"}).then(function (data) {
-            var files = [], dirs = [];
             _.each(data.data.list, function (list) {
                 if (list.dir) {
                     list.info.img_url = JSON.parse(list.info.img_url);
@@ -20,7 +21,15 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
                     files.push(list);
                 }
             })
-            $scope.FilesList = files;
+            if (files.length > 3) {
+                $scope.showMore = true;
+                for (var i = 0; i < 3; i++) {
+                    $scope.AllFileList.push(files[i]);
+                }
+                $scope.FilesList = $scope.AllFileList;
+            } else {
+                $scope.FilesList = files;
+            }
             $scope.DirsList = dirs;
             console.log($scope.DirsList);
         })
@@ -28,11 +37,18 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
 
     Loadlist($scope.orgid);
 
-    $scope.showCode=function () {
+    $scope.showCode = function () {
         $("#ModalCode").modal('show');
     }
 
-
+    $scope.showMoreFile = function () {
+        $scope.FilesList = files;
+        $scope.showMore = false;
+    }
+    $scope.showLessFile = function () {
+        $scope.FilesList = $scope.AllFileList;
+        $scope.showMore = true;
+    }
 
 }
 
