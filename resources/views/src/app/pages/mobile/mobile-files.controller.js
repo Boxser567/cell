@@ -6,9 +6,12 @@ function MobileFilesController($scope, $stateParams, currentMobileExbt, Exhibiti
 
     $scope.dirName = $stateParams.path;
     //$scope.dirlistCount = currentMobileExbt.data.count;
+    Exhibition.getDirCountSize({hash: $stateParams.hash}).then(function (respon) {
+        console.log("getDirCountSize", respon);
+        respon.img_url = JSON.parse(respon.img_url);
+        $scope.dirInfo = respon;
+    })
 
-
-    console.log("currentMobileExbt", currentMobileExbt);
 
     Exhibition.getDirFilesByID({org_id: currentMobileExbt.org_id, fullpath: $stateParams.path}).then(function (data) {
         console.debug("data", data);

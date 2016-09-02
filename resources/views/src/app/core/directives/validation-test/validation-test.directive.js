@@ -293,7 +293,7 @@ export default function (app) {
                                         break;
                                     }
                                 }
-                                console.log("敌机向", n,scope.DirsList[n]);
+                                console.log("敌机向", n, scope.DirsList[n]);
                                 $timeout(function () {
                                     scope.DirsList[n].info = {
                                         file_count: data.file_count,
@@ -362,6 +362,9 @@ export default function (app) {
                     }
                     $timeout(function () {
                         var name = $.trim(elem.text());
+                        if(attrs.dataedit=="sitename"){
+                            name=attrs.datasite;
+                        }
                         var input = '<input type="text" class="exhibitionName" value="' + name + '" />';
                         $(elem).empty().append(input);
                         if (attrs.dataedit == "filename") {
@@ -419,6 +422,21 @@ export default function (app) {
                                         scope.DirsList[idx].filename = text;
                                     })
                                 }
+
+                                if (attrs.dataedit == "sitename") {
+                                    Exhibition.editExTitle({
+                                        exhibition_id: attrs.dataid,
+                                        website: text
+                                    }).then(function (res) {
+                                        $timeout(function () {
+                                            $(elem).empty().text("点击编辑主页地址");
+                                            scope.currentExbt.property.web_site = text;
+                                        })
+
+                                    })
+                                }
+
+
                             }
                         })
                     })

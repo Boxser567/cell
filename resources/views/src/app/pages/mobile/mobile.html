@@ -7,7 +7,8 @@
             <p class="tl">{{EXfileList.title}}</p>
             <p class="time">{{EXfileList.start_date}} - {{EXfileList.end_date}}</p>
             <div class="code">
-                <img src="../images/icon_qcode.png" alt="" data-toggle="modal" data-target="#ModalCode"/>
+                <i class="glyphicon glyphicon-qrcode" data-toggle="modal" data-target="#ModalCode"></i>
+                <!--<img src="../images/icon_qcode.png" alt="" />-->
             </div>
         </div>
 
@@ -32,9 +33,9 @@
     <div class="listCollection">
         <ul>
             <li ng-repeat="dir in DirsList">
-                <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.fullpath}}">
+                <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.hash}}/{{dir.fullpath}}">
                     <div class="bg">
-                        <img src="{{dir.info.img_url[0]}}-640" alt="">
+                        <img src="{{dir.info.img_url[0]}}-340" alt="">
                         <div class="diff"></div>
                     </div>
                     <div class="title" >

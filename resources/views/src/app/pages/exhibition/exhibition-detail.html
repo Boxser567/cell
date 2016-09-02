@@ -12,10 +12,11 @@
                         <!--<i class="button"></i>-->
                         <!--<s>直销</s>-->
                     </div>
-
                     <div class="mode">
                         <i class="pc"></i>
-                        <i class="phone"></i>
+                        <i class="glyphicon glyphicon-phone">
+                            <img src="/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}">
+                        </i>
                     </div>
                     <div class="pull-right">
                         <span>{{currentExbt.property.dir_count}}个分类 &nbsp;{{currentExbt.property.file_count}}个文件 &nbsp;共{{currentExbt.property.size_use | bitSize}}</span>
@@ -23,10 +24,9 @@
                 </div>
             </div>
 
-            <div class="nav-con" style="text-align: center">
+            <div class="nav-con" style="text-align: center;">
                 <div class="file" title="请上传160x160像素会展Logo">
                     <img src="{{currentExbt.logo}}" alt="" ng-if="currentExbt.logo!=''">
-                    <!--<span ng-if="currentExbt.logo==''">请上传160x160像素会展Logo</span>-->
                     <div class="loding" ng-if="imgloading">
                         <img src="../images/pass.gif" alt="">
                     </div>
@@ -37,7 +37,8 @@
                 <input class="time" date-range-picker class="form-control date-picker" type="text"
                        ng-model="date" options="opts"/>
                 <p class="code">
-                    <i><img src="/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}"></i>
+                    <i class="glyphicon glyphicon-qrcode"><img
+                            src="/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}"></i>
                     <span>{{currentExbt.unique_code}}</span>
                     <a href="javascript:;" data-clipboard-text="{{currentExbt.unique_code}}" id="copythat"
                        ng-if="currentExbt.unique_code" copy-website>复制链接</a>
@@ -103,7 +104,7 @@
                     <div class="col-md-4" ng-repeat="dir in DirsList">
                         <div class="dirs">
                             <div class="bgimg-small">
-<div class="diff"></div>
+                                <div class="diff"></div>
                                 <img src="{{dir.info.img_url[0]}}-340" alt="">
                                 <p class="tl" datapath="{{dir.fullpath}}" dataid="{{currentExbt.org_id}}"
                                    dataedit="dirname"
@@ -132,14 +133,13 @@
             </div>
         </div>
 
-
         <div class="eb-footer">
             <div class="content">
-                <div class="visit">
-                    <a class="btn" href="cell.goukuai.cn">访问会展官方主页</a>
-                    <a class="edit">点击编辑主页地址</a>
+                <div class="visit" ng-if="currentExbt.property.web_site">
+                    <a class="btn" href="{{currentExbt.property.web_site}}">访问会展官方主页</a>
+                    <a class="edit" dataedit="sitename" dataid="{{currentExbt.id}}"
+                       datasite="{{currentExbt.property.web_site}}" edit-name>点击编辑主页地址</a>
                 </div>
-
                 <div class="fo">
                     <i></i>
                 </div>
@@ -193,109 +193,6 @@
                              dataorgid="{{currentExbt.org_id}}"
                              upload-dir-files>文件上传
                         </div>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
-        </div>
-
-
-        <div class="modal fade" id="uploadImgdiv1" tabindex="-1" role="dialog"
-             aria-labelledby="myModalLabel1" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times;</button>
-                        <h5 class="modal-title" id="myModalLabel1">
-                            头像上传
-                        </h5>
-                    </div>
-                    <div class="modal-body">
-                        <div id="wrapper">
-                            <div id="container">
-                                <!--头部，相册选择和格式选择-->
-                                <div id="uploader">
-                                    <div class="queueList">
-                                        <div id="dndArea" class="placeholder">
-                                            <div id="filePicker"></div>
-                                            <p>会展logo上传或修改，最大只能 1MB,单次最多可选 1 张</p>
-                                        </div>
-                                    </div>
-                                    <div class="statusBar" style="display:none;">
-                                        <div class="progress">
-                                            <span class="text">0%</span>
-                                            <span class="percentage"></span>
-                                        </div>
-                                        <div class="info"></div>
-                                        <div class="btns">
-                                            <div id="filePicker2"></div>
-                                            <div class="uploadBtn">开始上传</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal"> 关 闭
-                        </button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
-        </div>
-
-
-        <div class="modal fade" id="modalAddDir" tabindex="-1" role="dialog"
-             aria-labelledby="myModalLabel4" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close"
-                                data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                        <h5 class="modal-title" id="myModalLabel5">
-                            创建文件分类
-                        </h5>
-                    </div>
-                    <div class="modal-body">
-                        <p>请输入新建文件分类名称:</p>
-                        <input type="text" class="form-control txt_dirname">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" ng-click="addFolder(currentExbt.org_id)"> 确定添加
-                        </button>
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal"> 关 闭
-                        </button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal -->
-        </div>
-
-
-        <div class="modal fade" id="modalTime" tabindex="-1" role="dialog"
-             aria-labelledby="myModalLabel4" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close"
-                                data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                        <h5 class="modal-title" id="myModalLabel4">
-                            设置会展开始和结束时间
-                        </h5>
-                    </div>
-                    <div class="modal-body">
-                        <input type="text" class="datetime1">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal"> 关 闭
-                        </button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->

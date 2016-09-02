@@ -21,7 +21,7 @@ function routeConfig($stateProvider) {
         })
 
         .state('mobile_folder', {
-            url: '/mobile_folder/:code/:path',
+            url: '/mobile_folder/:code/:hash/:path',
             templateUrl: mobileFileTpl,
             controller: require('./mobile-files.controller'),
             resolve: resolves
