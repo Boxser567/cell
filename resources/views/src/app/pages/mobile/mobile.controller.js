@@ -15,6 +15,7 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
             var files = [], dirs = [];
             _.each(data.data.list, function (list) {
                 if (list.dir) {
+                    list.info.img_url = JSON.parse(list.info.img_url);
                     dirs.push(list);
                 }
                 else {
@@ -24,7 +25,6 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
             $scope.FilesList = files;
             $scope.DirsList = dirs;
             console.log($scope.DirsList);
-
         })
     }
 

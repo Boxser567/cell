@@ -63,7 +63,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
 
     //普通文件的删除
     $scope.delFile = function (event, id, path, size) {
-        var that = $(event.currentTarget);
+        var that = $(event.currentTarget).parents(".col-md-4").index();
         if (confirm("确定要删除该文件(夹)吗?")) {
             var params = {
                 org_id: id,
@@ -72,17 +72,17 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
             Exhibition.delExFile(params).then(function (res) {
                 $scope.currentExbt.property.file_count = Number($scope.currentExbt.property.file_count) - 1;
                 $scope.currentExbt.property.size_use = Number($scope.currentExbt.property.size_use) - size;
-                that.parents('.col-md-4').remove();
+                $scope.FilesList.splice(that, 1);
             })
         }
     }
 
-    $scope.getDirList = function (event,img, path, hash) {
+    $scope.getDirList = function (event, img, path, hash) {
         $timeout(function () {
             $scope.thisDirImg = img;
             $scope.thisDirPath = path;
             $scope.thisDirHash = hash;
-            $scope.thisDirIndex=$(event.currentTarget).parents(".col-md-4").index();
+            $scope.thisDirIndex = $(event.currentTarget).parents(".col-md-4").index();
         })
 
         $timeout(function () {
