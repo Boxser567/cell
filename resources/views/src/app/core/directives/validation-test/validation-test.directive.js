@@ -105,7 +105,7 @@ export default function (app) {
                             name: '',
                             filefield: 'file',
                             file: 'file',
-
+                            overwrite:0
                         },
                         duplicate: true,//重复文件
                         // fileNumLimit: 100,
@@ -249,6 +249,7 @@ export default function (app) {
                             name: '',
                             filefield: 'file',
                             file: 'file',
+                            overwrite:0
                         },
                         duplicate: true,//重复文件
                         //fileNumLimit: 100,

@@ -1,71 +1,73 @@
 <div class="wecontent">
-    <div class="navtop">
-        <div class="diff"></div>
-        <img class="m-bgimg" src="{{EXfileList.banner}}-640" alt="" width="100%"/>
-        <div class="con">
-            <div class="img"><img src="{{EXfileList.logo}}" alt=""/></div>
-            <p class="tl">{{EXfileList.title}}</p>
-            <p class="time">{{EXfileList.start_date}} - {{EXfileList.end_date}}</p>
-            <div class="code">
-                <i class="glyphicon glyphicon-qrcode" data-toggle="modal" data-target="#ModalCode"></i>
-                <!--<img src="../images/icon_qcode.png" alt="" />-->
+    <div class="mobileindex">
+        <div class="navtop">
+            <div class="diff"></div>
+            <img class="m-bgimg" src="{{EXfileList.banner}}-640" alt="" width="100%"/>
+            <div class="con">
+                <div class="img"><img src="{{EXfileList.logo}}" alt=""/></div>
+                <p class="tl">{{EXfileList.title}}</p>
+                <p class="time">{{EXfileList.start_date}} - {{EXfileList.end_date}}</p>
+                <div class="code">
+                    <a href="#ModalCode" class="glyphicon glyphicon-qrcode" data-toggle="modal" data-target="#ModalCode"></a>
+                    <!---->
+                    <!--<img src="../images/icon_qcode.png" alt="" />-->
+                </div>
+            </div>
+
+        </div>
+
+        <div class="blocklist">
+            <ul>
+                <li ng-repeat="file in FilesList">
+                    <a href="#/mobile_file/{{pageunicode}}/{{file.fullpath}}">
+                        <span class="img {{ file.filename | getFileIconSuffix }}"></span>
+                        <!--<img src="../images/icon_pdf.png" alt=""/>-->
+                        <div>{{file.filename}}</div>
+                        <i class="pull-right"></i>
+                    </a>
+                </li>
+            </ul>
+            <div class="more">
+                查看更多
             </div>
         </div>
 
-    </div>
-
-    <div class="blocklist">
-        <ul>
-            <li ng-repeat="file in FilesList">
-                <a href="#/mobile_file/{{pageunicode}}/{{file.fullpath}}">
-                    <span class="img {{ file.filename | getFileIconSuffix }}"></span>
-                    <!--<img src="../images/icon_pdf.png" alt=""/>-->
-                    <div>{{file.filename}}</div>
-                    <i class="pull-right"></i>
-                </a>
-            </li>
-        </ul>
-        <div class="more">
-            查看更多
-        </div>
-    </div>
-
-    <div class="listCollection">
-        <ul>
-            <li ng-repeat="dir in DirsList">
-                <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.hash}}/{{dir.fullpath}}">
-                    <div class="bg">
-                        <img src="{{dir.info.img_url[0]}}-340" alt="">
-                        <div class="diff"></div>
-                    </div>
-                    <div class="title" >
-                        <div class="tl">{{dir.filename}}</div>
-                        <div class="count">
-                            {{dir.info.file_count}}条内容
-                            <i></i>
+        <div class="listCollection">
+            <ul>
+                <li ng-repeat="dir in DirsList">
+                    <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.hash}}/{{dir.fullpath}}">
+                        <div class="bg">
+                            <img src="{{dir.info.img_url[0]}}-340" alt="">
+                            <div class="diff"></div>
                         </div>
-                    </div>
-                    <!--<p class="pull-left">{{dir.filename}}</p>-->
-                    <!--<p class="pull-right">{{dir.info.file_count}} 条内容 <i class="glyphicon glyphicon-menu-right"></i></p>-->
-                </a>
-            </li>
-        </ul>
+                        <div class="title">
+                            <div class="tl">{{dir.filename}}</div>
+                            <div class="count">
+                                {{dir.info.file_count}}条内容
+                                <i></i>
+                            </div>
+                        </div>
+                        <!--<p class="pull-left">{{dir.filename}}</p>-->
+                        <!--<p class="pull-right">{{dir.info.file_count}} 条内容 <i class="glyphicon glyphicon-menu-right"></i></p>-->
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="wefooter">
+            <!--<div>访问会展官方主页</div>-->
+            <p>
+                <a></a>
+            </p>
+        </div>
+
+
+        <!--<div class="footer">-->
+        <!--<i></i>-->
+        <!--<span>收藏并保存会展文件</span>-->
+        <!--</div>-->
+
     </div>
-    <div class="wefooter">
-        <!--<div>访问会展官方主页</div>-->
-        <p>
-            <a></a>
-        </p>
-    </div>
-
-
-    <!--<div class="footer">-->
-    <!--<i></i>-->
-    <!--<span>收藏并保存会展文件</span>-->
-    <!--</div>-->
-
 </div>
-
 
 <div class="modal fade" id="ModalCode" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel1" aria-hidden="true">

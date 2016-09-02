@@ -2,11 +2,9 @@
 
 function MobileController($scope, currentMobileExbt, Exhibition) {
     'ngInject';
-    console.log("二维码扫描进来", currentMobileExbt);
+
     $scope.EXfileList = currentMobileExbt;
     $scope.pageCode = window.location.href;
-    console.log("123123123",);
-
     $scope.pageunicode = Util.String.baseName(currentMobileExbt.unique_code);
 
 
@@ -29,6 +27,11 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
     }
 
     Loadlist($scope.orgid);
+
+    $scope.showCode=function () {
+        $("#ModalCode").modal('show');
+    }
+
 
 
 }
