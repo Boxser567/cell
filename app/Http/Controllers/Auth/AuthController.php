@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Request;
 use Laravel\Socialite\Facades\Socialite;
+use View;
 
 class AuthController extends Controller
 {
@@ -78,7 +79,8 @@ class AuthController extends Controller
         // 在这里可以获取到用户在微信的资料
         $auth=new \App\Http\Controllers\AuthController();
         $auth->login($oauthUser);
-        redirect('/');
+        View::addExtension('html','blade');
+        return  view('index');
         // 接下来处理相关的业务逻辑
 
     }
