@@ -46,4 +46,10 @@ class AuthController extends Controller
         View::addExtension('html','blade');
         return  view('index');
     }
+
+
+    public static function login($user)
+    {
+        return  view('index');
+    }
 }
