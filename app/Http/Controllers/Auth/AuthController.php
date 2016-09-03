@@ -78,7 +78,7 @@ class AuthController extends Controller
         // 在这里可以获取到用户在微信的资料
         $auth=new \App\Http\Controllers\AuthController();
         $auth->login($oauthUser);
-
+        redirect('/');
         // 接下来处理相关的业务逻辑
 
     }
