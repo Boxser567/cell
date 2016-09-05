@@ -8,7 +8,8 @@
                 <p class="tl">{{EXfileList.title}}</p>
                 <p class="time">{{EXfileList.start_date}} - {{EXfileList.end_date}}</p>
                 <div class="code">
-                    <a href="#ModalCode" class="glyphicon glyphicon-qrcode" data-toggle="modal" data-target="#ModalCode"></a>
+                    <a href="#ModalCode" class="glyphicon glyphicon-qrcode" data-toggle="modal"
+                       data-target="#ModalCode"></a>
                     <!---->
                     <!--<img src="../images/icon_qcode.png" alt="" />-->
                 </div>
@@ -17,6 +18,11 @@
         </div>
 
         <div class="blocklist">
+            <div class="warp-mark" ng-if="loading">
+                <span></span>
+            </div>
+
+
             <ul>
                 <li ng-repeat="file in FilesList">
                     <a href="#/mobile_file/{{pageunicode}}/{{file.fullpath}}">

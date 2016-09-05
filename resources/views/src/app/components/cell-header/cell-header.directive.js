@@ -17,17 +17,11 @@ function cellHeaderComponent($log) {
 
     function cellHeaderController($scope, Exhibition) {
         'ngInject';
-        $scope.reload = function () {
-            Exhibition.login().then(function (res) {
-                $scope.loginName = res.name;
-                window.location.href="/#/exhibition";
-            })
-        }
-        $scope.register=function () {
-            $scope.loginName = "";
-        }
+        Exhibition.login().then(function (res) {
+            $scope.loginName = res.name;
+            window.location.href = "/#/exhibition";
+        })
     }
-
 }
 
 export default cellHeaderComponent;

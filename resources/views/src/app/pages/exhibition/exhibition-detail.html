@@ -28,7 +28,8 @@
                 <div class="file" title="请上传160x160像素会展Logo">
                     <img src="{{currentExbt.logo}}" alt="" ng-if="currentExbt.logo!=''">
                     <div class="loding" ng-if="imgloading">
-                        <img src="../images/pass.gif" alt="">
+                        <span></span>
+                        <!--<img src="../images/pass_white.gif.gif" alt="">-->
                     </div>
                     <div id="uploadImgdiv" dataid="{{currentExbt.id}}" upload-logo></div>
                 </div>
@@ -164,6 +165,9 @@
                         </h3>
                     </div>
                     <div class="modal-body">
+                        <div class="warp-mask" ng-if="warpMask">
+                            <span></span>
+                        </div>
                         <ul>
                             <li>
                                 <div class="col-sm-5">文件名</div>

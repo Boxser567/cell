@@ -10,6 +10,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
     $scope.imgloading = false;
     $scope.FilesList = [];
     $scope.DirsList = [];
+    $scope.warpMask = false;
     Exhibition.getDirFilesByID({org_id: $scope.orgid}).then(function (data) {
         var files = [], dirs = [];
         _.each(data.data.list, function (list) {
@@ -23,7 +24,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
         })
         $scope.FilesList = files;
         $scope.DirsList = dirs;
-        console.log("文件夹信息", $scope.DirsList);
+        // console.log("文件夹信息", $scope.DirsList);
     });
     // $scope.Extiming = false;
     $scope.date = {
@@ -78,6 +79,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
     }
 
     $scope.getDirList = function (event, img, path, hash) {
+        $scope.warpMask = true;
         $timeout(function () {
             $scope.thisDirImg = img;
             $scope.thisDirPath = path;
@@ -93,6 +95,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
             console.log("加载列表信息", res);
             $timeout(function () {
                 $scope.dirList = res.data.list;
+                $scope.warpMask = false;
             })
         });
     }

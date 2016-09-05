@@ -3,7 +3,7 @@
 function MobileFilesController($scope, $stateParams, currentMobileExbt, Exhibition) {
     'ngInject';
 
-
+    $scope.loading = true;
     $scope.dirName = $stateParams.path;
     //$scope.dirlistCount = currentMobileExbt.data.count;
     Exhibition.getDirCountSize({hash: $stateParams.hash}).then(function (respon) {
@@ -17,7 +17,7 @@ function MobileFilesController($scope, $stateParams, currentMobileExbt, Exhibiti
         console.debug("data", data);
         $scope.pageunicode = $stateParams.code;
         $scope.ExbtCurrent = data.data;
-
+        $scope.loading = false;
     })
 
 

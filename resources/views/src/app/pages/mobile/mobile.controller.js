@@ -2,16 +2,15 @@
 
 function MobileController($scope, currentMobileExbt, Exhibition) {
     'ngInject';
-
     $scope.EXfileList = currentMobileExbt;
     $scope.pageCode = window.location.href;
     $scope.pageunicode = Util.String.baseName(currentMobileExbt.unique_code);
     $scope.showMore = false;
+    $scope.loading = true;
     $scope.AllFileList = [], $scope.FilesList = [];
     var files = [], dirs = [];
-
     var Loadlist = function (orgid) {
-        Exhibition.getDirFilesByID({org_id: $scope.EXfileList.org_id, type: "mobile"}).then(function (data) {
+        Exhibition.getDirFilesByID({org_id: currentMobileExbt.org_id, type: "mobile"}).then(function (data) {
             _.each(data.data.list, function (list) {
                 if (list.dir) {
                     list.info.img_url = JSON.parse(list.info.img_url);
@@ -30,6 +29,7 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
             } else {
                 $scope.FilesList = files;
             }
+            $scope.loading = false;
             $scope.DirsList = dirs;
             console.log($scope.DirsList);
         })

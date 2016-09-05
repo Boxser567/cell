@@ -78,6 +78,9 @@ export default function (app) {
                         return trigger.getAttribute('data-clipboard-text');
                     }
                 });
+                clipboard.on('success', function (e) {
+                    alert("复制成功!");
+                });
             },
         };
     });
@@ -105,7 +108,7 @@ export default function (app) {
                             name: '',
                             filefield: 'file',
                             file: 'file',
-                            overwrite:0
+                            overwrite: 0
                         },
                         duplicate: true,//重复文件
                         // fileNumLimit: 100,
@@ -202,6 +205,7 @@ export default function (app) {
                         fileSingleSizeLimit: 1 * 1024 * 1024
                     });
                     uploader.on('fileQueued', function (file) {
+                        scope.imgloading = true;
                         uploader.options.formData.key = file_name + '.' + Util.String.getExt(file.name);
                     });
                     uploader.on('uploadSuccess', function () {
@@ -209,6 +213,7 @@ export default function (app) {
                         Exhibition.editExTitle({exhibition_id: attrs.dataid, logo: arg}).then(function (res) {
                             $timeout(function () {
                                 scope.currentExbt.logo = arg;
+                                scope.imgloading = false;
                             })
                         });
                     });
@@ -249,7 +254,7 @@ export default function (app) {
                             name: '',
                             filefield: 'file',
                             file: 'file',
-                            overwrite:0
+                            overwrite: 0
                         },
                         duplicate: true,//重复文件
                         //fileNumLimit: 100,
@@ -363,8 +368,8 @@ export default function (app) {
                     }
                     $timeout(function () {
                         var name = $.trim(elem.text());
-                        if(attrs.dataedit=="sitename"){
-                            name=attrs.datasite;
+                        if (attrs.dataedit == "sitename") {
+                            name = attrs.datasite;
                         }
                         var input = '<input type="text" class="exhibitionName" value="' + name + '" />';
                         $(elem).empty().append(input);

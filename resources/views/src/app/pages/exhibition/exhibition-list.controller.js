@@ -2,10 +2,8 @@
 
 function ExhibitionListController($scope, $state, Exhibition) {
     'ngInject';
-
+    $scope.newMask = false;
     Exhibition.list().then(function (res) {
-        console.log("uihsdkh",res);
-
 
         var start = [], end = [];
         var date = new Date();
@@ -37,9 +35,8 @@ function ExhibitionListController($scope, $state, Exhibition) {
 
     //创建一个新的会展页面
     $scope.createExbt = function () {
-        console.log("开始创建");
+        $scope.newMask = true;
         Exhibition.createEx().then(function (res) {
-            console.log("创建完成", res);
             $state.go('main.exhibition-detail', {id: res.data.id});
         })
     }

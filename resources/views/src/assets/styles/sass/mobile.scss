@@ -67,6 +67,21 @@ body {
       left: 0;
       text-align: center;
       width: 100%;
+      @media all and (min-width: 420px) {
+        top:60px;
+        .tl{
+          margin-top: 30px;
+          font-size: 28px;
+        }
+        .time{
+          font-size: 18px;
+        }
+        .code{
+          a{
+            font-size: 40px;
+          }
+        }
+      }
       .img {
         border-radius: 40px;
         text-align: center;
@@ -215,6 +230,11 @@ body {
     p {
       text-align: left;
       font-size: 14px;
+      margin-bottom: 20px;
+      @media all and (min-width: 420px) {
+        text-align: center;
+
+      }
     }
     img {
 
@@ -256,6 +276,9 @@ body {
     @media all and (min-width: 376px) {
       min-height: 180px;
     }
+    @media all and (min-width: 426px) {
+      min-height: 265px;
+    }
     img {
       vertical-align: middle;
       min-height: 154px;
@@ -265,6 +288,9 @@ body {
       width: 100%;
       @media all and (min-width: 376px) {
         min-height: 180px;
+      }
+      @media all and (min-width: 426px) {
+        min-height: 265px;
       }
     }
     .diff {
@@ -322,6 +348,20 @@ body {
     line-height: 35px;
     text-align: center;
   }
+  .warp-mark{
+    text-align: center;
+    z-index: 6;
+    width: 100%;
+    span {
+      margin-top: 10px;
+      width: 36px;
+      height: 36px;
+      display: inline-block;
+      background: url("../../../app/pages/images/pass.gif") no-repeat;
+    }
+
+  }
+
   ul {
     list-style: none;
     padding: 0;
