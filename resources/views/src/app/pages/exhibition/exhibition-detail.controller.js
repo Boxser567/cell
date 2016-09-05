@@ -3,7 +3,7 @@
 
 function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhibition, Exhibition) {
     'ngInject';
-    // console.log("返回详情数据", $stateParams, currentExhibition);
+    console.log("返回详情数据", $stateParams, currentExhibition);
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $scope.orgid = currentExhibition.data.org_id;
@@ -15,7 +15,9 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
         var files = [], dirs = [];
         _.each(data.list, function (list) {
             if (list.dir) {
-                // list.info.img_url = JSON.parse(list.info.img_url);
+                if (typeof list.info.img_url == "string") {
+                    list.info.img_url = JSON.parse(list.info.img_url);
+                }
                 dirs.push(list);
             }
             else {
@@ -51,7 +53,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
             if (start == $scope.currentExbt.start_date && end == $scope.currentExbt.end_date) {
             } else {
                 Exhibition.editExTitle({
-                    exhibition_id: $stateParams.id,
+                    exhibition_id: currentExhibition.data.id,
                     start_date: start,
                     end_date: end
                 }).then(function (res) {
