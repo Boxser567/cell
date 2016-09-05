@@ -3,7 +3,7 @@
 
 function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhibition, Exhibition) {
     'ngInject';
-    console.log("返回详情数据", $stateParams, currentExhibition);
+    // console.log("返回详情数据", $stateParams, currentExhibition);
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $scope.orgid = currentExhibition.data.org_id;
@@ -12,10 +12,13 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
     $scope.DirsList = [];
     $scope.warpMask = false;
     Exhibition.getDirFilesByID({org_id: $scope.orgid}).then(function (data) {
+
+
+        console.log("dataaa", data);
         var files = [], dirs = [];
         _.each(data.list, function (list) {
             if (list.dir) {
-                list.info.img_url = JSON.parse(list.info.img_url);
+                // list.info.img_url = JSON.parse(list.info.img_url);
                 dirs.push(list);
             }
             else {
