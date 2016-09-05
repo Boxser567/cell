@@ -11,20 +11,20 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
     var files = [], dirs = [];
     var Loadlist = function (orgid) {
         Exhibition.getDirFilesByID({org_id: currentMobileExbt.org_id, type: "mobile"}).then(function (data) {
-            _.each(data.data.list, function (list) {
+            console.log('data',data);
+            _.each(data.list, function (list) {
                 if (list.dir) {
-                    list.info.img_url = JSON.parse(list.info.img_url);
                     dirs.push(list);
                 }
                 else {
                     files.push(list);
                 }
             })
-            if (files.length > 3) {
-                $scope.showMore = true;
-                for (var i = 0; i < 3; i++) {
+            if (files.length > 4) {
+                for (var i = 0; i < 4; i++) {
                     $scope.AllFileList.push(files[i]);
                 }
+                $scope.showMore = true;
                 $scope.FilesList = $scope.AllFileList;
             } else {
                 $scope.FilesList = files;
@@ -45,10 +45,10 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
         $scope.FilesList = files;
         $scope.showMore = false;
     }
-    $scope.showLessFile = function () {
-        $scope.FilesList = $scope.AllFileList;
-        $scope.showMore = true;
-    }
+    // $scope.showLessFile = function () {
+    //     $scope.FilesList = $scope.AllFileList;
+    //     $scope.showMore = true;
+    // }
 
 }
 

@@ -32,9 +32,13 @@
                         <i class="pull-right"></i>
                     </a>
                 </li>
+                <li style="height: 0">
+                    <div class="more" ng-if="showMore" ng-click="showMoreFile()">
+                        <i class="glyphicon glyphicon-chevron-down"></i>查看全部
+                    </div>
+                </li>
             </ul>
-            <div class="more" ng-if="showMore" ng-click="showMoreFile()">查看更多</div>
-            <div class="more" ng-if="!showMore" ng-click="showLessFile()">收起文件</div>
+            <!--<div class="more" ng-if="!showMore" ng-click="showLessFile()">收起文件</div>-->
         </div>
 
         <div class="listCollection">

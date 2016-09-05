@@ -13,7 +13,7 @@ import daterangepicker from 'bootstrap-daterangepicker/daterangepicker';
 
 
 angular.element(document).ready(function () {
-    angular.bootstrap(document, ['cell-ui', 'daterangepicker'], {
+    angular.bootstrap(document, ['cell-ui', 'daterangepicker','angular-md5','LocalStorageModule'], {
         strictDi: true
     });
 });

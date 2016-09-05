@@ -20,6 +20,10 @@ import "angular-sanitize";
 
 import "../assets/scripts/util";
 
+import "angular-md5/angular-md5";
+
+import "angular-local-storage/dist/angular-local-storage"
+
 
 // local scripts
 //import "../assets/js/...";

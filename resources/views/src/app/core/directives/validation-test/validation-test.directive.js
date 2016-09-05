@@ -362,7 +362,7 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem, attrs) {
 
-                $(elem).click(function (event) {
+                elem.click(function (event) {
                     if (event.target.nodeName == "INPUT") {
                         return;
                     }
@@ -448,6 +448,13 @@ export default function (app) {
                     })
                 })
 
+                scope.$watch(attrs.editName, function (value) {
+                    if (value === true) {
+                        elem.trigger('click');
+                        scope[attrs.editName] = false;
+                    }
+                });
+
             },
 
 
@@ -478,6 +485,7 @@ export default function (app) {
                                 fullpath: data.fullpath,
                                 hash: data.hash,
                                 filename: data.fullpath,
+                                autoEditName:true,
                                 info: {file_count: 0, file_size: 0, img_url: [data.img_url[0]]}
                             });
                         })

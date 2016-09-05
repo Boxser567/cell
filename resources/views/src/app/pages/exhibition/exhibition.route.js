@@ -14,12 +14,12 @@ function routeConfig($stateProvider) {
             controller: require('./exhibition-list.controller')
         })
         .state('main.exhibition-detail', {
-            url: '^/exhibition/:id',
+            url: '^/exhibition/:unicode',
             templateUrl: exhibitionDetailTpl,
             controller: require('./exhibition-detail.controller'),
             resolve: {
                 currentExhibition: ['Exhibition', '$stateParams', function (Exhibition, $stateParams) {
-                    return Exhibition.getById(parseInt($stateParams.id));
+                    return Exhibition.getById(parseInt($stateParams.unicode));
                 }]
             }
         });

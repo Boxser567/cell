@@ -353,7 +353,7 @@ body {
             .img {
               overflow: hidden;
               max-height: 190px;
-
+              position: relative;
               img {
                 border-top-left-radius: 4px;
                 border-top-right-radius: 4px;
@@ -363,6 +363,15 @@ body {
                 &:hover {
                   transform: scale(1.1);
                 }
+              }
+              .diff {
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                top: 0;
+                left: 0;
+                z-index: 9;
+                background: rgba(0, 0, 0, .6);
               }
             }
             .caption {
@@ -537,16 +546,16 @@ body {
 
     .nav-con {
       position: absolute;
-      width: 450px;
+      width: 600px;
       left: 50%;
-      margin-left: -225px;
+      margin-left: -300px;
       top: 80px;
       text-align: center;
       .file {
         width: 120px;
         height: 120px;
         border-radius: 50%;
-        margin-left: 165px;
+        margin-left: 240px;
         position: relative;
         #uploadImgdiv {
           border-radius: 50%;

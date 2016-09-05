@@ -68,16 +68,16 @@ body {
       text-align: center;
       width: 100%;
       @media all and (min-width: 420px) {
-        top:60px;
-        .tl{
+        top: 60px;
+        .tl {
           margin-top: 30px;
           font-size: 28px;
         }
-        .time{
+        .time {
           font-size: 18px;
         }
-        .code{
-          a{
+        .code {
+          a {
             font-size: 40px;
           }
         }
@@ -343,12 +343,24 @@ body {
   margin-top: 15px;
   padding-bottom: 20px;
   width: 100%;
-  .more {
-    height: 35px;
-    line-height: 35px;
+  position: relative;
+  padding: 0 15px;
+  .more {    position: relative;
+    width: 100%;
     text-align: center;
+    left: 0;
+    bottom: 66px;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    color: #a7a7a7;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(255, 255, 255, 0.6)), to(#eee));
+    i{
+
+      font-size: 12px;
+      padding-right: 5px;
+    }
   }
-  .warp-mark{
+  .warp-mark {
     text-align: center;
     z-index: 6;
     width: 100%;
@@ -371,7 +383,7 @@ body {
       height: 56px;
       background: #fff;
       border-radius: 4px;
-      margin: 10px 15px;
+      margin: 10px 0px;
       .img {
         width: 52px;
         height: 56px;
@@ -407,6 +419,7 @@ body {
     }
 
   }
+
 }
 
 .preview {

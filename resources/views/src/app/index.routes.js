@@ -5,7 +5,7 @@ function routeConfig($urlRouterProvider) {
 
 
 
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/exhibition');
 
 }
 

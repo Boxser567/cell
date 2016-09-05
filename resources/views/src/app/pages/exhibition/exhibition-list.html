@@ -27,7 +27,7 @@
                                         共{{exhibition.property.size_use | bitSize}} </p>
                                     <div class="mg">
                                         <span><i class="code-img"></i></span>
-                                        <a href="#/exhibition/{{exhibition.id}}">管理</a>
+                                        <a href="#/exhibition/{{exhibition.unique_code}}">管理</a>
                                     </div>
                                 </div>
                             </div>
@@ -74,6 +74,7 @@
                             <div class="thumbnail">
                                 <div class="img">
                                     <img src="{{exhibition.banner}}-640" alt="等待加载">
+                                    <div class="diff"></div>
                                 </div>
                                 <div class="caption">
                                     <h4>{{exhibition.title}} </h4>
@@ -81,7 +82,7 @@
                                         共{{exhibition.property.size_use}} </p>
                                     <div class="mg">
                                         <i class="code-img"></i>
-                                        <a href="#/exhibition/{{exhibition.id}}">查看</a>
+                                        <a href="#/exhibition/{{exhibition.unique_code}}">查看</a>
                                     </div>
                                 </div>
                             </div>

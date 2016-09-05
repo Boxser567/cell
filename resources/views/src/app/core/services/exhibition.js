@@ -2,8 +2,9 @@
 
 export default function (app) {
     app
-        .factory('Exhibition', ['$q', '$http', function ($q, $http) {
+        .factory('Exhibition', ['$q', '$http', 'md5', function ($q, $http, md5) {
             var exhibitions;
+            var fileList = [];
             return {
                 login: function () {
                     return $http.get('/auth/login').then(function (res) {
@@ -24,8 +25,8 @@ export default function (app) {
                 },
 
                 //根据ID获取会展详情
-                getById: function (id) {
-                    return $http.get('/exhibition/detail', {params: {exhibition_id: id}});
+                getById: function (code) {
+                    return $http.get('/exhibition/detail', {params: {unique_code: code}});
                 },
 
                 //获取会展列表信息
@@ -57,8 +58,26 @@ export default function (app) {
                 },
 
                 //获取文件夹的文件列表
-                getDirFilesByID(params){
-                    return $http.get('/file/list', {params: params});
+                getDirFilesByID: function (params) {
+                    var defer = $q.defer();
+                    var key = md5.createHash(params.org_id + '/' + (params.fullpath || ''));
+                    if (angular.isDefined(fileList[key])) {
+                        defer.resolve(fileList[key]);
+                    } else {
+                        $http.get('/file/list', {params: params}).then(function (res) {
+                            res.data.list = _.map(res.data.list, function (item) {
+                                if (item.info && item.info.img_url) {
+                                    item.info.img_url = JSON.parse(item.info.img_url);
+                                }
+                                return item;
+                            });
+                            fileList[key] = res.data;
+                            defer.resolve(fileList[key]);
+                        }, function () {
+                            defer.reject.apply(defer, arguments);
+                        })
+                    }
+                    return defer.promise;
                 },
                 getDirCountSize(params){
                     return $http.get('/file/folder-detail', {params: params}).then(function (res) {

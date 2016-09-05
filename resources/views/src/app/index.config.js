@@ -7,6 +7,7 @@ function config($logProvider, $sceProvider) {
     $logProvider.debugEnabled(true);
 
     $sceProvider.enabled(false);
+
 }
 
 export default config;

@@ -3,7 +3,10 @@
 function ExhibitionListController($scope, $state, Exhibition) {
     'ngInject';
     $scope.newMask = false;
+
+
     Exhibition.list().then(function (res) {
+        console.log("列表加载", res);
 
         var start = [], end = [];
         var date = new Date();
@@ -20,6 +23,7 @@ function ExhibitionListController($scope, $state, Exhibition) {
         });
         $scope.start_ebts = start;
         $scope.end_ebts = end;
+
 
     });
 
