@@ -50,7 +50,7 @@ class ExhibitionController extends BaseController
     //获取展会详情
     public function getDetail()
     {
-        $exhibition = ExhibitionInfo::_findOrFail(inputGetOrFail('exhibition_id'));
+        $exhibition = ExhibitionInfo::getUniqueCode(inputGetOrFail('unique_code'));
         $this->format($exhibition);
       /*************************************/
         $files = new YunkuFile($exhibition['org_id']);
