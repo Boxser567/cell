@@ -76,15 +76,15 @@ class AuthController extends Controller
     {
 
 
-        View::addExtension('html','blade');
-        return  view('index');
-      //  $oauthUser = Socialite::with('weixin')->user();
-
+        //View::addExtension('html','blade');
+       // return  view('index');
+        $oauthUser = Socialite::with('weixin')->user();
+//dump($oauthUser);
         // 在这里可以获取到用户在微信的资料
         //$auth=new \App\Http\Controllers\AuthController();
         //$auth->login($oauthUser);
-        //View::addExtension('html','blade');
-        //return  view('index');
+        View::addExtension('html','blade');
+        return  view('index');
         // 接下来处理相关的业务逻辑
 
     }
