@@ -12,9 +12,6 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
     $scope.DirsList = [];
     $scope.warpMask = false;
     Exhibition.getDirFilesByID({org_id: $scope.orgid}).then(function (data) {
-
-
-        console.log("dataaa", data);
         var files = [], dirs = [];
         _.each(data.list, function (list) {
             if (list.dir) {
@@ -97,7 +94,7 @@ function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhib
         Exhibition.getDirFilesByID({org_id: $scope.orgid, fullpath: path}).then(function (res) {
             console.log("加载列表信息", res);
             $timeout(function () {
-                $scope.dirList = res.data.list;
+                $scope.dirList = res.list;
                 $scope.warpMask = false;
             })
         });
