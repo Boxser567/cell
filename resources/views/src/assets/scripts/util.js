@@ -74,6 +74,11 @@
             path = path.toString();
             return path.replace(/\\/g, '/').replace(/\.\w+$/, '');
         },
+        fileName: function (path) {
+            path = path.toString();
+            return path.replace(/\\/g, '/').replace(/\.\/+$/, '');
+        },
+
         dirName: function (path) {
             path = path.toString();
             return path.indexOf('/') < 0 ? '' : path.replace(/\\/g, '/').replace(/\/[^\/]*$/, '');

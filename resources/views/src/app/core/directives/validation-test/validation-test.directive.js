@@ -111,19 +111,19 @@ export default function (app) {
                     });
                     uploader.on('uploadSuccess', function (uploadFile, returnFile) {
                         // console.log("上传成功", arguments, scope.FilesList);
-                        // for (var i = scope.FilesList.length; i >= 0; i--) {
-                        //     console.log(scope.FilesList[i]);
-                        //     if (scope.FilesList[i].hasOwnProperty('wid')) {
-                        //         if (scope.FilesList[i].wid == uploadFile.id) {
-                        //             $timeout(function () {
-                        //                 scope.FilesList[i].filename = returnFile.fullpath;
-                        //                 scope.FilesList[i].hash = returnFile.hasg;
-                        //                 scope.FilesList[i].fullpath = returnFile.fullpath;
-                        //             })
-                        //             break;
-                        //         }
-                        //     }
-                        // }
+                        var len = scope.FilesList.length;
+                        for (var i = len; i >= 0; i--) {
+                            if (scope.FilesList[i] && scope.FilesList[i].wid) {
+                                if (scope.FilesList[i].wid == uploadFile.id) {
+                                    $timeout(function () {
+                                        scope.FilesList[i].filename = returnFile.fullpath;
+                                        scope.FilesList[i].hash = returnFile.hash;
+                                        scope.FilesList[i].fullpath = returnFile.fullpath;
+                                    })
+                                    break;
+                                }
+                            }
+                        }
 
 
                     });
@@ -278,12 +278,30 @@ export default function (app) {
                         })
                     });
                     uploader.on('uploadSuccess', function (wufile, succfile) {
+                        // console.log("队列文件上传成功", arguments);
+                        succfile.fullpath = Util.String.baseName(succfile.fullpath);
                         Exhibition.fileUploadSuss({
                             hash: attrs.datadirhash,
                             type: 'add',
                             size: succfile.filesize
                         }).then(function (res) {
                             // console.log("数据上传ces", scope.DirsList, scope.thisDirPath);
+
+                            //替换文件上传成功后文件的名称
+                            var len = scope.dirList.length;
+                            for (var i = len; i >= 0; i--) {
+                                if (scope.dirList[i] && scope.dirList[i].wid) {
+                                    if (scope.dirList[i].wid == wufile.id) {
+                                        $timeout(function () {
+                                            scope.dirList[i].filename = succfile.fullpath;
+                                            scope.dirList[i].hash = succfile.hash;
+                                            scope.dirList[i].fullpath = succfile.fullpath;
+                                        })
+                                        break;
+                                    }
+                                }
+                            }
+
                             Exhibition.getDirCountSize({hash: attrs.datadirhash}).then(function (data) {
                                 console.log("数据上传成功后更新", data)
                                 for (var n = 0; n < scope.DirsList.length; n++) {
