@@ -12,7 +12,7 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.FilesList = [];
     $scope.DirsList = [];
     $scope.warpMask = false;
-    Exhibition.getDirFilesByID({org_id: $scope.orgid}).then(function (data) {
+    Exhibition.getDirFilesByID({org_id: $scope.orgid}, false).then(function (data) {
         var files = [], dirs = [];
         _.each(data.list, function (list) {
             if (list.dir) {
