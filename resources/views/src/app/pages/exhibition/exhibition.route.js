@@ -22,7 +22,7 @@ function routeConfig($stateProvider) {
 
                     console.log("$stateParams", $stateParams);
 
-                    return Exhibition.getById(parseInt($stateParams.unicode));
+                    return Exhibition.getById($stateParams.unicode);
                 }]
             }
         });
