@@ -31,45 +31,21 @@ export default function (app) {
         };
     });
 
-    //设置会展时间
-    // app.directive('exhitionTime', function ($timeout, Exhibition) {
-    //     return {
-    //         restrict: 'A',
-    //         link: function (scope, elem) {
-    //             elem.click(function () {
-    //                 scope.Extiming = true;
-    //                 $('#Extiming').daterangepicker({
-    //                     "startDate": scope.currentExbt.start_date,
-    //                     "endDate": scope.currentExbt.end_date,
-    //                     locale: {
-    //                         format: 'YYYY-MM-DD',
-    //                     },
-    //
-    //                 }, function (start, end) {
-    //                     if (confirm("您确定将会展时间设置为当前选中的时间吗?")) {
-    //                         Exhibition.editExTitle({
-    //                             start_date: start.format('YYYY-MM-DD'),
-    //                             end_date: end.format('YYYY-MM-DD')
-    //                         }).then(function (res) {
-    //                             $timeout(function () {
-    //                                 scope.Extiming = false;
-    //                                 scope.currentExbt.start_date = start.format('YYYY-MM-DD');
-    //                                 scope.currentExbt.end_date = end.format('YYYY-MM-DD');
-    //                             })
-    //                         })
-    //                     }
-    //                     console.log("" + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'))
-    //                 });
-    //
-    //
-    //             })
-    //         },
-    //
-    //
-    //     };
-    // });
+    app.directive('imgHovers', function ($timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem) {
+                elem.on("mouseenter", function () {
+                    $(".img-text-warning").show();
+                });
+                elem.on('mouseleave', function () {
+                    $(".img-text-warning").hide();
+                });
+            },
+        };
+    });
 
-    app.directive("copyWebsite", function () {
+    app.directive("copyWebsite", function ($timeout, $rootScope) {
         return {
             restrict: 'A',
             link: function (scope, elem) {
@@ -79,7 +55,12 @@ export default function (app) {
                     }
                 });
                 clipboard.on('success', function (e) {
-                    alert("复制成功!");
+                    $timeout(function () {
+                        $rootScope.alertMsg = true;
+                    })
+                    $timeout(function () {
+                        $rootScope.alertMsg = false;
+                    }, 750);
                 });
             },
         };
@@ -108,8 +89,9 @@ export default function (app) {
                             name: '',
                             filefield: 'file',
                             file: 'file',
-                            overwrite: 0
+                            // overwrite: 0
                         },
+
                         duplicate: true,//重复文件
                         // fileNumLimit: 100,
                         fileSizeLimit: 1024 * 1024 * 1024,  //最大文件 1 个G
@@ -127,12 +109,26 @@ export default function (app) {
                             })
                         })
                     });
-                    uploader.on('uploadSuccess', function () {
-                        console.log("上传成功", arguments);
+                    uploader.on('uploadSuccess', function (uploadFile, returnFile) {
+                        // console.log("上传成功", arguments, scope.FilesList);
+                        // for (var i = scope.FilesList.length; i >= 0; i--) {
+                        //     console.log(scope.FilesList[i]);
+                        //     if (scope.FilesList[i].hasOwnProperty('wid')) {
+                        //         if (scope.FilesList[i].wid == uploadFile.id) {
+                        //             $timeout(function () {
+                        //                 scope.FilesList[i].filename = returnFile.fullpath;
+                        //                 scope.FilesList[i].hash = returnFile.hasg;
+                        //                 scope.FilesList[i].fullpath = returnFile.fullpath;
+                        //             })
+                        //             break;
+                        //         }
+                        //     }
+                        // }
+
 
                     });
                     uploader.on('uploadProgress', function (fileObj, progress) {
-                        //console.log("上传进度", arguments);
+                        // console.log("上传进度", arguments);
                         var file = _.findWhere(scope.FilesList, {
                             wid: fileObj.id
                         });
@@ -254,7 +250,7 @@ export default function (app) {
                             name: '',
                             filefield: 'file',
                             file: 'file',
-                            overwrite: 0
+                            // overwrite: 0
                         },
                         duplicate: true,//重复文件
                         //fileNumLimit: 100,
@@ -265,7 +261,6 @@ export default function (app) {
                         uploader.options.formData.path = attrs.datadirpath
                         // console.log("datadirpath", uploader.options.formData.path);
                     });
-
 
                     uploader.on('fileQueued', function (file) {
                         // console.log("文件队列", file);
@@ -288,10 +283,7 @@ export default function (app) {
                             type: 'add',
                             size: succfile.filesize
                         }).then(function (res) {
-
                             // console.log("数据上传ces", scope.DirsList, scope.thisDirPath);
-
-
                             Exhibition.getDirCountSize({hash: attrs.datadirhash}).then(function (data) {
                                 console.log("数据上传成功后更新", data)
                                 for (var n = 0; n < scope.DirsList.length; n++) {
@@ -299,7 +291,6 @@ export default function (app) {
                                         break;
                                     }
                                 }
-                                console.log("敌机向", n, scope.DirsList[n]);
                                 $timeout(function () {
                                     scope.DirsList[n].info = {
                                         file_count: data.file_count,
@@ -357,11 +348,10 @@ export default function (app) {
     });
 
 
-    app.directive('editName', function (Exhibition, $timeout) {
+    app.directive('editName', function (Exhibition, $timeout, $rootScope) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
-
                 elem.click(function (event) {
                     if (event.target.nodeName == "INPUT") {
                         return;
@@ -399,6 +389,7 @@ export default function (app) {
                                         title: text
                                     }).then(function (res) {
                                         $(elem).empty().text(text);
+                                        $rootScope.projectTitle = text + " - 会文件";
                                     })
                                 }
                                 if (attrs.dataedit == "filename") {

@@ -11,12 +11,13 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
     var files = [], dirs = [];
     var Loadlist = function (orgid) {
         Exhibition.getDirFilesByID({org_id: currentMobileExbt.org_id, type: "mobile"}).then(function (data) {
-            console.log('data',data);
+            console.log('data', data);
             _.each(data.list, function (list) {
                 if (list.dir) {
                     dirs.push(list);
                 }
                 else {
+                    list.filename = Util.String.parseName(list.filename);
                     files.push(list);
                 }
             })

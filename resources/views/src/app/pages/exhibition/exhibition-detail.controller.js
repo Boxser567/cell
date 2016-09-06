@@ -1,11 +1,12 @@
 'use strict';
 
 
-function ExhibitionDetailController($scope, $stateParams, $timeout, currentExhibition, Exhibition) {
+function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, currentExhibition, Exhibition) {
     'ngInject';
     console.log("返回详情数据", $stateParams, currentExhibition);
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
+    $rootScope.projectTitle = currentExhibition.data.title + " - 会文件";
     $scope.orgid = currentExhibition.data.org_id;
     $scope.imgloading = false;
     $scope.FilesList = [];

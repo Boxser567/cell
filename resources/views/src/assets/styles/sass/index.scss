@@ -28,6 +28,30 @@ body {
   margin: 0 !important;
 }
 
+.alertMsg {
+  position: fixed;
+  top: 65px;
+  padding: 10px 25px;
+  left: 50%;
+  margin-left: -53px;
+  background: #777777;
+  color: #fff;
+  z-index: 999;
+  border-radius: 20px;
+}
+
+.img-text-warning {
+  display: none;
+  position: absolute;
+  top: 35px;
+  left: 0px;
+  color: #Fff;
+  font-size: 16px;
+  width: 100%;
+  z-index: 10;
+  background: rgba(0,0,0,.6);
+}
+
 //登录页面
 .login {
   width: 600px;
@@ -211,7 +235,7 @@ body {
 
         .thumbadd {
           background: #fff;
-          padding: 120px 60px;
+          padding: 116px 60px;
           position: relative;
           .warp-mask {
             position: absolute;

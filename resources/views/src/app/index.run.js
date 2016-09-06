@@ -1,7 +1,7 @@
 'use strict';
 
 
-function runBlock($log,$rootScope,Exhibition,localStorageService) {
+function runBlock($log,$rootScope) {
 	'ngInject';
 
 	// $log.debug('Hello from run block!');
@@ -9,20 +9,7 @@ function runBlock($log,$rootScope,Exhibition,localStorageService) {
 	$rootScope.$on('$stateChangeError',function(){
 		$log.error('$stateChangeError',arguments);
 	});
-
-	var user = localStorageService.get('user');
-	if(!user){
-		Exhibition.login().then(function (res) {
-			user = {
-				loginName:res.name
-			};
-			localStorageService.set('user', user);
-			$rootScope.user = user;
-			window.location.href = "/#/exhibition";
-		})
-	}else{
-		$rootScope.user = user;
-	}
+	$rootScope.projectTitle = "会文件";
 
 
 }

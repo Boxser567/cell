@@ -3,13 +3,12 @@
 function routeConfig($urlRouterProvider) {
   'ngInject';
 
-
-
-  $urlRouterProvider.otherwise('/exhibition');
+  $urlRouterProvider.otherwise('/login');
 
 }
 
 export default angular
+
   .module('index.routes', [])
     .config(routeConfig);
 

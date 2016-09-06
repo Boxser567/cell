@@ -64,9 +64,9 @@
         </div>
         <div class="wefooter">
             <!--<div>访问会展官方主页</div>-->
-            <p>
-                <a></a>
-            </p>
+            <!--<p>-->
+                <!--<a></a>-->
+            <!--</p>-->
         </div>
 
 
@@ -82,8 +82,10 @@
      aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+
+
             <div class="modal-body">
-                <p>提示: 请扫描二维码访问当前会展</p>
+                <p>提示: 请扫描二维码访问当前会展 <span class="pull-right close" data-dismiss="modal"> x </span></p>
                 <img src="/file/qr?size=160&text={{pageCode | encodeURIComponent}}"
                      alt="等待加载">
             </div>

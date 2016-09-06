@@ -11,7 +11,10 @@ function routeConfig($stateProvider) {
         .state('main.exhibition-list', {
             url: '^/exhibition',
             templateUrl: exhibitionListTpl,
-            controller: require('./exhibition-list.controller')
+            controller: require('./exhibition-list.controller'),
+            resolve:{
+
+            }
         })
         .state('main.exhibition-detail', {
             url: '^/exhibition/:unicode',

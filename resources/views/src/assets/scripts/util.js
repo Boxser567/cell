@@ -68,6 +68,12 @@
             path = path.toString();
             return path.replace(/\\/g, '/').replace(/.*\//, '');
         },
+
+        //去除文件后缀名
+        parseName: function (path) {
+            path = path.toString();
+            return path.replace(/\\/g, '/').replace(/\.\w+$/, '');
+        },
         dirName: function (path) {
             path = path.toString();
             return path.indexOf('/') < 0 ? '' : path.replace(/\\/g, '/').replace(/\/[^\/]*$/, '');

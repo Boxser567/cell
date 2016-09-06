@@ -26,12 +26,14 @@
 
             <div class="nav-con" style="text-align: center;">
                 <div class="file" title="请上传160x160像素会展Logo">
-                    <img src="{{currentExbt.logo}}" alt="" ng-if="currentExbt.logo!=''">
+                    <img src="{{currentExbt.logo}}" alt="" ng-if="currentExbt.logo!=''" >
                     <div class="loding" ng-if="imgloading">
                         <span></span>
                         <!--<img src="../images/pass_white.gif.gif" alt="">-->
                     </div>
-                    <div id="uploadImgdiv" dataid="{{currentExbt.id}}" upload-logo></div>
+                    <div id="uploadImgdiv" dataid="{{currentExbt.id}}" upload-logo img-hovers>
+                    </div>
+                    <div class="img-text-warning"> 点击更换Logo </div>
                 </div>
                 <div class="name" dataid="{{currentExbt.id}}" dataedit="title" edit-name>{{currentExbt.title}}</div>
 
@@ -204,4 +206,7 @@
 
 
     </div>
-
+</div>
+<div class="alertMsg" ng-if="alertMsg">
+    复制成功
+</div>

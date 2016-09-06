@@ -9,7 +9,6 @@ import  "angular";
 
 import "angular-ui-router";
 
-
 import 'angular-daterangepicker/js/angular-daterangepicker.min';
 
 import 'underscore';
