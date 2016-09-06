@@ -485,9 +485,10 @@ export default function (app) {
                                 fullpath: data.fullpath,
                                 hash: data.hash,
                                 filename: data.fullpath,
-                                autoEditName:true,
+                                autoEditName: true,
                                 info: {file_count: 0, file_size: 0, img_url: [data.img_url[0]]}
                             });
+                            scope.currentExbt.property.dir_count = Number(scope.currentExbt.property.dir_count) + 1;
                         })
                     });
                 })

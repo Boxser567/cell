@@ -19,6 +19,9 @@ function routeConfig($stateProvider) {
             controller: require('./exhibition-detail.controller'),
             resolve: {
                 currentExhibition: ['Exhibition', '$stateParams', function (Exhibition, $stateParams) {
+
+                    console.log("$stateParams", $stateParams);
+
                     return Exhibition.getById(parseInt($stateParams.unicode));
                 }]
             }

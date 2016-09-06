@@ -23,8 +23,6 @@ function ExhibitionListController($scope, $state, Exhibition) {
         });
         $scope.start_ebts = start;
         $scope.end_ebts = end;
-
-
     });
 
 
@@ -41,7 +39,9 @@ function ExhibitionListController($scope, $state, Exhibition) {
     $scope.createExbt = function () {
         $scope.newMask = true;
         Exhibition.createEx().then(function (res) {
-            $state.go('main.exhibition-detail', {id: res.data.id});
+            console.log("42344535", res);
+            var unicode = Util.String.baseName(res.data.unique_code);
+            $state.go('main.exhibition-detail', {unicode: unicode});
         })
     }
 
