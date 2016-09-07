@@ -9,7 +9,6 @@ function runBlock($log,$rootScope) {
 	$rootScope.$on('$stateChangeError',function(){
 		$log.error('$stateChangeError',arguments);
 	});
-	$rootScope.projectTitle = "会文件";
 
 
 }

@@ -3,6 +3,7 @@
 function LoginController($scope, $rootScope, Exhibition, localStorageService) {
     'ngInject';
 
+    $rootScope.projectTitle = "会文件";
     // Login.getLoginInfo();
     $scope.loginIn = function () {
         // var user = localStorageService.get('user');

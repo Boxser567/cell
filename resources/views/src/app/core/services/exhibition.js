@@ -58,10 +58,10 @@ export default function (app) {
                 },
 
                 //获取文件夹的文件列表
-                getDirFilesByID: function (params) {
+                getDirFilesByID: function (params,cache) {
                     var defer = $q.defer();
                     var key = md5.createHash(params.org_id + '/' + (params.fullpath || ''));
-                    if (angular.isDefined(fileList[key])) {
+                    if (cache !== false && angular.isDefined(fileList[key])) {
                         defer.resolve(fileList[key]);
                     } else {
                         $http.get('/file/list', {params: params}).then(function (res) {
