@@ -16,7 +16,7 @@ use App\Models\ExhibitionInfo;
 class ExhibitionController extends BaseController
 {
     const PRE_FIX = "Exhibition_";
-    const RES_COLLECTION_FOLDER_NAME = "GKKJ_ZLSJJ";//够快科技资料收集夹
+   
     private $ent_id;
 
 
@@ -76,8 +76,8 @@ class ExhibitionController extends BaseController
         $size=$org_info['info']['size_org_use'];
         $org_file = new YunkuFile($org_id);
         foreach ($file_list as $key => $file) {
-            if ($file['filename'] == ExhibitionController::RES_COLLECTION_FOLDER_NAME) {
-                $res_col_info = $org_file->getInfo(ExhibitionController::RES_COLLECTION_FOLDER_NAME, 1);
+            if ($file['filename'] == FileController::RES_COLLECTION_FOLDER_NAME) {
+                $res_col_info = $org_file->getInfo(FileController::RES_COLLECTION_FOLDER_NAME, 1);
                 $files =$org_info['info']['file_count'] - $res_col_info['file_count'];
                 $size = $org_info['info']['size_org_use'] - $res_col_info['files_size'];
                 $dirs =$org_info['info']['dir_count'] - 1;
@@ -122,10 +122,10 @@ class ExhibitionController extends BaseController
             case "open":
                 $exhibition->res_collect_lock = 1;
                 $org_file = new YunkuFile($exhibition->org_id);
-                $org_file->setFolder(self::RES_COLLECTION_FOLDER_NAME);
+                $org_file->setFolder(FileController::RES_COLLECTION_FOLDER_NAME);
                 break;
             case "close":
-                $exhibition->res_collect_lock = 0;
+                $exhibition->res_collect_lock = -1;
                 break;
             default:
                 throw new \Exception("参数错误");
@@ -140,7 +140,7 @@ class ExhibitionController extends BaseController
         $exhibition = $exhibition->toArray();
         $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/#/mobile/" . $exhibition['unique_code'];
         if ($exhibition['res_collect_lock']) {
-            $exhibition['res_collect_lock'] = ExhibitionController::RES_COLLECTION_FOLDER_NAME;
+            $exhibition['res_collect_lock'] = FileController::RES_COLLECTION_FOLDER_NAME;
         }
     }
 

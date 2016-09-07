@@ -19,6 +19,9 @@ use Endroid\QrCode\QrCode;
 
 class FileController extends Controller
 {
+
+    const RES_COLLECTION_FOLDER_NAME = "GKKJ_ZLSJJ";//够快科技资料收集夹
+
     //获取文件列表
     public function getList()
     {
@@ -182,6 +185,21 @@ class FileController extends Controller
         header('Content-Type: ' . $qrCode->getContentType());
         $qrCode->render();
         exit();
+    }
+
+    public function getYunkuUrl()
+    {
+        $org_id=inputGetOrFail("org_id");
+        $url="http://yunku.gokuai.com/widget/gkc?";
+        $url.="client_id=".config("app.yunku.client_id")."&order=filename%20asc&menu=link&redirect_uri=".get_http_host()."/".config("app.yunku.callback_url").$org_id."/";
+        return $url;
+    }
+    
+    
+    public function getResCollector()
+    {
+        $org=new YunkuFile(inputGetOrFail('org_id'));
+        return $org->getLink(self::RES_COLLECTION_FOLDER_NAME);
     }
 
 }

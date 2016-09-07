@@ -22,9 +22,9 @@ class TestController extends Controller
     public function getClear()
     {
         Session::flush();
-      //  \DB::table("ent_exhibition_config")->truncate();
-       // \DB::table("ent_exhibition_info")->truncate();
-      //  \DB::table("member")->truncate();
+        //  \DB::table("ent_exhibition_config")->truncate();
+        // \DB::table("ent_exhibition_info")->truncate();
+        //  \DB::table("member")->truncate();
         echo "清理缓存完毕";
     }
 
@@ -68,7 +68,7 @@ class TestController extends Controller
     public function getJ()
     {
         $yunku = new YunkuFile(665030);
-        return $yunku->getInfo("/wang",1);
+        return $yunku->getInfo("/wang", 1);
     }
 
     public function getK()
@@ -120,23 +120,24 @@ class TestController extends Controller
         $result = array();
         $tables = \DB::select("show tables");
         foreach ($tables as $table) {
-            dump($table);die;
-            $sql="show columns from ".$table;
-            $columns=\DB::select($sql);
-            $result[$table]=$columns;
+            dump($table);
+            die;
+            $sql = "show columns from " . $table;
+            $columns = \DB::select($sql);
+            $result[$table] = $columns;
         }
         return $result;
     }
 
     public function getN()
     {
-        return config('data.BANNER')[random_int(0,5)];
+        return config('data.BANNER')[random_int(0, 5)];
     }
 
 
     public function getO()
     {
-        return config('app.qiniu.domain')."/".config('data.BANNER')[random_int(0,8)];
+        return config('app.qiniu.domain') . "/" . config('data.BANNER')[random_int(0, 8)];
     }
 
     public function getP()
@@ -144,5 +145,26 @@ class TestController extends Controller
         $org_file = new YunkuFile(665030);
         $file_list = $org_file->getFileList();
         return $file_list;
+    }
+
+
+    public function getQ()
+    {
+        return get_http_host();
+    }
+
+
+    public function getW()
+    {
+        $org=new YunkuFile(688602);
+        return $org->getLink("dfsdfs");
+       // return  $file_list = $org->getFileList(inputGet('fullpath', ''));
+    }
+
+
+    public function getX()
+    {
+        $file=new YunkuFile(688512);
+        $file->setUrlFile("许葛云库的文件","http://yunku.gokuai.com/file/jag38ss7#");
     }
 }

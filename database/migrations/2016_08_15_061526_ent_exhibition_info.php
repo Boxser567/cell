@@ -8,7 +8,7 @@ class EntExhibitionInfo extends CreateBase
         $table->increments('id');
         $table->string("title",100);
         $table->string("logo",100);
-        $table->integer("unique_code");
+        $table->string("unique_code",100);
         $table->integer("org_id");
         $table->string("banner",100);
         $table->date("start_date");

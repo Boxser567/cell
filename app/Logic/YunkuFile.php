@@ -145,7 +145,19 @@ class YunkuFile extends \GokuaiFile
         $res = $this->callAPI2('POST', '/1/file/create_file_by_url', $data);
         $this->checkResult($res);
         return $res;
+    }
 
+
+    //文件秒传
+    public function setYunkuFile($file_size,$file_hash)
+    {
+        $data = [
+            'filehash' => $file_hash,
+            'filesize' => $file_size,
+        ];
+        $res = $this->callAPI2('POST', '/1/file/create_file', $data);
+        $this->checkResult($res);
+        return $res;
     }
 
     //文件信息
@@ -160,6 +172,20 @@ class YunkuFile extends \GokuaiFile
         $this->checkResult($res);
         return $res;
     }
+
+    //获取文件外链
+    public function getLink($fullpath,$auth="upload",$deadline='')
+    {
+        $data = [
+            'fullpath' => $fullpath,
+            'auth' => $auth,
+            'deadline' => $deadline
+        ];
+        $res = $this->callAPI2('GET', '/1/file/link', $data);
+        $this->checkResult($res);
+        return $res;
+    }
+
 
     public function checkResult(&$res)
     {

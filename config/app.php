@@ -34,7 +34,8 @@ return [
         'client_secret' => env('YUNKU_CLIENT_SECRET'),
         'api' => env('YUNKU_API_URL'),
         'username'=>env('YUNKU_USERNAME'),
-        'password'=>env('YUNKU_PASSWORD')
+        'password'=>env('YUNKU_PASSWORD'),
+        'callback_url'=>env('YUNKU_CALLBACK_URL')
     ],
     'qiniu' => [
         'access_key' => env('QINIU_ACCESS_KEY'),
