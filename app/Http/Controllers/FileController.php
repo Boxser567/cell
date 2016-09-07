@@ -187,15 +187,13 @@ class FileController extends Controller
         exit();
     }
 
-    public function getYunkuUrl()
+    public function getYunkuFile()
     {
         $org_id=inputGetOrFail("org_id");
-        $url="http://yunku.gokuai.com/widget/gkc?";
-        $url.="client_id=".config("app.yunku.client_id")."&order=filename%20asc&menu=link&redirect_uri=".get_http_host()."/".config("app.yunku.callback_url").$org_id."/";
-        return $url;
+        $yunkufile=new YunkuFile($org_id);
+       return  $yunkufile->setYunkuFile(inputGetOrFail("size"),inputGetOrFail("size"));
     }
-    
-    
+
     public function getResCollector()
     {
         $org=new YunkuFile(inputGetOrFail('org_id'));
