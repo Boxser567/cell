@@ -21,7 +21,7 @@ class AuthController extends Controller
 
     public function getLogin($oauthUser='')
     {
-        $name="够快科技";
+        $name="会展adminer";
         $unionid="12345";
         //$name=inputGetOrFail('name');
         //$unionid=inputGetOrFail('unionid');
