@@ -77,7 +77,7 @@
                                 <div class="caption">
                                     <h4>{{exhibition.title}} </h4>
                                     <p>包含{{exhibition.property.dir_count}}个分类 {{exhibition.property.file_count}}个文件
-                                        共{{exhibition.property.size_use}} </p>
+                                        共{{exhibition.property.size_use  | bitSize}} </p>
                                     <div class="mg">
                                         <i class="code-img"></i>
                                         <a href="#/exhibition/{{exhibition.unique_code}}">查看</a>

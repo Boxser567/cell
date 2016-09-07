@@ -26,7 +26,7 @@
             <ul>
                 <li ng-repeat="file in FilesList">
                     <a href="#/mobile_file/{{pageunicode}}/{{file.fullpath}}">
-                        <span class="img {{ file.filename | getFileIconSuffix }}"></span>
+                        <span class="img {{ file.fullpath | getFileIconSuffix }}"></span>
                         <!--<img src="../images/icon_pdf.png" alt=""/>-->
                         <div>{{file.filename}}</div>
                         <i class="pull-right"></i>
