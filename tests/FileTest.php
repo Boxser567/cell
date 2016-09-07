@@ -45,7 +45,7 @@ class FileTest extends TestCase
 
     }
 
-    public function testImg()
+    public function estImg()
     {
         dump("创建新文件夹");
         $result = $this->request(
@@ -79,6 +79,21 @@ class FileTest extends TestCase
                 'org_id'=>'665030',
                 'fullpath'=>'概况RESTful.md',
                 "newpath"=>"newName.md"
+
+            ]
+        );
+        $this->checkOut($result);
+    }
+
+
+    public function testSendMas()
+    {
+        dump("修改文件(夹)名");
+        $result = $this->request(
+            "GET", "/file/yunku-file", [
+                'org_id'=>'688602',
+                'hash'=>'972553240201a02c0e433a51dbfbe8c85c3cd8b4',
+                "size"=>"362560"
 
             ]
         );

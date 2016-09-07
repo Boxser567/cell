@@ -157,8 +157,8 @@ class TestController extends Controller
     public function getW()
     {
         $org=new YunkuFile(688602);
-        return $org->getLink("dfsdfs");
-       // return  $file_list = $org->getFileList(inputGet('fullpath', ''));
+        //return $org->getLink("dfsdfs");
+        return  $file_list = $org->getFileList(inputGet('fullpath', ''));
     }
 
 

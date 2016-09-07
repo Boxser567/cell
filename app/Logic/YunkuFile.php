@@ -149,9 +149,10 @@ class YunkuFile extends \GokuaiFile
 
 
     //文件秒传
-    public function setYunkuFile($file_size,$file_hash)
+    public function setYunkuFile($fullpath,$file_size,$file_hash)
     {
         $data = [
+            "fullpath"=>$fullpath,
             'filehash' => $file_hash,
             'filesize' => $file_size,
         ];

@@ -43,6 +43,8 @@ class GokuaiBase
         if (!$parameters) {
             return '';
         }
+        unset($parameters['filehash']);
+        unset($parameters['filesize']);
         ksort($parameters);
         $data = implode("\n", $parameters);
         $signature = base64_encode(hash_hmac('sha1', $data, $this->client_secret, true));
