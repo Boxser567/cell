@@ -155,6 +155,7 @@ class YunkuFile extends \GokuaiFile
             "fullpath"=>$fullpath,
             'filehash' => $file_hash,
             'filesize' => $file_size,
+            'overwrite'=>0
         ];
         $res = $this->callAPI2('POST', '/1/file/create_file', $data);
         $this->checkResult($res);
