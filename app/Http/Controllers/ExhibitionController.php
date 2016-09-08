@@ -16,9 +16,7 @@ use App\Models\ExhibitionInfo;
 class ExhibitionController extends BaseController
 {
     const PRE_FIX = "Exhibition_";
-   
     private $ent_id;
-
 
     public function __construct()
     {
@@ -52,7 +50,7 @@ class ExhibitionController extends BaseController
     {
         $exhibition = ExhibitionInfo::getUniqueCode(inputGetOrFail('unique_code'));
         $this->format($exhibition);
-      /*************************************/
+        /*************计算更新会展文件个数记总大小****************/
         $files = new YunkuFile($exhibition['org_id']);
         $file_list=$files->getFileList(inputGet('fullpath',''));
         $statistics=$this->updateStatistic($file_list['list'], $exhibition['org_id']);
@@ -61,7 +59,7 @@ class ExhibitionController extends BaseController
         $property['size_use']=$statistics['size'];
         $property['dir_count']=$statistics['dirs'];
         $exhibition["property"]=json_encode($property);
-        /*************************************/
+        /*****************************************************/
         return $exhibition;
     }
 
