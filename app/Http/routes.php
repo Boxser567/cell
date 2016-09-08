@@ -27,12 +27,10 @@ Route::get('/login', function () {
 Route::get('/auth/oauth', 'Auth\AuthController@oauth');
 # 微信接口回调地址
 Route::get('/auth/callback', 'Auth\AuthController@callback');
-Route::get("yunku/file/{id}","YunkufileController@file");
 Route::controller("base","BaseController");
 Route::controller("account","AccountController");
 Route::controller("auth","AuthController");
 Route::controller("file","FileController");
 Route::controller("exhibition","ExhibitionController");
 Route::controller("test","TestController");
-Route::controller("yunku","YunkufileController");
 
