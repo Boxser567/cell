@@ -111,7 +111,7 @@ export default function (app) {
                                 filewidth: 0,
                                 wid: file.id
                             })
-                            // $("#uploadFileModal").modal('hide');
+                            $("#uploadFileModal").hide();
                         })
                     });
                     uploader.on('uploadSuccess', function (uploadFile, returnFile) {
@@ -284,7 +284,7 @@ export default function (app) {
                                 filewidth: 0,
                                 wid: file.id
                             })
-                            $("#uploadFileModal").modal('hide');
+                            $("#uploadFileModal").hide();
                         })
                     });
                     uploader.on('uploadSuccess', function (wufile, succfile) {
@@ -578,22 +578,25 @@ export default function (app) {
                                         if (scope.exportFilename == "dirFile") {
                                             params.filename = scope.thisDirPath + "/" + name;
                                             Exhibition.copyFilrFromCloud(params).then(function (res) {
-                                                console.log("返回给我很多数据噢123123", res);
+                                                // console.log("返回给我很多数据噢123123", res);
+                                                $("#uploadFileModal").hide();
                                                 var backFilename = Util.String.baseName(res.fullpath);
                                                 scope.dirList.push({
                                                     filename: backFilename,
                                                     fullpath: res.fullpath,
-                                                    filesize: files.filesize
+                                                    filesize: files.filesize,
+                                                    create_dateline: Date.parse(new Date()) / 1000
                                                 })
                                                 Exhibition.fileUploadSuss({
                                                     hash: scope.thisDirHash,
                                                     type: 'add',
                                                     size: files.filesize
                                                 }).then(function (res) {
-                                                    console.log("数据上传ces", res, scope.dirList);
+                                                    // console.log("数据上传ces", res, scope.dirList);
                                                     //替换文件上传成功后文件的名称
                                                     var len = scope.DirsList.length;
-                                                    for (var i = len; i >= 0; i--) {
+                                                    console.log("lenlenme", scope.DirsList);
+                                                    for (var i = 0; i < len; i++) {
                                                         if (scope.DirsList[i]) {
                                                             if (scope.DirsList[i].fullpath == scope.thisDirPath) {
                                                                 $timeout(function () {
