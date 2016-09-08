@@ -188,6 +188,19 @@ class YunkuFile extends \GokuaiFile
         return $res;
     }
 
+    //获取文件最近更新列表
+    public function getAllFiles($fetch_dateline=0,$dir=0)
+    {
+        $data = [
+            'fetch_dateline' => $fetch_dateline,
+            'dir' => $dir,
+        ];
+        $res = $this->callAPI2('GET', '/1/file/updates', $data);
+        $this->checkResult($res);
+        return $res;
+
+    }
+
 
     public function checkResult(&$res)
     {

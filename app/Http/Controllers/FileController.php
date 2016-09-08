@@ -36,7 +36,7 @@ class FileController extends Controller
         if (!\Request::has('fullpath')) {
             foreach ($file_list["list"] as $key => $file) {
                 if ($file['dir']) {
-                    $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
+                     $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
                 }
             }
         }
@@ -65,7 +65,6 @@ class FileController extends Controller
         $files_info += ["img_url" => json_decode($folder_info->img_url, true)];
         return $files_info;
     }
-
 
     //更新文件夹信息
     public function postUpdateFolder($hash = '', $type = '', $size = 0)
@@ -98,7 +97,6 @@ class FileController extends Controller
         $folder_info->save();
         FolderInfo::cacheForget();
     }
-
 
     //获取文件夹大小及文件个数
     public function getFolderDetail()
@@ -155,6 +153,7 @@ class FileController extends Controller
         return $files->setUrlFile(inputGetOrFail('fullpath'), inputGetOrFail('url'));
     }
 
+    //移动端获取展会详情
     public function getShow()
     {
         $exhibition = ExhibitionInfo::getUniqueCode(inputGetOrFail('unique_code'));
@@ -162,12 +161,14 @@ class FileController extends Controller
         return $exhibition;
     }
 
+    //格式化文件
     public function format(&$exhibition)
     {
         $exhibition = $exhibition->toArray();
         $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/#/mobile/" . $exhibition['unique_code'];
     }
 
+    //获取二维码
     public function getQr()
     {
         $text = inputGetOrFail("text");
@@ -187,16 +188,58 @@ class FileController extends Controller
         exit();
     }
 
+    //秒存文件
     public function getYunkuFile()
     {
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
         return $yunkufile->setYunkuFile(inputGetOrFail("filename"), inputGetOrFail("size"), inputGetOrFail("hash"));
     }
 
+    //获取资料收集夹的外链地址
     public function getResCollector()
     {
         $org = new YunkuFile(inputGetOrFail('org_id'));
         return $org->getLink(self::RES_COLLECTION_FOLDER_NAME);
     }
+
+    //获取所有文件列表
+    public function getAllFiles()
+    {
+        $yunkufile = new YunkuFile(inputGetOrFail('org_id'));
+        $files = $yunkufile->getAllFiles();
+        $file_list = array();
+        foreach ($files['list'] as $key => &$file) {
+            $names = explode('/', $file['fullpath']);
+            if (\Request::has('has_col') || \Request::has('fullpath')) {//去除资料收集夹以及某个文件夹内的文件
+                if (count($names) == 2) {
+                    if ($names['0'] == FileController::RES_COLLECTION_FOLDER_NAME || $names['0'] == inputGetOrFail('fullpath')) {
+                        unset($files['list'][$key]);
+                    } else {
+                        $file['fullpath'] = $names['1'];
+                    }
+                }
+            } else {
+                if (count($names) == 2) {
+                    $file['fullpath'] = $names['1'];
+                }
+            }
+            $file_list = $files['list'];
+        }
+        $file_list = array_values($file_list);
+        $diff_files[0] = $file_list[0];//初始化比较对象
+        foreach ($file_list as $key => &$file) {//嵌套循环去除同名文件
+            if ($key > 0) {
+                foreach ($diff_files as $keys => $diff_file) {
+                    if ($diff_file['fullpath'] == $file['fullpath']) {
+                        unset($file_list[$key]);
+                    } else {
+                        array_push($diff_files, $file);
+                    }
+                }
+            }
+        }
+        return array_values($file_list);
+    }
+
 
 }

@@ -154,17 +154,25 @@ class TestController extends Controller
     }
 
 
+
+    public function getY()
+    {
+        $files = new YunkuFile(688643);
+        return $files->getAllFiles();
+    }
+
+
     public function getW()
     {
-        $org=new YunkuFile(688602);
-        //return $org->getLink("dfsdfs");
-        return  $file_list = $org->getFileList(inputGet('fullpath', ''));
+        $org = new YunkuFile(688602);
+        //return $org->getLink("工作计划");
+        return $file_list = $org->getFileList(inputGet('fullpath', ''));
     }
 
 
     public function getX()
     {
-        $file=new YunkuFile(688512);
-        $file->setUrlFile("许葛云库的文件","http://yunku.gokuai.com/file/jag38ss7#");
+        $file = new YunkuFile(688512);
+        $file->setUrlFile("许葛云库的文件", "http://yunku.gokuai.com/file/jag38ss7#");
     }
 }
