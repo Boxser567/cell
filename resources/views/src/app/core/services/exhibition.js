@@ -79,6 +79,8 @@ export default function (app) {
                     }
                     return defer.promise;
                 },
+
+                //获取文件夹总文件大小信息
                 getDirCountSize(params){
                     return $http.get('/file/folder-detail', {params: params}).then(function (res) {
                         return res.data;
@@ -105,7 +107,17 @@ export default function (app) {
                 //文件上传成功
                 fileUploadSuss: function (params) {
                     return $http.post("/file/update-folder", params);
+                },
+
+
+
+                //将云库的文件同步到会文件列表
+                copyFilrFromCloud:function (params) {
+                    return $http.get('/file/yunku-file', {params: params}).then(function (res) {
+                        return res.data;
+                    })
                 }
+
 
             }
         }])

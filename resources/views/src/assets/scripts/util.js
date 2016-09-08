@@ -60,10 +60,12 @@
             }
             return totalLength;
         },
+        //获取.(点)后面的后缀名
         getExt: function (filename) {
             var ext = filename.slice(filename.lastIndexOf('.') + 1).toLowerCase();
             return ext;
         },
+        //获取最后一个 / 后面的名称
         baseName: function (path) {
             path = path.toString();
             return path.replace(/\\/g, '/').replace(/.*\//, '');
@@ -73,10 +75,6 @@
         parseName: function (path) {
             path = path.toString();
             return path.replace(/\\/g, '/').replace(/\.\w+$/, '');
-        },
-        fileName: function (path) {
-            path = path.toString();
-            return path.replace(/\\/g, '/').replace(/\.\/+$/, '');
         },
 
         dirName: function (path) {

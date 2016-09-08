@@ -81,18 +81,17 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
         }
     }
 
+    //查看上传文件列表
     $scope.getDirList = function (event, img, path, hash) {
         $scope.warpMask = true;
+        $scope.exportFilename = "dirFile";
         $timeout(function () {
+            $scope.dirList = [];
             $scope.thisDirImg = img;
             $scope.thisDirPath = path;
             $scope.thisDirHash = hash;
             $scope.thisDirIndex = $(event.currentTarget).parents(".col-md-4").index();
-        })
-
-        $timeout(function () {
-            $scope.dirList = [];
-        })
+        });
         // $("#loadFileList").modal('show');
         Exhibition.getDirFilesByID({org_id: $scope.orgid, fullpath: path}).then(function (res) {
             console.log("加载列表信息", res);
@@ -125,7 +124,7 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
                         //     file_count: data.file_count,
                         //     file_size: data.file_size
                         // }
-//文件夹信息修改
+                        //文件夹信息修改
                         $scope.DirsList[$scope.thisDirIndex].info = {
                             file_count: data.file_count,
                             file_size: data.file_size,
@@ -163,6 +162,14 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     }
 
 
+    $scope.fileChooser = function () {
+        $timeout(function () {
+            $scope.exportFilename = "file";
+            $scope.thisDirPath = false;
+            $scope.thisDirHash = false;
+        })
+
+    }
 }
 
 export default ExhibitionDetailController;

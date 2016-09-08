@@ -9,6 +9,7 @@ export default function (app) {
 
     app.directive('validationTest', validationTestDirective);
 
+    //会展列表翻转动画
     app.directive('hoverTrans', function ($timeout) {
         return {
             restrict: 'A',
@@ -31,6 +32,7 @@ export default function (app) {
         };
     });
 
+
     app.directive('imgHovers', function ($timeout) {
         return {
             restrict: 'A',
@@ -45,6 +47,7 @@ export default function (app) {
         };
     });
 
+    //复制制定文本信息
     app.directive("copyWebsite", function ($timeout, $rootScope) {
         return {
             restrict: 'A',
@@ -67,6 +70,7 @@ export default function (app) {
     });
 
 
+    //普通文件上传
     app.directive('uploadFiles', function ($timeout, Exhibition) {
         return {
             restrict: 'A',
@@ -107,6 +111,7 @@ export default function (app) {
                                 filewidth: 0,
                                 wid: file.id
                             })
+                            // $("#uploadFileModal").modal('hide');
                         })
                     });
                     uploader.on('uploadSuccess', function (uploadFile, returnFile) {
@@ -119,6 +124,8 @@ export default function (app) {
                                         scope.FilesList[i].filename = returnFile.fullpath;
                                         scope.FilesList[i].hash = returnFile.hash;
                                         scope.FilesList[i].fullpath = returnFile.fullpath;
+                                        scope.currentExbt.property.file_count = Number(scope.currentExbt.property.file_count) + 1;
+                                        scope.currentExbt.property.size_use = Number(scope.currentExbt.property.size_use) + scope.FilesList[i].filesize;
                                     })
                                     break;
                                 }
@@ -167,6 +174,7 @@ export default function (app) {
     });
 
 
+    //上传logo
     app.directive('uploadLogo', function ($timeout, Exhibition) {
         return {
             restrict: 'A',
@@ -228,6 +236,7 @@ export default function (app) {
     });
 
 
+    //上传分类所需文件
     app.directive('uploadDirFiles', function ($timeout, Exhibition) {
         return {
             restrict: 'A',
@@ -275,6 +284,7 @@ export default function (app) {
                                 filewidth: 0,
                                 wid: file.id
                             })
+                            $("#uploadFileModal").modal('hide');
                         })
                     });
                     uploader.on('uploadSuccess', function (wufile, succfile) {
@@ -365,7 +375,7 @@ export default function (app) {
         };
     });
 
-
+    //修改各种文件的名称
     app.directive('editName', function (Exhibition, $timeout, $rootScope) {
         return {
             restrict: 'A',
@@ -470,7 +480,9 @@ export default function (app) {
         };
     });
 
-    app.directive('filesortAdd', function ($compile, Exhibition, $timeout) {
+
+    //添加分类
+    app.directive('filesortAdd', function (Exhibition, $timeout) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
@@ -506,6 +518,141 @@ export default function (app) {
         };
     });
 
+    //从云库中选择文件
+    app.directive('gokuaiCloud', function (Exhibition, $timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.click(function () {
+                    console.log("attrs", attrs);
+                    try {
+                        var el = document.createElement('script');
+                        el.src = location.protocol + '//yunku.goukuai.cn/widget/index?_' + Math.random();
+                        el.type = 'text/javascript';
+                        document.body.appendChild(el);
+                        el.onload = el.onreadystatechange = function () {
+                            if (!/*@cc_on!@*/0 || this.readyState == 'loaded' || this.readyState == 'complete') {
+                                new GKC({
+                                    //options
+                                    client_id: '60f3cd399bffa0b9a13926689d0a5cca',
+                                    style: {
+                                        'borderRadius': '3px',
+                                        'MozBorderRadius': '3px',
+                                        'WebkitBorderRadius': '3px',
+                                        'borderColor': '#fff',
+                                        'borderWidth': '0',
+                                        'borderStyle': 'solid',
+                                        'backgroundColor': '#fff',
+                                        'position': 'fixed',
+                                        'top': '30px',
+                                        'left': '50%',
+                                        'margin-left': '-305px',
+                                        'height': '620px',
+                                        'width': '610px',
+                                        'zIndex': 99999
+                                    },
+                                    ok: function (files) {
+                                        files = files[0];
+                                        console.log(files);
+                                        var name = Util.String.baseName(files.fullpath);
+                                        var params = {
+                                            org_id: scope.orgid,
+                                            filename: name,
+                                            hash: files.filehash,
+                                            size: files.filesize
+                                        }
+                                        if (scope.exportFilename == "file") {
+                                            Exhibition.copyFilrFromCloud(params).then(function (res) {
+                                                // console.log("返回给我很多数据噢", res);
+                                                $timeout(function () {
+                                                    scope.FilesList.push({
+                                                        filename: name,
+                                                        fullpath: name,
+                                                        filesize: files.filesize
+                                                    })
+                                                    scope.currentExbt.property.file_count = Number(scope.currentExbt.property.file_count) + 1;
+                                                    scope.currentExbt.property.size_use = Number(scope.currentExbt.property.size_use) + files.filesize;
+                                                })
+                                            });
+                                        }
+                                        if (scope.exportFilename == "dirFile") {
+                                            params.filename = scope.thisDirPath + "/" + name;
+                                            Exhibition.copyFilrFromCloud(params).then(function (res) {
+                                                console.log("返回给我很多数据噢123123", res);
+                                                var backFilename = Util.String.baseName(res.fullpath);
+                                                scope.dirList.push({
+                                                    filename: backFilename,
+                                                    fullpath: res.fullpath,
+                                                    filesize: files.filesize
+                                                })
+                                                Exhibition.fileUploadSuss({
+                                                    hash: scope.thisDirHash,
+                                                    type: 'add',
+                                                    size: files.filesize
+                                                }).then(function (res) {
+                                                    console.log("数据上传ces", res, scope.dirList);
+                                                    //替换文件上传成功后文件的名称
+                                                    var len = scope.DirsList.length;
+                                                    for (var i = len; i >= 0; i--) {
+                                                        if (scope.DirsList[i]) {
+                                                            if (scope.DirsList[i].fullpath == scope.thisDirPath) {
+                                                                $timeout(function () {
+                                                                    scope.DirsList[i].info = {
+                                                                        file_count: Number(scope.DirsList[i].info.file_count) + 1,
+                                                                        file_size: Number(scope.DirsList[i].info.file_size) + files.filesize,
+                                                                        img_url: [scope.DirsList[i].info.img_url[0]]
+                                                                    };
+                                                                    scope.currentExbt.property.file_count = Number(scope.currentExbt.property.file_count) + 1;
+                                                                    scope.currentExbt.property.size_use = Number(scope.currentExbt.property.size_use) + files.filesize;
+                                                                })
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    // Exhibition.getDirCountSize({hash: scope.thisDirHash}).then(function (data) {
+                                                    //     console.log("数据上传成功后更新aaa", data);
+                                                    //     var len = scope.DirsList.length;
+                                                    //     for (var i = len; i >= 0; i--) {
+                                                    //         if (scope.DirsList[i].fullpath == scope.thisDirPath) {
+                                                    //             $timeout(function () {
+                                                    //                 scope.DirsList[i].info = {
+                                                    //                     file_count: data.file_count,
+                                                    //                     file_size: data.file_size,
+                                                    //                     img_url: [scope.DirsList[i].info.img_url[0]]
+                                                    //                 };
+                                                    //                 var allCount = Number(scope.currentExbt.property.file_count);
+                                                    //                 scope.currentExbt.property.file_count = allCount + 1;
+                                                    //                 scope.currentExbt.property.size_use = Number(scope.currentExbt.property.size_use) + data.file_size;
+                                                    //             })
+                                                    //             break;
+                                                    //         }
+                                                    //     }
+                                                    //
+                                                    // })
+                                                })
+
+
+                                            });
+
+                                        }
+
+
+                                    }
+
+
+                                });
+                            }
+                        }
+                    } catch (e) {
+                        console.log(e);
+                    }
+
+                })
+
+            },
+        };
+    });
 
     function validationTestDirective() {
         'ngInject';

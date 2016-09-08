@@ -6,7 +6,7 @@
             <div class="nav">
                 <div class="content">
                     <div class="pull-left">
-                        <a href="http://cell.meetingfile.com"><i class="home"></i></a>
+                        <a href="http://cell.meetingfile.com/#/exhibition"><i class="home"></i></a>
                         编辑模式
                         <!--<span>资料收集</span>-->
                         <!--<i class="button"></i>-->
@@ -26,14 +26,14 @@
 
             <div class="nav-con" style="text-align: center;">
                 <div class="file" title="请上传160x160像素会展Logo">
-                    <img src="{{currentExbt.logo}}" alt="" ng-if="currentExbt.logo!=''" >
+                    <img src="{{currentExbt.logo}}" alt="" ng-if="currentExbt.logo!=''">
                     <div class="loding" ng-if="imgloading">
                         <span></span>
                         <!--<img src="../images/pass_white.gif.gif" alt="">-->
                     </div>
                     <div id="uploadImgdiv" dataid="{{currentExbt.id}}" upload-logo img-hovers>
                     </div>
-                    <div class="img-text-warning"> 点击更换Logo </div>
+                    <div class="img-text-warning"> 点击更换Logo</div>
                 </div>
                 <div class="name" dataid="{{currentExbt.id}}" dataedit="title" edit-name>{{currentExbt.title}}</div>
 
@@ -76,7 +76,8 @@
                     <div class="col-md-4">
                         <div class="files clearfix">
                             <div class="add-files" ng-if="orgid" dataorgid="{{currentExbt.org_id}}"
-                                 upload-files>
+                                 data-target="#uploadFileModal" data-toggle="modal" ng-click="fileChooser()">
+                                <!--upload-files-->
                                 <i class="glyphicon glyphicon-plus"></i>上传新文件
                             </div>
                         </div>
@@ -144,12 +145,13 @@
                        datasite="{{currentExbt.property.web_site}}" edit-name>点击编辑主页地址</a>
                 </div>
                 <!--<div class="fo">-->
-                    <!--<i></i>-->
+                <!--<i></i>-->
                 <!--</div>-->
             </div>
         </div>
 
 
+        <!--//显示文件夹文件列表-->
         <div class="modal fade" id="loadFileList" tabindex="-1" role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -194,10 +196,42 @@
                         </ul>
                     </div>
                     <div class="modal-footer">
-                        <div class="btn-dir-upload" ng-if="currentExbt.org_id && thisDirPath && thisDirHash"
-                             dataDirPath="{{thisDirPath}}" dataDirhash="{{thisDirHash}}"
-                             dataorgid="{{currentExbt.org_id}}"
-                             upload-dir-files>文件上传
+                        <div class="btn-dir-upload" data-target="#uploadFileModal" data-toggle="modal">文件上传
+
+                            <!--upload-dir-files-->
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
+        <!--//上传文件弹出窗口-->
+        <div class="modal fade" id="uploadFileModal" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel1" aria-hidden="true">
+            <div class="modal-dialog" style="width: 400px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h5 class="modal-title" id="myModalLabel1">
+                            上传文件
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <div class="btn uploadByLocal" ng-if="orgid && !thisDirPath && !thisDirHash"
+                                     dataorgid="{{currentExbt.org_id}}"
+                                     upload-files>从本地上传
+                                </div>
+                                <div class="btn uploadByLocal" ng-if="currentExbt.org_id && thisDirPath && thisDirHash"
+                                     dataDirPath="{{thisDirPath}}" dataDirhash="{{thisDirHash}}"
+                                     dataorgid="{{currentExbt.org_id}}" upload-dir-files>从本地上传dao酷
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="btn uploadByCloud" gokuai-cloud>从够快云库中选择</div>
+                            </div>
                         </div>
                     </div>
                 </div><!-- /.modal-content -->
