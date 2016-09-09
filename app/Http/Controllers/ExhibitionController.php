@@ -130,6 +130,9 @@ class ExhibitionController extends BaseController
         }
         $exhibition->save();
         ExhibitionInfo::cacheForget();
+        if($exhibition->res_collect_lock!=0){
+            return ["fullpath"=>FileController::RES_COLLECTION_FOLDER_NAME];
+        }
     }
 
     //格式化会展资料详情
@@ -137,7 +140,7 @@ class ExhibitionController extends BaseController
     {
         $exhibition = $exhibition->toArray();
         $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/#/mobile/" . $exhibition['unique_code'];
-        if ($exhibition['res_collect_lock']) {
+        if ($exhibition['res_collect_lock']!=0) {
             $exhibition['res_collect_lock'] = FileController::RES_COLLECTION_FOLDER_NAME;
         }
     }

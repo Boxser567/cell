@@ -32,7 +32,6 @@ class FileController extends Controller
         if(!$input && !$type) {
           $this->updateStatistic($file_list['list'], inputGetOrFail('org_id'));
         }*/
-
         if (!\Request::has('fullpath')) {
             foreach ($file_list["list"] as $key => $file) {
                 if ($file['dir']) {

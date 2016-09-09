@@ -16,7 +16,7 @@ use Watson\Rememberable\Rememberable;
 
 class BaseModel extends Eloquent
 {
-    const MEMCACHED_PREFIX="Boss_";
+    const MEMCACHED_PREFIX="Cell_";
     use BaseScope, Rememberable;
     public $timestamps = false;
     const  CACHE_TIME = 10;//10min
