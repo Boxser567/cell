@@ -1173,13 +1173,28 @@ body {
       outline: medium;
     }
     .modal-body {
-      min-height: 140px;
+      margin-bottom: 30px;
     }
     .form-group {
       margin: 0;
       margin-top: 20px;
       height: 30px;
       text-align: center;
+      .uploadByCollect {
+        background: #009beb;
+        color: #fff;
+        padding: 6px 25px;
+        border-radius: 15px;
+        .webuploader-pick {
+          background: none;
+          padding: 0;
+          overflow: inherit;
+        }
+        & > div:nth-child(2) {
+          width: 122px;
+          height: 31px;
+        }
+      }
       .uploadByLocal {
         background: #009beb;
         color: #fff;
@@ -1190,16 +1205,44 @@ body {
           padding: 0;
           overflow: inherit;
         }
-        & > div {
-          width: 100%;
-          height: 100%;
+        & > div:nth-child(2) {
+          width: 122px !important;
+          height: 31px !important;
         }
       }
+      .uploadByHave {
+        background: #009beb;
+        color: #fff;
+        padding: 6px 40px;
+        border-radius: 15px;
+      }
+
       .uploadByCloud {
         color: #009beb;
         border: 1px solid #009beb;
         padding: 6px 10px;
         border-radius: 10px;
+      }
+    }
+    .othergroup {
+      position: relative;
+      height: 24px;
+      margin-top: 35px;
+      p {
+        border-top: 1px solid #ddd;
+        position: relative;
+        top: 10px;
+        width: 70%;
+        margin-left: 15%;
+      }
+      span {
+        position: absolute;
+        width: 100px;
+        left: 50%;
+        margin-left: -50px;
+        text-align: center;
+        top: 1px;
+        background: #fff;
       }
     }
   }

@@ -230,13 +230,13 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     };
 
     //删除资料收集
-    $scope.delCollectfile = function (event, filename) {
+    $scope.delCollectfile = function (event, path) {
         // $("#msgCollectFile").modal('show');
         var that = $(event.currentTarget).parents("li").index();
         if (confirm("确定要删除该文件吗?")) {
             var params = {
                 org_id: $scope.orgid,
-                fullpath: filename
+                fullpath: path
             };
             Exhibition.delExFile(params).then(function (res) {
                 $scope.collectList.splice(that, 1);

@@ -220,7 +220,7 @@
                         </h5>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
+                        <div class="form-group clearfix">
                             <div class="col-sm-6">
                                 <div class="btn uploadByLocal" ng-if="orgid && !thisDirPath && !thisDirHash"
                                      dataorgid="{{currentExbt.org_id}}"
@@ -235,6 +235,18 @@
                                 <div class="btn uploadByCloud" gokuai-cloud>从够快云库中选择</div>
                             </div>
                         </div>
+
+                        <div class="othergroup">
+                            <p></p>
+                            <span>其它方式</span>
+                        </div>
+                        <div class="form-group">
+                            <div class="btn uploadByCollect">从「资料收集」选择</div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="btn uploadByHave">从已有分类选择</div>
+                        </div>
+
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
@@ -323,8 +335,6 @@
                                 <div class="loading" ng-if="collectLoading">
                                     <span></span>
                                 </div>
-
-
                                 <ul>
                                     <li class="clearfix" ng-repeat="list in collectList">
                                         <div class="col-sm-5">{{list.filename}}</div>
@@ -333,7 +343,7 @@
                                         <div class="col-sm-2">
                                             <a href="{{list.uri}}"><i class="glyphicon glyphicon-save"></i></a>
                                             <i class="glyphicon glyphicon-trash"
-                                               ng-click="delCollectfile($event,list.filename)"></i>
+                                               ng-click="delCollectfile($event,list.fullpath)"></i>
                                         </div>
                                     </li>
                                 </ul>
