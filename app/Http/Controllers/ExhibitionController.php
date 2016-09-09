@@ -141,7 +141,7 @@ class ExhibitionController extends BaseController
         $exhibition = $exhibition->toArray();
         $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/#/mobile/" . $exhibition['unique_code'];
         if ($exhibition['res_collect_lock']!=0) {
-            $exhibition['res_collect_lock'] = FileController::RES_COLLECTION_FOLDER_NAME;
+            $exhibition['res_collect'] = FileController::RES_COLLECTION_FOLDER_NAME;
         }
     }
 

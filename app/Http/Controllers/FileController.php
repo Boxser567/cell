@@ -20,7 +20,7 @@ use Endroid\QrCode\QrCode;
 class FileController extends Controller
 {
 
-    const RES_COLLECTION_FOLDER_NAME = "GKKJ_ZLSJJ";//够快科技资料收集夹
+    const RES_COLLECTION_FOLDER_NAME = "GKKJ_ZLSJJ";//资料收集夹
 
     //获取文件列表
     public function getList()
@@ -33,9 +33,13 @@ class FileController extends Controller
           $this->updateStatistic($file_list['list'], inputGetOrFail('org_id'));
         }*/
         if (!\Request::has('fullpath')) {
-            foreach ($file_list["list"] as $key => $file) {
+            foreach ($file_list["list"] as $key => &$file) {
                 if ($file['dir']) {
-                     $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
+                    if ($file['fullpath'] == FileController::RES_COLLECTION_FOLDER_NAME) {
+                        unset($file_list["list"][$key]);
+                    } else {
+                        $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
+                    }
                 }
             }
         }
