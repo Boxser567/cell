@@ -58,7 +58,7 @@ export default function (app) {
                 },
 
                 //获取文件夹的文件列表
-                getDirFilesByID: function (params,cache) {
+                getDirFilesByID: function (params, cache) {
                     var defer = $q.defer();
                     var key = md5.createHash(params.org_id + '/' + (params.fullpath || ''));
                     if (cache !== false && angular.isDefined(fileList[key])) {
@@ -110,12 +110,18 @@ export default function (app) {
                 },
 
 
-
                 //将云库的文件同步到会文件列表
-                copyFilrFromCloud:function (params) {
+                copyFilrFromCloud: function (params) {
                     return $http.get('/file/yunku-file', {params: params}).then(function (res) {
                         return res.data;
                     })
+                },
+
+                //开启资料收集
+                openCollection: function (params) {
+                    return $http.post("exhibition/res-collection", params).then(function (res) {
+                        return res.data;
+                    });
                 }
 
 

@@ -104,10 +104,7 @@ module.exports = function(_path) {
       
       {
         test: require.resolve("jquery"),
-        loaders: [
-          "expose?$",
-          "expose?jQuery"
-        ]
+        loader: "expose?jQuery!expose?$"
       },
         {
           test: require.resolve("moment"),
@@ -130,8 +127,7 @@ module.exports = function(_path) {
           loaders: [
             "expose?Util"
           ]
-        },
-
+        }
       ]
     },
 
@@ -142,8 +138,6 @@ module.exports = function(_path) {
     plugins: [
       //new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|hu/),
       new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
         _:'underscore',
         moment:'moment'
       }),

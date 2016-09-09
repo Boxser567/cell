@@ -6,11 +6,13 @@
             <div class="nav">
                 <div class="content">
                     <div class="pull-left">
-                        <a href="http://cell.meetingfile.com/#/exhibition"><i class="home"></i></a>
+                        <a href="http://cell.meetingfile.com/#/exhibition"><i class="home"></i> </a>
                         编辑模式
-                        <!--<span>资料收集</span>-->
-                        <!--<i class="button"></i>-->
-                        <!--<s>直销</s>-->
+                        <span>资料收集</span>
+                        <label ng-click="checkCollecFn()">
+                            <input class="mui-switch mui-switch-anim" type="checkbox"
+                                   value="{{currentExbt.res_collect_lock}}"></label>
+                        <s ng-if="currentExbt.res_collect_lock!=0" ng-click="showCollection()">查看</s>
                     </div>
                     <div class="mode">
                         <i class="pc"></i>
@@ -43,7 +45,7 @@
                     <i class="glyphicon glyphicon-qrcode"><img
                             src="/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}"></i>
                     <span>{{currentExbt.unique_code}}</span>
-                    <a href="javascript:;" data-clipboard-text="{{currentExbt.unique_code}}" id="copythat"
+                    <a href="javascript:;" data-clipboard-text="{{currentExbt.unique_code}}"
                        ng-if="currentExbt.unique_code" copy-website>复制链接</a>
                 </p>
             </div>
@@ -233,6 +235,113 @@
                                 <div class="btn uploadByCloud" gokuai-cloud>从够快云库中选择</div>
                             </div>
                         </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
+        <!--  开启资料收集弹出窗口-->
+        <div class="modal fade" id="openCollectFile" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel1" aria-hidden="true">
+            <div class="modal-dialog" style="width: 400px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h5 class="modal-title" id="myModalLabel3">
+                            开启资料收集
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="warning">
+                            开启资料收集,并将上传地址发送给他人,所有收到链接的人均可在此上传文件(上传者之间无法查看其他人上传的文件),实现资料快速收集。
+                        </div>
+                        <div class="form-group">
+                            <div class="btn" ng-click="openCollection()">开启资料收集</div>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <!--  关闭资料收集弹出窗口-->
+        <div class="modal fade" id="closeCollectFile" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel1" aria-hidden="true">
+            <div class="modal-dialog" style="width: 400px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h5 class="modal-title" id="myModalLabel4">
+                            关闭资料收集
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="warning">
+                            关闭资料收集后,您仍可以管理其他人已上传的文件,但其他人无法再通过之前的链接上传文件。
+                        </div>
+                        <div class="form-group">
+                            <div class="btn" ng-click="closeCollection()">关闭资料收集</div>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <!--//开启资料收集窗口信息-->
+        <div class="modal fade" id="msgCollectFile" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel5" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h5 class="modal-title" id="myModalLabel5">
+                            开启资料收集
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group clearfix">
+                            <div class="col-sm-8">
+                                <h5>上传地址:</h5>
+                                <p>{{collectUrl}}</p>
+                                <span class="btn" data-clipboard-text="{{collectUrl}}"
+                                      ng-if="collectUrl" copy-website>复制链接</span>
+                            </div>
+                            <div class="col-sm-4">
+                                <img src="/file/qr?size=160&text={{collectUrl | encodeURIComponent}}" alt="刷新重试">
+                            </div>
+                        </div>
+
+                        <div class="collect">
+                            <div class="title clearfix">
+                                <div class="col-sm-5">文件名</div>
+                                <div class="col-sm-2">大小</div>
+                                <div class="col-sm-3">上传时间</div>
+                                <div class="col-sm-2">操作</div>
+                            </div>
+
+                            <div class="info">
+                                <div class="loading" ng-if="collectLoading">
+                                    <span></span>
+                                </div>
+
+
+                                <ul>
+                                    <li class="clearfix" ng-repeat="list in collectList">
+                                        <div class="col-sm-5">{{list.filename}}</div>
+                                        <div class="col-sm-2">{{list.filesize | bitSize}}</div>
+                                        <div class="col-sm-3">{{list.create_dateline*1000 | date:"yyyy-MM-dd"}}</div>
+                                        <div class="col-sm-2">
+                                            <a href="{{list.uri}}"><i class="glyphicon glyphicon-save"></i></a>
+                                            <i class="glyphicon glyphicon-trash"
+                                               ng-click="delCollectfile($event,list.filename)"></i>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->

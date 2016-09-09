@@ -36,7 +36,7 @@ body {
   margin-left: -53px;
   background: #777777;
   color: #fff;
-  z-index: 999;
+  z-index: 9999;
   border-radius: 20px;
 }
 
@@ -523,6 +523,15 @@ body {
       left: 0;
       .content {
         .pull-left {
+          label {
+            position: relative;
+            top: 8px;
+            margin: 0 5px;
+            input {
+              outline: medium;
+            }
+
+          }
           .home {
             background: url("../../../app/pages/images/icon_home.png");
             width: 22px;
@@ -539,11 +548,12 @@ body {
           s {
             text-decoration: none;
             color: #009beb;
+            cursor: pointer;
           }
         }
 
         .mode {
-          margin-left: 10px;
+          margin-left: 400px;
           i {
             position: relative;
             font-size: 18px;
@@ -1193,6 +1203,120 @@ body {
       }
     }
   }
+
+  #openCollectFile, #closeCollectFile {
+    button {
+      outline: medium;
+    }
+    .warning {
+      font-size: 14px;
+      color: #999;
+      line-height: 25px;
+      text-indent: 25px;
+    }
+    .form-group {
+      margin-top: 20px;
+      text-align: center;
+      .btn {
+        background: #009beb;
+        display: inline-block;
+        color: #fff;
+        padding: 8px 25px;
+        border-radius: 15px;
+      }
+    }
+  }
+
+  #msgCollectFile {
+    .modal-body {
+      padding: 0;
+      height: 550px;
+    }
+    .collect {
+      padding: 5px;
+      border-top: 1px solid #ddd;
+      .title {
+        color: #999;
+        height: 30px;
+        div {
+          line-height: 28px;
+        }
+
+      }
+      .info {
+        position: relative;
+        .loading {
+          margin-top: 10px;
+          text-align: center;
+          span {
+            width: 32px;
+            height: 32px;
+            display: inline-block;
+            background: url("../../../app/pages/images/pass.gif") no-repeat;
+          }
+        }
+        ul {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          overflow-y: scroll;
+          max-height: 360px;
+          li {
+            height: 30px;
+            line-height: 30px;
+
+            .glyphicon-trash {
+              cursor: pointer;
+              color: #ff7474;
+              margin-left: 10px;
+            }
+            .glyphicon-save {
+              cursor: pointer;
+            }
+
+          }
+        }
+      }
+
+    }
+
+    .form-group {
+      height: 140px;
+      margin: 0;
+      padding: 5px;
+      .col-sm-8 {
+        h5 {
+          margin-top: 10px;
+          font-size: 16px;
+        }
+        p {
+          border: 1px solid #ddd;
+          padding: 5px;
+          margin: 15px 0;
+          width: 100%;
+          overflow: hidden;
+        }
+        .btn {
+          background: #009beb;
+          display: inline-block;
+          color: #fff;
+          padding: 4px 25px;
+          border-radius: 15px;
+        }
+
+      }
+      .col-sm-4 {
+        img {
+          width: 100px;
+          float: right;
+          margin-right: 32px;
+          margin-top: 10px;
+        }
+      }
+    }
+
+  }
+
 }
 
 @keyframes myfirst {

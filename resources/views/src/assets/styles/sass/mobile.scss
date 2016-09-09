@@ -124,46 +124,30 @@ body {
               position: absolute;
               top: 0;
               left: 0;
-              background: rgba(0, 0, 0, .4);
+              background: rgba(0, 0, 0, .6);
               width: 100%;
               height: 100%;
             }
           }
           .title {
+            position: absolute;
             width: 100%;
-            background: #fff;
-            display: block;
-            background: #fff;
-            height: 40px;
-            line-height: 40px;
-            padding: 0 10px;
-            position: relative;
+            left: 0;
+            top: 50%;
+            margin-top: -32px;
             .tl {
-              color: #333;
-              display: inline-block;
-              width: 70%;
-              font-size: 16px;
+              font-size: 18px;
+              color: #fff;
+              text-align: center;
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
+              padding: 0 25px;
             }
             .count {
-              display: inline-block;
-              float: right;
               font-size: 14px;
-              color: #999;
-              text-align: right;
-              padding-right: 30px;
-              i {
-                position: absolute;
-                top: 7px;
-                right: 10px;
-                width: 24px;
-                height: 24px;
-                background: url(../../../app/pages/images/icon_more.png) no-repeat;
-                background-size: cover;
-
-              }
+              color: #fff;
+              text-align: center;
             }
           }
         }
@@ -231,7 +215,7 @@ body {
       text-align: left;
       font-size: 14px;
       margin-bottom: 20px;
-      span{
+      span {
         position: relative;
         font-size: 30px;
         top: -10px;
@@ -352,7 +336,8 @@ body {
   width: 100%;
   position: relative;
   padding: 0 15px;
-  .more {    position: relative;
+  .more {
+    position: relative;
     width: 100%;
     text-align: center;
     left: 0;
@@ -361,7 +346,7 @@ body {
     padding-bottom: 10px;
     color: #a7a7a7;
     background: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(255, 255, 255, 0.6)), to(#eee));
-    i{
+    i {
 
       font-size: 12px;
       padding-right: 5px;

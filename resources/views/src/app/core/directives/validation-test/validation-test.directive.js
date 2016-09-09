@@ -4,7 +4,6 @@ import WebUploader from 'webuploader/dist/webuploader';
 
 import Clipboard from "clipboard/dist/clipboard";
 
-
 export default function (app) {
 
     app.directive('validationTest', validationTestDirective);
@@ -31,7 +30,6 @@ export default function (app) {
             },
         };
     });
-
 
     app.directive('imgHovers', function ($timeout) {
         return {
@@ -69,7 +67,6 @@ export default function (app) {
         };
     });
 
-
     //普通文件上传
     app.directive('uploadFiles', function ($timeout, Exhibition) {
         return {
@@ -103,6 +100,7 @@ export default function (app) {
                     });
                     uploader.on('fileQueued', function (file) {
                         uploader.options.formData.name = file.name;
+                        $("#uploadFileModal").modal('hide');
                         $timeout(function () {
                             scope.FilesList.push({
                                 filename: file.name,
@@ -111,7 +109,6 @@ export default function (app) {
                                 filewidth: 0,
                                 wid: file.id
                             })
-                            $("#uploadFileModal").hide();
                         })
                     });
                     uploader.on('uploadSuccess', function (uploadFile, returnFile) {
@@ -172,7 +169,6 @@ export default function (app) {
 
         };
     });
-
 
     //上传logo
     app.directive('uploadLogo', function ($timeout, Exhibition) {
@@ -235,7 +231,6 @@ export default function (app) {
         };
     });
 
-
     //上传分类所需文件
     app.directive('uploadDirFiles', function ($timeout, Exhibition) {
         return {
@@ -284,7 +279,7 @@ export default function (app) {
                                 filewidth: 0,
                                 wid: file.id
                             })
-                            $("#uploadFileModal").hide();
+                            $("#uploadFileModal").modal('hide');
                         })
                     });
                     uploader.on('uploadSuccess', function (wufile, succfile) {
@@ -480,7 +475,6 @@ export default function (app) {
         };
     });
 
-
     //添加分类
     app.directive('filesortAdd', function (Exhibition, $timeout) {
         return {
@@ -564,6 +558,7 @@ export default function (app) {
                                         if (scope.exportFilename == "file") {
                                             Exhibition.copyFilrFromCloud(params).then(function (res) {
                                                 // console.log("返回给我很多数据噢", res);
+                                                $("#uploadFileModal").modal('hide');
                                                 $timeout(function () {
                                                     scope.FilesList.push({
                                                         filename: name,
@@ -579,7 +574,7 @@ export default function (app) {
                                             params.filename = scope.thisDirPath + "/" + name;
                                             Exhibition.copyFilrFromCloud(params).then(function (res) {
                                                 // console.log("返回给我很多数据噢123123", res);
-                                                $("#uploadFileModal").hide();
+                                                $("#uploadFileModal").modal('hide');
                                                 var backFilename = Util.String.baseName(res.fullpath);
                                                 scope.dirList.push({
                                                     filename: backFilename,

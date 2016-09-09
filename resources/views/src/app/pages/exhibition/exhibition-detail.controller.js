@@ -1,14 +1,22 @@
 'use strict';
 
+import 'bootstrap-sass/assets/javascripts/bootstrap';
 
 function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, currentExhibition, Exhibition) {
     'ngInject';
+
+
     console.log("返回详情数据", $stateParams, currentExhibition);
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $rootScope.projectTitle = currentExhibition.data.title + " - 会文件";
     $scope.orgid = currentExhibition.data.org_id;
+    if ($scope.currentExbt.res_collect_lock == 1) {
+        $(".mui-switch").attr("checked", true);
+    }
+    $scope.collectUrl = "http://cell.meetingfile.com/#/collect/" + $stateParams.unicode + "";
     $scope.imgloading = false;
+    $scope.collectLoading = true;
     $scope.FilesList = [];
     $scope.DirsList = [];
     $scope.warpMask = false;
@@ -29,6 +37,8 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
         $scope.DirsList = dirs;
         // console.log("文件夹信息", $scope.DirsList);
     });
+
+
     // $scope.Extiming = false;
     $scope.date = {
         startDate: $scope.currentExbt.start_date,
@@ -47,7 +57,6 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     };
 
     $scope.$watch('date', function (time) {
-        console.log();
         if (typeof time.startDate == "object") {
             var start = time.startDate.format('YYYY-MM-DD');
             var end = time.endDate.format('YYYY-MM-DD');
@@ -159,8 +168,95 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
                 });
             })
         }
+    };
+
+    //资料收集状态
+    $scope.checkCollecFn = function () {
+        var va = $(".mui-switch").val();
+        console.log("vava", va)
+        if (va == 0) {
+            $(".mui-switch").prop("checked", false);
+            $("#openCollectFile").modal('show');
+        }
+        if (va == 1) {
+            $("#closeCollectFile").modal('show');
+            $(".mui-switch").prop("checked", true);
+        }
+        if (va == -1) {
+
+            $("#msgCollectFile").modal('show');
+            Exhibition.openCollection({exhibition_id: $scope.currentExbt.id, action: "open"}).then(function (res) {
+                Exhibition.getDirFilesByID({org_id: $scope.orgid, fullpath: res.fullpath}, false).then(function (data) {
+                    console.log("返回所有的资料信息", data);
+                    $scope.collectLoading = false;
+                    $scope.collectList = data.list;
+                    $(".mui-switch").attr("checked", true);
+                    $scope.currentExbt.res_collect_lock = 1;
+                })
+            });
+
+        }
+
+
     }
 
+
+//正式开启资料收集
+    $scope.openCollection = function () {
+        $("#msgCollectFile").modal('show');
+        Exhibition.openCollection({exhibition_id: $scope.currentExbt.id, action: "open"}).then(function (res) {
+            $("#openCollectFile").modal('hide');
+            Exhibition.getDirFilesByID({org_id: $scope.orgid, fullpath: res.fullpath}, false).then(function (data) {
+                $scope.collectLoading = false;
+                $scope.collectList = data.list;
+                $timeout(function () {
+                    $(".mui-switch").attr("checked", true);
+                    $scope.currentExbt.res_collect_lock = 1;
+                })
+
+            })
+
+        });
+
+    };
+
+//关闭资料收集夹
+    $scope.closeCollection = function () {
+        Exhibition.openCollection({exhibition_id: $scope.currentExbt.id, action: "close"}).then(function (res) {
+            $("#closeCollectFile").modal('hide');
+            $(".mui-switch").prop("checked", false);
+            $scope.currentExbt.res_collect_lock = -1;
+        })
+    };
+
+    //删除资料收集
+    $scope.delCollectfile = function (event, filename) {
+        // $("#msgCollectFile").modal('show');
+        var that = $(event.currentTarget).parents("li").index();
+        if (confirm("确定要删除该文件吗?")) {
+            var params = {
+                org_id: $scope.orgid,
+                fullpath: filename
+            };
+            Exhibition.delExFile(params).then(function (res) {
+                $scope.collectList.splice(that, 1);
+            })
+        }
+
+    };
+
+    //查看资料收集信息
+    $scope.showCollection = function () {
+        $("#msgCollectFile").modal('show');
+        Exhibition.getDirFilesByID({
+            org_id: $scope.orgid,
+            fullpath: $scope.currentExbt.res_collect
+        }, false).then(function (data) {
+            $scope.collectLoading = false;
+            $scope.collectList = data.list;
+        })
+
+    };
 
     $scope.fileChooser = function () {
         $timeout(function () {

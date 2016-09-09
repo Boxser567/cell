@@ -27,7 +27,9 @@ const App = angular.module(
 
         require("./pages/mobile/mobile.module").name,
 
-        require("./pages/login/login.module").name
+        require("./pages/login/login.module").name,
+
+        require("./pages/collectFiles/collect.module").name
 
     ]
 );

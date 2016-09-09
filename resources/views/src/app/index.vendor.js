@@ -1,9 +1,8 @@
 'use strict';
 
 // node_modules
-import 'jquery';
 
-import 'bootstrap-sass/assets/javascripts/bootstrap';
+import 'jquery';
 
 import  "angular";
 
@@ -21,7 +20,9 @@ import "../assets/scripts/util";
 
 import "angular-md5/angular-md5";
 
-import "angular-local-storage/dist/angular-local-storage"
+import "angular-local-storage/dist/angular-local-storage";
+
+
 
 
 // local scripts
