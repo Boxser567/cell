@@ -1,3 +1,85 @@
-asdasdasdasdasd
+<div class="link-collection">
+    <div class="headerbar">
 
-呵呵呵呵  翔哥沙壁了。。。。
+
+        <div class="ucontent">
+            <span>会文件</span>
+            <div>{{ExbtMessage.title}}</div>
+        </div>
+    </div>
+    <div class="ucontent">
+        <div class="bg">
+            <div class="C_upload">
+
+                <div class="btn C_upload_btn" ng-if="ExbtMessage.org_id" dataorgid="{{ExbtMessage.org_id}}"
+                     collect-upload>
+                    <i class="glyphicon glyphicon-open"></i>
+                    上传
+                </div>
+
+            </div>
+
+
+            <div class="C_files">
+                <div class="form-group clearfix">
+                    <div class="col-md-7">文件名</div>
+                    <div class="col-md-2">上传日期</div>
+                    <div class="col-md-3">大小</div>
+                </div>
+
+                <div class="C_upload_warning" ng-if="fileCollect.length==0">
+                    严格遵守保密法律法规,严禁在互联网上存储、处理、传输、发布涉密信息(IE10以上或极速浏览器支持)。
+                </div>
+                <div class="C_fileList">
+                    <ul>
+                        <li class="clearfix" ng-repeat="file in fileCollect">
+                            <div class="col-md-7">
+                                <i class="img {{ file.filename | getFileIconSuffix }}"></i>
+                                <span edit-name>{{file.filename}}</span>
+                            </div>
+                            <div class="col-md-2">{{file.create_dateline | date:"yyyy-MM-dd"}}</div>
+                            <div class="col-md-3">{{file.filesize | bitSize}}</div>
+                            <div class="diff col-md-12" ng-if="file.filewidth>0 && file.filewidth !=100">
+                                <div class="db" style="width: {{file.filewidth}}%"></div>
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="modal fade" id="c_uploadmodal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel1" aria-hidden="true">
+        <div class="modal-dialog" style="width: 400px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel4">
+                        上传文件提示
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="warning">
+                        <p>温馨提示:</p>
+                        <p>您当前访问的会展收集夹已关闭或外链已经失效,请联系会展管理员。</p>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+</div>
+
+
+
+
+
+

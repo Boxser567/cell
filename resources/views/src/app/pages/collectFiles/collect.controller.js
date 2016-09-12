@@ -1,7 +1,14 @@
 'use strict';
 
-function CollectController($scope, $rootScope, Exhibition, localStorageService) {
+import 'bootstrap-sass/assets/javascripts/bootstrap';
+
+function CollectController($scope, currentExhibition) {
     'ngInject';
+    console.log("会展信息", currentExhibition);
+    $scope.ExbtMessage = currentExhibition;
+    $scope.fileCollect = [];
+
+    $scope.$wa
 
 
 }

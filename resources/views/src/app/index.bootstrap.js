@@ -8,12 +8,13 @@ import "./index.module";
 import "../assets/styles/sass/iconCollect.scss";
 import "../assets/styles/sass/index.scss";
 import "../assets/styles/sass/mobile.scss";
+import "../assets/styles/sass/collection.scss";
 
 import daterangepicker from 'bootstrap-daterangepicker/daterangepicker';
 
 
 angular.element(document).ready(function () {
-    angular.bootstrap(document, ['cell-ui', 'daterangepicker','angular-md5','LocalStorageModule'], {
+    angular.bootstrap(document, ['cell-ui', 'daterangepicker', 'angular-md5', 'LocalStorageModule'], {
         strictDi: true
     });
 });

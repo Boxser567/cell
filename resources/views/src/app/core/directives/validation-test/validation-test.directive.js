@@ -652,6 +652,98 @@ export default function (app) {
         };
     });
 
+
+    //资料收集夹文件上传
+    app.directive('collectUpload', function ($timeout, Exhibition) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+
+                if (scope.ExbtMessage.res_collect_lock == 1) {
+                    $timeout(function () {
+                        Exhibition.getFileToken(attrs.dataorgid).then(function (da) {
+                            uploadimg(da.data.url, da.data.org_client_id);
+                        });
+                    });
+                } else {
+                    $("#c_uploadmodal").modal('show');
+                }
+                function uploadimg(url, clientid) {
+                    var uploader = WebUploader.create({
+                        pick: {
+                            id: elem,
+                        },
+                        auto: true,
+                        swf: 'http://cdn.staticfile.org/webuploader/0.1.0/Uploader.swf',
+                        server: url,
+                        formData: {
+                            org_client_id: clientid,
+                            name: '',
+                            filefield: 'file',
+                            file: 'file'
+                        },
+
+                        duplicate: true,//重复文件
+                        fileSizeLimit: 1024 * 1024 * 1024,  //最大文件 1 个G
+                        fileSingleSizeLimit: 10240 * 1024 * 1024 //文件上传总量 10 个G
+                    });
+                    uploader.on('fileQueued', function (file) {
+                        uploader.options.formData.name = file.name;
+                        $timeout(function () {
+                            scope.fileCollect.push({
+                                filename: file.name,
+                                fullpath: scope.ExbtMessage.res_collect + '/' + file.name,
+                                filesize: file.size,
+                                filewidth: 0,
+                                create_dateline: Date.parse(new Date()),
+                                wid: file.id
+                            })
+                        })
+                    });
+                    uploader.on('uploadSuccess', function (uploadFile, returnFile) {
+
+                        console.log("上传成功", arguments, scope.fileCollect);
+
+                    });
+                    uploader.on('uploadProgress', function (fileObj, progress) {
+                        // console.log("上传进度", arguments);
+                        var file = _.findWhere(scope.fileCollect, {
+                            wid: fileObj.id
+                        });
+                        var index = "";
+                        _.each(scope.fileCollect, function (r) {
+                            if (r.wid == fileObj.id) {
+                                index = scope.fileCollect.indexOf(r);
+                            }
+                        });
+                        $(".C_fileList ul li:nth-child(" + (index + 1) + ")").find(".diff i").on('click', function () {
+                            uploader.cancelFile(fileObj.id);
+                            scope.$apply(function () {
+                                scope.fileCollect.splice(index, 1);
+                            })
+                        });
+                        if (file) {
+                            scope.$apply(function () {
+                                file.filewidth = Number(progress) * 100;
+                            })
+                        }
+
+                    });
+                    uploader.on('error', function (err) {
+                        console.log("文件上传报错", err);
+                        alert("上传有误! \n\n 温馨提示您:单次上传文件大小不得大于1G。");
+                    });
+
+                }
+
+
+            },
+
+
+        };
+    });
+
+
     function validationTestDirective() {
         'ngInject';
 
