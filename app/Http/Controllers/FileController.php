@@ -169,7 +169,7 @@ class FileController extends Controller
     {
         $exhibition = $exhibition->toArray();
         $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/#/mobile/" . $exhibition['unique_code'];
-        if ($exhibition['res_collect_lock']!=0) {
+        if ($exhibition['res_collect_lock'] != 0) {
             $exhibition['res_collect'] = FileController::RES_COLLECTION_FOLDER_NAME;
         }
     }
@@ -205,11 +205,12 @@ class FileController extends Controller
     public function postSelfFile()
     {
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
-        $files=json_decode(inputGetOrFail("files"),true);
-        foreach ($files as $file) {
-            $yunkufile->setYunkuFile($file["filename"], $file["size"], $file["hash"]);
+        $files = inputGetOrFail("files");
+        $return_files=array();
+        foreach ($files as $key=> $file) {
+            $return_files[$key]=$yunkufile->setYunkuFile($file["filename"], $file["size"], $file["hash"]);
         }
-        return ;
+        return $return_files;
     }
 
     //获取资料收集夹的外链地址
@@ -229,15 +230,19 @@ class FileController extends Controller
             $names = explode('/', $file['fullpath']);
             if (\Request::has('has_col') || \Request::has('fullpath')) {//去除资料收集夹以及某个文件夹内的文件
                 if (count($names) == 2) {
-                    if ($names['0'] == FileController::RES_COLLECTION_FOLDER_NAME || $names['0'] == inputGetOrFail('fullpath')) {
+                    if ($names['0'] == FileController::RES_COLLECTION_FOLDER_NAME || $names['0'] == inputGet('fullpath')) {
                         unset($files['list'][$key]);
                     } else {
                         $file['fullpath'] = $names['1'];
                     }
+                }elseif (!\Request::has('fullpath') &&count($names) == 1){
+                    unset($files['list'][$key]);
                 }
             } else {
                 if (count($names) == 2) {
                     $file['fullpath'] = $names['1'];
+                }elseif(!\Request::has('fullpath')){
+                    unset($files['list'][$key]);
                 }
             }
             $file_list = $files['list'];
