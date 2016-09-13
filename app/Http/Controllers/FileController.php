@@ -226,6 +226,9 @@ class FileController extends Controller
         $yunkufile = new YunkuFile(inputGetOrFail('org_id'));
         $files = $yunkufile->getAllFiles();
         $file_list = array();
+        if(!$files['list']){
+            return [];
+        }
         foreach ($files['list'] as $key => &$file) {
             $names = explode('/', $file['fullpath']);
             if (\Request::has('has_col') || \Request::has('fullpath')) {//去除资料收集夹以及某个文件夹内的文件
