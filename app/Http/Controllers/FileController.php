@@ -250,8 +250,12 @@ class FileController extends Controller
             }
             $file_list = $files['list'];
         }
+        if(!$file_list){
+            return [];
+        }
         $file_list = array_values($file_list);
         $diff_files[0] = $file_list[0];//初始化比较对象
+
         foreach ($file_list as $key => &$file) {//嵌套循环去除同名文件
             if ($key > 0) {
                 foreach ($diff_files as $keys => $diff_file) {
