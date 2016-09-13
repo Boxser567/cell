@@ -241,10 +241,12 @@
                             <span>其它方式</span>
                         </div>
                         <div class="form-group">
-                            <div class="btn uploadByCollect">从「资料收集」选择</div>
+                            <div class="btn uploadByCollect" dataselect="collect" select-upload>
+                                从「资料收集」选择
+                            </div>
                         </div>
                         <div class="form-group ">
-                            <div class="btn uploadByHave">从已有分类选择</div>
+                            <div class="btn uploadByHave" dataselect="types" select-upload>从已有分类选择</div>
                         </div>
 
                     </div>
@@ -353,6 +355,67 @@
                         </div>
 
                     </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
+        <div class="modal fade" id="fileFromCollect" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel5" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h5 class="modal-title" id="myModalLabel6">
+                            从资料收集选择文件
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="collect">
+                            <div class="title clearfix">
+                                <div class="col-sm-1">
+                                    <!--全选 &nbsp;<input type="checkbox" value="">-->
+                                </div>
+                                <div class="col-sm-6">文件名</div>
+                                <div class="col-sm-2">大小</div>
+                                <div class="col-sm-3">上传时间</div>
+                            </div>
+                            <div class="info">
+                                <ul>
+                                    <div class="loading" ng-if="collectLoading">
+                                        <span></span>
+                                    </div>
+                                    <li class="clearfix" ng-repeat="list in dataCollectList" ng-click="list.selects=!list.selects">
+
+                                            <!--choose-collect-->
+                                            <div class="col-sm-1">
+                                                <input type="checkbox" class="cb_choose" ng-model="list.selects">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div>{{list.filename}}</div>
+                                            </div>
+                                            <div class="col-sm-2">{{list.filesize | bitSize}}</div>
+                                            <div class="col-sm-3">{{list.create_dateline*1000 | date:"yyyy-MM-dd"}}</div>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <p>
+                            <input type="checkbox" class="ckb_selectAll" ng-click="ckb_selectFn()"> &nbsp;全选
+                        </p>
+                        <div class="btn btn_sure_collect" ng-click="addSelectFile()">
+                            确定
+                        </div>
+                        <div class="btn" data-dismiss="modal" aria-hidden="true">
+                            取消
+                        </div>
+                    </div>
+
+
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>

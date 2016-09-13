@@ -117,6 +117,21 @@ export default function (app) {
                     })
                 },
 
+                //
+                copyFilFromHad: function (params) {
+                    return $http.post('/file/self-file', params).then(function (res) {
+                        return res.data;
+                    })
+                },
+
+                getAllOfFile:function (params) {
+                    return $http.get('/file/all-files', {params: params}).then(function (res) {
+                        return res.data;
+                    })
+                },
+
+
+
                 //开启资料收集
                 openCollection: function (params) {
                     return $http.post("exhibition/res-collection", params).then(function (res) {

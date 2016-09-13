@@ -128,11 +128,9 @@ export default function (app) {
                                 }
                             }
                         }
-
-
                     });
                     uploader.on('uploadProgress', function (fileObj, progress) {
-                        // console.log("上传进度", arguments);
+                        console.log("上传进度", arguments);
                         var file = _.findWhere(scope.FilesList, {
                             wid: fileObj.id
                         });
@@ -143,9 +141,11 @@ export default function (app) {
                             }
                         });
                         $(".eb-fileload .row .col-md-4:nth-child(" + (index + 1) + ")").find(".slide-line i").on('click', function () {
+                            console.log("fileObj", fileObj.id, scope.FilesList);
                             uploader.cancelFile(fileObj.id);
                             scope.$apply(function () {
                                 scope.FilesList.splice(index, 1);
+                                console.log("fileObj2asdasdddddd", scope.FilesList);
                             })
                         });
 
@@ -747,6 +747,68 @@ export default function (app) {
         };
     });
 
+
+    // 点击选中当前文件
+    app.directive('chooseCollect', function ($timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.on('click', function () {
+                    var state = elem.find("input[type=checkbox]").prop("checked");
+                    // console.log(state, elem.find("input[type=checkbox]").val());
+                    if (state == false) {
+                        scope.dataCollectList.selects = true;
+                        elem.find("input[type=checkbox]").prop("checked", true);
+                    } else {
+                        scope.dataCollectList.selects = false;
+                        elem.find("input[type=checkbox]").prop("checked", false);
+                    }
+                })
+            },
+        };
+    });
+
+
+    //从已有文件或资料收集夹中选取文件
+    app.directive('selectUpload', function ($timeout, Exhibition) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.on('click', function () {
+                    $("#uploadFileModal").modal('hide');
+                    $("#fileFromCollect").modal('show');
+                    scope.dataCollectList = [];
+                    if (attrs.dataselect == "collect") {
+                        Exhibition.getDirFilesByID({
+                            org_id: scope.orgid,
+                            fullpath: scope.currentExbt.res_collect
+                        }).then(function (res) {
+                            console.log("加载列表信息", res);
+                            $timeout(function () {
+                                scope.collectLoading = false;
+                                scope.dataCollectList = res.list;
+                            })
+                        });
+                    } else {
+                        Exhibition.getAllOfFile({
+                            org_id: scope.orgid,
+                            has_col: scope.currentExbt.res_collect_lock
+                        }).then(function (res) {
+                            console.log("发明痕迹", res)
+
+                            $timeout(function () {
+                                scope.collectLoading = false;
+                                scope.dataCollectList = res;
+                            })
+                        })
+
+
+                    }
+                })
+
+            }
+        }
+    })
 
     function validationTestDirective() {
         'ngInject';

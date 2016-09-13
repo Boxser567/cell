@@ -19,6 +19,7 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.collectLoading = true;
     $scope.FilesList = [];
     $scope.DirsList = [];
+    $scope.dataCollectList = [];
     $scope.warpMask = false;
     Exhibition.getDirFilesByID({org_id: $scope.orgid}, false).then(function (data) {
         var files = [], dirs = [];
@@ -255,8 +256,38 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
             $scope.collectLoading = false;
             $scope.collectList = data.list;
         })
-
     };
+
+    //全选事件
+    $scope.ckb_selectFn = function () {
+        // var flag = $(".ckb_selectAll").attr("checked");
+        // $("[name=cb_choose]:checkbox").each(function () {
+        //     $(this).attr("checked", flag);
+        // })
+    };
+
+
+    //添加选中文件
+    $scope.addSelectFile = function () {
+        var params = {
+            org_id: $scope.orgid,
+            files: []
+        };
+        _.each($scope.dataCollectList, function (r) {
+            if (r.selects) {
+                params.files.push({
+                    filename: r.filename,
+                    hash: r.filehash,
+                    size: r.filesize
+                })
+            }
+        })
+
+        Exhibition.copyFilFromHad(params).then(function (res) {
+            console.log("返回给我很多数据噢", params, res);
+        });
+    };
+
 
     $scope.fileChooser = function () {
         $timeout(function () {

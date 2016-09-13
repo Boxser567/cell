@@ -26,6 +26,16 @@
     min-height: 540px;
     padding: 50px;
     background: #fff;
+
+    img {
+      width: 300px;
+      position: relative;
+      top: 10px;
+      left: 50%;
+      margin-left: -150px;
+      padding: 10px;
+    }
+
   }
   .bg {
     min-height: 500px;
@@ -170,5 +180,6 @@
     }
 
   }
+
 
 }

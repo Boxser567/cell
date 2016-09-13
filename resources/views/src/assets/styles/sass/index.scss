@@ -19,6 +19,14 @@ body {
   }
 }
 
+.eclipflow{
+  width: 100%;
+  overflow:hidden ;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
 .content {
   width: 1200px;
   margin: 0 auto;
@@ -1355,6 +1363,85 @@ body {
           margin-right: 32px;
           margin-top: 10px;
         }
+      }
+    }
+
+  }
+
+  #fileFromCollect {
+
+    .collect {
+      padding: 5px;
+      .title {
+        color: #999;
+        height: 30px;
+        div {
+          line-height: 28px;
+        }
+
+      }
+      .info {
+        position: relative;
+        .loading {
+          margin-top: 10px;
+          text-align: center;
+          span {
+            width: 32px;
+            height: 32px;
+            display: inline-block;
+            background: url("../../../app/pages/images/pass.gif") no-repeat;
+          }
+        }
+        ul {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          overflow-y: scroll;
+          height: 360px;
+          li {
+            height: 30px;
+            line-height: 30px;
+            cursor: pointer;
+            &:hover{
+              background: #eee;
+            }
+            .col-sm-6 {
+              div{
+                @extend .eclipflow;
+              }
+            }
+            .glyphicon-trash {
+              cursor: pointer;
+              color: #ff7474;
+              margin-left: 10px;
+            }
+            .glyphicon-save {
+              cursor: pointer;
+            }
+
+          }
+        }
+      }
+
+    }
+
+
+    .modal-footer{
+      position: relative;
+      p{
+        position: absolute;
+        top:10px;
+        left: 35px;
+      }
+      .btn{
+        border: 1px solid #ddd;
+        padding: 8px 60px;
+        background: #f7f7f7;
+        border-radius: 25px;
+      }
+      .btn_sure_collect{
+        color: #fff;
+        background: #019beb;
       }
     }
 
