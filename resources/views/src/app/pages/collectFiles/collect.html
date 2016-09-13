@@ -8,27 +8,30 @@
         </div>
     </div>
     <div class="ucontent">
-        <div class="bg">
+
+        <div class="upload_complete" ng-if="ExbtMessage.res_collect_lock !=1">
+            <p>温馨提示:</p>
+            <p>您当前访问的会展收集夹已关闭或外链已经失效,请联系会展管理员。</p>
+        </div>
+        <div class="bg" ng-if="ExbtMessage.res_collect_lock ==1">
             <div class="C_upload">
 
-                <div class="btn C_upload_btn" ng-if="ExbtMessage.org_id" dataorgid="{{ExbtMessage.org_id}}"
-                     collect-upload>
+                <div class="btn C_upload_btn" ng-if="ExbtMessage.org_id && ExbtMessage.res_collect"
+                     dataorgid="{{ExbtMessage.org_id}}" datacollect="{{ExbtMessage.res_collect}}" collect-upload>
                     <i class="glyphicon glyphicon-open"></i>
                     上传
                 </div>
 
             </div>
 
-
-            <div class="C_files">
+            <div class="C_upload_warning" ng-if="fileCollect.length==0">
+                严格遵守保密法律法规,严禁在互联网上存储、处理、传输、发布涉密信息(IE10以上或极速浏览器支持)。
+            </div>
+            <div class="C_files" ng-if="fileCollect.length>0">
                 <div class="form-group clearfix">
                     <div class="col-md-7">文件名</div>
                     <div class="col-md-2">上传日期</div>
                     <div class="col-md-3">大小</div>
-                </div>
-
-                <div class="C_upload_warning" ng-if="fileCollect.length==0">
-                    严格遵守保密法律法规,严禁在互联网上存储、处理、传输、发布涉密信息(IE10以上或极速浏览器支持)。
                 </div>
                 <div class="C_fileList">
                     <ul>
@@ -67,8 +70,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="warning">
-                        <p>温馨提示:</p>
-                        <p>您当前访问的会展收集夹已关闭或外链已经失效,请联系会展管理员。</p>
+
                     </div>
                 </div>
             </div><!-- /.modal-content -->

@@ -21,6 +21,12 @@
 
     }
   }
+
+  .upload_complete {
+    min-height: 540px;
+    padding: 50px;
+    background: #fff;
+  }
   .bg {
     min-height: 500px;
     background: #fff;
@@ -40,7 +46,7 @@
         & > div:nth-child(2) {
           width: 112px !important;
           height: 31px !important;
-          top:0 !important;
+          top: 0 !important;
           left: 0 !important;
           cursor: pointer;
         }
@@ -119,11 +125,11 @@
       }
 
     }
-.C_upload_warning{
-  text-align: center;
-  padding: 20px;
-  color: #999;
-}
+    .C_upload_warning {
+      text-align: center;
+      padding: 20px;
+      color: #999;
+    }
   }
 
   #c_uploadmodal {
@@ -133,7 +139,6 @@
     .warning {
       text-indent: 35px;
       color: #999;
-      padding: 20px 10px;
       line-height: 24px;
     }
 

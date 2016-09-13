@@ -659,15 +659,12 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem, attrs) {
 
-                if (scope.ExbtMessage.res_collect_lock == 1) {
-                    $timeout(function () {
-                        Exhibition.getFileToken(attrs.dataorgid).then(function (da) {
-                            uploadimg(da.data.url, da.data.org_client_id);
-                        });
+                $timeout(function () {
+                    Exhibition.getFileToken(attrs.dataorgid).then(function (da) {
+                        uploadimg(da.data.url, da.data.org_client_id);
                     });
-                } else {
-                    $("#c_uploadmodal").modal('show');
-                }
+                });
+
                 function uploadimg(url, clientid) {
                     var uploader = WebUploader.create({
                         pick: {
@@ -680,24 +677,31 @@ export default function (app) {
                             org_client_id: clientid,
                             name: '',
                             filefield: 'file',
-                            file: 'file'
+                            file: 'file',
+                            path: ''
                         },
-
                         duplicate: true,//重复文件
                         fileSizeLimit: 1024 * 1024 * 1024,  //最大文件 1 个G
                         fileSingleSizeLimit: 10240 * 1024 * 1024 //文件上传总量 10 个G
                     });
                     uploader.on('fileQueued', function (file) {
+                        uploader.options.formData.path = attrs.datacollect;
                         uploader.options.formData.name = file.name;
+
+                        console.log("队列上茶123", uploader.options.formData.name);
+
+
                         $timeout(function () {
                             scope.fileCollect.push({
                                 filename: file.name,
-                                fullpath: scope.ExbtMessage.res_collect + '/' + file.name,
+                                fullpath: attrs.datacollect + '/' + file.name,
                                 filesize: file.size,
                                 filewidth: 0,
                                 create_dateline: Date.parse(new Date()),
                                 wid: file.id
                             })
+
+
                         })
                     });
                     uploader.on('uploadSuccess', function (uploadFile, returnFile) {
