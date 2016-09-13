@@ -169,7 +169,7 @@ class FileController extends Controller
     {
         $exhibition = $exhibition->toArray();
         $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/#/mobile/" . $exhibition['unique_code'];
-        if ($exhibition['res_collect_lock']!=0) {
+        if ($exhibition['res_collect_lock'] != 0) {
             $exhibition['res_collect'] = FileController::RES_COLLECTION_FOLDER_NAME;
         }
     }
@@ -198,8 +198,19 @@ class FileController extends Controller
     public function getYunkuFile()
     {
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
-        return $yunkufile->setYunkuFile(inputGetOrFail("filename"), inputGetOrFail("size"), inputGetOrFail("hash"));
+        if (\Request::has('type')) {
+            $files = inputGetOrFail('files');会展助手接口文档
+            foreach ($files as $file) {
+                $yunkufile->setYunkuFile($file["filename"], $file["size"], $file["hash"]);
+            }
+            return ;
+        } else {
+            return $yunkufile->setYunkuFile(inputGetOrFail("filename"), inputGetOrFail("size"), inputGetOrFail("hash"));
+        }
     }
+
+
+    //
 
     //获取资料收集夹的外链地址
     public function getResCollector()
