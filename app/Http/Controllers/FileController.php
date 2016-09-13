@@ -199,7 +199,7 @@ class FileController extends Controller
     {
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
         if (\Request::has('type')) {
-            $files = inputGetOrFail('files');会展助手接口文档
+            $files = inputGetOrFail('files');
             foreach ($files as $file) {
                 $yunkufile->setYunkuFile($file["filename"], $file["size"], $file["hash"]);
             }
