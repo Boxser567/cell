@@ -289,7 +289,14 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     };
 
 
+
+    $scope.uploadStateFn=function () {
+      $scope.uploadstate="dirs";
+    };
+
+
     $scope.fileChooser = function () {
+        $scope.uploadstate="files";
         $timeout(function () {
             $scope.exportFilename = "file";
             $scope.thisDirPath = false;

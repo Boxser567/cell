@@ -198,8 +198,8 @@
                         </ul>
                     </div>
                     <div class="modal-footer">
-                        <div class="btn-dir-upload" data-target="#uploadFileModal" data-toggle="modal">文件上传
-
+                        <div class="btn-dir-upload" data-target="#uploadFileModal" data-toggle="modal"
+                             ng-click="uploadStateFn()">上传文件
                             <!--upload-dir-files-->
                         </div>
                     </div>
@@ -385,17 +385,18 @@
                                     <div class="loading" ng-if="collectLoading">
                                         <span></span>
                                     </div>
-                                    <li class="clearfix" ng-repeat="list in dataCollectList" ng-click="list.selects=!list.selects">
+                                    <li class="clearfix" ng-repeat="list in dataCollectList"
+                                        ng-click="list.selects=!list.selects">
 
-                                            <!--choose-collect-->
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" class="cb_choose" ng-model="list.selects">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div>{{list.filename}}</div>
-                                            </div>
-                                            <div class="col-sm-2">{{list.filesize | bitSize}}</div>
-                                            <div class="col-sm-3">{{list.create_dateline*1000 | date:"yyyy-MM-dd"}}</div>
+                                        <!--choose-collect-->
+                                        <div class="col-sm-1">
+                                            <input type="checkbox" class="cb_choose" ng-model="list.selects">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div>{{list.filename}}</div>
+                                        </div>
+                                        <div class="col-sm-2">{{list.filesize | bitSize}}</div>
+                                        <div class="col-sm-3">{{list.create_dateline*1000 | date:"yyyy-MM-dd"}}</div>
 
                                     </li>
                                 </ul>

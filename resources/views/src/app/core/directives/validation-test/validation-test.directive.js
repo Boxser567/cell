@@ -789,13 +789,23 @@ export default function (app) {
                                 scope.dataCollectList = res.list;
                             })
                         });
-                    } else {
-                        Exhibition.getAllOfFile({
+                    } else {  //已有分类中选择
+
+                        var paras={
                             org_id: scope.orgid,
                             has_col: scope.currentExbt.res_collect_lock
-                        }).then(function (res) {
-                            console.log("发明痕迹", res)
+                        };
+                        if(scope.uploadstate=="dirs"){
+                            paras={
+                                org_id: scope.orgid,
+                                has_col: scope.currentExbt.res_collect_lock,
+                                fullpath:scope.thisDirPath
+                            }
+                        }
 
+
+                        Exhibition.getAllOfFile(paras).then(function (res) {
+                            console.log("发明痕迹", res)
                             $timeout(function () {
                                 scope.collectLoading = false;
                                 scope.dataCollectList = res;
