@@ -19,13 +19,12 @@ body {
   }
 }
 
-.eclipflow{
+.eclipflow {
   width: 100%;
-  overflow:hidden ;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
 
 .content {
   width: 1200px;
@@ -387,6 +386,8 @@ body {
               overflow: hidden;
               max-height: 190px;
               position: relative;
+              border-top-left-radius: 4px;
+              border-top-right-radius: 4px;
               img {
                 border-top-left-radius: 4px;
                 border-top-right-radius: 4px;
@@ -404,6 +405,8 @@ body {
                 top: 0;
                 left: 0;
                 z-index: 9;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
                 background: rgba(0, 0, 0, .6);
               }
             }
@@ -549,9 +552,12 @@ body {
             top: 2px;
             margin-right: 15px;
           }
-          span {
+          & > span {
             margin-left: 60px;
             color: #0cd66a;
+          }
+          input {
+            cursor: pointer;
           }
           s {
             text-decoration: none;
@@ -649,6 +655,7 @@ body {
       .time {
         color: #fff;
         margin: 0;
+        cursor: pointer;
         text-align: center;
         margin-top: 10px;
         background: none;
@@ -684,9 +691,9 @@ body {
           &:hover {
             img {
               display: block;
-              -webkit-animation: myfirst 1s forwards;
-              -o-animation: myfirst 1s forwards;
-              animation: myfirst 1s forwards;
+              -webkit-animation: myfirst 0.5s forwards;
+              -o-animation: myfirst 0.5s forwards;
+              animation: myfirst 0.5s forwards;
             }
           }
         }
@@ -1397,16 +1404,17 @@ body {
           padding: 0;
           list-style: none;
           overflow-y: scroll;
-          height: 360px;
+          height: 430px;
+          top: -13px;
           li {
             height: 30px;
             line-height: 30px;
             cursor: pointer;
-            &:hover{
+            &:hover {
               background: #eee;
             }
             .col-sm-6 {
-              div{
+              div {
                 @extend .eclipflow;
               }
             }
@@ -1425,23 +1433,46 @@ body {
 
     }
 
-
-    .modal-footer{
+    .modal-footer {
       position: relative;
-      p{
+      p {
         position: absolute;
-        top:10px;
+        top: 10px;
         left: 35px;
       }
-      .btn{
+      .btn {
         border: 1px solid #ddd;
         padding: 8px 60px;
         background: #f7f7f7;
         border-radius: 25px;
       }
-      .btn_sure_collect{
+      .btn_sure_collect {
         color: #fff;
         background: #019beb;
+        position: relative;
+        span{
+
+          display: block;
+          z-index: 3;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          background: rgba(0,0,0,.4);
+          border-radius: 25px;
+          i{
+            display: block;
+            z-index: 11;
+            background: url("../../../app/pages/images/pass.gif") no-repeat;
+            background-size: 60% auto;
+            position: absolute;
+            width: 35px;
+            height: 28px;
+            top: 6px;
+            left: 20px;
+          }
+        }
       }
     }
 

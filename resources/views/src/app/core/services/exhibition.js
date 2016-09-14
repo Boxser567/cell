@@ -117,19 +117,18 @@ export default function (app) {
                     })
                 },
 
-                //
+                //从已有文件中选择文件
                 copyFilFromHad: function (params) {
                     return $http.post('/file/self-file', params).then(function (res) {
                         return res.data;
                     })
                 },
 
-                getAllOfFile:function (params) {
+                getAllOfFile: function (params) {
                     return $http.get('/file/all-files', {params: params}).then(function (res) {
                         return res.data;
                     })
                 },
-
 
 
                 //开启资料收集
@@ -137,9 +136,12 @@ export default function (app) {
                     return $http.post("exhibition/res-collection", params).then(function (res) {
                         return res.data;
                     });
-                }
+                },
 
-
+                //获取微信token值
+                getWXToken: function (params) {
+                    return $http.get('https://api.weixin.qq.com/cgi-bin/token', {params: params});
+                },
             }
         }])
 
