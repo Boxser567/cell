@@ -41,7 +41,7 @@
                 <div class="title">会展信息列表</div>
 
 
-                <form name="loginForm" action="/auth/login" role="form" method="post">
+                <form name="loginForm" action="/auth/oauth" role="form" method="post">
                     <input name="__RequestVerificationToken" type="hidden" value="rt5Airmw3jY8JxfwdGzn-X6N_d_ytWSSxziBSHzOUPAh9bxIAg2mbsMJQkkjfxXmQpfsP1Uq_ZipFo2e16JVN6WU8ltGOL3wJd39W3CH4-I1" />
 
 

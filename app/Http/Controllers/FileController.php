@@ -210,6 +210,13 @@ class FileController extends Controller
         foreach ($files as $key=> $file) {
             $return_files[$key]=$yunkufile->setYunkuFile($file["filename"], $file["size"], $file["hash"]);
         }
+        if(\Request::has('hash')){
+            $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
+            $folder_info->file_count = $folder_info->file_count +inputGetOrFail('dirsize');
+            $folder_info->file_size  = $folder_info->file_size +inputGetOrFail('dircount');
+            $folder_info->save();
+            FolderInfo::cacheForget();
+        }
         return $return_files;
     }
 
