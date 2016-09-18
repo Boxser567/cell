@@ -19,10 +19,9 @@ Route::get('/pic', function () {
     return view('upload');
 });
 Route::get('/login', function () {
-    return view('welcome');
+    return view('show');
 });
 
-//Route::get('/{unicode}','BaseController@show' )->where('unicode', '[\d]{10}');
 # 用户点击登录按钮时请求的地址
 Route::get('/auth/oauth', 'Auth\AuthController@oauth');
 # 微信接口回调地址

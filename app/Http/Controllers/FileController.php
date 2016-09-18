@@ -276,6 +276,15 @@ class FileController extends Controller
         }
         return array_values($file_list);
     }
-
+    
+    //微信接口参数
+    public function getWechatParameters()
+    {
+        $wechat=app('wechat');
+        $js = $wechat->js;
+        $parameters=$js->config(array('onMenuShareQQ', 'onMenuShareWeibo'), true);
+        $parameters=json_decode($parameters,true);
+        return['appId'=>$parameters['appId'],'nonceStr'=>$parameters['nonceStr'],'timestamp'=>$parameters['timestamp'],'signature'=>$parameters['signature']];
+    }
 
 }

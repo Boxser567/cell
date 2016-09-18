@@ -15,6 +15,7 @@ use App\Models\ExhibitionInfo;
 use Session;
 use Input;
 use App\Logic\LAccount;
+use EasyWeChat\Foundation\Application;
 
 class TestController extends Controller
 {
@@ -152,8 +153,7 @@ class TestController extends Controller
     {
         return get_http_host();
     }
-
-
+    
 
     public function getY()
     {
@@ -172,7 +172,9 @@ class TestController extends Controller
 
     public function getX()
     {
-        $file = new YunkuFile(688512);
-        $file->setUrlFile("许葛云库的文件", "http://yunku.gokuai.com/file/jag38ss7#");
+        $wechat=app('wechat');
+        $js = $wechat->js;
+     return    $parameters=$js->config(array('onMenuShareQQ', 'onMenuShareWeibo'), true);
+       // return['appId'=>$parameters,'nonceStr'=>,'timestamp'=>,'signature'=>];
     }
 }

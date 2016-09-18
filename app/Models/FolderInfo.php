@@ -9,7 +9,7 @@
 namespace App\Models;
 
 
-class FolderInfo extends User
+class FolderInfo extends BaseModel
 {
     protected $table = 'folder_info';
 
@@ -22,7 +22,6 @@ class FolderInfo extends User
     public static function deleteByHash($hash)
     {
         return self::where("folder_hash", $hash)->delete();
-
     }
 
     public static function updateInfo($hash,$file_count,$file_size)
