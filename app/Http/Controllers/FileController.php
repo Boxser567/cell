@@ -212,8 +212,8 @@ class FileController extends Controller
         }
         if(\Request::has('hash')){
             $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
-            $file_size = $folder_info->file_count +inputGetOrFail('dirsize');
-            $file_count  = $folder_info->file_size +inputGetOrFail('dircount');
+            $file_size = $folder_info->file_size +inputGetOrFail('dirsize');
+            $file_count  = $folder_info->file_count  +inputGetOrFail('dircount');
             FolderInfo::updateInfo(inputGetOrFail('hash'), $file_count, $file_size);
             FolderInfo::cacheForget();
         }
