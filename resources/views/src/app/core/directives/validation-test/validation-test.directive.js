@@ -776,9 +776,15 @@ export default function (app) {
             link: function (scope, elem, attrs) {
                 elem.on('click', function () {
                     $("#uploadFileModal").modal('hide');
-                    $("#fileFromCollect").modal('show');
                     scope.dataCollectList = [];
+
                     if (attrs.dataselect == "collect") {
+                        if (scope.currentExbt.res_collect_lock == 0) {
+                            $("#openCollectFile").modal('show');
+                            return;
+                        }
+                        $("#fileFromCollect").modal('show');
+                        scope.collectTitle = "从资料收集选择文件";
                         Exhibition.getDirFilesByID({
                             org_id: scope.orgid,
                             fullpath: scope.currentExbt.res_collect
@@ -790,20 +796,19 @@ export default function (app) {
                             })
                         });
                     } else {  //已有分类中选择
-
-                        var paras={
+                        $("#fileFromCollect").modal('show');
+                        scope.collectTitle = "从已有分类选择文件";
+                        var paras = {
                             org_id: scope.orgid,
                             has_col: scope.currentExbt.res_collect_lock
                         };
-                        if(scope.uploadstate=="dirs"){
-                            paras={
+                        if (scope.uploadstate == "dirs") {
+                            paras = {
                                 org_id: scope.orgid,
                                 has_col: scope.currentExbt.res_collect_lock,
-                                fullpath:scope.thisDirPath
+                                fullpath: scope.thisDirPath
                             }
                         }
-
-
                         Exhibition.getAllOfFile(paras).then(function (res) {
                             console.log("发明痕迹", res)
                             $timeout(function () {

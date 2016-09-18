@@ -21,6 +21,8 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.DirsList = [];
     $scope.dataCollectList = [];
     $scope.warpMask = false;
+    $scope.btnloading = false;
+    $scope.collectTitle = "从资料收集选择文件";
     Exhibition.getDirFilesByID({org_id: $scope.orgid}, false).then(function (data) {
         var files = [], dirs = [];
         _.each(data.list, function (list) {
@@ -269,34 +271,89 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
 
     //添加选中文件
     $scope.addSelectFile = function () {
+        $scope.btnloading = true;
         var params = {
             org_id: $scope.orgid,
             files: []
         };
-        _.each($scope.dataCollectList, function (r) {
-            if (r.selects) {
-                params.files.push({
-                    filename: r.filename,
-                    hash: r.filehash,
-                    size: r.filesize
-                })
-            }
-        })
+        var dirsize = 0, dircount = 0;
+        if ($scope.uploadstate == "files") {
+            _.each($scope.dataCollectList, function (r) {
+                if (r.selects) {
+                    params.files.push({
+                        filename: r.filename,
+                        hash: r.filehash,
+                        size: r.filesize
+                    });
+                    dirsize += Number(r.filesize);
+                    dircount++;
+                }
+            });
+        } else {
+            _.each($scope.dataCollectList, function (r) {
+                if (r.selects) {
+                    params.files.push({
+                        filename: $scope.thisDirPath + "/" + r.filename,
+                        hash: r.filehash,
+                        size: r.filesize
+                    })
+                    dirsize += Number(r.filesize);
+                    dircount++;
+                }
+            });
+            params.hash = $scope.thisDirHash;
+            params.dirsize = dirsize;
+            params.dircount = dircount;
+        }
+        $scope.currentExbt.property.file_count += dircount;
+        $scope.currentExbt.property.size_use += dirsize;
 
         Exhibition.copyFilFromHad(params).then(function (res) {
-            console.log("返回给我很多数据噢", params, res);
+            // console.log("返回给我很多数据噢", params, res);
+            if ($scope.uploadstate == "dirs") {
+                $timeout(function () {
+                    _.each(res, function (r) {
+                        $scope.dirList.push({
+                            hash: r.hash,
+                            filename: Util.String.baseName(r.fullpath),
+                            filesize: r.filesize,
+                            create_dateline: (Date.parse(new Date())) / 1000
+                        })
+                    });
+
+                    for (var n = 0; n < $scope.DirsList.length; n++) {
+                        if ($scope.DirsList[n].fullpath == $scope.thisDirPath) {
+                            $scope.DirsList[n].info.file_count += dircount;
+                            $scope.DirsList[n].info.file_size += dirsize;
+                        }
+                    }
+                })
+            } else {
+                $timeout(function () {
+                    _.each(res, function (f) {
+                        $scope.FilesList.push({
+                            hash: f.hash,
+                            fullpath: f.fullpath,
+                            filename: Util.String.baseName(f.fullpath),
+                            filesize: f.filesize,
+                            create_dateline: (Date.parse(new Date())) / 1000
+                        })
+                    })
+                })
+            }
+            $scope.dataCollectList = [];
+            $("#fileFromCollect").modal('hide');
         });
     };
 
 
-
-    $scope.uploadStateFn=function () {
-      $scope.uploadstate="dirs";
+    $scope.uploadStateFn = function () {
+        $scope.uploadstate = "dirs";
     };
 
 
     $scope.fileChooser = function () {
-        $scope.uploadstate="files";
+        $scope.uploadstate = "files";
         $timeout(function () {
             $scope.exportFilename = "file";
             $scope.thisDirPath = false;

@@ -8,9 +8,6 @@ function CollectController($scope, currentExhibition) {
     $scope.ExbtMessage = currentExhibition;
     $scope.fileCollect = [];
 
-    $scope.$wa
-
-
 }
 
 export default CollectController;

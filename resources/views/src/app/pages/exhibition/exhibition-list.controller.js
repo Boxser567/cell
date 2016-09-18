@@ -1,13 +1,12 @@
 'use strict';
 
-function ExhibitionListController($scope, $state, Exhibition) {
+function ExhibitionListController($scope, $rootScope, $state, Exhibition) {
     'ngInject';
     $scope.newMask = false;
 
-
+    $rootScope.alertMsg = false;
     Exhibition.list().then(function (res) {
         console.log("列表加载", res);
-
         var start = [], end = [];
         var date = new Date();
         _.each(res.data, function (d) {
@@ -19,7 +18,6 @@ function ExhibitionListController($scope, $state, Exhibition) {
             } else {
                 start.push(d);
             }
-
         });
         $scope.start_ebts = start;
         $scope.end_ebts = end;

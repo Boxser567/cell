@@ -8,7 +8,8 @@
                     <div class="pull-left">
                         <a href="http://cell.meetingfile.com/#/exhibition"><i class="home"></i> </a>
                         编辑模式
-                        <span>资料收集</span>
+                        <span>资料收集<span ng-if="currentExbt.res_collect_lock==-1">:&nbsp;已关闭</span> <span
+                                ng-if="currentExbt.res_collect_lock==1">:&nbsp;已开启</span> </span>
                         <label ng-click="checkCollecFn()">
                             <input class="mui-switch mui-switch-anim" type="checkbox"
                                    value="{{currentExbt.res_collect_lock}}"></label>
@@ -367,7 +368,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h5 class="modal-title" id="myModalLabel6">
-                            从资料收集选择文件
+                            {{collectTitle}}
                         </h5>
                     </div>
                     <div class="modal-body">
@@ -409,6 +410,7 @@
                             <input type="checkbox" class="ckb_selectAll" ng-click="ckb_selectFn()"> &nbsp;全选
                         </p>
                         <div class="btn btn_sure_collect" ng-click="addSelectFile()">
+                            <span ng-if="btnloading"><i></i></span>
                             确定
                         </div>
                         <div class="btn" data-dismiss="modal" aria-hidden="true">
