@@ -12,7 +12,8 @@
         "barryvdh/laravel-debugbar": "^2.2",
         "laravel/socialite": "^2.0",
         "endroid/qrcode": "^1.7",
-        "qiniu/php-sdk": "dev-master"
+        "qiniu/php-sdk": "dev-master",
+        "overtrue/laravel-wechat": "~3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
