@@ -177,4 +177,10 @@ class TestController extends Controller
      return    $parameters=$js->config(array('onMenuShareQQ', 'onMenuShareWeibo'), true);
        // return['appId'=>$parameters,'nonceStr'=>,'timestamp'=>,'signature'=>];
     }
+
+
+    public function getWw()
+    {
+        echo phpinfo();
+    }
 }
