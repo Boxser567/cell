@@ -129,10 +129,15 @@
 
 
                     <div class="col-md-4">
-                        <div class="files files-add">
+                        <div class="files files-add" style="position: relative;">
                             <a class="btn-add" ng-if="orgid" dataorgid="{{currentExbt.org_id}}" filesort-add>
                                 <!--  data-target="#modalAddDir" data-toggle="modal" -->
                                 <i class="glyphicon glyphicon-plus"></i>创建新分类</a>
+                            <div class="mask" ng-if="sort_maskloading">
+                                <span us-spinner="{color:'white',lines:11,radius:9, width:5, length: 9}" spinner-on="sort_maskloading"></span>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -409,7 +414,8 @@
                         </p>
                         <div class="btn btn_sure_collect">
                             <div ng-if="btnloading">
-                                <span us-spinner="{ color: '#fff',radius: 6, width: 2, lines: 9, length: 5,top:'50%',left:'25%'}"  spinner-on="true" ></span>
+                                <span us-spinner="{ color: '#fff',radius: 6, width: 2, lines: 9, length: 5,top:'50%',left:'25%'}"
+                                      spinner-on="true"></span>
                             </div>
                             <div ng-click="addSelectFile()" class="btn_ok">确定</div>
                         </div>

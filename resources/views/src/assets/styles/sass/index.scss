@@ -993,6 +993,16 @@ body {
           padding: 110px 0;
           background: #484d53;
           text-align: center;
+          position: relative;
+          .mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, .6);
+            width: 100%;
+            height: 100%;
+            z-index: 8;
+          }
           .btn-add {
             i {
               margin-right: 5px;
@@ -1448,7 +1458,7 @@ body {
         position: relative;
         height: 37px;
         width: 150px;
-        div{
+        div {
           position: absolute;
           top: 0;
           left: 0;
@@ -1457,7 +1467,7 @@ body {
           z-index: 9;
           border-radius: 25px;
         }
-        .btn_ok{
+        .btn_ok {
           padding-top: 10px;
           z-index: 2;
         }
@@ -1471,7 +1481,7 @@ body {
           left: 0;
           color: #fff;
           border-radius: 25px;
-          background: rgba(0,0,0,.6);
+          background: rgba(0, 0, 0, .6);
           i {
           }
         }

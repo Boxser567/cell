@@ -1,5 +1,5 @@
 'use strict';
-import  wx from "weixin-js-sdk";
+// import  wx from "weixin-js-sdk";
 function MobileController($scope, currentMobileExbt, Exhibition) {
     'ngInject';
     $scope.EXfileList = currentMobileExbt;
@@ -70,22 +70,22 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
             }
         });
         wx.onMenuShareAppMessage({
-            title: '够快测试标题分享', // 分享标题
+            title: 'thistimeshare', // 分享标题
             link: 'www.baidu.com', // 分享链接
-            desc: '够快测试标题分享', // 分享描述
+            desc: 'thistimeshare', // 分享描述
             imgUrl: 'http://res.meetingfile.com/5355c7cc82c964cf448058fe0e1e64772715805d.jpg-640', // 分享图标
             type: 'link', // 分享类型,music、video或link，不填默认为link
             success: function () {
                 alert("确定分享成功123!");
             },
         });
-        wx.onMenuShareTimeline({
-            title: '够快测试标题分享', // 分享标题
-            link: 'www.baidu.com', // 分享链接
-            success: function () {
-                alert("确定分享成功996!");
-            },
-        });
+        // wx.onMenuShareTimeline({
+        //     title: '够快测试标题分享', // 分享标题
+        //     link: 'www.baidu.com', // 分享链接
+        //     success: function () {
+        //         alert("确定分享成功996!");
+        //     },
+        // });
 
     });
     wx.error(function (res) {

@@ -492,6 +492,7 @@ export default function (app) {
                     if (state) {
                         return;
                     }
+                    scope.sort_maskloading = true;
                     Exhibition.addFolder({org_id: arr.dataorgid, fullpath: "请填写分类名称"}).then(function (r) {
                         var data = r.data;
                         console.log(data);
@@ -503,6 +504,7 @@ export default function (app) {
                                 autoEditName: true,
                                 info: {file_count: 0, file_size: 0, img_url: [data.img_url[0]]}
                             });
+                            scope.sort_maskloading = false;
                             scope.currentExbt.property.dir_count = Number(scope.currentExbt.property.dir_count) + 1;
                         })
                     });

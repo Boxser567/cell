@@ -263,7 +263,6 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
 
     //全选事件
     $scope.ckb_selectFn = function () {
-        console.log("全部选中", $scope.dataCollectList);
         var isCheck = $(".ckb_selectAll").prop("checked");
         if (!isCheck) {
             $timeout(function () {
@@ -318,7 +317,7 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
             params.dircount = dircount;
         }
         if (dircount == 0) {
-            alert("啥玩意儿都没选中")
+            $scope.btnloading = false;
             return;
         }
 
@@ -368,7 +367,6 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.uploadStateFn = function () {
         $scope.uploadstate = "dirs";
     };
-
 
     $scope.fileChooser = function () {
         $scope.uploadstate = "files";
