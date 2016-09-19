@@ -21,7 +21,7 @@ class BaseController extends Controller
 
     public function __construct($member = [])
     {
-        $members = $_COOKIE['member'];
+        $members = json_decode($_COOKIE['member'],true);
         if (!$members) {
             throw new Exception(40106);
         } else {
