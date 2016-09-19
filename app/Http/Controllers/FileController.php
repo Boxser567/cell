@@ -282,7 +282,7 @@ class FileController extends Controller
     {
         $wechat=app('wechat');
         $js = $wechat->js;
-        $parameters=$js->config(array('onMenuShareQQ', 'onMenuShareWeibo'), true);
+        $parameters=$js->config(array('onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo','onMenuShareQZone','startRecord','stopRecord','onVoiceRecordEnd','playVoice','pauseVoice','stopVoice','onVoicePlayEnd','uploadVoice','downloadVoice','chooseImage','previewImage','uploadImage','downloadImage','getNetworkType','openLocation','getLocation','hideOptionMenu','hideMenuItems','showMenuItems','hideAllNonBaseMenuItem','showAllNonBaseMenuItem','closeWindow','scanQRCode','chooseWXPay','openProductSpecificView','addCard','chooseCard','openCard'), true);
         $parameters=json_decode($parameters,true);
         return['appId'=>$parameters['appId'],'nonceStr'=>$parameters['nonceStr'],'timestamp'=>$parameters['timestamp'],'signature'=>$parameters['signature']];
     }
