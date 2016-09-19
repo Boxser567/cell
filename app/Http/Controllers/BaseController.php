@@ -21,7 +21,8 @@ class BaseController extends Controller
 
     public function __construct($member = [])
     {
-        $members = json_decode($_COOKIE['member'],true);
+       // $members = json_decode($_COOKIE['member'],true);
+       $members=Session::get('member');
         if (!$members) {
             throw new Exception(40106);
         } else {

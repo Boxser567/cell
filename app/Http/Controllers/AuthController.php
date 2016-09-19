@@ -29,7 +29,7 @@ class AuthController extends Controller
         //$name=$oauthUser['nickname'];
         //$unionid=$oauthUser['unionid'];
         //$image=$oauthUser['headimgurl'];
-      /*  $member = LAccount::setUser($name, $unionid)->toArray();
+        $member = LAccount::setUser($name, $unionid)->toArray();
         $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
         $member['edition'] = $ent['edition'];
         $his_member = Session::get('member');
@@ -37,9 +37,9 @@ class AuthController extends Controller
             Session::flush();
             Session::put('member', $member);
             Session::regenerate();
-        }*/
-        //return $member;
-        return $_COOKIE['member'];
+        }
+       return $member;
+        //return $_COOKIE['member'];
     }
 
     public function getLogout()

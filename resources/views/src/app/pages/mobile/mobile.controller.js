@@ -68,12 +68,12 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
             timestamp: resp.timestamp, // 必填，生成签名的时间戳
             nonceStr: resp.nonceStr, // 必填，生成签名的随机串
             signature: resp.signature,// 必填，签名，见附录1     //https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=peHq5czJfl3TMtZofksG6V8SxuyT9u4&type=jsapi
-            jsApiList: ['onMenuShareTimeline', 'showAllNonBaseMenuItem', 'onMenuShareAppMessage', 'previewImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo','onMenuShareQZone','startRecord','stopRecord','onVoiceRecordEnd','playVoice','pauseVoice','stopVoice','onVoicePlayEnd','uploadVoice','downloadVoice','chooseImage','previewImage','uploadImage','downloadImage','getNetworkType','openLocation','getLocation','hideOptionMenu','hideMenuItems','showMenuItems','hideAllNonBaseMenuItem','showAllNonBaseMenuItem','closeWindow','scanQRCode','chooseWXPay','openProductSpecificView','addCard','chooseCard','openCard'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         });
 
         wx.ready(function () {
             wx.checkJsApi({
-                jsApiList: ['onMenuShareTimeline', 'showAllNonBaseMenuItem', 'onMenuShareAppMessage', 'previewImage'],
+                jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo','onMenuShareQZone','startRecord','stopRecord','onVoiceRecordEnd','playVoice','pauseVoice','stopVoice','onVoicePlayEnd','uploadVoice','downloadVoice','chooseImage','previewImage','uploadImage','downloadImage','getNetworkType','openLocation','getLocation','hideOptionMenu','hideMenuItems','showMenuItems','hideAllNonBaseMenuItem','showAllNonBaseMenuItem','closeWindow','scanQRCode','chooseWXPay','openProductSpecificView','addCard','chooseCard','openCard'],
                 fail: function (resp) {
                     alert("微信版本不支持");
                 }
