@@ -140,7 +140,9 @@ export default function (app) {
 
                 //获取微信token值
                 getWXToken: function (params) {
-                    return $http.get('https://api.weixin.qq.com/cgi-bin/token', {params: params});
+                    return $http.get('/file/wechat-parameters').then(function (res) {
+                        return res.data;
+                    });
                 },
             }
         }])

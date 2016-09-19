@@ -16,13 +16,15 @@ import "angular-touch";
 
 import "angular-sanitize";
 
+import "spin.js/spin";
+
+import "angular-spinner/angular-spinner.min";
+
 import "../assets/scripts/util";
 
 import "angular-md5/angular-md5";
 
 import "angular-local-storage/dist/angular-local-storage";
-
-
 
 
 // local scripts

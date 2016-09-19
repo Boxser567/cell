@@ -792,6 +792,9 @@ export default function (app) {
                             console.log("加载列表信息", res);
                             $timeout(function () {
                                 scope.collectLoading = false;
+                                _.each(res.list, function (r) {
+                                    r.selects = false;
+                                })
                                 scope.dataCollectList = res.list;
                             })
                         });
@@ -813,12 +816,14 @@ export default function (app) {
                             console.log("发明痕迹", res)
                             $timeout(function () {
                                 scope.collectLoading = false;
+                                _.each(res, function (re) {
+                                    re.selects = false;
+                                })
                                 scope.dataCollectList = res;
                             })
                         })
-
-
                     }
+
                 })
 
             }
