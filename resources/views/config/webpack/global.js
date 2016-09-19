@@ -38,7 +38,8 @@ module.exports = function(_path) {
         _appRoot:     path.join(_path, 'src', 'app'),
         _images:      path.join(_path, 'src', 'app', 'assets', 'images'),
         _stylesheets: path.join(_path, 'src', 'app', 'assets', 'styles'),
-        _scripts:     path.join(_path, 'src', 'app', 'assets', 'js')
+        _scripts:     path.join(_path, 'src', 'app', 'assets', 'js'),
+        spin: 'spin.js'
       }
     },
 
@@ -127,6 +128,10 @@ module.exports = function(_path) {
           loaders: [
             "expose?Util"
           ]
+        },
+        {
+          test: require.resolve('angular-spinner'),
+          loader: 'imports?define=false' // disable AMD for this package
         }
       ]
     },

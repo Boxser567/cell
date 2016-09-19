@@ -21,7 +21,7 @@ class BaseController extends Controller
 
     public function __construct($member = [])
     {
-        $members = \Cookie::get('member',$member);
+        $members = Session::get('member',$member);
         if (!$members) {
             throw new Exception(40106);
         } else {

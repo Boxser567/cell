@@ -2,9 +2,8 @@
 
 import 'bootstrap-sass/assets/javascripts/bootstrap';
 
-function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, currentExhibition, Exhibition) {
+function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, currentExhibition, Exhibition, usSpinnerService) {
     'ngInject';
-
 
     console.log("返回详情数据", $stateParams, currentExhibition);
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
@@ -17,6 +16,7 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.collectUrl = "http://cell.meetingfile.com/#/collect/" + $stateParams.unicode + "";
     $scope.imgloading = false;
     $scope.collectLoading = true;
+    $scope.fileloading = true;
     $scope.FilesList = [];
     $scope.DirsList = [];
     $scope.dataCollectList = [];
@@ -36,6 +36,7 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
                 files.push(list);
             }
         })
+        $scope.fileloading = false;
         $scope.FilesList = files;
         $scope.DirsList = dirs;
         // console.log("文件夹信息", $scope.DirsList);
@@ -262,10 +263,12 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
 
     //全选事件
     $scope.ckb_selectFn = function () {
-        // var flag = $(".ckb_selectAll").attr("checked");
-        // $("[name=cb_choose]:checkbox").each(function () {
-        //     $(this).attr("checked", flag);
-        // })
+        console.log("全部选中", $scope.dataCollectList);
+        $timeout(function () {
+            _.each($scope.dataCollectList, function (ck) {
+                ck.selects = true;
+            })
+        })
     };
 
 
