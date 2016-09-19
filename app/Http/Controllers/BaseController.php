@@ -21,17 +21,12 @@ class BaseController extends Controller
 
     public function __construct($member = [])
     {
-        $members = Session::get('member',$member);
+        $members = json_decode($_COOKIE['member'],true);
         if (!$members) {
             throw new Exception(40106);
         } else {
             $this->member = $members;
         }
-    }
-
-    public function getInfo()
-    {
-        return $this->member;
     }
 
 }

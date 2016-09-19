@@ -29,7 +29,7 @@ class AuthController extends Controller
         //$name=$oauthUser['nickname'];
         //$unionid=$oauthUser['unionid'];
         //$image=$oauthUser['headimgurl'];
-       $member = LAccount::setUser($name, $unionid)->toArray();
+      /*  $member = LAccount::setUser($name, $unionid)->toArray();
         $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
         $member['edition'] = $ent['edition'];
         $his_member = Session::get('member');
@@ -37,9 +37,9 @@ class AuthController extends Controller
             Session::flush();
             Session::put('member', $member);
             Session::regenerate();
-        }
-        return $member;
-        //return Session::get('member');
+        }*/
+        //return $member;
+        return $_COOKIE['member'];
     }
 
     public function getLogout()
@@ -52,20 +52,18 @@ class AuthController extends Controller
 
     public static function login($user)
     {
-        $member = Member::getUnionid($user['unionid']);
+        $member = Member::getUnionid($user->id);
         if ($member) {
             $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
             $member['edition'] = $ent['edition'];
-            \Cookie::forget('member');
-            \Cookie::make('member', $member);
+            setcookie('member',json_encode($member),time()+60*360,'/');
         } else if(\Cookie::get('member')){
-
         } else{
-            $member = LAccount::setUser($user['nickname'], $user['unionid'],$user['headimgurl'])->toArray();
+            $member = LAccount::setUser($user->name, $user->id,$user->avatar)->toArray();
             $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
             $member['edition'] = $ent['edition'];
-            \Cookie::forget('member');
-            \Cookie::make('member', $member);
+            $member['edition'] = $ent['edition'];
+            setcookie('member',json_encode($member),time()+60*360,'/');
         }
     }
 
