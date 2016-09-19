@@ -317,6 +317,12 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
             params.dirsize = dirsize;
             params.dircount = dircount;
         }
+        if (dircount == 0) {
+            alert("啥玩意儿都没选中")
+            return;
+        }
+
+
         $scope.currentExbt.property.file_count += dircount;
         $scope.currentExbt.property.size_use += dirsize;
 
