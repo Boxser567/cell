@@ -264,11 +264,20 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     //全选事件
     $scope.ckb_selectFn = function () {
         console.log("全部选中", $scope.dataCollectList);
-        $timeout(function () {
-            _.each($scope.dataCollectList, function (ck) {
-                ck.selects = true;
+        var isCheck = $(".ckb_selectAll").prop("checked");
+        if (!isCheck) {
+            $timeout(function () {
+                _.each($scope.dataCollectList, function (ck) {
+                    ck.selects = false;
+                })
             })
-        })
+        } else {
+            $timeout(function () {
+                _.each($scope.dataCollectList, function (ck) {
+                    ck.selects = true;
+                })
+            })
+        }
     };
 
 
