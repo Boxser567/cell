@@ -52,14 +52,14 @@ class AuthController extends Controller
 
     public static function login($user)
     {
-        $member = Member::getUnionid($user['unionid']);
+        $member = Member::getUnionid($user->id);
         if ($member) {
             $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
             $member['edition'] = $ent['edition'];
             setcookie('member',json_encode($member),time()+60*360,'/');
         } else if(\Cookie::get('member')){
         } else{
-            $member = LAccount::setUser($user['nickname'], $user['unionid'],$user['headimgurl'])->toArray();
+            $member = LAccount::setUser($user->name, $user->id,$user->avatar)->toArray();
             $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
             $member['edition'] = $ent['edition'];
             $member['edition'] = $ent['edition'];

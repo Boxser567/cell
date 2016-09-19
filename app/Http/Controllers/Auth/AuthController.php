@@ -68,18 +68,19 @@ class AuthController extends Controller
 
     public function oauth(Request $request)
     {
-        return Socialite::with('weixin')->redirect();
+        $wechat=app('wechat');
+        return $wechat->oauth->scopes(['snsapi_login'])
+            ->redirect();
     }
 
 # 微信的回调地址
     public function callback(Request $request)
     {
-        //View::addExtension('html','blade');
-       // return  view('index');
-        $oauthUser = Socialite::with('weixin')->user();
-        // 在这里可以获取到用户在微信的资料
+        $wechat=app('wechat');
+        $user = $wechat->oauth->user();
+       // dump($user);
         $auth=new \App\Http\Controllers\AuthController();
-        $auth->login($oauthUser->user);
+        $auth->login($user);
         View::addExtension('html','blade');
         return  view('index');
 
