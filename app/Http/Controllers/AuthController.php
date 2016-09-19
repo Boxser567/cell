@@ -39,7 +39,7 @@ class AuthController extends Controller
             Session::regenerate();
         }*/
         //return $member;
-        return Session::get('member');
+        return $_COOKIE['member'];
     }
 
     public function getLogout()
@@ -56,16 +56,14 @@ class AuthController extends Controller
         if ($member) {
             $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
             $member['edition'] = $ent['edition'];
-            \Cookie::forget('member');
-            \Cookie::make('member', $member);
+            setcookie('member',json_encode($member),time()+60*360,'/');
         } else if(\Cookie::get('member')){
-
         } else{
             $member = LAccount::setUser($user['nickname'], $user['unionid'],$user['headimgurl'])->toArray();
             $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
             $member['edition'] = $ent['edition'];
-            \Cookie::forget('member');
-            \Cookie::make('member', $member);
+            $member['edition'] = $ent['edition'];
+            setcookie('member',json_encode($member),time()+60*360,'/');
         }
     }
 

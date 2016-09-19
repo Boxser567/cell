@@ -21,17 +21,12 @@ class BaseController extends Controller
 
     public function __construct($member = [])
     {
-        $members = \Cookie::get('member',$member);
+        $members = $_COOKIE['member'];
         if (!$members) {
             throw new Exception(40106);
         } else {
             $this->member = $members;
         }
-    }
-
-    public function getInfo()
-    {
-        return $this->member;
     }
 
 }
