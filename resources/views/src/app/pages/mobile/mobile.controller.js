@@ -86,14 +86,14 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
                 imgUrl: 'http://res.meetingfile.com/5355c7cc82c964cf448058fe0e1e64772715805d.jpg-640', // 分享图标
                 type: 'link', // 分享类型,music、video或link，不填默认为link
                 success: function () {
-                    alert("确定分享成功!");
+                    alert("确定分享成功123!");
                 },
             });
             wx.onMenuShareTimeline({
                 title: '够快测试标题分享', // 分享标题
                 link: 'www.baidu.com', // 分享链接
                 success: function () {
-                    alert("确定分享成功!");
+                    alert("确定分享成功996!");
                 },
             });
 
