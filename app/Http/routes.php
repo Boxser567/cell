@@ -15,7 +15,7 @@ Route::get('/', function () {
     View::addExtension('html','blade');
     $wechat=app('wechat');
     $js = $wechat->js;
-    return view('index',[$js]);
+    return view('index',['js' => $js]);
 });
 Route::get('/pic', function () {
     return view('upload');
