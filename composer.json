@@ -14,7 +14,7 @@
         "endroid/qrcode": "^1.7",
         "qiniu/php-sdk": "dev-master",
         "overtrue/laravel-wechat": "~3.0",
-        "socialiteproviders/weixin": "^2.1"
+        "socialiteproviders/weixin": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
