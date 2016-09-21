@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use App\Logic\LAccount;
 use App\Logic\YunkuFile;
 use App\Models\FolderInfo;
+use App\Models\GroupInfo;
 use Qiniu\Auth;
 use App\Models\ExhibitionInfo;
 use App\Logic\YunkuOrg;
@@ -26,6 +27,13 @@ class FileController extends Controller
     public function getList()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
+        if (\Request::has('hash') && \Request::has('fullpath')) {
+            $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
+            $now = date('Y-m-d H:i:s');
+            if ($now < $folder_info->start_time || $now > $folder_info->end_time) {
+                throw new \Exception("文件夹未授权开放");
+            }
+        }
         $file_list = $files->getFileList(inputGet('fullpath', ''));
         /*$input=inputGet('fullpath','')?1:0;
          $type=inputGet("type",'')?1:0;
@@ -46,11 +54,48 @@ class FileController extends Controller
         return $file_list;
     }
 
+
+    //获取分组信息
+    public function getGroup()
+    {
+        GroupInfo::cacheForget();
+        FolderInfo::cacheForget();
+        $group_info = GroupInfo::getFolderInfo(inputGetOrFail('group_id'));
+        $now = date('Y-m-d H:i:s');
+        if ($group_info->hidden == 1) {
+            return [0];
+        } else {
+            if ($now > $group_info->end_time || $now < $group_info->start_time) {
+                return [1];
+            }
+        }
+        $folder_info = $group_info->folder->toArray();
+        foreach ($folder_info as $key => &$folder) {
+            if ($folder['hidden'] == 1) {
+                $folder_info[$key] = [0];
+            } else {
+                if ($now > $folder['end_time'] || $now < $folder['start_time']) {
+                    $folder_info[$key] = [1];
+                }
+            }
+        }
+        $group_info = $group_info->toArray();
+        $group_info['folder'] = $folder_info;
+        return $group_info;
+    }
+
+
     //获取文件夹或文件详情
     public function getInfo()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
         return $files->getInfo(inputGetOrFail('fullpath'), 1);
+    }
+
+    //修改文件夹有效时间
+    public function postValidateTime()
+    {
+        return FolderInfo::updateValidateTime(inputGetOrFail('hash'), inputGet('start_time'), inputGet('end_time'));
     }
 
     //创建文件夹
@@ -60,6 +105,7 @@ class FileController extends Controller
         $files_info = $files->setFolder(inputGetOrFail('fullpath'));
         $folder_info = new FolderInfo();
         $folder_info->org_id = inputGetOrFail('org_id');
+        $folder_info->title = inputGet('title', '新文件夹');
         $folder_info->folder_hash = $files_info['hash'];
         $img_url = config('app.qiniu.domain') . "/" . config('data.FOLDER')[random_int(0, 8)];
         $folder_info->img_url = json_encode(["0" => $img_url]);
@@ -120,6 +166,7 @@ class FileController extends Controller
     public function postResetName()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
+        FolderInfo::updateTitle(inputGetOrFail('hash'), inputGetOrFail('fullpath'));
         return $files->setName(inputGetOrFail('fullpath'), inputGetOrFail('newpath'));
     }
 
@@ -169,6 +216,7 @@ class FileController extends Controller
     {
         $exhibition = $exhibition->toArray();
         $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/#/mobile/" . $exhibition['unique_code'];
+        $exhibition['base_folder']=ExhibitionController::BASE_FILE_NAME;
         if ($exhibition['res_collect_lock'] != 0) {
             $exhibition['res_collect'] = FileController::RES_COLLECTION_FOLDER_NAME;
         }
@@ -206,14 +254,14 @@ class FileController extends Controller
     {
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
         $files = inputGetOrFail("files");
-        $return_files=array();
-        foreach ($files as $key=> $file) {
-            $return_files[$key]=$yunkufile->setYunkuFile($file["filename"], $file["size"], $file["hash"]);
+        $return_files = array();
+        foreach ($files as $key => $file) {
+            $return_files[$key] = $yunkufile->setYunkuFile($file["filename"], $file["size"], $file["hash"]);
         }
-        if(\Request::has('hash')){
+        if (\Request::has('hash')) {
             $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
-            $file_size = $folder_info->file_size +inputGetOrFail('dirsize');
-            $file_count  = $folder_info->file_count  +inputGetOrFail('dircount');
+            $file_size = $folder_info->file_size + inputGetOrFail('dirsize');
+            $file_count = $folder_info->file_count + inputGetOrFail('dircount');
             FolderInfo::updateInfo(inputGetOrFail('hash'), $file_count, $file_size);
             FolderInfo::cacheForget();
         }
@@ -233,7 +281,7 @@ class FileController extends Controller
         $yunkufile = new YunkuFile(inputGetOrFail('org_id'));
         $files = $yunkufile->getAllFiles();
         $file_list = array();
-        if(!$files['list']){
+        if (!$files['list']) {
             return [];
         }
         foreach ($files['list'] as $key => &$file) {
@@ -245,19 +293,19 @@ class FileController extends Controller
                     } else {
                         $file['fullpath'] = $names['1'];
                     }
-                }elseif (!\Request::has('fullpath') &&count($names) == 1){
+                } elseif (!\Request::has('fullpath') && count($names) == 1) {
                     unset($files['list'][$key]);
                 }
             } else {
                 if (count($names) == 2) {
                     $file['fullpath'] = $names['1'];
-                }elseif(!\Request::has('fullpath')){
+                } elseif (!\Request::has('fullpath')) {
                     unset($files['list'][$key]);
                 }
             }
             $file_list = $files['list'];
         }
-        if(!$file_list){
+        if (!$file_list) {
             return [];
         }
         $file_list = array_values($file_list);
@@ -276,15 +324,6 @@ class FileController extends Controller
         }
         return array_values($file_list);
     }
-    
-    //微信接口参数
-    public function getWechatParameters()
-    {
-        $wechat=app('wechat');
-        $js = $wechat->js;
-        $parameters=$js->config(array('onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo','onMenuShareQZone','startRecord','stopRecord','onVoiceRecordEnd','playVoice','pauseVoice','stopVoice','onVoicePlayEnd','uploadVoice','downloadVoice','chooseImage','previewImage','uploadImage','downloadImage','getNetworkType','openLocation','getLocation','hideOptionMenu','hideMenuItems','showMenuItems','hideAllNonBaseMenuItem','showAllNonBaseMenuItem','closeWindow','scanQRCode','chooseWXPay','openProductSpecificView','addCard','chooseCard','openCard'), true);
-        $parameters=json_decode($parameters,true);
-        return['appId'=>$parameters['appId'],'nonceStr'=>$parameters['nonceStr'],'timestamp'=>$parameters['timestamp'],'signature'=>$parameters['signature']];
-    }
+
 
 }

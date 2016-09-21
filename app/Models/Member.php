@@ -12,6 +12,7 @@ namespace App\Models;
 class Member extends User
 {
     protected $table = 'member';
+    public $timestamps = true;
 
     public static function getUniqueCode($name, $unionid)
     {

@@ -4,6 +4,7 @@ namespace App\Logic;
 use App\Models\EntConfig;
 use App\Models\ExhibitionInfo;
 use App\Models\Member;
+use App\Models\GroupInfo;
 
 /**
  * Created by PhpStorm.
@@ -63,6 +64,24 @@ class LAccount
         $exhibition->save();
         ExhibitionInfo::cacheForget();
         return $exhibition;
+    }
+
+    //创建新的分组
+    public static function setGroup($ex_id,$id="",$name="新分组",$start_time="0000-00-00 00:00:00",$end_time="0000-00-00 00:00:00",$hidden=0)
+    {
+        if($id){
+            $group=GroupInfo::_findOrFail($id);
+        }else {
+            $group = new GroupInfo();
+        }
+        $group->ex_id = $ex_id;
+        $group->name = $name;
+        $group->start_time = $start_time;
+        $group->end_time = $end_time;
+        $group->hidden = $hidden;
+        $group->save();
+        GroupInfo::cacheForget();
+        return $group;
     }
 
 
