@@ -17,14 +17,14 @@ export default function (app) {
                 elem.find(".code-img").on("mouseenter", function () {
                     if (!isQrCode) {
                         isQrCode = true;
-                        $(elem).find(".thumcode").css("z-index", "11").show();
-                        $(elem).css("transform", "rotateY(180deg)");
+                        elem.find(".thumcode").css("z-index", "11").show();
+                        elem.css("transform", "rotateY(180deg)");
                     }
                 });
                 elem.on('mouseleave', function () {
                     isQrCode = false;
-                    $(elem).find('.thumcode').css("z-index", "1").hide();
-                    $(elem).css("transform", "rotateY(0deg)");
+                    elem.find('.thumcode').css("z-index", "1").hide();
+                    elem.css("transform", "rotateY(0deg)");
 
                 });
             },
@@ -340,7 +340,7 @@ export default function (app) {
                                 index = scope.dirList.indexOf(r);
                             }
                         });
-                        $("#loadFileList ul li:nth-child(" + (index + 2) + ")").find(".col-sm-12 i").on('click', function () {
+                        $("#loadFileList ul li:nth-child(" + (index + 1) + ")").find(".col-sm-12 i").on('click', function () {
                             uploader.cancelFile(fileObj.id);
                             scope.$apply(function () {
                                 scope.dirList.splice(index, 1);
@@ -403,10 +403,15 @@ export default function (app) {
                         $(elem).find('input').blur(function () {
                             var text = $.trim($(this).val());
                             console.log(text);
-                            if (text == "") {
+                            if (text == "" || text == name) {
                                 $(elem).empty().text(name);
                             } else {
                                 if (attrs.dataedit == "title") {
+                                    if (text.length > 48) {
+                                        alert("会展名称不得长于48个字节!");
+                                        elem.empty().text(name);
+                                        return false;
+                                    }
                                     Exhibition.editExTitle({
                                         exhibition_id: attrs.dataid,
                                         title: text

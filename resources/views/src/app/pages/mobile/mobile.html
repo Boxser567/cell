@@ -22,7 +22,6 @@
                 <span></span>
             </div>
 
-
             <ul>
                 <li ng-repeat="file in FilesList">
                     <a href="#/mobile_file/{{pageunicode}}/{{file.fullpath}}">
@@ -42,7 +41,10 @@
         </div>
 
         <div class="listCollection">
-            <ul>
+            <div class="empty_list" ng-if="DirsList.length==0">
+                <img src="../images/102.png" alt="">
+            </div>
+            <ul ng-if="DirsList.length>0">
                 <li ng-repeat="dir in DirsList">
                     <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.hash}}/{{dir.fullpath}}">
                         <div class="bg">

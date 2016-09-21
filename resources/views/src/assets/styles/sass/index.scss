@@ -47,17 +47,44 @@ body {
   border-radius: 20px;
 }
 
-.img-text-warning {
-  display: none;
-  position: absolute;
-  top: 68px;
-  border-radius: 14px;
-  left: 0px;
-  color: #Fff;
-  font-size: 16px;
-  width: 100%;
-  z-index: 10;
-  background: rgba(0, 0, 0, .6);
+.empty_list {
+  margin: 20px 0;
+  text-align: center;
+  .create_extibition {
+    margin-top: 20px;
+    position: relative;
+    .diff {
+      position: absolute;
+      background: rgba(0, 0, 0, .6);
+      width: 122px;
+      height: 37px;
+      top: 0;
+      left: 50%;
+      margin-left: -61px;
+      z-index: 99;
+      border-radius: 25px;
+    }
+    a {
+      color: #3896ef;
+      text-decoration: none;
+      border: 1px solid #3896ef;
+      padding: 8px 25px;
+      border-radius: 25px;
+    }
+  }
+  .create_files {
+    margin-top: 20px;
+    position: relative;
+    a {
+      background: #24292e;
+      color: #fff;
+      padding: 8px 30px;
+      border-radius: 25px;
+      i {
+        margin-right: 5px;
+      }
+    }
+  }
 }
 
 //登录页面
@@ -121,21 +148,23 @@ body {
   .current {
     padding-bottom: 55px;
     .row {
-      margin-left: 0;
+      margin: 0 !important;
     }
     .col-md-4 {
-      padding: 25px;
+      height: 400px;
+      overflow: hidden;
+      padding-top: 40px;
       .trans {
         position: relative;
         transition: all .5s;
-        min-height: 347px;
+
         .thumcode {
           display: none;
           position: absolute;
           transform: rotateY(180deg);
           top: 0;
           left: 0;
-          border-radius: 4px;
+          border-radius: 8px;
           background: #fff;
           width: 100%;
           text-align: center;
@@ -154,9 +183,9 @@ body {
             background: #3896ef;
             color: #fff;
             cursor: pointer;
-            -webkit-border-radius: 15px;
-            -moz-border-radius: 15px;
-            border-radius: 15px;
+            -webkit-border-radius: 25px;
+            -moz-border-radius: 25px;
+            border-radius: 25px;
             padding: 10px 20px;
             margin: 0 auto;
             margin-bottom: 19px;
@@ -170,14 +199,15 @@ body {
           padding: 0;
           border: none;
           z-index: 2;
+          border-radius: 8px;
           .img {
             overflow: hidden;
             max-height: 190px;
             img {
               margin: 0;
               width: 100%;
-              border-top-left-radius: 4px;
-              border-top-right-radius: 4px;
+              border-top-left-radius: 8px;
+              border-top-right-radius: 8px;
               transition: All 0.8s ease-in-out;
               &:hover {
                 transform: scale(1.1);
@@ -206,6 +236,7 @@ body {
               span {
                 display: inline-block;
                 padding: 10px 25px;
+                padding-left: 0;
                 i {
                   display: inline-block;
                   width: 24px;
@@ -243,8 +274,9 @@ body {
 
         .thumbadd {
           background: #fff;
-          padding: 116px 60px;
+          padding: 122px 60px;
           position: relative;
+          border-radius: 8px;
           .warp-mask {
             position: absolute;
             width: 100%;
@@ -255,9 +287,6 @@ body {
             vertical-align: middle;
             z-index: 6;
             background: rgba(0, 0, 0, .6);
-            span {
-
-            }
           }
 
           a {
@@ -333,8 +362,9 @@ body {
       }
       .col-md-4 {
         margin-top: 40px;
+        overflow: hidden;
         .trans {
-          min-height: 347px;
+          min-height: 360px;
           position: relative;
           transition: all .5s;
 
@@ -365,7 +395,7 @@ body {
               cursor: pointer;
               -webkit-border-radius: 15px;
               -moz-border-radius: 15px;
-              border-radius: 15px;
+              border-radius: 25px;
               padding: 10px 20px;
               margin: 0 auto;
               margin-bottom: 19px;
@@ -378,15 +408,16 @@ body {
             left: 0;
             padding: 0;
             border: none;
+            border-radius: 8px;
             .img {
               overflow: hidden;
               max-height: 190px;
               position: relative;
-              border-top-left-radius: 4px;
-              border-top-right-radius: 4px;
+              border-top-left-radius: 8px;
+              border-top-right-radius: 8px;
               img {
-                border-top-left-radius: 4px;
-                border-top-right-radius: 4px;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
                 margin: 0;
                 width: 100%;
                 transition: All 0.8s ease-in-out;
@@ -401,8 +432,8 @@ body {
                 top: 0;
                 left: 0;
                 z-index: 9;
-                border-top-left-radius: 4px;
-                border-top-right-radius: 4px;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
                 background: rgba(0, 0, 0, .6);
               }
             }
@@ -602,6 +633,21 @@ body {
         border-radius: 50%;
         margin-left: 240px;
         position: relative;
+
+        .img-text-warning {
+          display: none;
+          position: absolute;
+          top: 0px;
+          border-radius: 50%;
+          left: 0px;
+          color: #fff;
+          font-size: 16px;
+          width: 100%;
+          height: 120px;
+          z-index: 10;
+          padding-top: 50px;
+          background: rgba(0, 0, 0, .6);
+        }
         #uploadImgdiv {
           border-radius: 50%;
           width: 100%;
@@ -609,12 +655,12 @@ body {
           cursor: pointer;
           opacity: 0;
           z-index: 99;
+
           .webuploader-pick {
             width: 100%;
             height: 100%;
             border-radius: 50%;
           }
-
         }
         & > img {
           position: absolute;
@@ -638,18 +684,10 @@ body {
           height: 100%;
           border-radius: 50%;
           background: rgba(0, 0, 0, .6);
-          span {
-            margin-top: 35px;
-            width: 36px;
-            height: 36px;
-            display: inline-block;
-            background: url("../../../app/pages/images/passloading.gif") no-repeat;
-            background-size: cover;
-          }
         }
       }
       .time {
-        color: #fff;
+        color: #999;
         margin: 0;
         cursor: pointer;
         text-align: center;
@@ -669,13 +707,12 @@ body {
         }
       }
       .code {
-        margin-top: 15px;
         i {
           font-size: 28px;
           position: relative;
           top: 5px;
           padding: 0 10px;
-          color: #fff;
+          color: #999;
           img {
             position: absolute;
             top: -40px;
@@ -694,7 +731,7 @@ body {
           }
         }
         span {
-          color: #fff;
+          color: #999;
         }
         a {
           border: 1px solid #2cb7ff;
@@ -798,8 +835,8 @@ body {
             float: left;
             p {
               margin-bottom: 5px;
-
               &:nth-child(1) {
+                cursor: pointer;
                 font-size: 16px;
                 span {
                   display: inline-block;
@@ -859,6 +896,7 @@ body {
         .dirs {
           position: relative;
           box-shadow: 0 0 5px #ddd;
+          border-radius: 8px;
           &:hover {
             box-shadow: 0 0 20px #eee;
             z-index: 9;
@@ -868,6 +906,8 @@ body {
           }
           .bgimg-small {
             position: relative;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
             .diff {
               width: 100%;
               height: 100%;
@@ -875,11 +915,18 @@ body {
               top: 0;
               left: 0;
               background: rgba(0, 0, 0, .4);
+              border-top-left-radius: 8px;
+              border-top-right-radius: 8px;
+            }
+            img {
+              border-top-left-radius: 8px;
+              border-top-right-radius: 8px;
             }
           }
           .tl {
             display: block;
             position: absolute;
+            cursor: pointer;
             top: 10px;
             width: 95%;
             left: 0;
@@ -990,7 +1037,7 @@ body {
           }
         }
         .files-add {
-          padding: 110px 0;
+          padding: 107.5px 0;
           background: #484d53;
           text-align: center;
           position: relative;
@@ -1009,6 +1056,7 @@ body {
             }
             padding: 20px 40px;
             color: #fff;
+            font-size: 18px;
             cursor: pointer;
           }
         }
@@ -1063,9 +1111,23 @@ body {
 
   //以下是本页面弹出层样式效果
   #loadFileList {
+    .modal-content {
+      border-radius: 8px;
+      overflow: hidden;
+    }
     .modal-header {
       padding: 0;
-      div {
+      .diff {
+        position: relative;
+        div {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 246px;
+          background: rgba(0, 0, 0, .6);
+
+        }
         img {
           width: 100%;
         }
@@ -1091,7 +1153,9 @@ body {
     .modal-body {
       padding: 0;
       padding-top: 15px;
-
+      .title {
+        color: #999;
+      }
       .warp-mask {
         text-align: center;
         z-index: 6;
@@ -1113,16 +1177,11 @@ body {
       margin: 0;
       height: 280px;
       margin-right: 10px;
-      overflow-y: scroll;
+      overflow: auto;
       li {
         position: relative;
         height: 35px;
         line-height: 35px;
-        &:nth-child(1) {
-          div {
-            color: #999;
-          }
-        }
         div {
           display: inline-block;
         }
@@ -1220,7 +1279,7 @@ body {
         background: #009beb;
         color: #fff;
         padding: 6px 25px;
-        border-radius: 15px;
+        border-radius: 25px;
         .webuploader-pick {
           background: none;
           padding: 0;
@@ -1235,14 +1294,14 @@ body {
         background: #009beb;
         color: #fff;
         padding: 6px 40px;
-        border-radius: 15px;
+        border-radius: 25px;
       }
 
       .uploadByCloud {
         color: #009beb;
         border: 1px solid #009beb;
         padding: 6px 10px;
-        border-radius: 10px;
+        border-radius: 25px;
       }
     }
     .othergroup {
@@ -1323,12 +1382,15 @@ body {
           margin: 0;
           padding: 0;
           list-style: none;
-          overflow-y: scroll;
+          overflow: auto;
           max-height: 360px;
           li {
             height: 30px;
             line-height: 30px;
-
+            .col-sm-5 {
+              @extend .eclipflow;
+              width: 41.66667%;
+            }
             .glyphicon-trash {
               cursor: pointer;
               color: #ff7474;
@@ -1409,7 +1471,7 @@ body {
           margin: 0;
           padding: 0;
           list-style: none;
-          overflow-y: scroll;
+          overflow: auto;
           height: 430px;
           top: -13px;
           li {

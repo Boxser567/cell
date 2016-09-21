@@ -11,8 +11,7 @@
                 <p class="line"></p>
             </div>
             <div>
-
-                <div class="row">
+                <div class="row" ng-if="start_ebts && start_ebts.length>0">
                     <div class="col-md-4">
                         <div class="trans">
                             <div class="thumbadd">
@@ -37,7 +36,7 @@
                                     </h4>
                                     <p>包含{{exhibition.property.dir_count}}个分类 {{exhibition.property.file_count}}个文件
                                         共{{exhibition.property.size_use | bitSize}} </p>
-                                    <div class="mg">
+                                    <div class="mg clearfix">
                                         <span><i class="code-img"></i></span>
                                         <a href="#/exhibition/{{exhibition.unique_code}}">管理</a>
                                     </div>
@@ -51,9 +50,19 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
+
+                <div class="empty_list" ng-if="start_ebts.length==0">
+                    <img src="../images/1101.png" alt="">
+                    <div class="create_extibition"><a class="btn" ng-click="createExbt()">创建新会展</a>
+                        <div class="diff" ng-if="newMask">
+                            <span us-spinner="{lines:11,radius:9, color:'white', width:3, length: 5}"
+                                  spinner-on="newMask"></span>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
@@ -66,7 +75,7 @@
                 <p class="line"></p>
             </div>
             <div>
-                <div class="row">
+                <div class="row" ng-if="end_ebts.length>0">
                     <div class="col-md-4" ng-repeat="exhibition in end_ebts">
                         <div class="trans" hover-trans>
                             <div class="thumbnail">
@@ -94,6 +103,11 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="empty_list" ng-if="end_ebts.length==0">
+                    <img src="../images/1102.png" alt="">
+                </div>
+
             </div>
         </div>
         <!--<div class="reminds"><a></a></div>-->

@@ -214,8 +214,8 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
                 $scope.collectLoading = false;
                 $scope.collectList = data.list;
                 $timeout(function () {
-                    $(".mui-switch").attr("checked", true);
                     $scope.currentExbt.res_collect_lock = 1;
+                    $(".mui-switch-anim").prop("checked", true);
                 })
 
             })
