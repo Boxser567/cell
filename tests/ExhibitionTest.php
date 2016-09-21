@@ -18,7 +18,7 @@ class ExhibitionTest extends TestCase
         $this->checkOut($result);
     }
 
-    public function testReport()
+    public function estReport()
     {
         dump("创建会展");
         $result = $this->request(
@@ -26,15 +26,42 @@ class ExhibitionTest extends TestCase
             ]
         );
         $this->checkOut($result);
+    }
+
+    public function estGroup()
+    {
+        dump("创建分组");
+        $result = $this->request(
+            "POST", "/exhibition/group", [
+                'ex_id'=>32
+            ]
+        );
+        $this->checkOut($result);
 
     }
 
-    public function estSendMail()
+    public function estGroupUpdate()
+    {
+        dump("更新分组");
+        $result = $this->request(
+            "POST", "/exhibition/group-update", [
+                'group_id'=>3,
+                'name'=>"wangyuxiang",
+                'start_time'=>'2016-01-01 12:12:00',
+                'end_time'=>'2016-01-01 12:12:00',
+                'hidden'=>0
+            ]
+        );
+        $this->checkOut($result);
+
+    }
+
+    public function testSendMail()
     {
         dump("获取会展详情");
         $result = $this->request(
-            "GET", "/exhibition/create", [
-                'exhibition_id'=>'1'
+            "GET", "/exhibition/detail", [
+                'unique_code'=>'1106459739'
             ]
         );
         $this->checkOut($result);

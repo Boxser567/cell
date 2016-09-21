@@ -9,25 +9,28 @@
 namespace App\Models;
 
 
+use App\Models\Relation\HasManyGroups;
+
 class ExhibitionInfo extends BaseModel
 {
+    use HasManyGroups;
     const  INIT_WEB_SITE = "http://www.gokuai.com/";
     public $table = "ent_exhibition_info";
     public $timestamps = true;
 
     public static function getOfEntId($ent_id)
     {
-        return self::createWith()->where('ent_id', $ent_id)->orderBy('id','desc')->get();
+        return self::createWith(['group'])->where('ent_id', $ent_id)->orderBy('id','desc')->get();
     }
 
     public static function getUniqueCode($unique_code)
     {
-        return self::createWith()->where('unique_code', $unique_code)->first();
+        return self::createWith(['group'])->where('unique_code', $unique_code)->first();
     }
 
     public static function getOfOrgId($org_id)
     {
-        return self::createWith()->where('org_id', $org_id)->first();
+        return self::createWith(['group'])->where('org_id', $org_id)->first();
 
     }
     
