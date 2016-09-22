@@ -51,17 +51,17 @@ export default function (app) {
                 console.log("yemian加载哪里出来问题了")
                 elem.on('click', function () {
                     console.log("是否进入")
-                    var mobile = _.trim($('.for_mobile').val());
-                    if (mobile == "" || mobile == undefined) {
+                    var mobile = $('.for_mobile').val();
+                    if (mobile == "" || mobile == undefined || Util.RegExp.PhoneNumber.test(mobile)) {
                         console.log("进入消息提示");
                         $(".mobile_vau").text("手机号输入错误");
                         return false;
                     }
                     elem.prop('disabled', true);
-                    deltime();
+
                     //倒计时
+                    var timeing = 60;
                     var deltime = function () {
-                        var timeing = 60;
                         if (timeing == 0) {
                             elem.prop('disabled', false);
                             elem.text("获取验证码");
@@ -75,6 +75,7 @@ export default function (app) {
                             }, 1000);
                         }
                     }
+                    deltime();
                 });
             },
         };
