@@ -12,6 +12,7 @@ use App\Logic\Yunku;
 use App\Logic\YunkuFile;
 use App\Logic\YunkuOrg;
 use App\Models\ExhibitionInfo;
+use App\Models\InvitationCode;
 use Session;
 use Input;
 use App\Logic\LAccount;
@@ -182,5 +183,17 @@ class TestController extends Controller
     public function getWw()
     {
         echo phpinfo();
+    }
+
+    public function getInvitationCode()
+    {
+        $key=inputGetOrFail('key');
+        $end_time=inputGet('end_time','2019-01-01 00:00:00');
+        $invitation=new InvitationCode();
+        $invitation->key=$key;
+        $invitation->end_time=$end_time;
+        $invitation->code=$key."_".getUniqueCode();
+        $invitation->save();
+        return $invitation;
     }
 }

@@ -38,15 +38,17 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">上传测试</div>
+                <div class="title">完善信息,才可以使用</div>
 
-                <form name="loginForm" action="http://7xj8z5.com1.z0.glb.clouddn.com" enctype="multipart/form-data" method="POST">
-                    <input name="file" type="file"  />
-                    <input name="org_client_id" type="text"  value="akLlMNgYQIg4rFFnCKCQKRV4O8"/>
-                    <input name="token" type="text"  value="ibM0l8h1i_Z67lQeFcImX2B0O71vEq1INZfoGiUO:IR181kGUJUc0kGPvJCMITiZi1s8=:eyJzY29wZSI6Inlpbmd4aWFuZ2VtcGlyZSIsImRlYWRsaW5lIjoxNDcxNDI3MjU2LCJ1cEhvc3RzIjpbImh0dHA6XC9cL3VwLnFpbml1LmNvbSIsImh0dHA6XC9cL3VwbG9hZC5xaW5pdS5jb20iLCItSCB1cC5xaW5pdS5jb20gaHR0cDpcL1wvMTgzLjEzNi4xMzkuMTYiXX0="/>
-                    <input name="filefield" type="text"  value="file"/>
+                <form name="loginForm"  action="/auth/optimize" role="form" method="POST">
+                    <input name="user_id" type="hidden"  value="<?php echo $user['id'] ?>"/>
+                    您的名:<input name="account" type="text"  value=" "/>
+                    企业名称<input name="org_name" type="text"  value=" "/>
+                    手机号 <input name="phone" type="text"  value=" "/>
+                    验证码 <input name="verify_code" type="text"  value=" "/>
+                    邀请码 <input name="invitation_code" type="text"  value="fd_0800381708"/>
                     <div class="form-group">
-                        <button  class="btn btn-lg pb-button btn-block bt_submit">登陆</button>
+                        <button  class="btn btn-lg pb-button btn-block bt_submit">开始使用</button>
                     </div>
                 </form>
 

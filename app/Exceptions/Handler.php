@@ -61,7 +61,7 @@ class Handler extends ExceptionHandler
         } else {
             switch ($error['error_code']) {
                 case 40106:
-                    return Redirect::guest('/auth/login');
+                    return Redirect::guest('/auth/auth');
                 case 4000340:
                     return Redirect::guest('/auth/verify');
             }

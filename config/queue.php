@@ -28,6 +28,9 @@ return [
     | for each back-end shipped with Laravel. You are free to add more.
     |
     */
+    'sms' => [
+        ['host' => 'gv6.gokuai.com', 'port' => 3000],
+    ],
 
     'connections' => [
 

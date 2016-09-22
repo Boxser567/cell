@@ -95,7 +95,18 @@ class FileController extends Controller
     //修改文件夹有效时间
     public function postValidateTime()
     {
-        return FolderInfo::updateValidateTime(inputGetOrFail('hash'), inputGet('start_time'), inputGet('end_time'));
+        $folder=FolderInfo::getByHash(inputGetOrFail('hash'));
+        if(inputGet('start_time')){
+            $folder->start_time=inputGet('start_time');
+        }
+        if(inputGet('end_time')){
+            $folder->end_time=inputGet('end_time');
+        }
+        if(\Request::has('hidden')){
+            $folder->hidden=inputGet('hidden');
+        }
+        $folder->save();
+        FolderInfo::cacheForget();
     }
 
     //创建文件夹
@@ -326,4 +337,7 @@ class FileController extends Controller
     }
 
 
+  
+
+    
 }

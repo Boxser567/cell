@@ -286,9 +286,9 @@ function curl_invoke($url, $method, $data, $header = null, &$http_code = 0, &$er
         if ($httpheader) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $httpheader);
         }
-        if ($_COOKIE['think_language']) {
+       /* if ($_COOKIE['think_language']) {
             curl_setopt($ch, CURLOPT_COOKIE, 'think_language=' . $_COOKIE['think_language']);
-        }
+        }*/
 
         $response = curl_exec($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);

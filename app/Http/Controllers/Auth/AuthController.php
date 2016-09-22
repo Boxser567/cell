@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Overtrue\Socialite\Config;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -68,6 +69,7 @@ class AuthController extends Controller
 
     public function oauth(Request $request)
     {
+        \Config::set('wechat.oauth.callback','http://cell.meetingfile.com/auth/callback?target=wang');
         $wechat=app('wechat');
         return $wechat->oauth->scopes(['snsapi_login'])
             ->redirect();
@@ -78,11 +80,15 @@ class AuthController extends Controller
     {
         $wechat=app('wechat');
         $user = $wechat->oauth->user();
-       // dump($user);
         $auth=new \App\Http\Controllers\AuthController();
-        $auth->login($user);
-        View::addExtension('html','blade');
-        return  view('index');
-
+        $auth_user= $auth->login($user);
+        if(!$auth_user['phone']) {
+            View::addExtension('html', 'blade');
+            header("Location:/#/register?".$auth_user['id']);
+        }else{
+            View::addExtension('html', 'blade');
+            header("Location:/#/exhibition?");
+        }
     }
+
 }

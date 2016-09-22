@@ -10,15 +10,10 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::get('/', 'IndexController@getIndex');
 
-Route::get('/', function () {
-    View::addExtension('html','blade');
-    $wechat=app('wechat');
-    $js = $wechat->js;
-    return view('index',['js' => $js]);
-});
 Route::get('/pic', function () {
-    return view('upload');
+    return view('profile');
 });
 Route::get('/login', function () {
     return view('show');
@@ -34,4 +29,5 @@ Route::controller("auth","AuthController");
 Route::controller("file","FileController");
 Route::controller("exhibition","ExhibitionController");
 Route::controller("test","TestController");
+Route::controller("baseinfo","BaseInfoController");
 

@@ -21,6 +21,11 @@ class Member extends User
 
     public static function getUnionid($unionid)
     {
-        return self::createWith()->where('unionid',$unionid)->first();
+        return self::createWith()->where('unionid', $unionid)->first();
+    }
+
+    public static function getPhone($phone)
+    {
+        return self::where('phone', $phone)->first();
     }
 }

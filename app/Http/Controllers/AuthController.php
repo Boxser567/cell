@@ -22,24 +22,7 @@ class AuthController extends Controller
 
     public function getLogin($oauthUser = '')
     {
-        $name = "会展adminer";
-        $unionid = "12345";
-        //$name=inputGetOrFail('name');
-        //$unionid=inputGetOrFail('unionid');
-        //$name=$oauthUser['nickname'];
-        //$unionid=$oauthUser['unionid'];
-        //$image=$oauthUser['headimgurl'];
-        $member = LAccount::setUser($name, $unionid)->toArray();
-        $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
-        $member['edition'] = $ent['edition'];
-        $his_member = Session::get('member');
-        if (!$his_member) {
-            Session::flush();
-            Session::put('member', $member);
-            Session::regenerate();
-        }
-       return $member;
-        //return $_COOKIE['member'];
+        return $_COOKIE['member'];
     }
 
     public function getLogout()
@@ -53,18 +36,43 @@ class AuthController extends Controller
     public static function login($user)
     {
         $member = Member::getUnionid($user->id);
-        if ($member) {
+        if (array_key_exists("member", $_COOKIE)) {
+            return $members = json_decode($_COOKIE['member'], true);
+        } elseif ($member && $member['phone']) {
             $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
             $member['edition'] = $ent['edition'];
-            setcookie('member',json_encode($member),time()+60*360,'/');
-        } else if(\Cookie::get('member')){
-        } else{
-            $member = LAccount::setUser($user->name, $user->id,$user->avatar)->toArray();
-            $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
-            $member['edition'] = $ent['edition'];
-            $member['edition'] = $ent['edition'];
-            setcookie('member',json_encode($member),time()+60*360,'/');
+            $member['org_name'] = $ent['name'];
+            setcookie('member', json_encode($member), time() + 60 * 360, '/');
+        } else {
+            $member = LAccount::setUser($user->name, $user->id, $user->avatar)->toArray();
+            setcookie('member', json_encode($member), time() + 60 * 360, '/');
         }
+        return $member;
+    }
+
+
+    public static function postOptimize()
+    {
+        BaseInfoController::getVerifyInvitation(inputGet('invitation_code'));
+        BaseInfoController::getVerify(inputGetOrFail('phone'), inputGetOrFail('verify_code'));
+        $member = Member::_findOrFail(inputGetOrFail('user_id'));
+        $member->phone = inputGetOrFail('phone');
+        $member->account = inputGetOrFail('account');
+        $member->main_member = 1;
+        $ent = EntConfig::_findOrFail($member->ent_id);
+        $ent->name = inputGetOrFail('org_name');
+        $ent->save();
+        EntConfig::cacheForget();
+        $member->save();
+        Member::cacheForget();
+        $member = $member->toArray();
+        $member['edition'] = $ent['edition'];
+        $member['org_name'] = $ent['name'];
+        setcookie('member', json_encode($member), time() + 60 * 360, '/');
+        $wechat = app('wechat');
+        $js = $wechat->js;
+        View::addExtension('html', 'blade');
+        return view('index', ['js' => $js]);
     }
 
 }
