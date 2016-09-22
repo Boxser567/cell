@@ -44,7 +44,7 @@ class ExhibitionController extends BaseController
         $yunku_org = new YunkuOrg();
         $org = $yunku_org->setOrg(self::PRE_FIX . $this->member['id']);
         $yunku_file=new YunkuFile($org['org_id']);
-        $yunku_file->setFolder(self::BASE_FILE_NAME);
+        //$yunku_file->setFolder(self::BASE_FILE_NAME);
         $exhibition = LAccount::setExhibition($this->ent_id, $org['org_id']);
         $group = LAccount::setGroup($exhibition->id);
         $new_exhibition = ExhibitionInfo::getOfOrgId($exhibition->org_id);
