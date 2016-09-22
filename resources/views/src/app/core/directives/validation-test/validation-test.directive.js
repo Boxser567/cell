@@ -31,6 +31,56 @@ export default function (app) {
         };
     });
 
+    //页面刷新提示
+    app.directive('refreshLoad', function () {
+        return {
+            restrict: 'A',
+            link: function (scope, elem) {
+                $(window).on('beforeunload', function () {
+                    return "刷新后上传的文件将不显示!";
+                });
+            },
+        };
+    });
+
+    //发送验证码
+    app.directive('sendCode', function () {
+        return {
+            restrict: 'A',
+            link: function (scope, elem) {
+                console.log("yemian加载哪里出来问题了")
+                elem.on('click', function () {
+                    console.log("是否进入")
+                    var mobile = _.trim($('.for_mobile').val());
+                    if (mobile == "" || mobile == undefined) {
+                        console.log("进入消息提示");
+                        $(".mobile_vau").text("手机号输入错误");
+                        return false;
+                    }
+                    elem.prop('disabled', true);
+                    deltime();
+                    //倒计时
+                    var deltime = function () {
+                        var timeing = 60;
+                        if (timeing == 0) {
+                            elem.prop('disabled', false);
+                            elem.text("获取验证码");
+                            timeing = 60;
+                        } else {
+                            elem.prop('disabled', true);
+                            elem.text("重新发送(" + timeing + ")");
+                            timeing--;
+                            setTimeout(function () {
+                                deltime();
+                            }, 1000);
+                        }
+                    }
+                });
+            },
+        };
+    });
+
+
     app.directive('imgHovers', function ($timeout) {
         return {
             restrict: 'A',

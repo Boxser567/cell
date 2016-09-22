@@ -32,7 +32,7 @@
                                     <img src="{{exhibition.banner}}-640" alt="刷新重试">
                                 </div>
                                 <div class="caption">
-                                    <h4>{{exhibition.title}} <span class="pull-right"> {{GetexState(exhibition.start_date,exhibition.end_date)}} </span>
+                                    <h4 title="{{exhibition.title}}">{{exhibition.title}} <span class="pull-right"> {{GetexState(exhibition.start_date,exhibition.end_date)}} </span>
                                     </h4>
                                     <p>包含{{exhibition.property.dir_count}}个分类 {{exhibition.property.file_count}}个文件
                                         共{{exhibition.property.size_use | bitSize}} </p>
@@ -84,7 +84,7 @@
                                     <div class="diff"></div>
                                 </div>
                                 <div class="caption">
-                                    <h4>{{exhibition.title}} </h4>
+                                    <h4 title="{{exhibition.title}}">{{exhibition.title}} </h4>
                                     <p>包含{{exhibition.property.dir_count}}个分类 {{exhibition.property.file_count}}个文件
                                         共{{exhibition.property.size_use | bitSize}} </p>
                                     <div class="mg">

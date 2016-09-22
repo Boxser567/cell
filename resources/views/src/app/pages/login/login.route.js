@@ -2,6 +2,8 @@
 
 import loginTpl from './login.html';
 
+import registerTpl from './register.html';
+
 function routeConfig($stateProvider) {
     'ngInject';
 
@@ -10,6 +12,12 @@ function routeConfig($stateProvider) {
             url: '/login',
             templateUrl: loginTpl,
             controller: require('./login.controller')
+        })
+
+        .state('register', {
+            url: '/register',
+            templateUrl: registerTpl,
+            controller: require('./register.controller')
         })
 
 }
