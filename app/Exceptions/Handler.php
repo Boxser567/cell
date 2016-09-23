@@ -45,7 +45,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         $error = [
-            'error_code' => $e->getCode() ? : 500,
+            'error_code' => $e->getCode() ? : 400134,
             'error_msg' => $e->getMessage() ? : '未知错误'
         ];
         if (strpos($error['error_msg'], 'SQLSTATE') !== false) {
@@ -55,7 +55,6 @@ class Handler extends ExceptionHandler
                 'error_msg_hidden' => $error['error_msg'],
             ];
         }
-
         if (inputWantsJson()) {
             return Response::json($error, substr($error['error_code'], 0, 3));
         } else {
