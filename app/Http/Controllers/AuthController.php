@@ -75,4 +75,15 @@ class AuthController extends Controller
         return view('index', ['js' => $js]);
     }
 
+
+    public static function addAssistant($user,$ent_id)
+    {
+        $member = Member::getUnionid($user->id);//如果进行企业判断,那么在扫微信登录后就要进行管理企业的选择
+        if($member){
+            throw new \Exception('用户已经存在');
+        }else{
+            LAccount::setUser($user->name, $user->id, $user->avatar,$ent_id)->toArray();
+        }
+    }
+
 }

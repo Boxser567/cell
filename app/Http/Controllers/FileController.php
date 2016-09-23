@@ -177,7 +177,7 @@ class FileController extends Controller
     public function postResetName()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        FolderInfo::updateTitle(inputGetOrFail('hash'), inputGetOrFail('fullpath'));
+        //FolderInfo::updateTitle(inputGetOrFail('hash'), inputGetOrFail('fullpath'));
         return $files->setName(inputGetOrFail('fullpath'), inputGetOrFail('newpath'));
     }
 

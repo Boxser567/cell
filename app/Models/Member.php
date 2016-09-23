@@ -28,4 +28,19 @@ class Member extends User
     {
         return self::where('phone', $phone)->first();
     }
+
+    public static function getUnionidEntID($unionid, $ent_id)
+    {
+        return self::where('unionid', $unionid)->where('ent_id',$ent_id)->first();
+    }
+
+    public static function getEntId($ent_id)
+    {
+        return self::createWith()->where('ent_id',$ent_id)->select('id','image','account','name','main_member')->get();
+    }
+
+    public static function deleteIdEntId($id)
+    {
+        return self::where('id',$id)->delete();
+    }
 }

@@ -31,7 +31,7 @@ class BaseController extends Controller
             $wechat = app('wechat');
             $response = $wechat->oauth->scopes(['snsapi_login'])->redirect();
             $response->send();
-        } elseif (!$members['phone']) {
+        } elseif (!$members['phone'] && !array_key_exists('info', $_GET)) {
             header("Location:baseinfo/register?user_id=".$members['id']);
         } else {
             $this->member = $members;

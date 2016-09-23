@@ -30,4 +30,5 @@ Route::controller("file","FileController");
 Route::controller("exhibition","ExhibitionController");
 Route::controller("test","TestController");
 Route::controller("baseinfo","BaseInfoController");
+Route::controller("assistant","AssistantController");
 

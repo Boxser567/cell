@@ -16,12 +16,15 @@ class LAccount
 {
     
     const LOGO_URL="ce8cfebaec8af2164e9f171006852d8d943229e7.png-160";
-    public static function setUser($name = '', $unionid = '',$image='')
+    public static function setUser($name = '', $unionid = '',$image='',$ent_id='')
     {
         $member = Member::getUniqueCode($name, $unionid);
-        if (!$member) {
+        if (!$member && !$ent_id) {
             $member = new Member();
             $ent_id=LAccount::setEntConfig();
+            $member->ent_id = $ent_id;
+        }elseif ($ent_id){
+            $member = new Member();
             $member->ent_id = $ent_id;
         }
         $member->name = $name;
