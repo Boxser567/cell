@@ -72,7 +72,7 @@ class BaseInfoController extends Controller
     public  function getRegister()
     {
         $user_id=inputGet('user_id');
-        header("Location:http://cell.meetingfile.com?info=1/#/register?".$user_id);
+        header("Location:http://cell.meetingfile.com/admin?info=1/#/register?".$user_id);
     }
     
 }

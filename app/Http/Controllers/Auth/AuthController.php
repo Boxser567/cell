@@ -89,10 +89,10 @@ class AuthController extends Controller
         $auth_user= $auth->login($user);
         if(!$auth_user['phone']) {
             View::addExtension('html', 'blade');
-            header("Location:http://cell.meetingfile.com?info=1/#/register?".$auth_user['id']);
+            header("Location:http://cell.meetingfile.com/admin?info=1/#/register?".$auth_user['id']);
         }else{
             View::addExtension('html', 'blade');
-            header("Location:/#/exhibition?");
+            header("Location:http://cell.meetingfile.com/admin/#/exhibition?");
         }
     }
 
