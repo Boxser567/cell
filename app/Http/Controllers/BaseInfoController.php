@@ -16,9 +16,19 @@ use Auth;
 use Exception;
 use App\Logic\YunkuFile;
 use App\Logic\YunkuOrg;
+use View;
 
 class BaseInfoController extends Controller
 {
+
+    public function getIndex()
+    {
+        View::addExtension('html', 'blade');
+        $wechat=app('wechat');
+        $js = $wechat->js;
+        return view('index',['js' => $js]);
+    }
+
     public static function getVerifyInvitation($invitation_code='')
     {
         $invitation=InvitationCode::getCode(inputGet('invitation_code',$invitation_code));

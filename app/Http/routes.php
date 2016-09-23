@@ -10,7 +10,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::get('/', 'IndexController@getIndex');
+Route::get('/admin', 'IndexController@getIndex');
+
 
 Route::get('/pic', function () {
     return view('profile');
