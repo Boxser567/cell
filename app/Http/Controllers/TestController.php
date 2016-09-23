@@ -196,4 +196,8 @@ class TestController extends Controller
         $invitation->save();
         return $invitation;
     }
+    public function getIt()
+    {
+        throw new \Exception("dddddd",33333);
+    }
 }

@@ -32,8 +32,8 @@ class BaseInfoController extends Controller
     public static function getVerifyInvitation($invitation_code='')
     {
         $invitation=InvitationCode::getCode(inputGet('invitation_code',$invitation_code));
-        if(date('Y-m-d H:i:s') > $invitation->end_time || !$invitation){
-            throw new Exception('邀请码错误或已失效');
+        if(!$invitation || date('Y-m-d H:i:s') > $invitation->end_time ){
+            throw new Exception('邀请码错误或已失效',400000);
         }
         return $invitation;
     }
@@ -54,7 +54,7 @@ class BaseInfoController extends Controller
         }
         $ent = Member::getPhone($phone);
         if ($ent) {
-            throw new Exception('手机号码已经被使用');
+            throw new Exception('手机号码已经被使用',400000);
         } else {
             return ;
         }

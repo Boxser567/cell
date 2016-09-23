@@ -176,7 +176,7 @@ class ExhibitionController extends BaseController
                 $exhibition->res_collect_lock = -1;
                 break;
             default:
-                throw new \Exception("参数错误");
+                throw new \Exception("参数错误",400001);
         }
         $exhibition->save();
         ExhibitionInfo::cacheForget();

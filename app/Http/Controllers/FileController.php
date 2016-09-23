@@ -31,7 +31,7 @@ class FileController extends Controller
             $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
             $now = date('Y-m-d H:i:s');
             if ($now < $folder_info->start_time || $now > $folder_info->end_time) {
-                throw new \Exception("文件夹未授权开放");
+                throw new \Exception("文件夹未授权开放",400001);
             }
         }
         $file_list = $files->getFileList(inputGet('fullpath', ''));
@@ -141,7 +141,7 @@ class FileController extends Controller
                 $file_size = $folder_info->file_size - inputGet('size', $size);
                 break;
             default:
-                throw new \Exception("无效的操作");
+                throw new \Exception("无效的操作",400001);
         }
         FolderInfo::updateInfo(inputGet('hash', $hash), $file_count, $file_size);
         FolderInfo::cacheForget();
