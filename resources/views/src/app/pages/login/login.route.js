@@ -15,7 +15,7 @@ function routeConfig($stateProvider) {
         })
 
         .state('register', {
-            url: '/register',
+            url: '/register?userid',
             templateUrl: registerTpl,
             controller: require('./register.controller')
         })

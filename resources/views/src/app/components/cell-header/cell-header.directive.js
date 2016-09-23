@@ -20,6 +20,10 @@ function cellHeaderComponent($log) {
         if (!$rootScope.user) {
             $rootScope.user = localStorageService.get('user');
         }
+
+
+
+
     }
 }
 

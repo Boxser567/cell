@@ -17,19 +17,17 @@
             <div class="form-group clearfix">
                 <div class="col-md-offset-3 col-md-6">
                     <div class="go">
-                        <i  class="reg_firm"></i>
-                        <input type="text" placeholder="请输入企业/组织名称"  class="for_firm">
+                        <i class="reg_firm"></i>
+                        <input type="text" placeholder="请输入企业/组织名称" class="for_firm">
                     </div>
                 </div>
                 <div class="col-md-3 firm_vau"></div>
             </div>
             <div class="form-group clearfix">
                 <div class="col-md-offset-3 col-md-6 clearfix">
-                    <div class="col-md-7">
-                        <input type="text" placeholder="请输入手机号" class="for_mobile">
-                    </div>
-                    <div class="col-sm-5">
-                        <a class="btn get_mobile_code"  send-code>获取验证码</a>
+                    <div class="go">
+                        <i class="reg_mobile"></i><input type="text" placeholder="请输入手机号" class="for_mobile">
+                        <button class="btn btn_getCode" send-code>获取验证码</button>
                     </div>
                 </div>
                 <div class="col-md-3 mobile_vau"></div>
@@ -37,31 +35,38 @@
             <div class="form-group clearfix">
                 <div class="col-md-offset-3 col-md-6">
                     <div class="go">
-                        <i  class="reg_code"></i>
+                        <i class="reg_code"></i>
                         <input type="text" placeholder="请输入验证码" class="for_code">
+                        <span class="glyphicon glyphicon-ok-sign"></span>
                     </div>
                 </div>
-                <div class="col-md-3 code_vau" ></div>
+                <div class="col-md-3 code_vau"></div>
             </div>
 
             <div class="form-group clearfix">
                 <div class="col-md-offset-3 col-md-6 clearfix">
-                    <div class="col-md-7">
+                    <div class="go">
+                        <i class="reg_incode"></i>
                         <input type="text" placeholder="请输入邀请码" class="for_incode">
-                    </div>
-                    <div class="col-sm-5">
+                        <span class="glyphicon glyphicon-ok-sign"></span>
                         <a class="ge  btn_incode">如何获取邀请码?</a>
                     </div>
+                    <!--<div class="col-md-7">-->
+                    <!--<i class="reg_incode"></i><input type="text" placeholder="请输入邀请码" class="for_incode">-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-5">-->
+                    <!--<a class="ge  btn_incode">如何获取邀请码?</a>-->
+                    <!--</div>-->
                 </div>
-                <div class="col-md-3 incode_vau" ></div>
+                <div class="col-md-3 incode_vau"></div>
             </div>
 
             <div class="form-group clearfix">
                 <div class="col-md-offset-3 col-md-6">
                     <p class="text-center">点击开始使用即表示同意 <a>《服务条款》</a></p>
-                    <div class="btn btn_message">开始使用</div>
+                    <div class="btn btn_message" register-form>开始使用</div>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-3 error_msg"></div>
             </div>
 
             <p class="pact text-center">

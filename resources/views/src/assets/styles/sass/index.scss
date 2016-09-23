@@ -143,32 +143,71 @@ body {
       margin-bottom: 30px;
     }
     .form-group {
+      .col-md-3 {
+        height: 50px;
+        color: #ff0000;
+        line-height: 50px;
+        padding-left: 0;
+      }
       .go {
         border: 1px solid #ddd;
         border-radius: 4px;
         height: 50px;
         i {
           display: inline-block;
+          width: 36px;
+          height: 25px;
+          margin-top: 11px;
+          margin-left: 8px;
+          float: left;
+          background-size: contain;
         }
         input {
           outline: medium;
           display: inline-block;
           height: 40px;
           margin-top: 4px;
-          width: 270px;
+          width: 256px;
           border: none;
-          padding-left: 10px;
         }
+        .for_mobile, .for_incode {
+          width: 150px;
+        }
+        .btn_getCode {
+          background: none;
+          border: none;
+          outline: medium;
+          background-color: #0091f6;
+          border-radius: 4px;
+          color: #fff;
+          padding: 9.5px 0;
+          width: 120px;
+          margin-top: -3px;
+        }
+        .glyphicon-ok-sign {
+          color: #5ad621;
+          font-size: 20px;
+          top: 5px;
+          display: none;
+        }
+
       }
       .col-md-7 {
         padding: 0;
+        i {
+          display: inline-block;
+          width: 36px;
+          height: 25px;
+          margin-top: 11px;
+          margin-left: 8px;
+          float: left;
+          background-size: contain;
+        }
         input {
           outline: medium;
           display: inline-block;
           height: 40px;
-          width: 100%;
           border: 1px solid #ddd;
-          padding-left: 10px;
           border-radius: 4px;
         }
 
@@ -178,9 +217,10 @@ body {
           background-color: #0091f6;
           border-radius: 4px;
           color: #fff;
-          padding: 9.5px 25px;
+          padding: 9.5px 0;
+          width: 122px;
         }
-        .ge{
+        .ge {
           height: 40px;
           line-height: 38px;
         }
@@ -217,6 +257,23 @@ body {
     color: #fff;
     .vs {
       color: #009944;
+    }
+    .set {
+      color: #0091f6;
+      text-decoration: none;
+      cursor: pointer;
+      i {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background: url("../../../app/pages/images/103.png") no-repeat;
+        position: relative;
+        top: 10px;
+      }
+      &:hover {
+        color: #30aaff;
+      }
+
     }
   }
 
@@ -1634,7 +1691,78 @@ body {
     }
 
   }
+}
 
+#setManagerModal { //共同管理员模态窗
+  .modal-body {
+    .tl {
+      height: 35px;
+      line-height: 35px;
+      font-weight: bold;
+    }
+    .con_manager, .con {
+      .man {
+        display: inline-block;
+        width: 70px;
+        padding: 5px 15px;
+        img {
+          border-radius: 50%;
+          width: 100%;
+        }
+        p {
+          margin-top: 5px;
+          text-align: center;
+        }
+
+      }
+      .man_con {
+        & > div {
+          display: inline-block;
+          position: relative;
+          width: 70px;
+          padding: 5px 15px;
+          text-align: center;
+
+          .glyphicon-remove-sign {
+            position: absolute;
+            top: -3px;
+            right: 8px;
+            color: #ff0000;
+            z-index: 6;
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+          }
+          img {
+            border-radius: 50%;
+            width: 100%;
+          }
+          p {
+            margin-top: 5px;
+          }
+          &:hover {
+            .glyphicon-remove-sign {
+              display: inline-block;
+            }
+          }
+        }
+        .add {
+          display: inline-block;
+          top: 15px;
+          span {
+            font-size: 40px;
+            color: #ddd;
+            cursor: pointer;
+            &:hover {
+              color: #bbb;
+            }
+          }
+        }
+      }
+
+    }
+
+  }
 }
 
 @keyframes myfirst {

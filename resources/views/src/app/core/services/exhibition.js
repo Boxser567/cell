@@ -12,6 +12,44 @@ export default function (app) {
                     });
                 },
 
+                //发送验证码
+                getcode: function (phone) {
+                    return $http.get('/baseinfo/sms', {params: {phone: phone}}).then(function (res) {
+                        return res;
+                    });
+                },
+                //验证验证码
+                checkcode: function (params) {
+                    return $http.get('/baseinfo/verify', {params: params}).then(function (res) {
+                        return res;
+                    });
+                },
+                //验证邀请码
+                checkincode: function (incode) {
+                    return $http.get('/baseinfo/verify－invitation', {params: {invitation_code: incode}}).then(function (res) {
+                        return res;
+                    });
+                },
+                //注册表单提交
+                registerFrom: function (params) {
+                    return $http.post('/auth/optimize', params).then(function (res) {
+                        return res.data;
+                    });
+                },
+
+                //获取管理员列表信息
+                getAssistantList(entid){
+                    return $http.get('/assistant/list', {params: {ent_id: entid}}).then(function (res) {
+                        return res.data;
+                    })
+                },
+                // 删除管理员
+                delAssistant: function (memberid) {
+                    return $http.post('/assistant/delete', {member_id: memberid}).then(function (res) {
+                        return res.data;
+                    });
+                },
+
                 //创建会展
                 createEx: function () {
                     return $http.post('/exhibition/create');

@@ -43,8 +43,69 @@ export default function (app) {
         };
     });
 
+    //提交注册信息
+    app.directive('registerForm', function (Exhibition, $stateParams) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem) {
+                $('.regform .go input').on('focus', function () {
+                    $('.regform .col-md-3').empty();
+                });
+
+
+                elem.on('click', function () {
+                    console.log("$stateParams", $stateParams);
+
+
+                    var name = $(".for_name").val().trim();
+                    var firm = $(".for_firm").val().trim();
+                    var mobile = $(".for_mobile").val().trim();
+                    var code = $(".for_code").val().trim();
+                    var incode = $(".for_incode").val().trim();
+                    if (name.length < 2 || name == "") {
+                        $(".name_vau").text("最少包含2个字符");
+                        return;
+                    }
+                    if (firm.length < 2 || firm == "") {
+                        $(".firm_vau").text("最少包含2个字符");
+                        return;
+                    }
+                    if (Util.RegExp.PhoneNumber.test(mobile) == false || mobile == "") {
+                        $(".mobile_vau").text("手机号输入错误");
+                        return;
+                    }
+                    if (code.length < 2 || code == "") {
+                        $(".code_vau").text("验证码输入错误");
+                        return;
+                    }
+                    if (incode.length < 2 || incode == "") {
+                        $(".incode_vau").text("邀请码输入错误");
+                        return;
+                    }
+
+                    var UID = $stateParams.userid;
+                    var params = {
+                        invitation_code: incode,
+                        phone: mobile,
+                        verify_code: code,
+                        user_id: UID,
+                        account: name,
+                        org_name: firm
+                    };
+
+                    Exhibition.registerFrom(params).then(function (res) {
+                        console.log("表单提交时间", params, res);
+                        console.log(res);
+                        $(".error_msg").text(res.error_msg);
+                    });
+
+
+                })
+            },
+        };
+    });
     //发送验证码
-    app.directive('sendCode', function () {
+    app.directive('sendCode', function (Exhibition) {
         return {
             restrict: 'A',
             link: function (scope, elem) {
@@ -52,8 +113,7 @@ export default function (app) {
                 elem.on('click', function () {
                     console.log("是否进入")
                     var mobile = $('.for_mobile').val();
-                    if (mobile == "" || mobile == undefined || Util.RegExp.PhoneNumber.test(mobile)) {
-                        console.log("进入消息提示");
+                    if (mobile == "" || mobile == undefined || Util.RegExp.PhoneNumber.test(mobile) == false) {
                         $(".mobile_vau").text("手机号输入错误");
                         return false;
                     }
@@ -76,6 +136,10 @@ export default function (app) {
                         }
                     }
                     deltime();
+                    Exhibition.getcode(mobile).then(function (res) {
+                        console.log("验证码", res);
+                    });
+
                 });
             },
         };
@@ -114,6 +178,52 @@ export default function (app) {
                         $rootScope.alertMsg = false;
                     }, 750);
                 });
+            },
+        };
+    });
+
+
+    //获取管理员信息
+    app.directive("commanManger", function ($rootScope, Exhibition) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem) {
+                elem.on('click', function () {
+                    $rootScope.magList = [];
+                    //获取管理员列表
+                    Exhibition.getAssistantList($rootScope.user.ent_id).then(function (res) {
+                        _.each(res, function (m) {
+                            if (m.main_member === 1) {
+                                $rootScope.manager = m;
+                            } else {
+                                $rootScope.magList.push(m);
+                            }
+                        })
+                    })
+                })
+            },
+        };
+    });
+
+    //删除管理员信息
+    app.directive("delManger", function ($timeout, $rootScope, Exhibition) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.on('click', function () {
+                    //获取管理员列表
+                    Exhibition.delAssistant(attrs.dataid).then(function (res) {
+                        console.log("删除管理员信息", res);
+                        for (var i = 0; i < $rootScope.magList.length; i++) {
+                            if ($rootScope.magList[i].id === attrs.dataid) {
+                                $timeout(function () {
+                                    $rootScope.magList.splice(i, 1);
+                                })
+                                break;
+                            }
+                        }
+                    })
+                })
             },
         };
     });

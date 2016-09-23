@@ -43,6 +43,8 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     });
 
 
+
+
     // $scope.Extiming = false;
     $scope.date = {
         startDate: $scope.currentExbt.start_date,
