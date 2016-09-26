@@ -902,13 +902,19 @@ body {
         color: #333;
         border-left: 6px solid #2cb7ff;
       }
+      .row {
+        margin-left: 15px !important;
+        margin-right: 15px !important;
+      }
       .col-md-4 {
-        padding: 20px;
+        padding:20px 15px;
 
         .files {
-          padding: 20px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
           transition: All 0.3s ease-in-out;
           position: relative;
+          overflow: hidden;
           &:hover {
             box-shadow: 0px 0px 10px #ddd;
             z-index: 9;
@@ -928,7 +934,7 @@ body {
             padding: 14px 20px;
             background: #24292e;
             color: #fff;
-            margin: 8px;
+            margin: 17.5px;
             border-radius: 40px;
             width: 140px;
           }
@@ -936,8 +942,8 @@ body {
             display: inline-block;
             float: left;
             vertical-align: bottom;
-            width: 57.6px;
-            height: 67.2px;
+            width: 64px;
+            height: 80px;
             -webkit-background-size: cover;
             background-size: cover;
           }
@@ -971,6 +977,7 @@ body {
             }
           }
           .info {
+            margin-top: 15px;
             margin-left: 10px;
             float: left;
             p {
@@ -980,7 +987,7 @@ body {
                 font-size: 16px;
                 span {
                   display: inline-block;
-                  max-width: 240px;
+                  max-width: 270px;
                   overflow: hidden;
                   white-space: nowrap;
                   text-overflow: ellipsis;
@@ -997,20 +1004,22 @@ body {
               cursor: pointer;
               color: #fff;
               position: absolute;
-              top: 50px;
-              right: 20px;
+              top: 45px;
+              right: 10px;
               font-size: 12px;
               background: #ff5858;
-              padding: 8px 15px;
+              padding: 6px 8px;
               border-radius: 15px;
               span {
-                margin-left: 5px;
                 vertical-align: text-top;
               }
             }
 
           }
 
+        }
+        .noneborder {
+          border: none;
         }
 
       }
