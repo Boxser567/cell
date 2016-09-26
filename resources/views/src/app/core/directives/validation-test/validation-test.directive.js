@@ -44,7 +44,7 @@ export default function (app) {
     });
 
     //提交注册信息
-    app.directive('registerForm', function (Exhibition, $stateParams) {
+    app.directive('registerForm', function (Exhibition) {
         return {
             restrict: 'A',
             link: function (scope, elem) {
@@ -54,9 +54,8 @@ export default function (app) {
 
 
                 elem.on('click', function () {
-                    console.log("$stateParams", $stateParams);
-
-
+                    var UID = Util.String.getNextStr(window.location.href, "=");
+                    console.log(UID, "$stateParams", window.location.href);
                     var name = $(".for_name").val().trim();
                     var firm = $(".for_firm").val().trim();
                     var mobile = $(".for_mobile").val().trim();
@@ -83,7 +82,6 @@ export default function (app) {
                         return;
                     }
 
-                    var UID = $stateParams.userid;
                     var params = {
                         invitation_code: incode,
                         phone: mobile,
@@ -95,8 +93,8 @@ export default function (app) {
 
                     Exhibition.registerFrom(params).then(function (res) {
                         console.log("表单提交时间", params, res);
-                        console.log(res);
-                        // window.location.href = "/#/exhibition";
+                        //if(res)
+                        window.location.href = "/#/exhibition";
                         // $(".error_msg").text(res.error_msg);
                     });
 
