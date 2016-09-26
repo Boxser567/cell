@@ -33,7 +33,7 @@ class BaseInfoController extends Controller
     {
         $invitation=InvitationCode::getCode(inputGet('invitation_code',$invitation_code));
         if(!$invitation || date('Y-m-d H:i:s') > $invitation->end_time ){
-            throw new Exception('邀请码错误或已失效',400000);
+            throw new Exception('邀请码错误或已失效',403001);
         }
         return $invitation;
     }
@@ -54,7 +54,7 @@ class BaseInfoController extends Controller
         }
         $ent = Member::getPhone($phone);
         if ($ent) {
-            throw new Exception('手机号码已经被使用',400000);
+            throw new Exception('手机号码已经被使用',403002);
         } else {
             return ;
         }
@@ -73,6 +73,15 @@ class BaseInfoController extends Controller
     {
         $user_id=inputGet('user_id');
         header("Location:http://cell.meetingfile.com/admin?info=1/#/register?".$user_id);
+    }
+    
+    public function getBannerList()
+    {
+        $list=config('data.BANNER');
+        foreach($list as $key=>&$banner){
+            $list[$key]=config('app.qiniu.domain')."/".$banner;
+        }
+        return $list;
     }
     
 }
