@@ -59,20 +59,22 @@
                 <div class="row" ng-if="FilesList.length>0">
                     <div ng-repeat="file in FilesList" class="col-md-4">
                         <div class="files clearfix">
-                            <i class="img {{ file.filename | getFileIconSuffix }}"></i>
-                            <div class="info clearfix">
-                                <p title="{{file.filename}}">
+                            <div class="clearfix">
+                                <i class="img {{ file.filename | getFileIconSuffix }}"></i>
+                                <div class="info clearfix">
+                                    <p title="{{file.filename}}">
                                     <span datapath="{{file.fullpath}}" dataid="{{currentExbt.org_id}}"
                                           dataedit="filename" edit-name>{{file.filename}}</span>
-                                </p>
-                                <p>{{file.filesize | bitSize}}</p>
-                                <i class="glyphicon glyphicon-trash"
-                                   ng-click="delFile($event,currentExbt.org_id,file.fullpath,file.filesize)">
-                                    <span>删除</span></i>
-                            </div>
-                            <div class="slide-line" ng-if="file.filewidth && file.filewidth!=100">
-                                <div style="width: {{file.filewidth}}%"></div>
-                                <i class="glyphicon glyphicon-trash"><span>删除</span></i>
+                                    </p>
+                                    <p>{{file.filesize | bitSize}}</p>
+                                    <i class="glyphicon glyphicon-trash"
+                                       ng-click="delFile($event,currentExbt.org_id,file.fullpath,file.filesize)">
+                                        <span>删除</span></i>
+                                </div>
+                                <div class="slide-line" ng-if="file.filewidth && file.filewidth!=100">
+                                    <div style="width: {{file.filewidth}}%"></div>
+                                    <i class="glyphicon glyphicon-trash"><span>删除</span></i>
+                                </div>
                             </div>
                         </div>
                     </div>
