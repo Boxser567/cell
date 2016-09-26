@@ -46,10 +46,10 @@
                             <img src="../../pages/images/t_1.png" alt="" ng-if="!p.image">
                             <p>{{p.account}}</p>
                             <i class="glyphicon glyphicon-remove-sign" dataid="{{p.id}}"
-                               ng-if="user.main_member==1 && p.id" del-manger ></i>
+                               ng-if="user.main_member==1 && p.id" del-manger></i>
                         </div>
 
-                        <div class="add">
+                        <div class="add" data-target="#addmanagerModal" data-toggle="modal">
                             <span class="glyphicon glyphicon-plus-sign"></span>
                         </div>
                     </div>
@@ -79,6 +79,30 @@
                     <div class="btn">确认删除</div>
                     <div class="btn">取 消</div>
                 </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!--添加共同管理员-->
+<div class="modal fade" id="addmanagerModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel12" aria-hidden="true">
+    <div class="modal-dialog" style="width: 400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="myModalLabel12">
+                    邀请新的共同管理员
+                </h5>
+            </div>
+
+            <div class="modal-body">
+
+                <img src="/assistant/add?ent_id={{user.ent_id}}" alt="加载失败">
+
+                <p>将二维码发送给您想要添加的成员,对方扫描后即可加入,并成为共同管理员</p>
+
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->

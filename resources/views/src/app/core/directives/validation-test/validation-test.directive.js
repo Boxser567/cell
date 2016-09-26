@@ -96,7 +96,8 @@ export default function (app) {
                     Exhibition.registerFrom(params).then(function (res) {
                         console.log("表单提交时间", params, res);
                         console.log(res);
-                        $(".error_msg").text(res.error_msg);
+                        // window.location.href = "/#/exhibition";
+                        // $(".error_msg").text(res.error_msg);
                     });
 
 
