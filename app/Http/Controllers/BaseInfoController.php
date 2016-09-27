@@ -83,5 +83,15 @@ class BaseInfoController extends Controller
         }
         return $list;
     }
+
+    public function getClassList()
+    {
+        $list=config('data.FOLDER');
+        foreach($list as $key=>&$banner){
+            $list[$key]=config('app.qiniu.domain')."/".$banner;
+        }
+        return $list;
+    }
+
     
 }
