@@ -16,7 +16,7 @@ class LAccount
 {
     
     const LOGO_URL="ce8cfebaec8af2164e9f171006852d8d943229e7.png-160";
-    public static function setUser($name = '', $unionid = '',$image='',$ent_id='')
+    public static function setUser($name = '', $unionid = '',$image='',$ent_id='',$phone='')
     {
         $member = Member::getUniqueCode($name, $unionid);
         if (!$member && !$ent_id) {
@@ -29,6 +29,7 @@ class LAccount
         }
         $member->name = $name;
         $member->unionid = $unionid;
+        $member->phone=$phone;
         $member->image=$image;
         $member->save();
         Member::cacheForget();
