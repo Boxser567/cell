@@ -31,7 +31,7 @@ class FileController extends Controller
             $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
             $now = date('Y-m-d H:i:s');
             if ($now < $folder_info->start_time || $now > $folder_info->end_time) {
-                throw new \Exception("文件夹未授权开放",400001);
+                throw new \Exception("文件夹未授权开放", 400001);
             }
         }
         $file_list = $files->getFileList(inputGet('fullpath', ''));
@@ -46,7 +46,8 @@ class FileController extends Controller
                     if ($file['fullpath'] == FileController::RES_COLLECTION_FOLDER_NAME) {
                         unset($file_list["list"][$key]);
                     } else {
-                        $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
+                        //  dump($file['hash']);
+                        //    $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
                     }
                 }
             }
@@ -92,32 +93,47 @@ class FileController extends Controller
         return $files->getInfo(inputGetOrFail('fullpath'), 1);
     }
 
-    //修改文件夹有效时间
+    //修改文件夹有效时间以及版式
     public function postValidateTime()
     {
-        $folder=FolderInfo::getByHash(inputGetOrFail('hash'));
-        if(inputGet('start_time')){
-            $folder->start_time=inputGet('start_time');
+        //权限判断
+        $folder = FolderInfo::getByHash(inputGetOrFail('hash'));
+        if (!$folder) {
+            throw new \Exception("文件分类不存在",403009);
+        } else {
+            if (inputGet('start_time')) {
+                $folder->start_time = inputGet('start_time');
+            }
+            if (inputGet('end_time')) {
+                $folder->end_time = inputGet('end_time');
+            }
+            if (\Request::has('hidden')) {
+                $folder->hidden = inputGet('hidden');
+            }
+            if (\Request::has('position')) {
+                $folder->property = json_encode(['position' => inputGet('position')]);
+            }
+            $folder->save();
+            FolderInfo::cacheForget();
+            return $folder;
         }
-        if(inputGet('end_time')){
-            $folder->end_time=inputGet('end_time');
-        }
-        if(\Request::has('hidden')){
-            $folder->hidden=inputGet('hidden');
-        }
-        $folder->save();
-        FolderInfo::cacheForget();
     }
 
     //创建文件夹
     public function postCreateFolder()
     {
+        // $folder_count=FolderInfo::getCountByGroup(inputGetOrFail('group_id'));
+        // $base_controller=new BaseController();
+        //  $base_controller->judgePermission("class_count",$folder_count);//权限判断子分类个数
         $files = new YunkuFile(inputGetOrFail('org_id'));
         $files_info = $files->setFolder(inputGetOrFail('fullpath'));
         $folder_info = new FolderInfo();
         $folder_info->org_id = inputGetOrFail('org_id');
         $folder_info->title = inputGet('title', '新文件夹');
         $folder_info->folder_hash = $files_info['hash'];
+        $folder_info->group_id = inputGetOrFail('group_id');
+        $folder_info->group_id = 1;
+        $folder_info->property = json_encode(['position' => 'middle']);
         $img_url = config('app.qiniu.domain') . "/" . config('data.FOLDER')[random_int(0, 8)];
         $folder_info->img_url = json_encode(["0" => $img_url]);
         $folder_info->save();
@@ -129,6 +145,7 @@ class FileController extends Controller
     //更新文件夹信息
     public function postUpdateFolder($hash = '', $type = '', $size = 0)
     {
+
         $folder_info = FolderInfo::getByHash(inputGet('hash', $hash));
         $type = inputGet('type', $type);
         switch ($type) {
@@ -141,7 +158,7 @@ class FileController extends Controller
                 $file_size = $folder_info->file_size - inputGet('size', $size);
                 break;
             default:
-                throw new \Exception("无效的操作",400001);
+                throw new \Exception("无效的操作", 400001);
         }
         FolderInfo::updateInfo(inputGet('hash', $hash), $file_count, $file_size);
         FolderInfo::cacheForget();
@@ -150,6 +167,7 @@ class FileController extends Controller
     //上传文件夹图片
     public function postUpdateImg()
     {
+        //  $base_controller->judgePermission("class_pic");//权限判断文件夹图片
         $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
         $img_url = json_decode($folder_info->img_url, true);
         array_push($img_url, inputGetOrFail("img_url"));
@@ -227,7 +245,7 @@ class FileController extends Controller
     {
         $exhibition = $exhibition->toArray();
         $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/#/mobile/" . $exhibition['unique_code'];
-        $exhibition['base_folder']=ExhibitionController::BASE_FILE_NAME;
+        $exhibition['base_folder'] = ExhibitionController::BASE_FILE_NAME;
         if ($exhibition['res_collect_lock'] != 0) {
             $exhibition['res_collect'] = FileController::RES_COLLECTION_FOLDER_NAME;
         }
@@ -337,7 +355,4 @@ class FileController extends Controller
     }
 
 
-  
-
-    
 }
