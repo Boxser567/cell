@@ -62,24 +62,7 @@ class FileController extends Controller
         GroupInfo::cacheForget();
         FolderInfo::cacheForget();
         $group_info = GroupInfo::getFolderInfo(inputGetOrFail('group_id'));
-        $now = date('Y-m-d H:i:s');
-        if ($group_info->hidden == 1) {
-            return [0];
-        } else {
-            if ($now > $group_info->end_time || $now < $group_info->start_time) {
-                return [1];
-            }
-        }
         $folder_info = $group_info->folder->toArray();
-        foreach ($folder_info as $key => &$folder) {
-            if ($folder['hidden'] == 1) {
-                $folder_info[$key] = [0];
-            } else {
-                if ($now > $folder['end_time'] || $now < $folder['start_time']) {
-                    $folder_info[$key] = [1];
-                }
-            }
-        }
         $group_info = $group_info->toArray();
         $group_info['folder'] = $folder_info;
         return $group_info;
@@ -111,6 +94,8 @@ class FileController extends Controller
                 $folder->hidden = inputGet('hidden');
             }
             if (\Request::has('position')) {
+                // $base_controller=new BaseController();
+                //  $base_controller->judgePermission("class_style");//权限判断自定义专题显示样式
                 $folder->property = json_encode(['position' => inputGet('position')]);
             }
             $folder->save();
@@ -167,7 +152,7 @@ class FileController extends Controller
     //上传文件夹图片
     public function postUpdateImg()
     {
-        //  $base_controller->judgePermission("class_pic");//权限判断文件夹图片
+        //  $base_controller->judgePermission("self_class_pic");//权限判断上传自定义专题图片
         $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
         $img_url = json_decode($folder_info->img_url, true);
         array_push($img_url, inputGetOrFail("img_url"));
