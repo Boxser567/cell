@@ -76,6 +76,12 @@ class FileController extends Controller
         return $files->getInfo(inputGetOrFail('fullpath'), 1);
     }
 
+    //获取专题详情
+    public function getFolderInfo()
+    {
+        return FolderInfo::_findOrFail(inputGetOrFail('folder_id'))->toArray();
+    }
+
     //修改文件夹有效时间以及版式
     public function postValidateTime()
     {
@@ -84,6 +90,11 @@ class FileController extends Controller
         if (!$folder) {
             throw new \Exception("文件分类不存在",403009);
         } else {
+            if (\Request::has('title')) {
+                $files = new YunkuFile($folder->org_id);
+                $files->setName($folder->title, inputGetOrFail('title'));
+                FolderInfo::updateTitle(inputGetOrFail('hash'), inputGetOrFail('title'));
+            }
             if (\Request::has('forever')) {
                 $folder->forever = inputGet('forever');
             }
@@ -117,7 +128,7 @@ class FileController extends Controller
         $files_info = $files->setFolder(inputGetOrFail('fullpath'));
         $folder_info = new FolderInfo();
         $folder_info->org_id = inputGetOrFail('org_id');
-        $folder_info->title = inputGet('title', '新文件夹');
+        $folder_info->title = inputGet('title', '请填写专题名称');
         $folder_info->folder_hash = $files_info['hash'];
       //  $folder_info->group_id = inputGetOrFail('group_id');
         $folder_info->property = json_encode(['position' => 'middle']);
@@ -182,7 +193,8 @@ class FileController extends Controller
     public function postResetName()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        //FolderInfo::updateTitle(inputGetOrFail('hash'), inputGetOrFail('fullpath'));
+        FolderInfo::updateTitle(inputGetOrFail('hash'), inputGetOrFail('newpath'));
+        FolderInfo::cacheForget();
         return $files->setName(inputGetOrFail('fullpath'), inputGetOrFail('newpath'));
     }
 
