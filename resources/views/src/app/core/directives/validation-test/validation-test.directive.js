@@ -159,6 +159,47 @@ export default function (app) {
         };
     });
 
+    //更换会展背景图片
+    app.directive('selectBgimg', function ($timeout, Exhibition) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem) {
+                elem.on("click", function () {
+                    var index = $(this).index();
+                    elem.find('i').css("display", "block").parent().siblings().find('i').css("display", "none");
+                    var img = elem.find("img").prop("src").replace("-340", "");
+                    $timeout(function () {
+                        scope.currentExbt.banner = img;
+                    })
+                    $("#changeBannerModal .btn").off("click");
+                    $("#changeBannerModal .btn").on("click", function () {
+                        Exhibition.editExTitle({exhibition_id: scope.currentExbt.id, banner: img}).then(function (res) {
+                            // res = res.data;
+                            // console.log("更换后返回的信息", res);
+                            $("#changeBannerModal").modal("hide");
+                        })
+                    })
+                });
+            },
+        };
+    });
+
+    //分组时间切换
+    app.directive('selectGrotime', function ($timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem) {
+                elem.on("change", function () {
+                    $timeout(function () {
+                        scope.groupSetting.forever = elem.val();
+                        console.log(" qiehuan123", scope.groupSetting.forever);
+                    })
+                });
+            },
+        };
+    });
+
+
     //复制制定文本信息
     app.directive("copyWebsite", function ($timeout, $rootScope) {
         return {
@@ -180,7 +221,6 @@ export default function (app) {
             },
         };
     });
-
 
     //获取管理员信息
     app.directive("commanManger", function ($rootScope, Exhibition) {
@@ -330,18 +370,24 @@ export default function (app) {
         };
     });
 
-    //上传logo
+    //上传logo、banner、
     app.directive('uploadLogo', function ($timeout, Exhibition) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 $timeout(function () {
                     Exhibition.getUrlToken().then(function (da) {
-                        uploadimg(da.data.upload_domain, da.data.token, da.data.file_name);
+                        var imgTypes = '';
+                        if (attrs.datawhere == "logo") {
+                            imgTypes == "gif,jpg,jpeg,bmp,png";
+                        } else if (attrs.datawhere == "banner") {
+                            imgTypes == "jpg,png";
+                        }
+                        uploadimg(imgTypes, da.data.upload_domain, da.data.token, da.data.file_name);
                     });
                 });
 
-                function uploadimg(server, token, file_name) {
+                function uploadimg(imgTypes, server, token, file_name) {
                     var uploader = WebUploader.create({
                         pick: {
                             id: elem,
@@ -354,10 +400,10 @@ export default function (app) {
                             key: '',
                             token: token
                         },
-                        duplicate: true,//重复文件
+                        duplicate: true,    //重复文件
                         accept: {
                             title: 'logo',
-                            extensions: 'gif,jpg,jpeg,bmp,png',
+                            extensions: imgTypes,
                             mimeTypes: 'image/*'
                         },
                         fileNumLimit: 10,
@@ -366,25 +412,46 @@ export default function (app) {
                     });
                     uploader.on('fileQueued', function (file) {
                         scope.imgloading = true;
-                        uploader.options.formData.key = file_name + '.' + Util.String.getExt(file.name);
+                        if (attrs.datawhere == "logo") {
+                            uploader.options.formData.key = file_name + '.' + Util.String.getExt(file.name);
+                        }
+
                     });
                     uploader.on('uploadSuccess', function () {
-                        var arg = server + "/" + arguments[1].key + "-160";
-                        Exhibition.editExTitle({exhibition_id: attrs.dataid, logo: arg}).then(function (res) {
-                            $timeout(function () {
-                                scope.currentExbt.logo = arg;
-                                scope.imgloading = false;
+                        console.log("图片上传成功", arguments);
+
+                        if (attrs.datawhere == "logo") {
+                            var arg = server + "/" + arguments[1].key + "-160";
+                            Exhibition.editExTitle({
+                                exhibition_id: scope.currentExbt.id,
+                                logo: arg
+                            }).then(function (res) {
+                                $timeout(function () {
+                                    scope.currentExbt.logo = arg;
+                                    scope.imgloading = false;
+                                })
+                            });
+                        }
+                        if (attrs.datawhere == "banner") {
+                            var arg = server + "/" + arguments[1].key;
+                            Exhibition.editExTitle({
+                                exhibition_id: scope.currentExbt.id,
+                                banner: arg
+                            }).then(function (res) {
+                                $timeout(function () {
+                                    scope.currentExbt.banner = arg;
+                                    scope.imgloading = false;
+                                })
                             })
-                        });
+                        }
+
+
                     });
                     uploader.on('error', function (err) {
                         console.log("图片上传报错", err);
-                        alert("上传有误! \n\n 温馨提示您:会展logo不能上传大于1MB的文件。");
+                        alert("上传有误! \n\n 温馨提示您:您上传的图片不得大于1MB。");
                     });
-
                 }
-
-
             },
 
 
@@ -637,6 +704,34 @@ export default function (app) {
             },
 
 
+        };
+    });
+
+
+    //创建新分组
+    app.directive('addGroup', function (Exhibition, $timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.click(function () {
+                    for (var i = 0; i < scope.groupList.length; i++) {
+                        if (scope.groupList[i].name == "新分组") {
+                            alert("请先给原始分组命名!");
+                            return false;
+                        }
+                    }
+                    Exhibition.addNewGroup(scope.currentExbt.id).then(function (res) {
+                        $timeout(function () {
+                            scope.groupList.push({
+                                id: res.id,
+                                name: res.name
+                            })
+                        })
+                    })
+
+                })
+
+            },
         };
     });
 

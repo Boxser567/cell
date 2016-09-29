@@ -19,9 +19,8 @@ function cellHeaderComponent($log) {
         'ngInject';
         if (!$rootScope.user) {
             $rootScope.user = localStorageService.get('user');
+            $("#inviteManager").prop("src", "/assistant/add?ent_id=" + $rootScope.user.ent_id);
         }
-
-
 
 
     }

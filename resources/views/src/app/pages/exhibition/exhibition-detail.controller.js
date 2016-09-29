@@ -10,6 +10,7 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.currentExbt = currentExhibition.data;
     $rootScope.projectTitle = currentExhibition.data.title + " - 会文件";
     $scope.orgid = currentExhibition.data.org_id;
+    $scope.groupList = currentExhibition.data.group;
     if ($scope.currentExbt.res_collect_lock == 1) {
         $(".mui-switch").attr("checked", true);
     }
@@ -23,6 +24,7 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.warpMask = false;
     $scope.btnloading = false;
     $scope.collectTitle = "从资料收集选择文件";
+
     Exhibition.getDirFilesByID({org_id: $scope.orgid}, false).then(function (data) {
         var files = [], dirs = [];
         _.each(data.list, function (list) {
@@ -41,8 +43,6 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
         $scope.DirsList = dirs;
         // console.log("文件夹信息", $scope.DirsList);
     });
-
-
 
 
     // $scope.Extiming = false;
@@ -379,6 +379,45 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
         })
 
     }
+
+
+    //获取banner列表
+    $scope.bannerloading = true;
+    $scope.bannerList = [];
+    $scope.getBannerFn = function () {
+        $("#changeBannerModal").modal('show');
+        if ($scope.bannerList <= 0) {
+            Exhibition.getBannerList().then(function (res) {
+                $scope.bannerList = res;
+            })
+        }
+    }
+
+
+    $scope.groupSetting = {};
+
+    //获取分组详细信息
+    $scope.getGroupFn = function (groid) {
+        console.log("group", groid, arguments);
+        Exhibition.getGroupDetail(groid).then(function (res) {
+            console.log(res);
+            $(".gro_data_select").val(res.forever.toString());
+            $scope.groupSetting.id = res.id;
+            $scope.groupSetting.name = res.name;
+            $scope.groupSetting.start_time = res.start_time;
+            $scope.groupSetting.end_time = res.end_time;
+            $scope.groupSetting.hidden = res.hidden;
+            $(".ipt_hidden").prop("checked", Boolean(res.hidden));
+        })
+        $("#groupSettingModal").modal("show");
+    };
+
+    //分组设置修改
+    $scope.saveGroupInfoFn = function () {
+        console.log("修改后的信息", $scope.groupSetting);
+    }
+
+
 }
 
 export default ExhibitionDetailController;

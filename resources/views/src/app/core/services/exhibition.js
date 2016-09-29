@@ -11,6 +11,11 @@ export default function (app) {
                         return res.data;
                     });
                 },
+                loginss: function () {
+                    return $http.get('/account/info').then(function (res) {
+                        return res.data;
+                    });
+                },
 
                 //发送验证码
                 getcode: function (phone) {
@@ -67,6 +72,13 @@ export default function (app) {
                     return $http.get('/exhibition/detail', {params: {unique_code: code}});
                 },
 
+                //获取banner背景图列表
+                getBannerList: function () {
+                    return $http.get('/baseinfo/banner-list').then(function (res) {
+                        return res.data;
+                    });
+                },
+
                 //获取会展列表信息
                 list: function () {
                     return $http.get('/exhibition/list');
@@ -89,6 +101,21 @@ export default function (app) {
                 delExFile: function (params) {
                     return $http.post('/file/del', params);
                 },
+
+                //创建新分组
+                addNewGroup: function (entid) {
+                    return $http.post('/exhibition/group', {ex_id: entid}).then(function (res) {
+                        return res.data;
+                    });
+                },
+                //获取分组详细信息
+                getGroupDetail:function(groid){
+                    return $http.get('/file/group', {params: {group_id:groid}}).then(function (res) {
+                        return res.data;
+                    })
+                },
+
+
 
                 //添加文件夹
                 addFolder: function (params) {

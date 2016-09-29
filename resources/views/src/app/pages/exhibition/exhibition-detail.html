@@ -2,14 +2,14 @@
     <div class="eb-slide">
         <div class="bgimg">
             <div class="diff"></div>
-            <img src="{{currentExbt.banner}}">
+            <img src="{{currentExbt.banner}}" alt="刷新重试">
             <div class="nav">
                 <div class="content">
                     <div class="pull-left">
                         <a href="http://cell.meetingfile.com/#/exhibition"><i class="home"></i> </a>
-                        编辑模式aaa
-                        <span>资料收集<span ng-if="currentExbt.res_collect_lock==-1">:&nbsp;已关闭</span> <span
-                                ng-if="currentExbt.res_collect_lock==1">:&nbsp;已开启</span> </span>
+                        编辑模式
+                        <span>资料收集<span ng-if="currentExbt.res_collect_lock==-1">:&nbsp;已关闭</span>
+                            <span ng-if="currentExbt.res_collect_lock==1">:&nbsp;已开启</span> </span>
                         <label ng-click="checkCollecFn()">
                             <input class="mui-switch mui-switch-anim" type="checkbox"
                                    value="{{currentExbt.res_collect_lock}}"></label>
@@ -24,8 +24,10 @@
                     <div class="pull-right">
                         <span>{{currentExbt.property.dir_count}}个分类 &nbsp;{{currentExbt.property.file_count}}个文件 &nbsp;共{{currentExbt.property.size_use | bitSize}}</span>
                     </div>
+                    <div class="btn banner" ng-click="getBannerFn()">更换背景图</div>
                 </div>
             </div>
+
 
             <div class="nav-con" style="text-align: center;">
                 <div class="file" title="请上传160x160像素会展Logo">
@@ -35,7 +37,7 @@
                               spinner-on="imgloading"></span>
                     </div>
                     <div class="img-text-warning">更换Logo</div>
-                    <div id="uploadImgdiv" dataid="{{currentExbt.id}}" upload-logo img-hovers>
+                    <div id="uploadImgdiv" ng-if="currentExbt.id" datawhere="logo" upload-logo img-hovers>
                     </div>
 
                 </div>
@@ -44,8 +46,8 @@
                 <input class="time" date-range-picker class="form-control date-picker" type="text"
                        ng-model="date" options="opts"/>
                 <p class="code">
-                    <i class="glyphicon glyphicon-qrcode"><img
-                            src="/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}"></i>
+                    <i class="glyphicon glyphicon-qrcode">
+                        <img src="/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}"></i>
                     <span>{{currentExbt.unique_code}}</span>
                     <a href="javascript:;" data-clipboard-text="{{currentExbt.unique_code}}"
                        ng-if="currentExbt.unique_code" copy-website>复制链接</a>
@@ -59,22 +61,20 @@
                 <div class="row" ng-if="FilesList.length>0">
                     <div ng-repeat="file in FilesList" class="col-md-4">
                         <div class="files clearfix">
-                            <div class="clearfix">
-                                <i class="img {{ file.filename | getFileIconSuffix }}"></i>
-                                <div class="info clearfix">
-                                    <p title="{{file.filename}}">
+                            <i class="img {{ file.filename | getFileIconSuffix }}"></i>
+                            <div class="info clearfix">
+                                <p title="{{file.filename}}">
                                     <span datapath="{{file.fullpath}}" dataid="{{currentExbt.org_id}}"
                                           dataedit="filename" edit-name>{{file.filename}}</span>
-                                    </p>
-                                    <p>{{file.filesize | bitSize}}</p>
-                                    <i class="glyphicon glyphicon-trash"
-                                       ng-click="delFile($event,currentExbt.org_id,file.fullpath,file.filesize)">
-                                        <span>删除</span></i>
-                                </div>
-                                <div class="slide-line" ng-if="file.filewidth && file.filewidth!=100">
-                                    <div style="width: {{file.filewidth}}%"></div>
-                                    <i class="glyphicon glyphicon-trash"><span>删除</span></i>
-                                </div>
+                                </p>
+                                <p>{{file.filesize | bitSize}}</p>
+                                <i class="glyphicon glyphicon-trash"
+                                   ng-click="delFile($event,currentExbt.org_id,file.fullpath,file.filesize)">
+                                    <span>删除</span></i>
+                            </div>
+                            <div class="slide-line" ng-if="file.filewidth && file.filewidth!=100">
+                                <div style="width: {{file.filewidth}}%"></div>
+                                <i class="glyphicon glyphicon-trash"><span>删除</span></i>
                             </div>
                         </div>
                     </div>
@@ -100,9 +100,21 @@
             </div>
         </div>
 
+
         <div class="eb-filesort">
             <div class="content">
-                <div class="navtl">分类文件</div>
+                <div class="navtl">分组文件</div>
+                <div class="slide_warp">
+                    <ul class="clearfix">
+                        <li class="col-sm-2" ng-repeat="list in groupList">
+                            <a>{{list.name}}</a>
+                            <span datagroid="{{list.id}}" ng-click="getGroupFn(list.id)">设置</span>
+                        </li>
+                        <li class="col-sm-2" ng-if="currentExbt.ent_id"><a class="add" add-group> + 添加新分组</a></li>
+                    </ul>
+                </div>
+
+
                 <div class="row" ng-if="DirsList.length>0">
                     <div class="col-md-4" ng-repeat="dir in DirsList">
                         <div class="dirs">
@@ -116,6 +128,8 @@
                             </div>
                             <span class="glyphicon glyphicon-trash" title="删除分类"
                                   ng-click="delDirs($event,dir.fullpath,dir.hash)"> </span>
+                            <span class="glyphicon glyphicon-cog" data-target="#groupTopicsSettingModal"
+                                  data-toggle="modal"></span>
                             <div class="show">
                                 <a class="btn-showfile btn" data-toggle="modal" data-target="#loadFileList"
                                    ng-click="getDirList($event,dir.info.img_url[0],dir.fullpath,dir.hash)">查看/上传文件</a>
@@ -128,7 +142,7 @@
                         <div class="files files-add" style="position: relative;">
                             <a class="btn-add" ng-if="orgid" dataorgid="{{currentExbt.org_id}}" filesort-add>
                                 <!--  data-target="#modalAddDir" data-toggle="modal" -->
-                                <i class="glyphicon glyphicon-plus"></i>创建新分类</a>
+                                <i class="glyphicon glyphicon-plus"></i>创建新专题</a>
                             <div class="mask" ng-if="sort_maskloading">
                                 <span us-spinner="{color:'white',lines:11,radius:9, width:5, length: 9}"
                                       spinner-on="sort_maskloading"></span>
@@ -142,8 +156,8 @@
                 <div class="empty_list" ng-if="DirsList.length==0">
                     <img src="../images/1202.png" alt="">
                     <div class="create_files">
-                        <a class="btn" ng-if="orgid" dataorgid="{{currentExbt.org_id}}" filesort-add><i
-                                class="glyphicon glyphicon-plus"></i>创建新分类</a>
+                        <a class="btn" ng-if="orgid" dataorgid="{{currentExbt.org_id}}" filesort-add>
+                            <i class="glyphicon glyphicon-plus"></i>创建新专题</a>
                     </div>
                 </div>
 
@@ -319,6 +333,46 @@
             </div><!-- /.modal -->
         </div>
 
+
+        <!--修改背景图片弹出窗口-->
+        <div class="modal fade" id="changeBannerModal" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel13" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h5 class="modal-title" id="myModalLabel13">
+                            更换背景图片
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <p class="tl">自定义图片 :</p>
+                        <div class="load">
+                            <img src="{{currentExbt.banner}}-340" alt="">
+                            <span datawhere="banner" upload-logo> + 自定义上传</span>
+                            <s us-spinner="{lines:11,radius:9, width:5, length: 9}" ng-if="imgloading"
+                               spinner-on="imgloading"></s>
+                        </div>
+                        <p class="warn">提示:仅支持上传JPG、PNG 格式,不超过1M,建议尺寸: 1920x450</p>
+
+                        <p class="tl">系统预设图片 :</p>
+                        <div class="bg-banner">
+                            <ul class="clearfix">
+                                <li ng-repeat="list in bannerList track by $index" select-bgimg>
+                                    <img src="{{list}}-340" alt="刷新重试">
+                                    <i></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn">确定</div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
         <!--开启资料收集窗口信息-->
         <div class="modal fade" id="msgCollectFile" tabindex="-1" role="dialog"
              aria-labelledby="myModalLabel5" aria-hidden="true">
@@ -377,6 +431,114 @@
 
                         </div>
 
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
+        <!--分组设置 弹出窗口-->
+        <div class="modal fade" id="groupSettingModal" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel15" aria-hidden="true">
+            <div class="modal-dialog" style="width: 480px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h5 class="modal-title" id="myModalLabel15">
+                            分组设置
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <p class="tl">分组名称:</p>
+                            <input type="text" ng-model="groupSetting.name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <p class="tl">分组有效时间:</p>
+                            <select class="gro_data_select form-control" select-grotime>
+                                <option value="1">永久有效</option>
+                                <option value="0">自定义有效时间</option>
+                            </select>
+                            <div class="fix" ng-if="groupSetting.forever == '0'">
+                                <input type="text" class="form-control gro_starttime" ng-model="groupSetting.start_time">
+                                &nbsp; - 至 - &nbsp;
+                                <input type="text" class="form-control gro_endtime" ng-model="groupSetting.end_time">
+                            </div>
+                            <p class="warning">该设置可以对该分组下的所有分类设置统一有效时间,仅在有效时间内分组内的文件内容可供访问。其余时间可设置隐藏,若不设置隐藏,则会出现提醒。</p>
+                        </div>
+                        <div class="form-group">
+                            <p class="tl">非有效期内是否隐藏分组内容
+                                <label>
+                                    <input class="mui-switch mui-switch-anim ipt_hidden" type="checkbox" ng-model="groupSetting.hidden">
+                                </label>
+                            </p>
+                            <p class="warning"> 如果设置不隐藏,用户将只能看到该分组内的分类标题,但无法查看内容。</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn">删除分组</div>
+                        <div class="btn" ng-click="saveGroupInfoFn()">保 &nbsp;&nbsp; 存</div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
+        <!-- 分组专题 设置弹出窗口-->
+        <div class="modal fade" id="groupTopicsSettingModal" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel16" aria-hidden="true">
+            <div class="modal-dialog" style="width: 960px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h5 class="modal-title" id="myModalLabel16">
+                            专题设置
+                        </h5>
+                    </div>
+                    <div class="modal-body clearfix">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <p class="tl">分组名称:</p>
+                                <input type="text" value="{{groupSetting.name}}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <p class="tl">分组有效时间:</p>
+                                <select class="form-control">
+                                    <option>永久有效</option>
+                                    <option>自定义有效时间</option>
+                                </select>
+                                <div class="fix" ng-if="isEver!=0">
+                                    <input type="text" class="form-control gro_starttime">&nbsp;
+                                    - 至 - &nbsp;<input type="text" class="form-control gro_endtime">
+                                </div>
+                                <p class="warning">
+                                    若对上级分组设置过有效时间,则下级分类有效时间不能长于分组有效时间。</p>
+                            </div>
+                            <div class="form-group user-sel">
+                                <p class="tl">非有效期内是否隐藏分组内容
+                                    <label>
+                                        <input class="mui-switch mui-switch-anim" type="checkbox" value="1" checked>
+                                    </label>
+                                </p>
+                                <p class="warning"> 如果设置不隐藏,用户将只能看到该分组内的分类标题,但无法查看内容。</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="tl">分类封面</div>
+                            <div class="contain">
+                                <div class="">
+                                    <img src="" alt="">
+                                </div>
+                                <div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn">保存</div>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
