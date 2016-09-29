@@ -9,7 +9,7 @@ use App\Models\StQueueSms;
  */
 class SmsMessageController extends SmsController{
 
-    const TEXT_FROM = '【够快科技】';
+    const TEXT_FROM = '【会文件】';
     const VERIFY_KEY = '/sms/';
    
 

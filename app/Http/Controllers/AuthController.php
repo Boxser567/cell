@@ -22,24 +22,24 @@ class AuthController extends Controller
 
     public function getLogin($oauthUser = '')
     {
-            $name="会展adminer";
-            $unionid="12345";
-            //$name=inputGetOrFail('name');
-            //$unionid=inputGetOrFail('unionid');
-            //$name=$oauthUser['nickname'];
-            //$unionid=$oauthUser['unionid'];
-            //$image=$oauthUser['headimgurl'];
-            $member=LAccount::setUser($name,$unionid)->toArray();
-            $ent=EntConfig::_findOrFail($member['ent_id'])->toArray();
-            $member['edition']=$ent['edition'];
-            $his_member = Session::get('member');
-            if (!$his_member) {
-                Session::flush();
-                Session::put('member', $member);
-                Session::regenerate();
-            }
-            return $member;
-        //return $_COOKIE['member'];
+       /* $name = "会展adminer";
+        $unionid = "12345";
+        //$name=inputGetOrFail('name');
+        //$unionid=inputGetOrFail('unionid');
+        //$name=$oauthUser['nickname'];
+        //$unionid=$oauthUser['unionid'];
+        //$image=$oauthUser['headimgurl'];
+        $member = LAccount::setUser($name, $unionid)->toArray();
+        $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
+        $member['edition'] = $ent['edition'];
+        $his_member = Session::get('member');
+        if (!$his_member) {
+            Session::flush();
+            Session::put('member', $member);
+            Session::regenerate();
+        }
+        return $member;*/
+        return $_COOKIE['member'];
     }
 
     public function getLogout()
@@ -85,11 +85,9 @@ class AuthController extends Controller
         $member = $member->toArray();
         $member['edition'] = $ent['edition'];
         $member['org_name'] = $ent['name'];
+        setcookie('member','');
         setcookie('member', json_encode($member), time() + 60 * 360, '/');
-        $wechat = app('wechat');
-        $js = $wechat->js;
-        View::addExtension('html', 'blade');
-        return view('index', ['js' => $js]);
+        return;
     }
 
 
@@ -97,7 +95,7 @@ class AuthController extends Controller
     {
         $member = Member::getUnionid($user->id);//如果进行企业判断,那么在扫微信登录后就要进行管理企业的选择
         if($member){
-            throw new \Exception('用户已经存在');
+            throw new \Exception('用户已经存在',403005);
         }else{
             LAccount::setUser($user->name, $user->id, $user->avatar,$ent_id)->toArray();
         }

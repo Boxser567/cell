@@ -14,7 +14,7 @@ use App\Models\Member;
 class AssistantController extends BaseController
 {
 
-    public  function postAdd()
+    public  function getAdd()
     {
         $ent_id=inputGetOrFail('ent_id');
         \Config::set('wechat.oauth.callback','http://cell.meetingfile.com/auth/callback?target=add&ent_id='.$ent_id);

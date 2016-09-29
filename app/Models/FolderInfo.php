@@ -16,7 +16,7 @@ class FolderInfo extends BaseModel
 
     public static function getByHash($hash)
     {
-        return self::createWith()->where("folder_hash", $hash)->select("file_count", "file_size", "img_url")->first();
+        return self::createWith()->where("folder_hash", $hash)->first();
     }
 
     public static function getByGroupId($group_id)
@@ -47,5 +47,10 @@ class FolderInfo extends BaseModel
     public static function updateValidateTime($hash,$start_time,$end_time)
     {
         return self::where("folder_hash", $hash)->update(["start_time" => $start_time,'end_time'=>$end_time]);
+    }
+
+    public static function getCountByGroup($group_id)
+    {
+        return self::where('group_id',$group_id)->count();
     }
 }

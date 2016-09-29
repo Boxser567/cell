@@ -77,6 +77,8 @@ class BaseInfoController extends Controller
     
     public function getBannerList()
     {
+        // $base_controller=new BaseController();
+        //  $base_controller->judgePermission("self_banner");//权限判断会展 Banner 背景
         $list=config('data.BANNER');
         foreach($list as $key=>&$banner){
             $list[$key]=config('app.qiniu.domain')."/".$banner;
@@ -86,11 +88,42 @@ class BaseInfoController extends Controller
 
     public function getClassList()
     {
+        // $base_controller=new BaseController();
+        //  $base_controller->judgePermission("class_pic");//权限判断专题图片
         $list=config('data.FOLDER');
         foreach($list as $key=>&$banner){
             $list[$key]=config('app.qiniu.domain')."/".$banner;
         }
         return $list;
+    }
+
+    //获取分组信息
+    public function getGroup()
+    {
+        GroupInfo::cacheForget();
+        FolderInfo::cacheForget();
+        $group_info = GroupInfo::getFolderInfo(inputGetOrFail('group_id'));
+        $now = date('Y-m-d H:i:s');
+        if ($group_info->hidden == 1) {
+            return [0];
+        } else {
+            if ($now > $group_info->end_time || $now < $group_info->start_time) {
+                return [1];
+            }
+        }
+        $folder_info = $group_info->folder->toArray();
+        foreach ($folder_info as $key => &$folder) {
+            if ($folder['hidden'] == 1) {
+                $folder_info[$key] = [0];
+            } else {
+                if ($now > $folder['end_time'] || $now < $folder['start_time']) {
+                    $folder_info[$key] = [1];
+                }
+            }
+        }
+        $group_info = $group_info->toArray();
+        $group_info['folder'] = $folder_info;
+        return $group_info;
     }
 
     

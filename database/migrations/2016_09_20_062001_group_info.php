@@ -8,6 +8,7 @@
         $table->string("name", 100);
         $table->dateTime("start_time");
         $table->dateTime("end_time");
+        $table->tinyInteger("forever");
         $table->integer("ex_id");
         $table->tinyInteger("hidden");
         $table->dateTime("created_at");

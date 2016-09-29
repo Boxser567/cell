@@ -47,7 +47,7 @@ class FileController extends Controller
                         unset($file_list["list"][$key]);
                     } else {
                         //  dump($file['hash']);
-                            $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
+                           $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
                     }
                 }
             }
@@ -119,7 +119,7 @@ class FileController extends Controller
         $folder_info->org_id = inputGetOrFail('org_id');
         $folder_info->title = inputGet('title', '新文件夹');
         $folder_info->folder_hash = $files_info['hash'];
-        $folder_info->group_id = inputGetOrFail('group_id');
+      //  $folder_info->group_id = inputGetOrFail('group_id');
         $folder_info->property = json_encode(['position' => 'middle']);
         $img_url = config('app.qiniu.domain') . "/" . config('data.FOLDER')[random_int(0, 8)];
         $folder_info->img_url = json_encode(["0" => $img_url]);

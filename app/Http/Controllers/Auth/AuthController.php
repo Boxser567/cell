@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\AssistantController;
+use App\Models\Member;
 use App\User;
 use Overtrue\Socialite\Config;
 use Validator;
@@ -82,17 +83,18 @@ class AuthController extends Controller
         $wechat=app('wechat');
         $user = $wechat->oauth->user();
         $auth=new \App\Http\Controllers\AuthController();
+        Member::cacheForget();
         if(\Request::has('target')){
             $auth->addAssistant($user,inputGetOrFail('ent_id'));
-            return "<script>window.close()</script>";
+             exit;
         }
         $auth_user= $auth->login($user);
         if(!$auth_user['phone']) {
             View::addExtension('html', 'blade');
-            header("Location:http://localhost:8080/admin?info=1/#/register?".$auth_user['id']);
+            header("Location:http://cell.meetingfile.com/admin?info=1/#/register?user_id=".$auth_user['id']);
         }else{
             View::addExtension('html', 'blade');
-            header("Location:http://localhost:8080/admin/#/exhibition?");
+            header("Location:http://cell.meetingfile.com/admin/#/exhibition?");
         }
     }
 
