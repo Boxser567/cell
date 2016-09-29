@@ -40,7 +40,7 @@ class ExhibitionTest extends TestCase
 
     }
 
-    public function estGroupUpdate()
+    public function testGroupUpdate()
     {
         dump("更新分组");
         $result = $this->request(
@@ -49,14 +49,15 @@ class ExhibitionTest extends TestCase
                 'name'=>"wangyuxiang",
                 'start_time'=>'2016-01-01 12:12:00',
                 'end_time'=>'2016-01-01 12:12:00',
-                'hidden'=>0
+                'hidden'=>0,
+                'forever'=>0,
             ]
         );
         $this->checkOut($result);
 
     }
 
-    public function testSendMail()
+    public function estSendMail()
     {
         dump("获取会展详情");
         $result = $this->request(

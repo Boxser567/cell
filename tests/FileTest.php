@@ -86,7 +86,7 @@ class FileTest extends TestCase
     }
 
 
-    public function testSendMas()
+    public function estSendMas()
     {
         dump("修改文件(夹)名");
         $result = $this->request(
@@ -98,5 +98,21 @@ class FileTest extends TestCase
             ]
         );
         $this->checkOut($result);
+    }
+
+    public function testGroupUpdate()
+    {
+        dump("更新分类");
+        $result = $this->request(
+            "POST", "/file/validate-time", [
+                'hash'=>'c78dac2826ec8f604702440eb549df9949171830',
+                'start_time'=>'2016-01-01 12:12:00',
+                'end_time'=>'2016-01-01 12:12:00',
+                'hidden'=>0,
+                'position'=>'under',
+            ]
+        );
+        $this->checkOut($result);
+
     }
 }
