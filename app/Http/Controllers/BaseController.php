@@ -22,7 +22,7 @@ class BaseController extends Controller
 
     public function __construct($member = [])
     {
-       /* if (array_key_exists("member", $_COOKIE)) {
+       if (array_key_exists("member", $_COOKIE)) {
             $members = json_decode($_COOKIE['member'], true);
         } else {
             $members = [];
@@ -39,14 +39,14 @@ class BaseController extends Controller
                 $members += ['edition_info' => $edition];
             }
             $this->member = $members;
-        }*/
+        }
 
-        $member = Session::get('member', $member);
+        /*$member = Session::get('member', $member);
         if (!$member) {
             throw new Exception(40106);
         } else {
             $this->member = $member;
-        }
+        }*/
 
     }
 
