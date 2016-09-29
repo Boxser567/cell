@@ -1,95 +1,118 @@
 .sort_pdf {
-  background: url("../../../app/pages/images/icon_pdf.png") no-repeat;
+  //background: url("../../../app/pages/images/icon_pdf.png") no-repeat;
+  background: url("../../../app/pages/images/icon_1.png") no-repeat;
 }
 
 .sort_img {
-  background: url("../../../app/pages/images/icon_png.png") no-repeat;
+  //background: url("../../../app/pages/images/icon_png.png") no-repeat;
+  background: url("../../../app/pages/images/icon_2.png") no-repeat;
 }
 
 .sort_photo {
-  background: url("../../../app/pages/images/icon_jpg.png") no-repeat;
+  //background: url("../../../app/pages/images/icon_jpg.png") no-repeat;
+  background: url("../../../app/pages/images/icon_3.png") no-repeat;
 }
-.sort_ppt{
-  background: url("../../../app/pages/images/icon_ppt.png") no-repeat;
+
+.sort_ppt {
+  //background: url("../../../app/pages/images/icon_ppt.png") no-repeat;
+  background: url("../../../app/pages/images/icon_4.png") no-repeat;
 }
+
 .sort_document {
-  background: url("../../../app/pages/images/icon_doc.png") no-repeat;
+  //background: url("../../../app/pages/images/icon_doc.png") no-repeat;
+  background: url("../../../app/pages/images/icon_5.png") no-repeat;
 }
 
 .sort_otherdoc {
-  background: url("../../../app/pages/images/icon_txt.png") no-repeat;
+  //background: url("../../../app/pages/images/icon_txt.png") no-repeat;
+  background: url("../../../app/pages/images/icon_6.png") no-repeat;
 }
 
 .sort_table {
-  background: url("../../../app/pages/images/icon_xls.png") no-repeat;
+  //background: url("../../../app/pages/images/icon_xls.png") no-repeat;
+  background: url("../../../app/pages/images/icon_7.png") no-repeat;
 }
 
 .sort_draw {
-  background: url("../../../app/pages/images/icon_psd.png") no-repeat;
+  //background: url("../../../app/pages/images/icon_psd.png") no-repeat;
+  background: url("../../../app/pages/images/icon_8.png") no-repeat;
 }
 
 .sort_audio {
-  background: url("../../../app/pages/images/icon_mp3.png") no-repeat;
+  background: url("../../../app/pages/images/icon_9.png") no-repeat;
+  //background: url("../../../app/pages/images/icon_mp3.png") no-repeat;
 }
 
 .sort_video {
-  background: url("../../../app/pages/images/icon_mp4.png") no-repeat;
+  //background: url("../../../app/pages/images/icon_mp4.png") no-repeat;
+  background: url("../../../app/pages/images/icon_10.png") no-repeat;
 }
 
 .sort_comment {
-  background: url("../../../app/pages/images/icon_unknow.png") no-repeat;
+  //background: url("../../../app/pages/images/icon_unknow.png") no-repeat;
+  background: url("../../../app/pages/images/icon_10.png") no-repeat;
 }
 
-.reg_user{
+
+
+
+
+.reg_user {
   background: url("../../../app/pages/images/1124.png") no-repeat;
 }
-.reg_firm{
+
+.reg_firm {
   background: url("../../../app/pages/images/1122.png") no-repeat;
 }
 
-.reg_code{
+.reg_code {
   background: url("../../../app/pages/images/1121.png") no-repeat;
 }
 
-.reg_mobile{
+.reg_mobile {
   background: url("../../../app/pages/images/1125.png") no-repeat;
 }
-.reg_incode{
+
+.reg_incode {
   background: url("../../../app/pages/images/1123.png") no-repeat;
 }
-
-
-
 
 //滚动条
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track-piece {
   -webkit-border-radius: 1px;
   background-color: #E8E8E8;
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
   background-color: #c3c3c3;
   -webkit-border-radius: 1px;
 }
-::-webkit-scrollbar-thumb:hover{
+
+::-webkit-scrollbar-thumb:hover {
   background-color: #ADADAD;
 }
-::-webkit-scrollbar-thumb:active{
+
+::-webkit-scrollbar-thumb:active {
   background-color: #888888;
 }
+
 ::-webkit-scrollbar-thumb:vertical {
   min-height: 40px;
 }
+
 ::-webkit-scrollbar-thumb:horizontal {
   min-width: 40px;
 }
+
 ::-webkit-scrollbar-button:vertical {
   /*height: 3px*/
 }
+
 ::-webkit-scrollbar-button:horizontal {
   /*width: 3px;*/
 }

@@ -26,9 +26,13 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.btnloading = false;
     $scope.collectTitle = "从资料收集选择文件";
     $timeout(function () {
+        $scope.select_groid = $scope.groupList[0].id;
         $(".slide_warp li:nth-child(1)").addClass("active");
         Exhibition.getGroupDetail($scope.groupList[0].id).then(function (res) {
             $scope.DirsList = res.folder;
+            _.each($scope.DirsList, function (d) {
+                d.img_url = JSON.parse(d.img_url);
+            })
         })
     })
     // $scope.endDateBeforeRender = $scope.aendDateBeforeRender;
@@ -172,17 +176,10 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
                 Exhibition.getDirCountSize({hash: hash}).then(function (data) {
                     console.log("数据删除", data);
                     $timeout(function () {
-                        //文件夹内部文件列表
-                        // $scope.dirList[index].info = {
-                        //     file_count: data.file_count,
-                        //     file_size: data.file_size
-                        // }
                         //文件夹信息修改
-                        $scope.DirsList[$scope.thisDirIndex].info = {
-                            file_count: data.file_count,
-                            file_size: data.file_size,
-                            img_url: [$scope.thisDirImg]
-                        }
+                        $scope.DirsList[$scope.thisDirIndex].file_count = data.file_count;
+                        $scope.DirsList[$scope.thisDirIndex].file_size = data.file_size;
+                        $scope.DirsList[$scope.thisDirIndex].img_url = [$scope.thisDirImg];
                         $scope.currentExbt.property.file_count = Number($scope.currentExbt.property.file_count) - 1;
                         $scope.currentExbt.property.size_use = Number($scope.currentExbt.property.size_use) - filesize;
                         $scope.dirList.splice(index, 1);
@@ -380,8 +377,8 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
 
                     for (var n = 0; n < $scope.DirsList.length; n++) {
                         if ($scope.DirsList[n].fullpath == $scope.thisDirPath) {
-                            $scope.DirsList[n].info.file_count += dircount;
-                            $scope.DirsList[n].info.file_size += dirsize;
+                            $scope.DirsList[n].file_count += dircount;
+                            $scope.DirsList[n].file_size += dirsize;
                         }
                     }
                 })
@@ -436,13 +433,16 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.grouploading = false;
     $scope.changeGroup = function (event, groid) {
         $scope.grouploading = true;
+        $scope.select_groid = groid;
         $(event.currentTarget).parent('li').addClass('active').siblings().removeClass('active');
         Exhibition.getGroupDetail(groid).then(function (res) {
             console.log("切换分组返回数据", res);
             $timeout(function () {
                 $scope.DirsList = res.folder;
+                _.each($scope.DirsList, function (d) {
+                    d.img_url = JSON.parse(d.img_url);
+                })
                 $scope.grouploading = false;
-                $scope.select_groid = groid;
             })
         })
     }
@@ -523,6 +523,24 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
                 $("#groupSettingModal").modal('hide');
             })
         }
+
+    }
+
+    //专题信息详情
+    $scope.topicDetails = {};
+    $scope.TopicInfoFn = function (topicid) {
+        Exhibition.getTopicDetail(topicid).then(function (res) {
+            console.log(res);
+            $scope.topicDetails = {
+                title: res.title,
+                forever: res.forever,
+                hidden: res.hidden,
+                property:JSON.parse(res.property),
+                img_url: JSON.parse(res.img_url),
+                start_time: res.start_time,
+                end_time: res.end_time
+            }
+        })
 
     }
 

@@ -128,6 +128,19 @@ export default function (app) {
                     })
                 },
 
+                //获取专题详细信息
+                getTopicDetail: function (topicid) {
+                    return $http.get('/file/folder-info', {params: {folder_id: topicid}}).then(function (res) {
+                        return res.data;
+                    })
+                },
+                //修改专题详细信息
+                editTopicDetail: function (params) {
+                    return $http.post('/file/validate-time', params).then(function (res) {
+                        return res.data;
+                    })
+                },
+
 
                 //添加文件夹
                 addFolder: function (params) {
