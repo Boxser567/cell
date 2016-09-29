@@ -43,6 +43,29 @@ export default function (app) {
         };
     });
 
+    // 切换专题样式
+    app.directive('changeTopicbg', function () {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.on('click', function () {
+                    var posis = topicDetails.property.position;
+                    if (attrs.datacss == "middle") {
+                        if (posis == 'middle') {
+
+                        }
+                    }
+                    if (attrs.datacss == "ubder") {
+                        if (posis == 'ubder') {
+
+                        }
+                    }
+
+                })
+            }
+        };
+    });
+
     //提交注册信息
     app.directive('registerForm', function (Exhibition) {
         return {
@@ -661,6 +684,7 @@ export default function (app) {
                                     Exhibition.editExDirname({
                                         org_id: attrs.dataid,
                                         fullpath: attrs.datapath,
+                                        hash: attrs.datahash,
                                         newpath: text
                                     }).then(function (res) {
                                         console.log(res);
@@ -750,7 +774,7 @@ export default function (app) {
                     var arr = attrs;
                     var state = false;
                     _.each(scope.DirsList, function (d) {
-                        if (d.filename == "请填写分类名称" || d.fullpath == "请填写分类名称") {
+                        if (d.title == "请填写专题名称") {
                             alert("请先给原始文件夹命名!");
                             state = true;
                         }
@@ -760,27 +784,22 @@ export default function (app) {
                     }
                     scope.sort_maskloading = true;
                     //$scope.select_groid = groid;
-                    if (!scope.select_groid) {
-                        scope.select_groid = scope.groupList[0].id;
-                    }
-
                     // console.log("scope.select_groid", scope.select_groid)
-                    // return;
-
                     Exhibition.addFolder({
                         org_id: arr.dataorgid,
                         group_id: scope.select_groid,
-                        fullpath: "请填写分类名称"
+                        fullpath: "请填写专题名称"
                     }).then(function (r) {
                         var data = r.data;
-                        console.log(data);
+                        console.log("tijiaoxinxi ", data);
                         $timeout(function () {
                             scope.DirsList.push({
-                                fullpath: data.fullpath,
-                                hash: data.hash,
-                                filename: data.fullpath,
+                                title: data.fullpath,
+                                folder_hash: data.hash,
                                 autoEditName: true,
-                                info: {file_count: 0, file_size: 0, img_url: [data.img_url[0]]}
+                                file_count: 0,
+                                file_size: 0,
+                                img_url: [data.img_url[0]]
                             });
                             scope.sort_maskloading = false;
                             scope.currentExbt.property.dir_count = Number(scope.currentExbt.property.dir_count) + 1;

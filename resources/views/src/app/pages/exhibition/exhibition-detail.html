@@ -158,25 +158,24 @@
                 <div class="row" ng-if="DirsList.length>0">
 
 
-
-
                     <div class="col-md-4" ng-repeat="dir in DirsList">
                         <div class="dirs">
                             <div class="bgimg-small">
                                 <div class="diff"></div>
-                                <img src="{{dir.info.img_url[0]}}-340" alt="">
-                                <p class="tl" datapath="{{dir.fullpath}}" dataid="{{currentExbt.org_id}}"
-                                   dataedit="dirname" title="{{dir.fullpath}}"
-                                   edit-name="dir.autoEditName">{{dir.fullpath}}</p>
-                                <p class="size">{{dir.info.file_count}}个文件&nbsp; 共{{dir.info.file_size | bitSize}}</p>
+                                <img src="{{dir.img_url[0]}}-340" alt="">
+                                <p class="tl" datapath="{{dir.title}}" datahash="{{dir.folder_hash}}"
+                                   dataid="{{currentExbt.org_id}}"
+                                   dataedit="dirname" title="{{dir.title}}"
+                                   edit-name="dir.autoEditName">{{dir.title}}</p>
+                                <p class="size">{{dir.file_count}}个文件&nbsp; 共{{dir.file_size | bitSize}}</p>
                             </div>
                             <span class="glyphicon glyphicon-trash" title="删除分类"
-                                  ng-click="delDirs($event,dir.fullpath,dir.hash)"> </span>
+                                  ng-click="delDirs($event,dir.title,dir.folder_hash)"> </span>
                             <span class="glyphicon glyphicon-cog" data-target="#groupTopicsSettingModal"
-                                  data-toggle="modal"></span>
+                                  data-toggle="modal" ng-click="TopicInfoFn(dir.id)"></span>
                             <div class="show">
                                 <a class="btn-showfile btn" data-toggle="modal" data-target="#loadFileList"
-                                   ng-click="getDirList($event,dir.info.img_url[0],dir.fullpath,dir.hash)">查看/上传文件</a>
+                                   ng-click="getDirList($event,dir.img_url[0],dir.title,dir.folder_hash)">查看/上传文件</a>
                             </div>
                         </div>
                     </div>
@@ -544,11 +543,11 @@
                     <div class="modal-body clearfix">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <p class="tl">分组名称:</p>
+                                <p class="tl">专题名称:</p>
                                 <input type="text" value="{{groupSetting.name}}" class="form-control">
                             </div>
                             <div class="form-group">
-                                <p class="tl">分组有效时间:</p>
+                                <p class="tl">专题有效时间:</p>
                                 <select class="form-control">
                                     <option>永久有效</option>
                                     <option>自定义有效时间</option>
@@ -570,17 +569,39 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="tl">分类封面</div>
+                            <div class="tl">专题封面</div>
                             <div class="contain">
-                                <div class="">
-                                    <img src="" alt="">
+                                <div class="p1" ng-if="topicDetails.img_url.length==2">
+                                    <div><img src="{{topicDetails.img_url[0]}}-340" alt="刷新重试"></div>
+                                    <span datawhere="topicBg" upload-logo> + 上传封面</span>
                                 </div>
-                                <div>
-
+                                <div class="p2 clearfix" ng-if="topicDetails.img_url.length==3">
+                                    <div><img src="{{topicDetails.img_url[0]}}-340" alt="刷新重试"></div>
+                                    <div><img src="{{topicDetails.img_url[0]}}-340" alt="刷新重试"></div>
+                                    <span datawhere="topicBg" upload-logo> + 上传封面</span>
+                                </div>
+                                <div class="p3 clearfix" ng-if="topicDetails.img_url.length==1">
+                                    <div class="left"><img src="{{topicDetails.img_url[0]}}-340" alt="刷新重试"></div>
+                                    <div class="right">
+                                        <div><img src="{{topicDetails.img_url[0]}}-340" alt="刷新重试"></div>
+                                        <div><img src="{{topicDetails.img_url[0]}}-340" alt="刷新重试"></div>
+                                    </div>
+                                    <span datawhere="topicBg" upload-logo> + 上传封面</span>
                                 </div>
                             </div>
 
+                            <div class="tl">自定义专题样式</div>
 
+                            <div class="choose">
+                                <div class="bg1" ng-if="topicDetails.property.position=='middle'" datacss="middle"
+                                     change-topicbg>
+                                    <img src="../images/1502.png" alt="">
+                                </div>
+                                <div class="bg1" ng-if="topicDetails.property.position=='under'" datacss="under"
+                                     change-topicbg>
+                                    <img src="../images/1504.png" alt="">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
