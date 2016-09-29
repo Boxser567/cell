@@ -4,6 +4,8 @@
 
 import 'jquery';
 
+import moment from "moment/moment";
+
 import  "angular";
 
 import "angular-ui-router";
@@ -20,7 +22,11 @@ import "spin.js/spin";
 
 import "angular-spinner/angular-spinner.min";
 
-import "../assets/scripts/util";
+import  "angular-bootstrap-datetimepicker/src/js/datetimepicker";
+
+import  "angular-bootstrap-datetimepicker/src/js/datetimepicker.templates";
+
+import  "../assets/scripts/util";
 
 import "angular-md5/angular-md5";
 

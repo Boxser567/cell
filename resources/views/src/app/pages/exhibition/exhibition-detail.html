@@ -15,6 +15,8 @@
                                    value="{{currentExbt.res_collect_lock}}"></label>
                         <s ng-if="currentExbt.res_collect_lock!=0" ng-click="showCollection()">查看</s>
                     </div>
+
+
                     <div class="mode">
                         <i class="pc"></i>
                         <i class="glyphicon glyphicon-phone">
@@ -58,6 +60,42 @@
             <div class="content">
                 <!--<div class="tl">资料下载中心</div>-->
                 <div class="navtl">常用文件</div>
+
+
+                <!--<div class="dropdown form-group">-->
+                <!--<label>Start Date</label>-->
+                <!--<a class="dropdown-toggle" id="dropdownStart" role="button" data-toggle="dropdown" data-target="#"-->
+                <!--href="#">-->
+                <!--<div class="input-group date">-->
+                <!--<input type="text" class="form-control" data-ng-model="dateRangeStart">-->
+                <!--<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>-->
+                <!--</div>-->
+                <!--</a>-->
+                <!--<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">-->
+                <!--<datetimepicker data-ng-model="dateRangeStart"-->
+                <!--data-datetimepicker-config="{ dropdownSelector: '#dropdownStart', renderOn: 'end-date-changed' }"-->
+                <!--data-on-set-time="startDateOnSetTime()"-->
+                <!--data-before-render="startDateBeforeRender($dates)"></datetimepicker>-->
+                <!--</ul>-->
+                <!--</div>-->
+
+                <!--<div class="dropdown form-group">-->
+                <!--<label>End Date</label>-->
+                <!--<a class="dropdown-toggle" id="dropdownEnd" role="button" data-toggle="dropdown" data-target="#"-->
+                <!--href="#">-->
+                <!--<div class="input-group date">-->
+                <!--<input type="text" class="form-control" data-ng-model="dateRangeEnd">-->
+                <!--<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>-->
+                <!--</div>-->
+                <!--</a>-->
+                <!--<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">-->
+                <!--<datetimepicker data-ng-model="dateRangeEnd"-->
+                <!--data-datetimepicker-config="{ dropdownSelector: '#dropdownEnd', renderOn: 'start-date-changed' }"-->
+                <!--data-on-set-time="endDateOnSetTime()"-->
+                <!--data-before-render="endDateBeforeRender($view, $dates, $leftDate, $upDate, $rightDate)"></datetimepicker>-->
+                <!--</ul>-->
+                <!--</div>-->
+
                 <div class="row" ng-if="FilesList.length>0">
                     <div ng-repeat="file in FilesList" class="col-md-4">
                         <div class="files clearfix">
@@ -107,15 +145,21 @@
                 <div class="slide_warp">
                     <ul class="clearfix">
                         <li class="col-sm-2" ng-repeat="list in groupList">
-                            <a>{{list.name}}</a>
-                            <span datagroid="{{list.id}}" ng-click="getGroupFn(list.id)">设置</span>
+                            <a ng-click="changeGroup($event,list.id)">{{list.name}}</a>
+                            <span ng-click="getGroupFn(list.id)">设置</span>
                         </li>
                         <li class="col-sm-2" ng-if="currentExbt.ent_id"><a class="add" add-group> + 添加新分组</a></li>
                     </ul>
                 </div>
 
+                <span us-spinner="{lines:11,radius:9, width:5, length: 9}" spinner-on="grouploading"></span>
+
 
                 <div class="row" ng-if="DirsList.length>0">
+
+
+
+
                     <div class="col-md-4" ng-repeat="dir in DirsList">
                         <div class="dirs">
                             <div class="bgimg-small">
@@ -460,7 +504,8 @@
                                 <option value="0">自定义有效时间</option>
                             </select>
                             <div class="fix" ng-if="groupSetting.forever == '0'">
-                                <input type="text" class="form-control gro_starttime" ng-model="groupSetting.start_time">
+                                <input type="text" class="form-control gro_starttime"
+                                       ng-model="groupSetting.start_time">
                                 &nbsp; - 至 - &nbsp;
                                 <input type="text" class="form-control gro_endtime" ng-model="groupSetting.end_time">
                             </div>
@@ -469,14 +514,15 @@
                         <div class="form-group">
                             <p class="tl">非有效期内是否隐藏分组内容
                                 <label>
-                                    <input class="mui-switch mui-switch-anim ipt_hidden" type="checkbox" ng-model="groupSetting.hidden">
+                                    <input class="mui-switch mui-switch-anim ipt_hidden" type="checkbox"
+                                           ng-model="groupSetting.hidden">
                                 </label>
                             </p>
                             <p class="warning"> 如果设置不隐藏,用户将只能看到该分组内的分类标题,但无法查看内容。</p>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <div class="btn">删除分组</div>
+                        <div class="btn" ng-click="delGroup()">删除分组</div>
                         <div class="btn" ng-click="saveGroupInfoFn()">保 &nbsp;&nbsp; 存</div>
                     </div>
                 </div><!-- /.modal-content -->
@@ -517,7 +563,7 @@
                             <div class="form-group user-sel">
                                 <p class="tl">非有效期内是否隐藏分组内容
                                     <label>
-                                        <input class="mui-switch mui-switch-anim" type="checkbox" value="1" checked>
+                                        <input class="mui-switch mui-switch-anim" type="checkbox">
                                     </label>
                                 </p>
                                 <p class="warning"> 如果设置不隐藏,用户将只能看到该分组内的分类标题,但无法查看内容。</p>
@@ -619,7 +665,7 @@
 </div>
 
 
-<span us-spinner="{lines:11,radius:9, width:5, length: 9}" spinner-on="fileloading"></span>
+<!--<span us-spinner="{lines:11,radius:9, width:5, length: 9}" spinner-on="fileloading"></span>-->
 
 
 

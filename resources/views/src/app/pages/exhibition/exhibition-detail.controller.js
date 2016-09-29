@@ -4,13 +4,14 @@ import 'bootstrap-sass/assets/javascripts/bootstrap';
 
 function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, currentExhibition, Exhibition, usSpinnerService) {
     'ngInject';
-
     console.log("返回详情数据", $stateParams, currentExhibition);
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $rootScope.projectTitle = currentExhibition.data.title + " - 会文件";
     $scope.orgid = currentExhibition.data.org_id;
     $scope.groupList = currentExhibition.data.group;
+
+
     if ($scope.currentExbt.res_collect_lock == 1) {
         $(".mui-switch").attr("checked", true);
     }
@@ -24,28 +25,65 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.warpMask = false;
     $scope.btnloading = false;
     $scope.collectTitle = "从资料收集选择文件";
-
-    Exhibition.getDirFilesByID({org_id: $scope.orgid}, false).then(function (data) {
-        var files = [], dirs = [];
-        _.each(data.list, function (list) {
-            if (list.dir) {
-                if (typeof list.info.img_url == "string") {
-                    list.info.img_url = JSON.parse(list.info.img_url);
-                }
-                dirs.push(list);
-            }
-            else {
-                files.push(list);
-            }
+    $timeout(function () {
+        $(".slide_warp li:nth-child(1)").addClass("active");
+        Exhibition.getGroupDetail($scope.groupList[0].id).then(function (res) {
+            $scope.DirsList = res.folder;
         })
-        $scope.fileloading = false;
-        $scope.FilesList = files;
-        $scope.DirsList = dirs;
-        // console.log("文件夹信息", $scope.DirsList);
-    });
+    })
+    // $scope.endDateBeforeRender = $scope.aendDateBeforeRender;
+    // $scope.endDateOnSetTime = $scope.aendDateOnSetTime;
+    // $scope.startDateBeforeRender = $scope.astartDateBeforeRender;
+    // $scope.startDateOnSetTime = $scope.astartDateOnSetTime;
+    // $scope.astartDateOnSetTime = function () {
+    //     $scope.$broadcast('start-date-changed');
+    // }
+    // $scope.aendDateOnSetTime = function () {
+    //     $scope.$broadcast('end-date-changed');
+    // }
+    // $scope.astartDateBeforeRender = function ($dates) {
+    //     if ($scope.dateRangeEnd) {
+    //         var activeDate = moment($scope.dateRangeEnd);
+    //         $dates.filter(function (date) {
+    //             return date.localDateValue() >= activeDate.valueOf()
+    //         }).forEach(function (date) {
+    //             date.selectable = false;
+    //         })
+    //     }
+    // }
+    // $scope.aendDateBeforeRender = function ($view, $dates) {
+    //     if ($scope.dateRangeStart) {
+    //         var activeDate = moment($scope.dateRangeStart).subtract(1, $view).add(1, 'minute');
+    //         $dates.filter(function (date) {
+    //             return date.localDateValue() <= activeDate.valueOf()
+    //         }).forEach(function (date) {
+    //             date.selectable = false;
+    //         })
+    //     }
+    // }
 
 
-    // $scope.Extiming = false;
+    // Exhibition.getDirFilesByID({org_id: $scope.orgid}, false).then(function (data) {
+    //     var files = [], dirs = [];
+    //     _.each(data.list, function (list) {
+    //         if (list.dir) {
+    //             if (typeof list.info.img_url == "string") {
+    //                 list.info.img_url = JSON.parse(list.info.img_url);
+    //             }
+    //             dirs.push(list);
+    //         }
+    //         else {
+    //             files.push(list);
+    //         }
+    //     })
+    //     $scope.fileloading = false;
+    //     $scope.FilesList = files;
+    //     $scope.DirsList = dirs;
+    //     // console.log("文件夹信息", $scope.DirsList);
+    // });
+
+
+    //$scope.Extiming = false;
     $scope.date = {
         startDate: $scope.currentExbt.start_date,
         endDate: $scope.currentExbt.end_date
@@ -394,6 +432,22 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     }
 
 
+    //切换分组
+    $scope.grouploading = false;
+    $scope.changeGroup = function (event, groid) {
+        $scope.grouploading = true;
+        $(event.currentTarget).parent('li').addClass('active').siblings().removeClass('active');
+        Exhibition.getGroupDetail(groid).then(function (res) {
+            console.log("切换分组返回数据", res);
+            $timeout(function () {
+                $scope.DirsList = res.folder;
+                $scope.grouploading = false;
+                $scope.select_groid = groid;
+            })
+        })
+    }
+
+
     $scope.groupSetting = {};
 
     //获取分组详细信息
@@ -401,22 +455,76 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
         console.log("group", groid, arguments);
         Exhibition.getGroupDetail(groid).then(function (res) {
             console.log(res);
-            $(".gro_data_select").val(res.forever.toString());
-            $scope.groupSetting.id = res.id;
-            $scope.groupSetting.name = res.name;
-            $scope.groupSetting.start_time = res.start_time;
-            $scope.groupSetting.end_time = res.end_time;
-            $scope.groupSetting.hidden = res.hidden;
-            $(".ipt_hidden").prop("checked", Boolean(res.hidden));
+            $timeout(function () {
+                $(".gro_data_select").val(res.forever.toString());
+                // $(".ipt_hidden").prop("checked", Boolean(res.hidden));
+                $scope.groupSetting = {
+                    id: res.id,
+                    name: res.name,
+                    start_time: res.start_time,
+                    end_time: res.end_time,
+                    hidden: Boolean(res.hidden),
+                    forever: res.forever
+                }
+                $("#groupSettingModal").modal("show");
+            })
         })
-        $("#groupSettingModal").modal("show");
     };
 
     //分组设置修改
     $scope.saveGroupInfoFn = function () {
-        console.log("修改后的信息", $scope.groupSetting);
+        // console.log("修改后的信息", $scope.groupSetting);
+        var params = {};
+        if (Number($scope.groupSetting.forever) == 1) {
+            params = {
+                group_id: $scope.groupSetting.id,
+                name: $scope.groupSetting.name,
+                hidden: Number($scope.groupSetting.hidden),
+                forever: Number($scope.groupSetting.forever)
+            }
+        } else {
+            params = {
+                group_id: $scope.groupSetting.id,
+                name: $scope.groupSetting.name,
+                hidden: Number($scope.groupSetting.hidden),
+                forever: Number($scope.groupSetting.forever),
+                start_time: $scope.groupSetting.start_time,
+                end_time: $scope.groupSetting.end_time,
+            }
+        }
+        Exhibition.editGroupInfo(params).then(function (res) {
+            console.log("分组是否修改成功", res);
+            _.each($scope.groupList, function (g) {
+                if (g.id == $scope.groupSetting.id) {
+                    g.name = $scope.groupSetting.name;
+                }
+            })
+            $("#groupSettingModal").modal('hide');
+        })
     }
 
+
+    //删除分组
+    $scope.delGroup = function () {
+        //console.log($scope.groupList);
+        if (confirm("确定要删除分组吗? \n 删除后分组和分组内的专题将全部不存在!")) {
+            Exhibition.delGroupInfo($scope.groupSetting.id).then(function (res) {
+                //console.log("删除分组", res);
+                var index;
+                for (var i = 0; i < $scope.groupList.length; i++) {
+                    if ($scope.groupList[i].id == $scope.groupSetting.id) {
+                        index = i;
+                        break;
+                    }
+                }
+                $timeout(function () {
+                    $scope.groupList.splice(index, 1);
+                })
+                $("#groupSettingModal").modal('hide');
+            })
+        }
+
+    }
 
 }
 

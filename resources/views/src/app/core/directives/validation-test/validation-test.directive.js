@@ -103,6 +103,7 @@ export default function (app) {
             },
         };
     });
+
     //发送验证码
     app.directive('sendCode', function (Exhibition) {
         return {
@@ -383,6 +384,7 @@ export default function (app) {
                         } else if (attrs.datawhere == "banner") {
                             imgTypes == "jpg,png";
                         }
+
                         uploadimg(imgTypes, da.data.upload_domain, da.data.token, da.data.file_name);
                     });
                 });
@@ -412,14 +414,10 @@ export default function (app) {
                     });
                     uploader.on('fileQueued', function (file) {
                         scope.imgloading = true;
-                        if (attrs.datawhere == "logo") {
-                            uploader.options.formData.key = file_name + '.' + Util.String.getExt(file.name);
-                        }
-
+                        uploader.options.formData.key = file_name + '.' + Util.String.getExt(file.name);
                     });
                     uploader.on('uploadSuccess', function () {
                         console.log("图片上传成功", arguments);
-
                         if (attrs.datawhere == "logo") {
                             var arg = server + "/" + arguments[1].key + "-160";
                             Exhibition.editExTitle({
@@ -444,8 +442,6 @@ export default function (app) {
                                 })
                             })
                         }
-
-
                     });
                     uploader.on('error', function (err) {
                         console.log("图片上传报错", err);
@@ -612,7 +608,7 @@ export default function (app) {
                             name = attrs.datasite;
                         }
                         var input = '<input type="text" class="exhibitionName" value="' + name + '" />';
-                        $(elem).empty().append(input);
+                        elem.empty().append(input);
                         if (attrs.dataedit == "filename") {
                             var selectionEnd = name.length;
                             var lenIndex = name.lastIndexOf('.');
@@ -625,9 +621,9 @@ export default function (app) {
                             elem.find('input').focus();
                         }
                         else {
-                            $(elem).find('input').focus().select();
+                            elem.find('input').focus().select();
                         }
-                        $(elem).find('input').blur(function () {
+                        elem.find('input').blur(function () {
                             var text = $.trim($(this).val());
                             console.log(text);
                             if (text == "" || text == name) {
@@ -643,7 +639,7 @@ export default function (app) {
                                         exhibition_id: attrs.dataid,
                                         title: text
                                     }).then(function (res) {
-                                        $(elem).empty().text(text);
+                                        elem.empty().text(text);
                                         $rootScope.projectTitle = text + " - 会文件";
                                     })
                                 }
@@ -654,7 +650,7 @@ export default function (app) {
                                         fullpath: attrs.datapath,
                                         newpath: text
                                     }).then(function (res) {
-                                        $(elem).empty().text(text);
+                                        elem.empty().text(text);
                                         var idx = elem.parents('.col-md-4').index();
                                         scope.FilesList[idx].fullpath = text;
                                         scope.FilesList[idx].filename = text;
@@ -668,25 +664,35 @@ export default function (app) {
                                         newpath: text
                                     }).then(function (res) {
                                         console.log(res);
-                                        $(elem).empty().text(text);
+                                        elem.empty().text(text);
                                         var idx = elem.parents('.col-md-4').index();
                                         scope.DirsList[idx].fullpath = text;
                                         scope.DirsList[idx].filename = text;
                                     })
                                 }
-
                                 if (attrs.dataedit == "sitename") {
                                     Exhibition.editExTitle({
                                         exhibition_id: attrs.dataid,
                                         website: text
                                     }).then(function (res) {
                                         $timeout(function () {
-                                            $(elem).empty().text("点击编辑主页地址");
+                                            elem.empty().text("点击编辑主页地址");
                                             scope.currentExbt.property.web_site = text;
                                         })
 
                                     })
                                 }
+
+                                // if (attrs.dataedit == "groupname") {
+                                //     Exhibition.editGroupInfo({
+                                //         group_id: attrs.dataid,
+                                //         name: text
+                                //     }).then(function (res) {
+                                //         $timeout(function () {
+                                //             elem.empty().text(text);
+                                //         })
+                                //     })
+                                // }
 
 
                             }
@@ -753,7 +759,19 @@ export default function (app) {
                         return;
                     }
                     scope.sort_maskloading = true;
-                    Exhibition.addFolder({org_id: arr.dataorgid, fullpath: "请填写分类名称"}).then(function (r) {
+                    //$scope.select_groid = groid;
+                    if (!scope.select_groid) {
+                        scope.select_groid = scope.groupList[0].id;
+                    }
+
+                    // console.log("scope.select_groid", scope.select_groid)
+                    // return;
+
+                    Exhibition.addFolder({
+                        org_id: arr.dataorgid,
+                        group_id: scope.select_groid,
+                        fullpath: "请填写分类名称"
+                    }).then(function (r) {
                         var data = r.data;
                         console.log(data);
                         $timeout(function () {

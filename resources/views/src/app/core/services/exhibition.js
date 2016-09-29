@@ -108,13 +108,25 @@ export default function (app) {
                         return res.data;
                     });
                 },
+                //修改分组信息
+                editGroupInfo: function (params) {
+                    return $http.post('/exhibition/group-update', params).then(function (res) {
+                        return res.data;
+                    });
+                },
+                //删除分组信息
+                delGroupInfo: function (id) {
+                    return $http.post('/exhibition/delete-group', {group_id: id}).then(function (res) {
+                        return res.data;
+                    });
+                },
+
                 //获取分组详细信息
-                getGroupDetail:function(groid){
-                    return $http.get('/file/group', {params: {group_id:groid}}).then(function (res) {
+                getGroupDetail: function (groid) {
+                    return $http.get('/file/group', {params: {group_id: groid}}).then(function (res) {
                         return res.data;
                     })
                 },
-
 
 
                 //添加文件夹

@@ -675,6 +675,8 @@ body {
     top: -1px;
     .bgimg {
       position: relative;
+      max-height: 350px;
+      overflow: hidden;
       .diff {
         width: 100%;
         height: 100%;
@@ -1048,6 +1050,7 @@ body {
       background: #fff;
       padding-top: 60px;
       padding-bottom: 60px;
+      position: relative;
       .navtl {
         text-indent: 30px;
         font-size: 20px;
@@ -1090,18 +1093,14 @@ body {
             .add {
               color: #089ce5;
             }
-            &:hover {
-              span {
-                display: table-cell;
-              }
-            }
-            &.active {
+            &.active, &:hover {
               color: #089ce5;
               a {
                 color: #089ce5;
                 border-bottom: 3px solid #089ce5;
               }
               span {
+                display: table-cell;
                 &::before {
                   background: #089ce5;
                 }
@@ -1995,9 +1994,9 @@ body {
         }
       }
     }
-    .warning{
+    .warning {
       font-size: 12px;
-      margin:0;
+      margin: 0;
       margin-top: 10px;
       color: #999;
     }
@@ -2009,12 +2008,12 @@ body {
       }
     }
   }
-  .user-sel{
+  .user-sel {
     margin-top: 25px;
-    .tl{
+    .tl {
       font-size: 16px;
     }
-    &>p:nth-child(2){
+    & > p:nth-child(2) {
       white-space: nowrap;
     }
   }
