@@ -10,10 +10,12 @@
         $table->string("title", 100);
         $table->string("folder_hash", 100);
         $table->string("img_url", 150);
+        $table->string("property", 150);
         $table->integer("file_count");
         $table->integer("file_size");
         $table->dateTime("start_time");
         $table->dateTime("end_time");
+        $table->tinyInteger("forever");
         $table->tinyInteger("hidden");
         $table->dateTime("created_at");
         $table->dateTime("updated_at");

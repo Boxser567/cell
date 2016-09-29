@@ -20,7 +20,7 @@ class ExhibitionInfo extends BaseModel
 
     public static function getOfEntId($ent_id)
     {
-        return self::createWith(['group'])->where('ent_id', $ent_id)->orderBy('id','desc')->get();
+        return self::createWith(['group'])->where('ent_id', $ent_id)->orderBy('id', 'desc')->get();
     }
 
     public static function getUniqueCode($unique_code)
@@ -31,8 +31,17 @@ class ExhibitionInfo extends BaseModel
     public static function getOfOrgId($org_id)
     {
         return self::createWith(['group'])->where('org_id', $org_id)->first();
-
     }
-    
+
+    public static function getCountByEntId($ent_id)
+    {
+        return self::where('ent_id', $ent_id)->count();
+    }
+
+    public static function getCountByEntTime($date,$ent_id)
+    {
+        return self::where('end_date', '<',$date)->where('ent_id', $ent_id)->count();
+    }
+
 
 }

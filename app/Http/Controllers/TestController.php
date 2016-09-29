@@ -57,8 +57,8 @@ class TestController extends Controller
 
     public function getH()
     {
-        $yunku = new YunkuFile(665030);
-        return $yunku->deleteFile("/wang");
+        $yunku = new YunkuFile(707649);
+        return $yunku->deleteFile("/请填写分类名称");
     }
 
     public function postI()

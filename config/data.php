@@ -13,15 +13,7 @@ return[
     'standard'=>['login_way'=>1,'ent_authentication'=>1,'exhi_amount'=> -1,'design_logo'=>1,'meanwhile_amount'=>20,'end_date'=>12*30*24,'meeting_last_hour'=>31*24,'meeting_after_hour'=>-1,'single_file'=>10,'ex_size'=>1024,'base_count'=>-1,'group_count'=>-1,'name_group'=>1,'class_count'=>-1,'file_count'=>-1,'web_link'=>1,'self_banner'=>1,'upload_banner'=>1, 'class_pic'=>1,'self_class_pic'=>0,'class_style'=>0,'multi_module'=>0,'select_from_gokuai'=>1,'res_collection'=>0,'water_logo'=>0,'statistic'=>0,'team_member'=>20],
     'advanced'=>['login_way'=>1,'ent_authentication'=>1,'exhi_amount'=> -1,'design_logo'=>1,'meanwhile_amount'=>20,'end_date'=>12*30*24,'meeting_last_hour'=>180*24,'meeting_after_hour'=>-1,'single_file'=>1024,'ex_size'=>-1,'base_count'=>-1,'group_count'=>-1,'name_group'=>1,'class_count'=>-1,'file_count'=>-1,'web_link'=>1,'self_banner'=>1,'upload_banner'=>1,     'class_pic'=>1,'self_class_pic'=>3,'class_style'=>1,'multi_module'=>0,'select_from_gokuai'=>1,'res_collection'=>1,'water_logo'=>1,'statistic'=>1,'team_member'=>20]
 ],
-
-
-
-
-
-
-
-
-
+    
 ];
 
 

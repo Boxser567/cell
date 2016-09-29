@@ -45,7 +45,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         $error = [
-            'error_code' => $e->getCode() ? : 400134,
+            'error_code' => $e->getCode() ? : 409134,
             'error_msg' => $e->getMessage() ? : '未知错误'
         ];
         if (strpos($error['error_msg'], 'SQLSTATE') !== false) {

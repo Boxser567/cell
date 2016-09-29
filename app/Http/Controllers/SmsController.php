@@ -12,7 +12,7 @@ use App\Models\StQueueSms;
  */
 Class SmsController extends Controller
 {
-    const TEXT_FROM = '【够快科技】';
+    const TEXT_FROM = '【会文件】';
     private static $servers = null;
     private static $current_server = '';
 
