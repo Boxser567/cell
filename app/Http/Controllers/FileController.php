@@ -47,7 +47,7 @@ class FileController extends Controller
                         unset($file_list["list"][$key]);
                     } else {
                         //  dump($file['hash']);
-                           $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
+                        $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
                     }
                 }
             }
@@ -88,7 +88,7 @@ class FileController extends Controller
         //权限判断
         $folder = FolderInfo::getByHash(inputGetOrFail('hash'));
         if (!$folder) {
-            throw new \Exception("文件分类不存在",403009);
+            throw new \Exception("文件分类不存在", 403009);
         } else {
             if (\Request::has('title')) {
                 $files = new YunkuFile($folder->org_id);
@@ -130,7 +130,7 @@ class FileController extends Controller
         $folder_info->org_id = inputGetOrFail('org_id');
         $folder_info->title = inputGet('title', '请填写专题名称');
         $folder_info->folder_hash = $files_info['hash'];
-      //  $folder_info->group_id = inputGetOrFail('group_id');
+        $folder_info->group_id = inputGetOrFail('group_id');
         $folder_info->property = json_encode(['position' => 'middle']);
         $img_url = config('app.qiniu.domain') . "/" . config('data.FOLDER')[random_int(0, 8)];
         $folder_info->img_url = json_encode(["0" => $img_url]);
@@ -168,7 +168,15 @@ class FileController extends Controller
         //  $base_controller->judgePermission("self_class_pic");//权限判断上传自定义专题图片
         $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
         $img_url = json_decode($folder_info->img_url, true);
-        array_push($img_url, inputGetOrFail("img_url"));
+        if (inputGetOrFail('type')) {
+            array_push($img_url, inputGetOrFail("img_url"));
+        } else {
+            foreach($img_url as $key=>&$value){
+                if(inputGetOrFail("img_url")==$value){
+                    unset($img_url[$key]);
+                }
+            }
+        }
         $folder_info->img_url = json_encode($img_url);
         $folder_info->save();
         FolderInfo::cacheForget();
