@@ -266,7 +266,7 @@ body {
         display: inline-block;
         width: 24px;
         height: 24px;
-        background: url("../../../app/pages/images/103.png") no-repeat;
+        background: url("../../images/103.png") no-repeat;
         position: relative;
         top: 10px;
       }
@@ -380,7 +380,7 @@ body {
                   width: 24px;
                   height: 24px;
                   margin-top: 5px;
-                  background: url("../../../app/pages/images/icon_qcode.png");
+                  background: url("../../images/icon_qcode.png");
                 }
               }
 
@@ -601,7 +601,7 @@ body {
                   width: 24px;
                   height: 24px;
                   margin-top: 12.5px;
-                  background: url("../../../app/pages/images/icon_qcode.png");
+                  background: url("../../images/icon_qcode.png");
                 }
                 a {
                   padding-top: 12px;
@@ -655,7 +655,7 @@ body {
       text-align: center;
       a {
         display: inline-block;
-        background: url(../../../app/pages/images/tec_support.png) no-repeat;
+        background: url(../../images/tec_support.png) no-repeat;
         width: 120px;
         height: 20px;
         margin: 40px;
@@ -719,7 +719,7 @@ body {
 
           }
           .home {
-            background: url("../../../app/pages/images/icon_home.png");
+            background: url("../../images/icon_home.png");
             width: 22px;
             height: 20px;
             display: inline-block;
@@ -1143,10 +1143,31 @@ body {
               border-top-left-radius: 8px;
               border-top-right-radius: 8px;
             }
-            img {
-              border-top-left-radius: 8px;
-              border-top-right-radius: 8px;
+            .p1 {
+
             }
+            .p2 {
+              height: 140px;
+              img {
+                width: 50%;
+                float: left;
+                height: 140px;
+              }
+            }
+            .p3 {
+              height: 140px;
+              .left, .right {
+                float: left;
+                width: 50%;
+                height: 140px;
+              }
+              .right {
+                img {
+                  height: 70px;
+                }
+              }
+            }
+
           }
           .tl {
             display: block;
@@ -1329,7 +1350,7 @@ body {
           display: block;
           width: 180px;
           height: 20px;
-          background: url("../../../app/pages/images/tec_support.png") no-repeat;
+          background: url("../../images/tec_support.png") no-repeat;
           background-size: contain;
           position: relative;
           left: 50%;
@@ -1399,7 +1420,7 @@ body {
           width: 36px;
           height: 36px;
           display: inline-block;
-          background: url("../../../app/pages/images/pass.gif") no-repeat;
+          background: url("../../images/pass.gif") no-repeat;
         }
       }
 
@@ -1608,7 +1629,7 @@ body {
             width: 32px;
             height: 32px;
             display: inline-block;
-            background: url("../../../app/pages/images/pass.gif") no-repeat;
+            background: url("../../images/pass.gif") no-repeat;
           }
         }
         ul {
@@ -1697,7 +1718,7 @@ body {
             width: 32px;
             height: 32px;
             display: inline-block;
-            background: url("../../../app/pages/images/pass.gif") no-repeat;
+            background: url("../../images/pass.gif") no-repeat;
           }
         }
         ul {
@@ -1846,7 +1867,7 @@ body {
           right: 3px;
           width: 24px;
           height: 24px;
-          background: url("../../../app/pages/images/1233.png") no-repeat;
+          background: url("../../images/1233.png") no-repeat;
           display: none;
         }
       }
@@ -1985,6 +2006,7 @@ body {
     margin-bottom: 20px;
     .tl {
       font-weight: bold;
+      margin-bottom: 8px;
     }
     .webuploader-pick {
       background: rgba(8, 156, 228, 0.8);
@@ -1994,6 +2016,7 @@ body {
     .p1 {
       width: 170px;
       position: relative;
+      display: table-cell;
       img {
         width: 100%;
       }
@@ -2013,6 +2036,7 @@ body {
     .p2 {
       width: 170px;
       position: relative;
+      display: table-cell;
       & > div {
         width: 85px;
         height: 70px;
@@ -2036,11 +2060,18 @@ body {
       }
     }
     .p3 {
+      width: 170px;
       position: relative;
+      display: table-cell;
       .left, .right {
         float: left;
         width: 85px;
         height: 70px;
+      }
+      .right {
+        & > div {
+          height: 35px;
+        }
       }
       img {
         width: 100%;
@@ -2059,6 +2090,11 @@ body {
           height: 100% !important;
         }
       }
+    }
+    .ps {
+      display: table-cell;
+      padding-top: 28px;
+      padding-left: 10px;
     }
   }
 

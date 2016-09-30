@@ -42,32 +42,85 @@
 
         <div class="listCollection">
             <div class="empty_list" ng-if="DirsList.length==0">
-                <img src="../images/102.png" alt="">
+                <img src="../../../assets/images/102.png" alt="">
             </div>
-            <ul ng-if="DirsList.length>0">
-                <li ng-repeat="dir in DirsList">
-                    <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.hash}}/{{dir.fullpath}}">
-                        <div class="bg">
-                            <img src="{{dir.info.img_url[0]}}-340" alt="">
-                            <div class="diff"></div>
-                        </div>
-                        <div class="title">
-                            <p class="tl">{{dir.filename}}</p>
-                            <p class="count">{{dir.info.file_count}}条内容 <i class="glyphicon glyphicon-menu-right"></i>
+            <div class="group_list" ng-repeat="group in DirsList">
+                <div class="tl">{{group.name}}</div>
+                <ul ng-if="group.allList.length>0">
+                    <li ng-repeat="dir in group.allList">
+                        <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.folder_hash}}/{{dir.title}}"
+                           ng-if="dir.property.position=='middle'">
+                            <div class="bg">
+                                <div class="diff"></div>
+                                <div class="p1" ng-if="dir.img_url.length==1">
+                                    <img src="{{dir.img_url[0]}}-340" alt="">
+                                </div>
+                                <div class="p2 clearfix" ng-if="dir.img_url.length==2">
+                                    <div>
+                                        <img src="{{dir.img_url[0]}}-340" alt="">
+                                    </div>
+                                    <div>
+                                        <img src="{{dir.img_url[1]}}-340" alt="">
+                                    </div>
+                                </div>
+                                <div class="p3 clearfix" ng-if="dir.img_url.length==3">
+                                    <div class="left">
+                                        <img src="{{dir.img_url[0]}}-340" alt="">
+                                    </div>
+                                    <div class="right">
+                                        <img src="{{dir.img_url[1]}}-340" alt="">
+                                        <img src="{{dir.img_url[2]}}-340" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="title">
+                                <p class="tl">{{dir.title}}</p>
+                                <p class="count">{{dir.file_count}}条内容
+                                    <i class="glyphicon glyphicon-menu-right"></i>
+                                </p>
+                            </div>
+                        </a>
+                        <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.folder_hash}}/{{dir.title}}"
+                           ng-if="dir.property.position=='under'">
+                            <div class="bg">
+                                <img src="{{dir.img_url[0]}}-340" alt="">
+                                <div class="diff"></div>
+                            </div>
+                            <p class="pull-left">{{dir.title}}</p>
+                            <p class="pull-right">{{dir.file_count}} 条内容
+                                <i class="glyphicon glyphicon-menu-right"></i>
                             </p>
-                        </div>
-                        <!--<div class="title">-->
-                        <!--<div class="tl">{{dir.filename}}</div>-->
-                        <!--<div class="count">-->
-                        <!--{{dir.info.file_count}}条内容-->
-                        <!--<i></i>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--<p class="pull-left">{{dir.filename}}</p>-->
-                        <!--<p class="pull-right">{{dir.info.file_count}} 条内容 <i class="glyphicon glyphicon-menu-right"></i></p>-->
-                    </a>
-                </li>
-            </ul>
+                        </a>
+
+                    </li>
+                </ul>
+            </div>
+
+
+            <!--<ul ng-if="DirsList.length>0">-->
+            <!--<li ng-repeat="dir in DirsList track by $index">-->
+            <!--<a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.hash}}/{{dir.fullpath}}">-->
+            <!--<div class="bg">-->
+            <!--<img src="{{dir.info.img_url[0]}}-340" alt="">-->
+            <!--<div class="diff"></div>-->
+            <!--</div>-->
+            <!--<div class="title">-->
+            <!--<p class="tl">{{dir.filename}}</p>-->
+            <!--<p class="count">{{dir.info.file_count}}条内容 <i class="glyphicon glyphicon-menu-right"></i>-->
+            <!--</p>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;<div class="title">&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="tl">{{dir.filename}}</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="count">&ndash;&gt;-->
+            <!--&lt;!&ndash;{{dir.info.file_count}}条内容&ndash;&gt;-->
+            <!--&lt;!&ndash;<i></i>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<p class="pull-left">{{dir.filename}}</p>&ndash;&gt;-->
+            <!--&lt;!&ndash;<p class="pull-right">{{dir.info.file_count}} 条内容 <i class="glyphicon glyphicon-menu-right"></i></p>&ndash;&gt;-->
+            <!--</a>-->
+            <!--</li>-->
+            <!--</ul>-->
         </div>
 
         <div class="wefooter">

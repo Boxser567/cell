@@ -85,7 +85,6 @@ body {
         }
       }
 
-
       @media all and (min-width: 420px) {
         top: 60px;
         .tl {
@@ -125,6 +124,13 @@ body {
   }
 
   .listCollection {
+    background: #fff;
+    padding: 20px 0;
+    .group_list {
+      .tl {
+        padding: 0 15px;
+      }
+    }
     ul {
       list-style: none;
       padding: 0;
@@ -140,6 +146,7 @@ body {
             overflow: hidden;
             img {
               width: 100%;
+              height: 100%;
             }
             .diff {
               position: absolute;
@@ -150,6 +157,27 @@ body {
               height: 100%;
               border-radius: 4px;
             }
+            .p2 {
+              height: 140px;
+              width: 100%;
+              & > div {
+                width: 49%;
+                float: left;
+              }
+            }
+            .p3 {
+              .left, .right {
+                float: left;
+                width: 50%;
+                height: 140px;
+              }
+              .right {
+                img {
+                  height: 70px;
+                }
+              }
+            }
+
           }
           .title {
             position: absolute;
@@ -193,7 +221,7 @@ body {
       text-align: center;
       a {
         display: inline-block;
-        background: url(../../../app/pages/images/tec_support.png) no-repeat;
+        background: url(../../images/tec_support.png) no-repeat;
         width: 120px;
         height: 20px;
         margin: 40px;
@@ -217,7 +245,7 @@ body {
       width: 24px;
       height: 24px;
 
-      background: url(../../../app/pages/images/icon_wechat.png) no-repeat center center;
+      background: url(../../images/icon_wechat.png) no-repeat center center;
       background-size: auto 80%;
       position: relative;
       top: 6px;
@@ -383,7 +411,7 @@ body {
       width: 36px;
       height: 36px;
       display: inline-block;
-      background: url("../../../app/pages/images/pass.gif") no-repeat;
+      background: url("../../images/pass.gif") no-repeat;
     }
 
   }
@@ -424,7 +452,7 @@ body {
         float: right;
         width: 24px;
         height: 24px;
-        background: url(../../../app/pages/images/icon_more.png);
+        background: url(../../images/icon_more.png);
         background-size: 100% 100%;
         position: absolute;
         right: 10px;

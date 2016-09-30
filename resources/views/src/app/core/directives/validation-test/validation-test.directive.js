@@ -44,26 +44,39 @@ export default function (app) {
     });
 
     // 切换专题样式
-    app.directive('changeTopicbg', function () {
+    app.directive('changeTopicbg', function ($timeout, Exhibition) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 elem.on('click', function () {
-                    var posis = topicDetails.property.position;
+                    console.log("attrs.datacss", scope.topicDetails);
                     if (attrs.datacss == "middle") {
-                        if (posis == 'middle') {
+                        Exhibition.editTopicDetail({
+                            hash: scope.topicDetails.folder_hash,
+                            position: "under"
+                        }).then(function (res) {
+                            console.log(res);
+                        })
+                        $timeout(function () {
+                            scope.topicDetails.property.position = "under";
+                        })
 
-                        }
                     }
-                    if (attrs.datacss == "ubder") {
-                        if (posis == 'ubder') {
-
-                        }
+                    if (attrs.datacss == "under") {
+                        Exhibition.editTopicDetail({
+                            hash: scope.topicDetails.folder_hash,
+                            position: "middle"
+                        }).then(function (res) {
+                            console.log(res);
+                        })
+                        $timeout(function () {
+                            scope.topicDetails.property.position = "middle";
+                        })
                     }
 
                 })
             }
-        };
+        }
     });
 
     //提交注册信息
@@ -314,7 +327,6 @@ export default function (app) {
                             name: '',
                             filefield: 'file',
                             file: 'file',
-                            // overwrite: 0
                         },
 
                         duplicate: true,//重复文件
@@ -322,8 +334,12 @@ export default function (app) {
                         fileSizeLimit: 1024 * 1024 * 1024,  //最大文件 1 个G
                         fileSingleSizeLimit: 10240 * 1024 * 1024 //文件上传总量 10 个G
                     });
+                    uploader.on('uploadStart', function () {
+                        uploader.options.formData.path = scope.currentExbt.base_folder;
+                    });
                     uploader.on('fileQueued', function (file) {
                         uploader.options.formData.name = file.name;
+                        console.log("文件名称77777897987987", uploader.options.formData);
                         $("#uploadFileModal").modal('hide');
                         $timeout(function () {
                             scope.FilesList.push({
@@ -335,6 +351,7 @@ export default function (app) {
                             })
                         })
                     });
+
                     uploader.on('uploadSuccess', function (uploadFile, returnFile) {
                         // console.log("上传成功", arguments, scope.FilesList);
                         var len = scope.FilesList.length;
@@ -394,20 +411,25 @@ export default function (app) {
         };
     });
 
-    //上传logo、banner、
+    //上传logo、banner、topicImg
     app.directive('uploadLogo', function ($timeout, Exhibition) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 $timeout(function () {
+                    if (attrs.datewhere == "topicBg") {
+                        if (scope.topicDetails.img_url.length >= 3) {
+                            alert("专题封面图最多为3张!");
+                            return false;
+                        }
+                    }
                     Exhibition.getUrlToken().then(function (da) {
                         var imgTypes = '';
-                        if (attrs.datawhere == "logo") {
-                            imgTypes == "gif,jpg,jpeg,bmp,png";
-                        } else if (attrs.datawhere == "banner") {
+                        if (attrs.datawhere == "banner") {
                             imgTypes == "jpg,png";
+                        } else {
+                            imgTypes == "gif,jpg,jpeg,bmp,png";
                         }
-
                         uploadimg(imgTypes, da.data.upload_domain, da.data.token, da.data.file_name);
                     });
                 });
@@ -462,6 +484,22 @@ export default function (app) {
                                 $timeout(function () {
                                     scope.currentExbt.banner = arg;
                                     scope.imgloading = false;
+                                })
+                            })
+                        }
+                        if (attrs.datawhere == "topicBg") {
+                            var arg = server + "/" + arguments[1].key;
+                            console.log("是否今日123999", scope.topicDetails.folder_hash, arg);
+
+
+                            Exhibition.updateTopicImg({
+                                hash: scope.topicDetails.folder_hash,
+                                img_url: arg,
+                                type: 1
+                            }).then(function (res) {
+                                console.log("封面图片上传成功返回", res);
+                                $timeout(function () {
+                                    scope.topicDetails.img_url.push(arg);
                                 })
                             })
                         }

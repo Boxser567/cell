@@ -1,6 +1,6 @@
 'use strict';
 // import  wx from "weixin-js-sdk";
-function MobileController($scope, currentMobileExbt, Exhibition) {
+function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
     'ngInject';
     $scope.EXfileList = currentMobileExbt;
     $scope.pageCode = window.location.href;
@@ -10,31 +10,32 @@ function MobileController($scope, currentMobileExbt, Exhibition) {
     $scope.AllFileList = [], $scope.FilesList = [];
     var files = [], dirs = [];
     var Loadlist = function (orgid) {
-        Exhibition.getDirFilesByID({org_id: currentMobileExbt.org_id, type: "mobile"}).then(function (data) {
+        Exhibition.getDirFilesByID({
+            org_id: currentMobileExbt.org_id,
+            fullpath: currentMobileExbt.base_folder,
+            type: "mobile"
+        }).then(function (data) {
             console.log('data', data);
-            _.each(data.list, function (list) {
-                if (list.dir) {
-                    dirs.push(list);
-                }
-                else {
-                    list.filename = Util.String.parseName(list.filename);
-                    files.push(list);
-                }
-            })
-            if (files.length > 4) {
-                for (var i = 0; i < 4; i++) {
-                    $scope.AllFileList.push(files[i]);
-                }
-                $scope.showMore = true;
-                $scope.FilesList = $scope.AllFileList;
-            } else {
-                $scope.FilesList = files;
-            }
             $scope.loading = false;
-            $scope.DirsList = dirs;
-            console.log($scope.DirsList);
+            $scope.FilesList = data.list;
         })
     }
+    var temp = currentMobileExbt.group;
+    _.each(temp, function (g) {
+        g.allList = [];
+        Exhibition.getGroupDetail(g.id).then(function (res) {
+            _.each(res.folder, function (d) {
+                d.img_url = JSON.parse(d.img_url);
+                d.property = JSON.parse(d.property);
+                g.allList.push(d);
+            })
+        })
+    })
+
+    $timeout(function () {
+        $scope.DirsList = temp;
+        console.log("$scope.DirsList", $scope.DirsList);
+    })
 
     Loadlist($scope.orgid);
 

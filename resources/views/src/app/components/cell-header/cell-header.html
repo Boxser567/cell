@@ -33,7 +33,7 @@
                     <div class="man">
                         <div>
                             <img src="{{manager.image}}" alt="" ng-if="manager.image">
-                            <img src="../../pages/images/t_1.png" alt="" ng-if="!manager.image">
+                            <img src="../../../assets/images/t_1.png" alt="" ng-if="!manager.image">
                             <p>{{manager.account}}</p>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                     <div class="man_con">
                         <div class="m" ng-repeat="p in magList">
                             <img src="{{p.image}}" alt="" ng-if="p.image">
-                            <img src="../../pages/images/t_1.png" alt="" ng-if="!p.image">
+                            <img src="../../../assets/images/t_1.png" alt="" ng-if="!p.image">
                             <p>{{p.account}}</p>
                             <i class="glyphicon glyphicon-remove-sign" dataid="{{p.id}}"
                                ng-if="user.main_member==1 && p.id" del-manger></i>

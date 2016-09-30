@@ -94,7 +94,7 @@ module.exports = function(_path) {
       }, {
         test: /\.(jpe?g|png|gif)$/i,
         loaders: [
-          'url-loader?name=assets/images/[name]_[hash].[ext]&limit=10000'
+          'url-loader?name=assets/images/[name]_[hash].[ext]&limit=100000'
         ]
       }, {
         test: require.resolve("angular"),

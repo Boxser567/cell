@@ -11,7 +11,6 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.orgid = currentExhibition.data.org_id;
     $scope.groupList = currentExhibition.data.group;
 
-
     if ($scope.currentExbt.res_collect_lock == 1) {
         $(".mui-switch").attr("checked", true);
     }
@@ -35,6 +34,8 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
             })
         })
     })
+
+
     // $scope.endDateBeforeRender = $scope.aendDateBeforeRender;
     // $scope.endDateOnSetTime = $scope.aendDateOnSetTime;
     // $scope.startDateBeforeRender = $scope.astartDateBeforeRender;
@@ -67,24 +68,27 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     // }
 
 
-    // Exhibition.getDirFilesByID({org_id: $scope.orgid}, false).then(function (data) {
-    //     var files = [], dirs = [];
-    //     _.each(data.list, function (list) {
-    //         if (list.dir) {
-    //             if (typeof list.info.img_url == "string") {
-    //                 list.info.img_url = JSON.parse(list.info.img_url);
-    //             }
-    //             dirs.push(list);
-    //         }
-    //         else {
-    //             files.push(list);
-    //         }
-    //     })
-    //     $scope.fileloading = false;
-    //     $scope.FilesList = files;
-    //     $scope.DirsList = dirs;
-    //     // console.log("文件夹信息", $scope.DirsList);
-    // });
+    Exhibition.getDirFilesByID({
+        org_id: $scope.orgid,
+        fullpath: $scope.currentExbt.base_folder
+    }, false).then(function (data) {
+        $scope.fileloading = false;
+        $scope.FilesList = data.list;
+        // var files = [], dirs = [];
+        // _.each(data.list, function (list) {
+        //     if (list.dir) {
+        //         if (typeof list.info.img_url == "string") {
+        //             list.info.img_url = JSON.parse(list.info.img_url);
+        //         }
+        //         dirs.push(list);
+        //     }
+        //     else {
+        //         files.push(list);
+        //     }
+        // })
+        // $scope.DirsList = dirs;
+        // console.log("文件夹信息", $scope.DirsList);
+    });
 
 
     //$scope.Extiming = false;
@@ -529,18 +533,22 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     //专题信息详情
     $scope.topicDetails = {};
     $scope.TopicInfoFn = function (topicid) {
-        Exhibition.getTopicDetail(topicid).then(function (res) {
-            console.log(res);
-            $scope.topicDetails = {
-                title: res.title,
-                forever: res.forever,
-                hidden: res.hidden,
-                property:JSON.parse(res.property),
-                img_url: JSON.parse(res.img_url),
-                start_time: res.start_time,
-                end_time: res.end_time
-            }
-        })
+        if (topicid) {
+            $("#groupTopicsSettingModal").modal('show');
+            Exhibition.getTopicDetail(topicid).then(function (res) {
+                console.log(res);
+                $scope.topicDetails = {
+                    title: res.title,
+                    forever: res.forever,
+                    hidden: res.hidden,
+                    property: JSON.parse(res.property),
+                    img_url: JSON.parse(res.img_url),
+                    start_time: res.start_time,
+                    end_time: res.end_time,
+                    folder_hash: res.folder_hash
+                }
+            })
+        }
 
     }
 

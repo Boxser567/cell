@@ -128,7 +128,7 @@
                 </div>
 
                 <div class="empty_list" ng-if="FilesList.length==0">
-                    <img src="../images/1201.png" alt="">
+                    <img src="../../../assets/images/1201.png" alt="">
                     <div class="create_files">
                         <a class="btn" ng-if="orgid" dataorgid="{{currentExbt.org_id}}"
                            data-target="#uploadFileModal" data-toggle="modal" ng-click="fileChooser()"><i
@@ -162,7 +162,22 @@
                         <div class="dirs">
                             <div class="bgimg-small">
                                 <div class="diff"></div>
-                                <img src="{{dir.img_url[0]}}-340" alt="">
+                                <div class="p1" ng-if="dir.img_url.length==1">
+                                    <img src="{{dir.img_url[0]}}-340" alt="">
+                                </div>
+                                <div class="p2 clearfix" ng-if="dir.img_url.length==2">
+                                    <img src="{{dir.img_url[0]}}-340" alt="">
+                                    <img src="{{dir.img_url[1]}}-340" alt="">
+                                </div>
+                                <div class="p3 clearfix" ng-if="dir.img_url.length==3">
+                                    <div class="left">
+                                        <img src="{{dir.img_url[0]}}-340" alt="">
+                                    </div>
+                                    <div class="right">
+                                        <img src="{{dir.img_url[1]}}-340" alt="">
+                                        <img src="{{dir.img_url[2]}}-340" alt="">
+                                    </div>
+                                </div>
                                 <p class="tl" datapath="{{dir.title}}" datahash="{{dir.folder_hash}}"
                                    dataid="{{currentExbt.org_id}}"
                                    dataedit="dirname" title="{{dir.title}}"
@@ -171,8 +186,7 @@
                             </div>
                             <span class="glyphicon glyphicon-trash" title="删除分类"
                                   ng-click="delDirs($event,dir.title,dir.folder_hash)"> </span>
-                            <span class="glyphicon glyphicon-cog" data-target="#groupTopicsSettingModal"
-                                  data-toggle="modal" ng-click="TopicInfoFn(dir.id)"></span>
+                            <span class="glyphicon glyphicon-cog" ng-click="TopicInfoFn(dir.id)"></span>
                             <div class="show">
                                 <a class="btn-showfile btn" data-toggle="modal" data-target="#loadFileList"
                                    ng-click="getDirList($event,dir.img_url[0],dir.title,dir.folder_hash)">查看/上传文件</a>
@@ -197,7 +211,7 @@
                 </div>
 
                 <div class="empty_list" ng-if="DirsList.length==0">
-                    <img src="../images/1202.png" alt="">
+                    <img src="../../../assets/images/1202.png" alt="">
                     <div class="create_files">
                         <a class="btn" ng-if="orgid" dataorgid="{{currentExbt.org_id}}" filesort-add>
                             <i class="glyphicon glyphicon-plus"></i>创建新专题</a>
@@ -252,7 +266,7 @@
 
 
                         <div class="empty_list" ng-if="dirList.length==0">
-                            <img src="../images/1203.png" alt="">
+                            <img src="../../../assets/images/1203.png" alt="">
                         </div>
 
                         <ul ng-if="dirList.length>0">
@@ -454,7 +468,7 @@
                                 </div>
 
                                 <div class="empty_list" ng-if="collectList.length==0">
-                                    <img src="../images/1205.png" alt="">
+                                    <img src="../../../assets/images/1205.png" alt="">
                                 </div>
                                 <ul ng-if="collectList.length>0">
                                     <li class="clearfix" ng-repeat="list in collectList">
@@ -569,24 +583,27 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="tl">专题封面</div>
-                            <div class="contain">
-                                <div class="p1" ng-if="topicDetails.img_url.length==2">
+                            <div class="contain" ng-if="topicDetails.folder_hash">
+                                <div class="tl">专题封面</div>
+                                <div class="p1" ng-if="topicDetails.img_url.length==1">
                                     <div><img src="{{topicDetails.img_url[0]}}-340" alt="刷新重试"></div>
                                     <span datawhere="topicBg" upload-logo> + 上传封面</span>
                                 </div>
-                                <div class="p2 clearfix" ng-if="topicDetails.img_url.length==3">
+                                <div class="p2 clearfix" ng-if="topicDetails.img_url.length==2">
                                     <div><img src="{{topicDetails.img_url[0]}}-340" alt="刷新重试"></div>
-                                    <div><img src="{{topicDetails.img_url[0]}}-340" alt="刷新重试"></div>
+                                    <div><img src="{{topicDetails.img_url[1]}}-340" alt="刷新重试"></div>
                                     <span datawhere="topicBg" upload-logo> + 上传封面</span>
                                 </div>
-                                <div class="p3 clearfix" ng-if="topicDetails.img_url.length==1">
+                                <div class="p3 clearfix" ng-if="topicDetails.img_url.length==3">
                                     <div class="left"><img src="{{topicDetails.img_url[0]}}-340" alt="刷新重试"></div>
                                     <div class="right">
-                                        <div><img src="{{topicDetails.img_url[0]}}-340" alt="刷新重试"></div>
-                                        <div><img src="{{topicDetails.img_url[0]}}-340" alt="刷新重试"></div>
+                                        <div><img src="{{topicDetails.img_url[1]}}-340" alt="刷新重试"></div>
+                                        <div><img src="{{topicDetails.img_url[2]}}-340" alt="刷新重试"></div>
                                     </div>
                                     <span datawhere="topicBg" upload-logo> + 上传封面</span>
+                                </div>
+                                <div class="ps">
+                                    提示:仅支持上传不超过1M的图片
                                 </div>
                             </div>
 
@@ -595,11 +612,19 @@
                             <div class="choose">
                                 <div class="bg1" ng-if="topicDetails.property.position=='middle'" datacss="middle"
                                      change-topicbg>
-                                    <img src="../images/1502.png" alt="">
+                                    <img src="../../../assets/images/1502.png" alt="">
+                                </div>
+                                <div class="bg1" ng-if="topicDetails.property.position=='middle'" datacss="middle"
+                                     change-topicbg>
+                                    <img src="../../../assets/images/1503.png" alt="">
                                 </div>
                                 <div class="bg1" ng-if="topicDetails.property.position=='under'" datacss="under"
                                      change-topicbg>
-                                    <img src="../images/1504.png" alt="">
+                                    <img src="../../../assets/images/1501.png" alt="">
+                                </div>
+                                <div class="bg1" ng-if="topicDetails.property.position=='under'" datacss="under"
+                                     change-topicbg>
+                                    <img src="../../../assets/images/1504.png" alt="">
                                 </div>
                             </div>
                         </div>
@@ -634,7 +659,7 @@
                             </div>
 
                             <div class="empty_list" ng-if="dataCollectList.length==0">
-                                <img src="../images/1204.png" alt="">
+                                <img src="../../../assets/images/1204.png" alt="">
                             </div>
 
                             <div class="info" ng-if="dataCollectList.length>0">

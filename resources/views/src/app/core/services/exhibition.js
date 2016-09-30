@@ -140,6 +140,12 @@ export default function (app) {
                         return res.data;
                     })
                 },
+                //添加修改专题封面图片信息
+                updateTopicImg: function (params) {
+                    return $http.post('/file/update-img', params).then(function (res) {
+                        return res.data;
+                    })
+                },
 
 
                 //添加文件夹
