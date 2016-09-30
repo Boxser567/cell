@@ -4,8 +4,33 @@
 <div class="wecontent">
     <div class="mobile-dir-info">
         <div class="bg">
-            <img src="{{dirInfo.img_url[0]}}-340" alt="加载失败">
+
             <div class="diff"></div>
+            <!--<img src="{{dirInfo.img_url[0]}}-340" alt="加载失败">-->
+            <div class="p1" ng-if="dirInfo.img_url.length==1">
+                <img src="{{dirInfo.img_url[0]}}-340" alt="">
+            </div>
+            <div class="p2 clearfix" ng-if="dirInfo.img_url.length==2">
+                <div>
+                    <img src="{{dirInfo.img_url[0]}}-340" alt="">
+                </div>
+                <div>
+                    <img src="{{dirInfo.img_url[1]}}-340" alt="">
+                </div>
+            </div>
+            <div class="p3 clearfix" ng-if="dirInfo.img_url.length==3">
+                <div class="left">
+                    <img src="{{dirInfo.img_url[0]}}-340" alt="">
+                </div>
+                <div class="right">
+                    <img src="{{dirInfo.img_url[1]}}-340" alt="">
+                    <img src="{{dirInfo.img_url[2]}}-340" alt="">
+                </div>
+            </div>
+
+
+
+
         </div>
         <!--<a class="glyphicon glyphicon-menu-left" href="javascript:history.back();"></a>-->
         <p class="info">{{dirName}} <span class="pull-right">{{dirInfo.file_count}}条内容</span></p>

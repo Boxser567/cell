@@ -22,13 +22,13 @@ class AuthController extends Controller
 
     public function getLogin($oauthUser = '')
     {
-        /*$name = "会展adminer";
+        $name = "会展adminer";
         $unionid = "12345";
-        //$name=inputGetOrFail('name');
-        //$unionid=inputGetOrFail('unionid');
-        //$name=$oauthUser['nickname'];
-        //$unionid=$oauthUser['unionid'];
-        //$image=$oauthUser['headimgurl'];
+//        $name=inputGetOrFail('name');
+//        $unionid=inputGetOrFail('unionid');
+//        $name=$oauthUser['nickname'];
+//        $unionid=$oauthUser['unionid'];
+//        $image=$oauthUser['headimgurl'];
         $member = LAccount::setUser($name, $unionid)->toArray();
         $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
         $member['edition'] = $ent['edition'];
@@ -38,8 +38,8 @@ class AuthController extends Controller
             Session::put('member', $member);
             Session::regenerate();
         }
-        return $member;*/
-        return $_COOKIE['member'];
+        return $member;
+        //return $_COOKIE['member'];
     }
 
     public function getLogout()

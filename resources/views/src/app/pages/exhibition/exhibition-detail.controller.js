@@ -146,6 +146,10 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.getDirList = function (event, img, path, hash) {
         $scope.warpMask = true;
         $scope.exportFilename = "dirFile";
+
+
+        console.log("图片图片", img);
+
         $timeout(function () {
             $scope.dirList = [];
             $scope.thisDirImg = img;

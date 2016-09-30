@@ -141,7 +141,9 @@
 
         <div class="eb-filesort">
             <div class="content">
-                <div class="navtl">分组文件</div>
+                <div class="navtl">分组文件
+                    <span us-spinner="{lines:11,radius:9, width:5, length: 9}" spinner-on="grouploading"></span>
+                </div>
                 <div class="slide_warp">
                     <ul class="clearfix">
                         <li class="col-sm-2" ng-repeat="list in groupList">
@@ -152,7 +154,6 @@
                     </ul>
                 </div>
 
-                <span us-spinner="{lines:11,radius:9, width:5, length: 9}" spinner-on="grouploading"></span>
 
 
                 <div class="row" ng-if="DirsList.length>0">
@@ -242,7 +243,28 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="diff">
-                            <div></div>
+                            <div class="mg"></div>
+
+                            <!--<div class="p1" ng-if="thisDirImg.length==1">-->
+                            <!--<img src="{{thisDirImg[0]}}-340" alt="">-->
+                            <!--</div>-->
+                            <!--<div class="p2 clearfix" ng-if="dir.img_url.length==2">-->
+                            <!--<div>-->
+                            <!--<img src="{{thisDirImg[0]}}-340" alt="">-->
+                            <!--</div>-->
+                            <!--<div>-->
+                            <!--<img src="{{thisDirImg[1]}}-340" alt="">-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="p3 clearfix" ng-if="dir.img_url.length==3">-->
+                            <!--<div class="left">-->
+                            <!--<img src="{{thisDirImg[0]}}-340" alt="">-->
+                            <!--</div>-->
+                            <!--<div class="right">-->
+                            <!--<img src="{{thisDirImg[1]}}-340" alt="">-->
+                            <!--<img src="{{thisDirImg[2]}}-340" alt="">-->
+                            <!--</div>-->
+                            <!--</div>-->
                             <img src="{{thisDirImg}}-340" alt="">
                         </div>
                         <button type="button" class="close"
