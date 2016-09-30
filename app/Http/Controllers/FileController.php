@@ -30,9 +30,9 @@ class FileController extends Controller
         if (\Request::has('hash') && \Request::has('fullpath')) {
             $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
             $now = date('Y-m-d H:i:s');
-            if ($now < $folder_info->start_time || $now > $folder_info->end_time) {
+           /* if ($now < $folder_info->start_time || $now > $folder_info->end_time) {
                 throw new \Exception("文件夹未授权开放", 400001);
-            }
+            }*/
         }
         $file_list = $files->getFileList(inputGet('fullpath', ''));
         /*$input=inputGet('fullpath','')?1:0;
