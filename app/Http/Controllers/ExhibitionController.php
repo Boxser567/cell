@@ -51,8 +51,8 @@ class ExhibitionController extends BaseController
         $org = $yunku_org->setOrg(self::PRE_FIX . $this->member['id']);
         // $org = $yunku_org->setOrg(self::PRE_FIX . $this->member['id'],'',$org_size);
         $yunku_file = new YunkuFile($org['org_id']);
-        //$yunku_file->setFolder(self::BASE_FILE_NAME);
-        $exhibition = LAccount::setExhibition($this->ent_id, $org['org_id']);
+        $folder_info=$yunku_file->setFolder(self::BASE_FILE_NAME);
+        $exhibition = LAccount::setExhibition($this->ent_id, $org['org_id'],$folder_info['hash']);
         $group = LAccount::setGroup($exhibition->id);
         $new_exhibition = ExhibitionInfo::getOfOrgId($exhibition->org_id);
         $this->format($new_exhibition);
@@ -71,7 +71,7 @@ class ExhibitionController extends BaseController
         $property = json_decode($exhibition["property"], true);
         $property['file_count'] = $statistics['files'];
         $property['size_use'] = $statistics['size'];
-        $property['dir_count'] = $statistics['dirs'];
+        $property['dir_count'] = $statistics['dirs']-1;
         $exhibition["property"] = json_encode($property);
         /*****************************************************/
         /*if($exhibition['end_date']< date('Y-m-d')){//权限判断会展结束后地址有效时间

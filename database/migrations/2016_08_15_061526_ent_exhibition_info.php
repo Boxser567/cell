@@ -15,7 +15,7 @@ class EntExhibitionInfo extends CreateBase
         $table->date("end_date");
         $table->integer("ent_id");
         $table->tinyInteger("res_collect_lock");
-        $table->string("property",100);
+        $table->string("property",200);
         $table->dateTime("created_at");
         $table->dateTime("updated_at");
     }

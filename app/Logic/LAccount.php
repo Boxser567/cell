@@ -47,7 +47,7 @@ class LAccount
         return $ent->id;
     }
 
-    public static function setExhibition($ent_id,$org_id,$id='',$res_collect_lock=0,$title='会展助手',$start_date='',$ent_date='',$web_site='')
+    public static function setExhibition($ent_id,$org_id,$base_hash='',$id='',$res_collect_lock=0,$title='会展助手',$start_date='',$ent_date='',$web_site='')
     {
         if($id){
             $exhibition=ExhibitionInfo::_findOrFail($id);
@@ -63,7 +63,7 @@ class LAccount
         $exhibition->start_date=$start_date?$start_date:get_date(0,'',"Y-m-d");
         $exhibition->end_date=$ent_date?$ent_date:get_date(0,'',"Y-m-d");
         $exhibition->res_collect_lock=$res_collect_lock;
-        $property=["web_site"=>$web_site,"file_count"=>0,"size_use"=>0,"dir_count"=>0];
+        $property=["web_site"=>$web_site,"file_count"=>0,"size_use"=>0,"dir_count"=>0,'base_hash'=>$base_hash];
         $exhibition->property=json_encode($property);
         $exhibition->save();
         ExhibitionInfo::cacheForget();
