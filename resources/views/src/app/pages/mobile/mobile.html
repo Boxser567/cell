@@ -80,11 +80,30 @@
                                 </p>
                             </div>
                         </a>
-                        <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.folder_hash}}/{{dir.title}}"
+                        <a class="con clearfix" href="#/mobile_folder/{{pageunicode}}/{{dir.folder_hash}}/{{dir.title}}"
                            ng-if="dir.property.position=='under'">
                             <div class="bg">
-                                <img src="{{dir.img_url[0]}}-340" alt="">
                                 <div class="diff"></div>
+                                <div class="p1" ng-if="dir.img_url.length==1">
+                                    <img src="{{dir.img_url[0]}}-340" alt="">
+                                </div>
+                                <div class="p2 clearfix" ng-if="dir.img_url.length==2">
+                                    <div>
+                                        <img src="{{dir.img_url[0]}}-340" alt="">
+                                    </div>
+                                    <div>
+                                        <img src="{{dir.img_url[1]}}-340" alt="">
+                                    </div>
+                                </div>
+                                <div class="p3 clearfix" ng-if="dir.img_url.length==3">
+                                    <div class="left">
+                                        <img src="{{dir.img_url[0]}}-340" alt="">
+                                    </div>
+                                    <div class="right">
+                                        <img src="{{dir.img_url[1]}}-340" alt="">
+                                        <img src="{{dir.img_url[2]}}-340" alt="">
+                                    </div>
+                                </div>
                             </div>
                             <p class="pull-left">{{dir.title}}</p>
                             <p class="pull-right">{{dir.file_count}} 条内容
