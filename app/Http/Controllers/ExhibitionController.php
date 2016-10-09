@@ -12,6 +12,7 @@ use App\Logic\LAccount;
 use App\Logic\YunkuFile;
 use App\Logic\YunkuOrg;
 use App\Models\ExhibitionInfo;
+use App\Models\FileInfo;
 use App\Models\FolderInfo;
 use App\Models\GroupInfo;
 use Log;
@@ -36,7 +37,15 @@ class ExhibitionController extends BaseController
             $ent_id = $this->ent_id;
         }
         $lists = ExhibitionInfo::getOfEntId($ent_id);
-        return $lists->toArray();
+        $ex_list=$lists->toArray();
+        foreach ($ex_list as $key=>$list){
+            if(date("Y-m-d")>$list['end_date']){
+                $ex_list[$key]+=["finished"=>1];
+            }else{
+                $ex_list[$key]+=["finished"=>0];
+            }
+        }
+        return $ex_list;
     }
 
     //创建展会
@@ -51,8 +60,8 @@ class ExhibitionController extends BaseController
         $org = $yunku_org->setOrg(self::PRE_FIX . $this->member['id']);
         // $org = $yunku_org->setOrg(self::PRE_FIX . $this->member['id'],'',$org_size);
         $yunku_file = new YunkuFile($org['org_id']);
-        $folder_info=$yunku_file->setFolder(self::BASE_FILE_NAME);
-        $exhibition = LAccount::setExhibition($this->ent_id, $org['org_id'],$folder_info['hash']);
+        $folder_info = $yunku_file->setFolder(self::BASE_FILE_NAME);
+        $exhibition = LAccount::setExhibition($this->ent_id, $org['org_id'], $folder_info['hash']);
         $group = LAccount::setGroup($exhibition->id);
         $new_exhibition = ExhibitionInfo::getOfOrgId($exhibition->org_id);
         $this->format($new_exhibition);
@@ -71,7 +80,7 @@ class ExhibitionController extends BaseController
         $property = json_decode($exhibition["property"], true);
         $property['file_count'] = $statistics['files'];
         $property['size_use'] = $statistics['size'];
-        $property['dir_count'] = $statistics['dirs']-1;
+        $property['dir_count'] = $statistics['dirs'] - 1;
         $exhibition["property"] = json_encode($property);
         /*****************************************************/
         /*if($exhibition['end_date']< date('Y-m-d')){//权限判断会展结束后地址有效时间
@@ -88,6 +97,49 @@ class ExhibitionController extends BaseController
         // $this->judgePermission('group_count',$group_count);//权限判断分组个数
         return LAccount::setGroup(inputGetOrFail('ex_id'));
     }
+
+    //新建更新模块
+    public function postModule()
+    {
+        $ex_id = inputGetOrFail("ex_id");
+        $folder_id = inputGet("folder_id", "");
+        $order_by = FileInfo::getCount($ex_id) + 1;
+        if (!$folder_id) {
+            // $this->judgePermission('base_count',$order_by-1);//常用文件上传个数
+        }else{
+            // $this->judgePermission('file_count',$order_by-1);//每个专题下文件个数
+        }
+        $property = json_encode(["title" => "新建模块", "back_pic" => "", "sub_title" => "", "style" => FileInfo::STYLE_LIST]);
+        return LAccount::setFile("", $ex_id, "", $folder_id, $order_by, $property);
+    }
+
+    //修改模块设置
+    public function getUpdateFile()
+    {
+        $id = inputGetOrFail("file_id");
+        $module = FileInfo::_findOrFail($id);
+        $property = json_decode($module->property, true);
+        $hash = inputGet("hash", "");
+        $title = inputGet("title", "");
+        $back_pic = inputGet("back_pic", "");
+        $sub_title = inputGet("sub_title", "");
+        $style = inputGet("style", "");
+        if ($title) {
+            $property["title"] = $title;
+        }
+        if ($back_pic) {
+            $property["back_pic"] = $back_pic;
+        }
+        if ($sub_title) {
+            $property["sub_title"] = $sub_title;
+        }
+        if ($style) {
+            $property["style"] = $style;
+        }
+        $property = json_encode($property);
+        return LAccount::setFile($id, "", $hash, "", "", $property);
+    }
+
 
     //删除分组
     public function postDeleteGroup()
@@ -186,9 +238,9 @@ class ExhibitionController extends BaseController
             // $this->judgePermission('meeting_last_hour',$last_hour);//权限判断会展持续时间
             $exhibition->end_date = inputGet('end_date');
         }
-        if (inputGet('website')) {
+        if (inputGet('website') || inputGet('sub_title')) {
             //  $this->judgePermission('web_link');
-            $exhibition->property = json_encode(["web_site" => inputGet('website')]);
+            $exhibition->property = json_encode(["web_site" => inputGet('website'), "sub_title" => inputGet('sub_title')]);
         }
         $exhibition->save();
         ExhibitionInfo::cacheForget();
