@@ -35,11 +35,6 @@ class FileController extends Controller
             }*/
         }
         $file_list = $files->getFileList(inputGet('fullpath', ''));
-        /*$input=inputGet('fullpath','')?1:0;
-         $type=inputGet("type",'')?1:0;
-        if(!$input && !$type) {
-          $this->updateStatistic($file_list['list'], inputGetOrFail('org_id'));
-        }*/
         if (!\Request::has('fullpath')) {
             foreach ($file_list["list"] as $key => &$file) {
                 if ($file['dir']) {
