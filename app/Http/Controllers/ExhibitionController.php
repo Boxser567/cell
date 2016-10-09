@@ -111,12 +111,12 @@ class ExhibitionController extends BaseController
         }else{
             // $this->judgePermission('file_count',$order_by-1);//每个专题下文件个数
         }
-        $property = json_encode(["title" => "新建模块", "back_pic" => "", "sub_title" => "", "style" => FileInfo::STYLE_LIST]);
+        $property = json_encode(["title" => "新建模块", "back_pic" => "", "sub_title" => "", "style" => FileInfo::STYLE_LIST,"size"=>""]);
         return LAccount::setFile("", $ex_id, "", $folder_id, $order_by, $property);
     }
 
     //修改模块设置
-    public function getUpdateFile()
+    public function getUpdateModule()
     {
         $id = inputGetOrFail("file_id");
         $module = FileInfo::_findOrFail($id);
@@ -126,6 +126,7 @@ class ExhibitionController extends BaseController
         $back_pic = inputGet("back_pic", "");
         $sub_title = inputGet("sub_title", "");
         $style = inputGet("style", "");
+        $size = inputGet("size", "");
         if ($title) {
             $property["title"] = $title;
         }
@@ -138,8 +139,33 @@ class ExhibitionController extends BaseController
         if ($style) {
             $property["style"] = $style;
         }
+        if ($size) {
+            $property["size"] = $size;
+        }
+
         $property = json_encode($property);
         return LAccount::setFile($id, "", $hash, "", "", $property);
+    }
+
+
+    //删除模块
+    public function postDeleteModule()
+    {
+        $files = new YunkuFile(inputGetOrFail('org_id'));
+        $id = inputGetOrFail("file_id");
+        $module=FileInfo::_findOrFail($id);
+        $property = json_decode($module->property, true);
+        if(\Request::has("hash")){
+            $fullpath=inputGetOrFail("folder_title")."/".$property['title'];
+            $file_controller=new FileController();
+            $file_controller->postUpdateFolder(inputGetOrFail('hash'), "delete", $property['size']);
+        }else{
+            $fullpath=self::BASE_FILE_NAME."/".$property['title'];
+        }
+        $files->deleteFile($fullpath);
+        $result= FileInfo::deleteId($id);
+        FileInfo::cacheForget();
+        return $result;
     }
 
 

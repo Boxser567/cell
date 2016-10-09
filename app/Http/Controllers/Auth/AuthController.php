@@ -86,7 +86,7 @@ class AuthController extends Controller
         Member::cacheForget();
         if(\Request::has('target')){
             $auth->addAssistant($user,inputGetOrFail('ent_id'));
-             exit;
+            header("Location:http://cell.meetingfile.com/admin/#/exhibition?");
         }
         $auth_user= $auth->login($user);
         if(!$auth_user['phone']) {

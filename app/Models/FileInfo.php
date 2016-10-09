@@ -20,6 +20,21 @@ class FileInfo extends BaseModel
 
     public static function getCount($ex_id)
     {
-        return self::createWith()->where("ex_id",$ex_id)->count();
+        return self::createWith()->where("ex_id", $ex_id)->count();
+    }
+
+    public static function getFolderId($folder_id)
+    {
+        return self::createWith()->where("folder_id", $folder_id)->orderBy("order_by")->get();
+    }
+
+    public static function getExId($ex_id)
+    {
+        return self::createWith()->where("ex_id", $ex_id)->where('folder_id',0)->orderBy("order_by")->get();
+    }
+
+    public static function deleteId($id)
+    {
+        return self::where('id',$id)->delete();
     }
 }

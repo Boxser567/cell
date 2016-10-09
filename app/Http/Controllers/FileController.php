@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Logic\LAccount;
 use App\Logic\YunkuFile;
+use App\Models\FileInfo;
 use App\Models\FolderInfo;
 use App\Models\GroupInfo;
 use Qiniu\Auth;
@@ -48,6 +49,16 @@ class FileController extends Controller
             }
         }
         return $file_list;
+    }
+
+    public function getModule()
+    {
+        if(\Request::has("folder_id")){
+            $modules=FileInfo::getFolderId(inputGet("folder_id"));
+        }else{
+            $modules=FileInfo::getExId(inputGetOrFail("ex_id"));
+        }
+        return $modules->toArray();
     }
 
 
@@ -250,6 +261,13 @@ class FileController extends Controller
         $exhibition['base_folder'] = ExhibitionController::BASE_FILE_NAME;
         if ($exhibition['res_collect_lock'] != 0) {
             $exhibition['res_collect'] = FileController::RES_COLLECTION_FOLDER_NAME;
+        }
+        if(date("Y-m-d")>$exhibition['end_date']){
+            $exhibition+=["finished"=>1];
+        }elseif( date("Y-m-d")<$exhibition['start_date']){
+            $exhibition+=["finished"=>-1];
+        }else{
+            $exhibition+=["finished"=>0];
         }
     }
 
