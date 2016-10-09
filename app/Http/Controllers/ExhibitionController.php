@@ -41,7 +41,7 @@ class ExhibitionController extends BaseController
         foreach ($ex_list as $key=>$list){
             if(date("Y-m-d")>$list['end_date']){
                 $ex_list[$key]+=["finished"=>1];
-            }elseif( date("Y-m-d")>$list['start_date']){
+            }elseif( date("Y-m-d")< $list['start_date']){
                 $ex_list[$key]+=["finished"=>-1];
             }else{
                 $ex_list[$key]+=["finished"=>0];
