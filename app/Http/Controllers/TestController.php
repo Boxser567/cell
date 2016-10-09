@@ -45,8 +45,8 @@ class TestController extends Controller
 
     public function getF()
     {
-        $yunku = new YunkuFile(665030);
-        return $yunku->getFileList();
+        $yunku = new YunkuFile(708118);
+        return $yunku->getFileList("base_folder");
     }
 
     public function getG()

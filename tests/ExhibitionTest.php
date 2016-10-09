@@ -40,7 +40,7 @@ class ExhibitionTest extends TestCase
 
     }
 
-    public function testGroupUpdate()
+    public function estGroupUpdate()
     {
         dump("更新分组");
         $result = $this->request(
@@ -108,6 +108,33 @@ class ExhibitionTest extends TestCase
         );
         $this->checkOut($result);
 
+    }
+
+
+    public function testModule()
+    {
+        dump("创建模块");
+        $result = $this->request(
+            "POST", "/exhibition/module", [
+                "ex_id"=>1,
+            ]
+        );
+        $this->checkOut($result);
+    }
+
+    public function estModules()
+    {
+        dump("更新模块");
+        $result = $this->request(
+            "POST", "/exhibition/update-module", [
+                "file_id"=>1,
+                "title"=>"wangyuxiang",
+                //"back_pic"=>"dfdfdfdsfadsfadfadsfadsfadsfadsf",
+                //"sub_title"=>"zhongguoren",
+                "style"=>2
+            ]
+        );
+        $this->checkOut($result);
     }
 
 }

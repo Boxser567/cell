@@ -45,13 +45,14 @@ class FileTest extends TestCase
 
     }
 
-    public function estImg()
+    public function testImg()
     {
-        dump("创建新文件夹");
+        dump("修改文件夹图片");
         $result = $this->request(
             "POST", "/file/update-img", [
-                'hash'=>'aa3b47059a4ee92bae6101eae4e46452d2cd972c',
+                'hash'=>'6ad0967e09b64067311e9516fbc6010f55c13eb0',
                 'img_url'=>'dsfdfsfsdfsdfsd',
+                'type'=>0,
             ]
         );
         $this->checkOut($result);
@@ -100,7 +101,7 @@ class FileTest extends TestCase
         $this->checkOut($result);
     }
 
-    public function testGroupUpdate()
+    public function estGroupUpdate()
     {
         dump("更新分类");
         $result = $this->request(
