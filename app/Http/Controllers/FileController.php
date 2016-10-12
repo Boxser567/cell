@@ -63,7 +63,7 @@ class FileController extends Controller
 
 
     //获取分组信息
-    public function getGroup($id)
+    public function getGroup($id='')
     {
         GroupInfo::cacheForget();
         FolderInfo::cacheForget();
@@ -72,6 +72,13 @@ class FileController extends Controller
         $group_info = $group_info->toArray();
         $group_info['folder'] = $folder_info;
         return $group_info;
+    }
+
+
+    //获取会展分组信息
+    public function getExGroup($id='')
+    {
+        return $group_info=GroupInfo::getExId(inputGet('ex_id',$id))->toArray();
     }
 
 

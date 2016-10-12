@@ -30,4 +30,9 @@ class GroupInfo extends BaseModel
     {
         return self::where('id',$id)->delete();
     }
+    
+    public static function getExId($ex_id)
+    {
+        return self::createWith(['folder'])->where('ex_id',$ex_id)->get();
+    }
 }
