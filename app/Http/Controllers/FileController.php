@@ -63,11 +63,11 @@ class FileController extends Controller
 
 
     //获取分组信息
-    public function getGroup()
+    public function getGroup($id)
     {
         GroupInfo::cacheForget();
         FolderInfo::cacheForget();
-        $group_info = GroupInfo::getFolderInfo(inputGetOrFail('group_id'));
+        $group_info = GroupInfo::getFolderInfo(inputGet('group_id',$id));
         $folder_info = $group_info->folder->toArray();
         $group_info = $group_info->toArray();
         $group_info['folder'] = $folder_info;
@@ -259,6 +259,12 @@ class FileController extends Controller
         $exhibition = $exhibition->toArray();
         $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/#/mobile/" . $exhibition['unique_code'];
         $exhibition['base_folder'] = ExhibitionController::BASE_FILE_NAME;
+
+        if($exhibition["group"]){
+            foreach ($exhibition["group"] as $key=>$value){
+                $exhibition["group"][$key]=$this->getGroup($value['id']);
+            }
+        }
         if ($exhibition['res_collect_lock'] != 0) {
             $exhibition['res_collect'] = FileController::RES_COLLECTION_FOLDER_NAME;
         }
@@ -269,6 +275,8 @@ class FileController extends Controller
         }else{
             $exhibition+=["finished"=>0];
         }
+
+
     }
 
     //获取二维码
