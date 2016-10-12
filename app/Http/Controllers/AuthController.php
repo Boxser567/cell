@@ -22,7 +22,7 @@ class AuthController extends Controller
 
     public function getLogin($oauthUser = '')
     {
-       /* $name = "会展adminer";
+        $name = "会展adminer";
         $unionid = "12345";
 //        $name=inputGetOrFail('name');
 //        $unionid=inputGetOrFail('unionid');
@@ -38,8 +38,8 @@ class AuthController extends Controller
             Session::put('member', $member);
             Session::regenerate();
         }
-        return $member;*/
-        return $_COOKIE['member'];
+        return $member;
+        //return $_COOKIE['member'];
     }
 
     public function getLogout()

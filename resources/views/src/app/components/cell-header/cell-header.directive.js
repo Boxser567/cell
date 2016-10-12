@@ -27,13 +27,10 @@ function cellHeaderComponent($log) {
                 $("#inviteManager").prop("src", "/assistant/add?ent_id=" + res.ent_id);
                 localStorageService.set('user', user);
                 $rootScope.user = user;
-                // window.location.href = "/#/exhibition";
             });
             // $rootScope.user = localStorageService.get('user');
             // $("#inviteManager").prop("src", "/assistant/add?ent_id=" + $rootScope.user.ent_id);
         }
-
-
     }
 }
 
