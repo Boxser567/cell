@@ -13,8 +13,9 @@ import "angular-bootstrap-datetimepicker/src/scss/datetimepicker.scss";
 import daterangepicker from 'bootstrap-daterangepicker/daterangepicker';
 
 
+
 angular.element(document).ready(function () {
-    angular.bootstrap(document, ['cell-ui', 'daterangepicker', 'ui.bootstrap.datetimepicker', 'angularSpinner', 'angular-md5', 'LocalStorageModule'], {
+    angular.bootstrap(document, ['cell-ui', 'daterangepicker', 'ui.bootstrap.datetimepicker','angularSpinner', 'angular-md5', 'LocalStorageModule'], {
         strictDi: true
     });
 });

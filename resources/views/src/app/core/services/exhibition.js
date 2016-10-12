@@ -81,7 +81,9 @@ export default function (app) {
 
                 //获取会展列表信息
                 list: function () {
-                    return $http.get('/exhibition/list');
+                    return $http.get('/exhibition/list').then(function (res) {
+                        return res.data;
+                    });
                 },
 
                 //修改会展详情基本信息

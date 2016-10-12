@@ -9,10 +9,6 @@ function config($logProvider, $sceProvider) {
 
     $sceProvider.enabled(false);
 
-
-
-
-
 }
 
 export default config;

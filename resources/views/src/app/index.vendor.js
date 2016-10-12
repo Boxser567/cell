@@ -22,16 +22,9 @@ import "spin.js/spin";
 
 import "angular-spinner/angular-spinner.min";
 
-import  "angular-bootstrap-datetimepicker/src/js/datetimepicker";
-
-import  "angular-bootstrap-datetimepicker/src/js/datetimepicker.templates";
-
 import  "../assets/scripts/util";
 
 import "angular-md5/angular-md5";
 
 import "angular-local-storage/dist/angular-local-storage";
 
-
-// local scripts
-//import "../assets/js/...";

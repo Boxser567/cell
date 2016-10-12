@@ -3,6 +3,24 @@
 <!--<a href="/#/exhibition/{{exhibition.id}}" ng-bind="exhibition.name"></a>-->
 <!--</li>-->
 <!--</ul>-->
+
+
+<div class="navbar">
+    <div class="content clearfix">
+        <div class="lf">
+            <i></i><span>会文件</span>
+        </div>
+        <div class="rg">
+            <span>欢迎您 , {{user.loginName}}</span>
+            <!--<span class="vs">免费版<i></i></span>-->
+            <!--<a ng-if="!loginName">登录</a>-->
+            <!--<a ng-click="register()" ng-if="loginName">注销</a>-->
+            <a class="set" ng-click="setManagerFn()"><i></i>设置共同管理员</a>
+        </div>
+    </div>
+</div>
+
+
 <div class="article">
     <div class="current">
         <div class="content">
@@ -32,7 +50,11 @@
                                     <img src="{{exhibition.banner}}-640" alt="刷新重试">
                                 </div>
                                 <div class="caption">
-                                    <h4 title="{{exhibition.title}}">{{exhibition.title}} <span class="pull-right"> {{GetexState(exhibition.start_date,exhibition.end_date)}} </span>
+                                    <h4 title="{{exhibition.title}}">
+                                        <a>{{exhibition.title}}</a>
+                                        <span class="pull-right text-warning"
+                                              ng-if="exhibition.finished==-1">正在筹备</span>
+                                        <span class="pull-right" ng-if="exhibition.finished==0">正在举行</span>
                                     </h4>
                                     <p>包含{{exhibition.property.dir_count}}个分类 {{exhibition.property.file_count}}个文件
                                         共{{exhibition.property.size_use | bitSize}} </p>
@@ -117,3 +139,115 @@
 <div class="alertMsg" ng-if="alertMsg">
     复制成功
 </div>
+
+
+<!--管理员设置-->
+<div class="modal fade" id="setManagerModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel21" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+                <h5 class="modal-title" id="myModalLabel21">
+                    设置共同管理员
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="con_manager">
+                    <div class="tl">主管理员</div>
+                    <div class="man">
+                        <div>
+                            <img src="{{manager.image}}" alt="" ng-if="manager.image">
+                            <img src="../../../assets/images/t_1.png" alt="" ng-if="!manager.image">
+                            <p>{{manager.account}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="con">
+                    <div class="tl">共同管理员</div>
+                    <div class="man_con">
+                        <div class="m" ng-repeat="p in magList">
+                            <img src="{{p.image}}" alt="" ng-if="p.image">
+                            <img src="../../../assets/images/t_1.png" alt="" ng-if="!p.image">
+                            <p>{{p.account}}</p>
+                            <i class="glyphicon glyphicon-remove-sign" data-target="#delmanagerModal"
+                               data-toggle="modal"></i>
+                        </div>
+
+                        <div class="add" ng-click="ExtralManagerFn()">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!--管理员删除-->
+<div class="modal fade" id="delmanagerModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" style="width: 400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="myModalLabel4">是否删除共同管理员</h5>
+            </div>
+
+            <div class="modal-body">
+                <div class="warning">
+                    删除后 , 用户 将无法再通过其微信号登录管理会文件。是否确认删除?
+                </div>
+                <div class="form-group">
+                    <div class="btn" ng-click="delManagerFn()">确认删除</div>
+                    <div class="close btn" data-dismiss="modal">取 消</div>
+                </div>
+                d
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!--添加共同管理员-->
+<div class="modal fade" id="addmanagerModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel12" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="myModalLabel12">
+                    邀请新的共同管理员
+                </h5>
+            </div>
+
+            <div class="modal-body">
+                <!--<img src="/assistant/add?ent_id={{user.ent_id}}" alt="">-->
+                <div style="width: 400px; height: 350px; overflow: hidden; margin: 0 auto">
+                    <iframe id="inviteManager" width="360" height="430" style="border: none;">
+                    </iframe>
+                </div>
+
+                <p>将二维码发送给您想要添加的成员,对方扫描后即可加入,并成为共同管理员</p>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

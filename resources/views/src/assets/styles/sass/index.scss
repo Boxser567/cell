@@ -357,11 +357,20 @@ body {
             padding: 10px 20px;
             h4 {
               color: #333;
-              @extend .eclipflow;
-              width: 330px;
+              a {
+                @extend .eclipflow;
+                width: 270px;
+                display: inline-block;
+                color: #333;
+                text-decoration: none;
+              }
               span {
                 font-size: 14px;
+                padding-top: 4px;
                 color: #2cb7ff;
+              }
+              .text-warning {
+                color: #f36060;
               }
             }
             p {
@@ -399,14 +408,11 @@ body {
                 border-radius: 25px;
                 border: 1px solid #505458;
                 text-align: center;
-
                 &:hover {
                   border: 1px solid #a8aaac;
                   color: #a8aaac;
                 }
-
               }
-
             }
 
           }
@@ -923,6 +929,7 @@ body {
         font-size: 20px;
         text-indent: 30px;
         color: #333;
+
       }
       .row {
         margin-left: 15px !important;
@@ -1059,6 +1066,11 @@ body {
         font-size: 20px;
         color: #333;
         position: relative;
+        span {
+          position: absolute;
+          left: 140px;
+          top: 14px;
+        }
       }
       .slide_warp {
 
@@ -1955,6 +1967,75 @@ body {
         color: #fff;
         border-radius: 25px;
       }
+    }
+  }
+}
+
+//会文件编辑页面
+.FILE_MODE {
+  .mobile_model {
+    .mobile {
+      margin: 20px auto;
+      width: 350px;
+      height: 640px;
+      border: 2px solid #d4d4d4;
+      //border-style: groove;
+      border-radius: 35px;
+      position: relative;
+      &::after {
+        content: " ";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        right: 3px;
+        bottom: 3px;
+        border: 1px solid #ddd;
+        border-radius: 29px;
+      }
+
+      .screen {
+        background: #fff;
+        width: 300px;
+        margin: 30px auto;
+        margin-bottom: 15px;
+        height: 480px;
+        border: 1.5px solid #d4d4d4;
+        border-radius: 4px;
+      }
+      .home {
+        display: block;
+        border: 1.5px solid #d4d4d4;
+        position: relative;
+        height: 50px;
+        width: 50px;
+        left: 50%;
+        margin-left: -25px;
+        border-radius: 25px;
+      }
+
+      .voice {
+        display: block;
+        border: 2px solid #d4d4d4;
+        position: relative;
+        height: 10px;
+        width: 80px;
+        left: 50%;
+        margin-top: 25px;
+        margin-left: -40px;
+        border-radius: 6px;
+        &::before {
+          border: 2px solid #d4d4d4;
+          display: block;
+          content: " ";
+          position: absolute;
+          top: -2px;
+          left: -25px;
+          border-radius: 6px;
+          width: 12px;
+          height: 12px;
+        }
+      }
+
     }
   }
 }

@@ -1,6 +1,8 @@
 'use strict';
 
 import 'bootstrap-sass/assets/javascripts/bootstrap';
+import "angular-bootstrap-datetimepicker/src/js/datetimepicker";
+import datetimepicker from  "angular-bootstrap-datetimepicker/src/js/datetimepicker.templates";
 
 function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, currentExhibition, Exhibition, usSpinnerService) {
     'ngInject';
@@ -36,37 +38,6 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     })
 
 
-    // $scope.endDateBeforeRender = $scope.aendDateBeforeRender;
-    // $scope.endDateOnSetTime = $scope.aendDateOnSetTime;
-    // $scope.startDateBeforeRender = $scope.astartDateBeforeRender;
-    // $scope.startDateOnSetTime = $scope.astartDateOnSetTime;
-    // $scope.astartDateOnSetTime = function () {
-    //     $scope.$broadcast('start-date-changed');
-    // }
-    // $scope.aendDateOnSetTime = function () {
-    //     $scope.$broadcast('end-date-changed');
-    // }
-    // $scope.astartDateBeforeRender = function ($dates) {
-    //     if ($scope.dateRangeEnd) {
-    //         var activeDate = moment($scope.dateRangeEnd);
-    //         $dates.filter(function (date) {
-    //             return date.localDateValue() >= activeDate.valueOf()
-    //         }).forEach(function (date) {
-    //             date.selectable = false;
-    //         })
-    //     }
-    // }
-    // $scope.aendDateBeforeRender = function ($view, $dates) {
-    //     if ($scope.dateRangeStart) {
-    //         var activeDate = moment($scope.dateRangeStart).subtract(1, $view).add(1, 'minute');
-    //         $dates.filter(function (date) {
-    //             return date.localDateValue() <= activeDate.valueOf()
-    //         }).forEach(function (date) {
-    //             date.selectable = false;
-    //         })
-    //     }
-    // }
-
 
     Exhibition.getDirFilesByID({
         org_id: $scope.orgid,
@@ -74,20 +45,6 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     }, false).then(function (data) {
         $scope.fileloading = false;
         $scope.FilesList = data.list;
-        // var files = [], dirs = [];
-        // _.each(data.list, function (list) {
-        //     if (list.dir) {
-        //         if (typeof list.info.img_url == "string") {
-        //             list.info.img_url = JSON.parse(list.info.img_url);
-        //         }
-        //         dirs.push(list);
-        //     }
-        //     else {
-        //         files.push(list);
-        //     }
-        // })
-        // $scope.DirsList = dirs;
-        // console.log("文件夹信息", $scope.DirsList);
     });
 
 
