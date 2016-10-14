@@ -7,6 +7,27 @@ function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
     $scope.pageunicode = Util.String.baseName(currentMobileExbt.unique_code);
     $scope.showMore = false;
     $scope.loading = true;
+    $scope.FilesList = [];
+
+    //常用文件信息
+    Exhibition.getFileInfoByPath({
+        ex_id: currentMobileExbt.id,
+        fullpath: currentMobileExbt.base_folder
+    }).then(function (res) {
+        $scope.loading = false;
+        for (var i = 0; i < res.length; i++) {
+            res[i].property = JSON.parse(res[i].property);
+        }
+        console.log("信息显示", res);
+        $scope.FilesList = res;
+    })
+
+    //专题信息
+    Exhibition.getGroupInfoByPath(currentMobileExbt.id).then(function (res) {
+        $scope.DirsList = res;
+    });
+
+
     // $scope.DirsList = [];
     // $scope.AllFileList = [], $scope.FilesList = [];
     // var files = [], dirs = [];
@@ -31,7 +52,8 @@ function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
     //         })
     //     })
     // })
-    //
+
+
     // $timeout(function () {
     //     $scope.DirsList = temp;
     //     console.log("$scope.DirsList", $scope.DirsList);

@@ -42,9 +42,13 @@ export default function (app) {
                 return Util.Number.bitSize(num);
             }
         })
-       　.filter('encodeURIComponent',[function (text) {
+        .filter('encodeURIComponent', [function (text) {
             return encodeURIComponent;
         }])
+
+        .filter('dataToJson', function (data) {
+            return JSON.parse(data);
+        })
 
 
 }
