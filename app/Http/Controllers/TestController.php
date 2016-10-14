@@ -51,8 +51,8 @@ class TestController extends Controller
 
     public function getG()
     {
-        $yunku = new YunkuFile(665030);
-        return $yunku->setFolder("/wang");
+        $yunku = new YunkuFile(708118);
+        return $yunku->setFolder("");
     }
 
     public function getH()

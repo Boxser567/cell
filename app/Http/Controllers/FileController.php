@@ -58,7 +58,7 @@ class FileController extends Controller
         }else{
             $modules=FileInfo::getExId(inputGetOrFail("ex_id"));
         }
-        return $modules->toArray();
+        return $modules;
     }
 
 
