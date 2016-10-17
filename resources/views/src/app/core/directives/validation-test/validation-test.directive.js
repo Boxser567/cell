@@ -49,6 +49,32 @@ export default function (app) {
         };
     });
 
+    //动画定义
+    app.directive('slideAnimate', function () {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.on("click", function () {
+                    if (!scope.stateMode) {
+                        scope.stateMode = true;
+                        $(".nav-bar .slide").animate({
+                            width: '60px'
+                        }).find(".info").css("display", "none");
+                    }
+                    else if (scope.stateMode) {
+                        scope.stateMode = false;
+                        $(".nav-bar .slide").animate({
+                            width: '360px'
+                        }, function () {
+                            $(".nav-bar .slide").find(".info").css("display", "block");
+                        })
+                    }
+                })
+            },
+        };
+    });
+
+
     // 切换专题样式
     app.directive('changeTopicbg', function ($timeout, Exhibition) {
         return {
