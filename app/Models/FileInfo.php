@@ -30,12 +30,12 @@ class FileInfo extends BaseModel
 
     public static function getFolderId($folder_id)
     {
-        return self::createWith()->where("folder_id", $folder_id)->orderBy("order_by")->paginate(self::USUAL_FILE_COUNT);
+        return self::createWith()->where("folder_id", $folder_id)->orderBy("order_by")->paginate(self::USUAL_FOLDER_COUNT);
     }
 
     public static function getExId($ex_id)
     {
-        return self::createWith()->where("ex_id", $ex_id)->where('folder_id',0)->orderBy("order_by")->paginate(self::USUAL_FOLDER_COUNT);
+        return self::createWith()->where("ex_id", $ex_id)->where('folder_id',0)->orderBy("order_by")->paginate(self::USUAL_FILE_COUNT);
     }
 
     public static function deleteId($id)
