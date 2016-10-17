@@ -12,7 +12,6 @@
                        data-target="#ModalCode"></a>
                 </div>
             </div>
-
         </div>
 
         <div class="blocklist">
@@ -21,12 +20,43 @@
             </div>
             <ul>
                 <li ng-repeat="file in FilesList">
-                    <a href="#/mobile_file/{{pageunicode}}/{{file.fullpath}}">
-                        <span class="img {{ file.fullpath | getFileIconSuffix }}"></span>
-                        <!--<img src="../images/icon_pdf.png" alt=""/>-->
-                        <div>{{file.filename}}</div>
+                    <a class="clearfix sr" ng-if="file.property.style==2"
+                       href="#/mobile_file/{{pageunicode}}/{{file.property.title}}">
+                        <div>{{file.property.title}}</div>
+                        <img src="{{file.property.back_pic}}-c320" alt="">
+                    </a>
+                    <a class="clearfix sl" ng-if="file.property.style==2"
+                       href="#/mobile_file/{{pageunicode}}/{{file.property.title}}">
+                        <img src="{{file.property.back_pic}}-c320" alt="">
+                        <div>{{file.property.title}}</div>
                         <i class="pull-right"></i>
                     </a>
+                    <a class="clearfix bl" ng-if="file.property.style==2"
+                       href="#/mobile_file/{{pageunicode}}/{{file.property.title}}">
+                        <img src="{{file.property.back_pic}}-c320" alt="">
+                        <div>
+                            <h5>{{file.property.title}}</h5>
+                            <p>{{file.property.sub_title}}</p>
+                        </div>
+                    </a>
+                    <a class="clearfix br" ng-if="file.property.style==2"
+                       href="#/mobile_file/{{pageunicode}}/{{file.property.title}}">
+                        <img src="{{file.property.back_pic}}-c320" alt="">
+                        <div>
+                            <h5>{{file.property.title}}</h5>
+                            <p>{{file.property.sub_title}}</p>
+                        </div>
+                    </a>
+
+                    <a class="clearfix cv" ng-if="file.property.style==1"
+                       href="#/mobile_file/{{pageunicode}}/{{file.property.title}}">
+                        <img src="{{file.property.back_pic}}-c592" alt="">
+                        <div>
+                            <h5>{{file.property.title}}</h5>
+                            <p>{{file.property.sub_title}}</p>
+                        </div>
+                    </a>
+
                 </li>
                 <li style="height: 0">
                     <div class="more" ng-if="showMore" ng-click="showMoreFile()">
@@ -39,12 +69,12 @@
 
         <div class="listCollection">
             <div class="empty_list" ng-if="DirsList.length==0">
-                <img src="../../../assets/images/102.png" alt="">
+                <img src="../../../assets/images/102.png" alt="" style="width: 50%;">
             </div>
             <div class="group_list" ng-repeat="group in DirsList">
-                <div class="tl">{{group.name}}</div>
+                <div class="tl"><i></i>{{group.name}}</div>
                 <ul ng-if="group.allList.length>0">
-                    <li ng-repeat="dir in group.allList">
+                    <li ng-repeat="dir in group.folder">
                         <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.folder_hash}}/{{dir.title}}"
                            ng-if="dir.property.position=='middle'">
                             <div class="bg">

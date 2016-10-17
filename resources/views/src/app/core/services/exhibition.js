@@ -192,13 +192,26 @@ export default function (app) {
                     return $http.get('/file/up-address', {params: {org_id: orgid}});
                 },
 
+
+                //手机端根据uniqueCode获取会展信息
                 m_getfileShow: function (code) {
                     return $http.get('/file/show', {params: {unique_code: code}}).then(function (res) {
                         return res.data;
                     });
                 },
-                m_getFileInfo: function (param) {
-                    return $http.get('/file/info', {params: param})
+
+                //获取常用文件信息
+                getFileInfoByPath: function (param) {
+                    return $http.get('/file/module', {params: param}).then(function (res) {
+                        return res.data;
+                    })
+                },
+
+                //获取所有专题及详细信息
+                getGroupInfoByPath: function (exid) {
+                    return $http.get('/file/ex-group', {params: {ex_id: exid}}).then(function (res) {
+                        return res.data;
+                    })
                 },
 
 
