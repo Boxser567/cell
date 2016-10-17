@@ -13,9 +13,12 @@ class FileInfo extends BaseModel
 {
     protected $table = 'file_info';
     public $timestamps = true;
-    const STYLE_LIST = 1;
-    const STYLE_DOUBLE_COLUMN = 2;
-    const STYLE_BACK_PIC = 3;
+    const STYLE_LIST_LEFT= 1;
+    const STYLE_LIST_RIGHT= 3;
+    const STYLE_DOUBLE_COLUMN_LEFT = 2;
+    const STYLE_DOUBLE_COLUMN_RIGHT = 4;
+    const STYLE_BACK_PIC = 5;
+
     const USUAL_FILE_COUNT=1;
     const USUAL_FOLDER_COUNT=1;
 
