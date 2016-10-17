@@ -2038,6 +2038,77 @@ body {
 
     }
   }
+  .nav-bar {
+    background-color: #f2f2f2;
+    height: 70px;
+    line-height: 70px;
+    border: 1px solid #d43f3a;
+    padding: 0 20px;
+    .left {
+      float: left;
+      a {
+        i {
+          background: url("../../images/icon_home.png");
+          width: 22px;
+          height: 20px;
+          display: inline-block;
+          position: relative;
+          top: 2px;
+          margin-right: 15px;
+        }
+        border-right: 1px solid #ddd;
+
+      }
+      span {
+        padding: 0 10px;
+      }
+    }
+    .right {
+      float: right;
+      label {
+        position: relative;
+        top: 8px;
+        margin: 0 5px;
+        input {
+          outline: medium;
+        }
+      }
+      .switch {
+        padding: 0 10px;
+        span {
+          color: #14d66a;
+        }
+      }
+      s {
+        text-decoration: none;
+        cursor: pointer;
+        color: #0081e4;
+      }
+      .size {
+        display: inline-block;
+        color: #999;
+        padding: 0 25px;
+      }
+      .upgrade {
+        border: 1px solid #24292f;
+        color: #24292f;
+        padding: 6px 15px;
+      }
+      .save_publish {
+        background: #0081e4;
+        color: #fff;
+        padding: 6px 25px;
+        margin-left: 10px;
+        text-align: center;
+        i {
+          margin: 0 5px;
+        }
+      }
+
+    }
+
+  }
+
 }
 
 #setManagerModal { //共同管理员模态窗

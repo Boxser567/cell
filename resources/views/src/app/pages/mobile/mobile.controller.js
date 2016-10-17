@@ -5,9 +5,9 @@ function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
     $scope.EXfileList = currentMobileExbt;
     $scope.pageCode = window.location.href;
     $scope.pageunicode = Util.String.baseName(currentMobileExbt.unique_code);
-    $scope.showMore = false;
-    $scope.loading = true;
-    $scope.FilesList = [];
+    $scope.showMore = false;  //显示更多
+    $scope.loading = true;  //初始化动画过度
+    $scope.FilesList = [];  //常用文件集合
 
     //常用文件信息
     Exhibition.getFileInfoByPath({
@@ -15,11 +15,14 @@ function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
         fullpath: currentMobileExbt.base_folder
     }).then(function (res) {
         $scope.loading = false;
-        for (var i = 0; i < res.length; i++) {
-            res[i].property = JSON.parse(res[i].property);
+        if (res.total > 4) {
+            $scope.showMore = true;
+        }
+        for (var i = 0; i < res.data.length; i++) {
+            res.data[i].property = JSON.parse(res.data[i].property);
         }
         console.log("信息显示", res);
-        $scope.FilesList = res;
+        $scope.FilesList = res.data;
     })
 
     //专题信息
@@ -27,6 +30,9 @@ function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
         $scope.DirsList = res;
     });
 
+    $scope.showMoreFile=function () {
+
+    }
 
     // $scope.DirsList = [];
     // $scope.AllFileList = [], $scope.FilesList = [];
