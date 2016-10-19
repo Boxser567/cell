@@ -111,7 +111,7 @@ class ExhibitionController extends BaseController
         }else{
             // $this->judgePermission('file_count',$order_by-1);//每个专题下文件个数
         }
-        $property = json_encode(["title" => "新建模块", "back_pic" => "", "sub_title" => "", "style" => FileInfo::STYLE_LIST,"size"=>""]);
+        $property = json_encode(["title" => "新建模块", "back_pic" => "http://res.meetingfile.com/2168a80ad9c3a8b1a07eb78751e37e4d2491041a.jpg", "sub_title" => "", "style" => FileInfo::STYLE_LIST,"size"=>""]);
         return LAccount::setFile("", $ex_id, "", $folder_id, $order_by, $property);
     }
 
