@@ -50,30 +50,62 @@ export default function (app) {
     });
 
     //动画定义
-    app.directive('slideAnimate', function () {
+    app.directive('slideAnimate', function ($timeout) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 elem.on("click", function () {
-                    if (!scope.stateMode) {
-                        scope.stateMode = true;
-                        $(".nav-bar .slide").animate({
-                            width: '60px'
-                        }).find(".info").css("display", "none");
+                    if (scope.stateMode) {
+                        $('.motion').fadeOut(function () {
+                            $timeout(function () {
+                                scope.stateMode = false;
+                            })
+                            $(".FILE_ARTICLE .slide-bar").animate({
+                                width: '70px'
+                            }, function () {
+                                $('.graphic').fadeIn();
+                                $(".nav-bar .left").animate({
+                                    width: '218px'
+                                });
+                                $(".slide-note").animate({
+                                    left: "530px"
+                                }, 100)
+                            });
+                        });
+
+
                     }
-                    else if (scope.stateMode) {
-                        scope.stateMode = false;
-                        $(".nav-bar .slide").animate({
-                            width: '360px'
-                        }, function () {
-                            $(".nav-bar .slide").find(".info").css("display", "block");
-                        })
+                    if (!scope.stateMode) {
+                        $('.graphic').fadeOut(function () {
+                            $(".nav-bar .left").animate({
+                                width: '508px'
+                            }, 200, function () {
+                                $(".slide-note").animate({
+                                    left: "820px"
+                                }, 200, function () {
+                                    $(".FILE_ARTICLE .slide-bar").animate({
+                                        width: '360px'
+                                    }, function () {
+                                        $timeout(function () {
+                                            scope.stateMode = true;
+                                        })
+                                        $('.motion').fadeIn();
+                                    })
+                                })
+                            });
+                        });
+
+
+                        // $(".slide-bar .slide").animate({
+                        //     width: '360px'
+                        // }, function () {
+                        //     $(".slide-bar .slide").find(".info").fadeIn();
+                        // })
                     }
                 })
             },
         };
     });
-
 
     // 切换专题样式
     app.directive('changeTopicbg', function ($timeout, Exhibition) {

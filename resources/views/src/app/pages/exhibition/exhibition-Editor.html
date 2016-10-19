@@ -46,17 +46,7 @@
     <!--</div>-->
 
     <div class="nav-bar clearfix">
-        <div class="left">
-            <div class="slide clearfix">
-                <div class="info">
-                    <img src="../../../assets/images/1124.png" alt="">
-                    <div>
-                        <h5>大漠孤烟</h5>
-                        <p>超级管理员</p>
-                    </div>
-                </div>
-                <i class="glyphicon glyphicon-th-list" state="{{stateMode}}" slide-animate></i>
-            </div>
+        <div class="left clearfix">
             <div class="pModel">
                 <a href="http://www.meetfile.com" class=""><i class="home"></i></a>
                 <span>编辑模式</span>
@@ -76,15 +66,151 @@
 
             <div class="btn upgrade">升级</div>
             <div class="btn save_publish"><i class="glyphicon glyphicon-floppy-open"></i>保存和发布</div>
-
         </div>
     </div>
-    
 
 
+    <div class="FILE_ARTICLE clearfix">
+        <!--<img class="bgimg" src="../../../assets/images/10.png" alt="">-->
+        <div class="slide-bar">
+            <div class="slide clearfix">
+                <div class="info" ng-if="stateMode">
+                    <img src="../../../assets/images/t_1.png" alt="">
+                    <div>
+                        <h5>大漠孤烟</h5>
+                        <p>超级管理员</p>
+                    </div>
+                </div>
+                <i class="glyphicon" slide-animate></i>
+            </div>
+            <div class="motion">
+                <p class="title">站点基本信息设置</p>
+                <p class="tl">站点(会展)名称:</p>
+                <input class="ipt_name" type="text" placeholder="请输入站点(会展)名称">
+                <p class="tl">站点(会展)标识:</p>
+                <div class="logo clearfix">
+                    <img src="../../../assets/images/profile.png" alt="">
+                    <div>
+                        <a class="btn">上传图片</a>
+                        <p>支持160x160像素的JPG/PNG格式,大小不超过1M</p>
+                    </div>
+                </div>
+                <p class="tl">会展持续时间:</p>
+                <div class="time">
+                    <input class="ipt_time" type="text">
+                    <p>专业版可选择长期有效,确保您的站点永久可被用户访问。<a>查看详情</a></p>
+                </div>
+                <p class="tl">首页(banner)背景图:</p>
+                <div class="banner">
+                    <img src="../../../assets/images/qcode.png" alt="">
+                    <div class="btn">自定义设置</div>
+                </div>
+
+                <div class="instructions">
+                    <p class="mark">可选文字说明:</p>
+                    <input type="text" placeholder="如:  协办企业:腾讯网络">
+                    <p class="r">文字会显示在标题下方,可以用简单的语句描述您的站点、或者您可以协商主办方(承办方)名称。</p>
+                </div>
+            </div>
+            <div class="graphic">
+                <ul>
+                    <li>
+                        <a>
+                            <img src="../../../assets/images/1126.png" alt="">
+                            <p>名称</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img src="../../../assets/images/1127.png" alt="">
+                            <p>标识</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img src="../../../assets/images/1128.png" alt="">
+                            <p>时间</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img src="../../../assets/images/1129.png" alt="">
+                            <p>背景</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img src="../../../assets/images/1130.png" alt="">
+                            <p>说明</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="slide-mobile">
+            <div class="hosted-phones">
+            </div>
+        </div>
+
+        <div class="slide-note">
 
 
+            <div class="defaults">      <!--文件上传样式-->
+                <h3>
+                    模块设置/内容模块
+                </h3>
+                <p>您可直接上传文件作为内容,如 PDF 文件、图片、Office 文档。上传后站点访客即可直接在线查看文件内容,而无需下载文件,您也可以使用我们的在线编辑器创建新的图文内容。<a>查看范例教程</a>
+                </p>
+                <div class="h">选择新建内容方式</div>
 
+                <div class="btn file_upload">
+                    <span>上传文件内容</span>
+                    <img src="../../../assets/images/1132.png" alt="">
+                </div>
+                <div class="btn file_editor">
+                    <span>新建图文内容内容</span>
+                    <img src="../../../assets/images/1133.png" alt="">
+                </div>
+                <div class="form-group clearfix">
+                    <div class="btn btnbyhave">选择已有内容</div>
+                    <div class="btn btnbycollect">从资料收集选择</div>
+                </div>
+            </div>
+
+            <div class="filemask">
+                <div class="row">
+                    <div class="col-md-6 col-sm-10 preview">
+                        <div class="h">
+                            <i></i>
+                            内容预览
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-10 coverfetcher">
+                        <div class="h">
+                            <i></i>
+                            封面设置
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-10 Informatik">
+                        <div class="h">
+                            <i></i>
+                            内容摘要
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-10 displayTile">
+                        <div class="h">
+                            <i></i>
+                            模块展示样式
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
 
 
 </div>

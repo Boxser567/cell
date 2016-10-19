@@ -10,6 +10,7 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $rootScope.projectTitle = currentExhibition.data.title + " - 会文件";
+    $scope.stateMode = true;
 
 
     moment.locale('zh-cn');
