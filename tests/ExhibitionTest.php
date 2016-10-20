@@ -68,13 +68,13 @@ class ExhibitionTest extends TestCase
         $this->checkOut($result);
     }
 
-    public function estInfo()
+    public function testInfo()
     {
         dump("修改会展详情");
         $result = $this->request(
             "POST", "/exhibition/info", [
                 "exhibition_id"=>74,
-               // "title"=>"被修改的标题",
+                "sub_title"=>"被修改的标题",
                // "logo"=>"狗头",
                // "banner"=>"banner",
                 "start_date"=>"2016-09-09",
@@ -111,7 +111,7 @@ class ExhibitionTest extends TestCase
     }
 
 
-    public function testModule()
+    public function estModule()
     {
         dump("创建模块");
         $result = $this->request(
