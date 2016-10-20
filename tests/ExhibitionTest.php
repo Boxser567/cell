@@ -73,12 +73,12 @@ class ExhibitionTest extends TestCase
         dump("修改会展详情");
         $result = $this->request(
             "POST", "/exhibition/info", [
-                "exhibition_id"=>74,
+                "exhibition_id"=>80,
                 "sub_title"=>"被修改的标题",
                // "logo"=>"狗头",
                // "banner"=>"banner",
-                "start_date"=>"2016-09-09",
-                "end_date"=>"2019-09-29",
+               // "start_date"=>"2016-09-09",
+               // "end_date"=>"2019-09-29",
                // "website"=>"www.nbai.com",
             ]
         );
