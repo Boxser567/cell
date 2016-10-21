@@ -20,7 +20,7 @@ function ExhibitionListController($scope, $rootScope, $state, Exhibition, curren
         $scope.newMask = true;
         Exhibition.createEx().then(function (res) {
             var unicode = Util.String.baseName(res.data.unique_code);
-            $state.go('main.exhibition-detail', {unicode: unicode});
+            $state.go('main.exhibition-Editor', {unicode: unicode});
         })
     }
 

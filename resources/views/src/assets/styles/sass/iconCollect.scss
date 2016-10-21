@@ -187,3 +187,187 @@ $checkedColor: #64bd63;
     }
   }
 }
+
+
+.eclipflow {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+//常用文件五种样式集合
+.ui_file_Modelstyle {
+  list-style: none;
+  padding: 0;
+  li {
+    a {
+      cursor: pointer;
+      background: #fff;
+      position: relative;
+      display: block;
+      background: #fff;
+      border-radius: 4px;
+      margin: 10px 0px;
+      overflow: hidden;
+      font-size: 18px;
+      color: #333;
+      i {
+        display: none;
+        position: absolute;
+        top: 3px;
+        right: 5px;
+        width: 20px;
+        height: 20px;
+        background: url("../../../assets/images/1233.png") no-repeat;
+      }
+      &.active {
+        i {
+          display: inline-block;
+        }
+      }
+    }
+    .sl {
+      img {
+        width: 16.333%;
+        display: inline-block;
+        min-height: 56px;
+      }
+      div {
+        @extend .eclipflow;
+        width: 71.666%;
+        display: inline-block;
+        position: relative;
+        top: 7px;
+        padding-left: 5px;
+      }
+      .pull-right {
+        display: inline-block;
+        float: right;
+        width: 24px;
+        height: 24px;
+        background: url(../../images/icon_more.png);
+        background-size: 100% 100%;
+        position: absolute;
+        right: 10px;
+        top: 16px;
+      }
+
+    }
+    .sr {
+      img {
+        width: 16.333%;
+        float: right;
+        min-height: 56px;
+      }
+      div {
+        @extend .eclipflow;
+        width: 82%;
+        float: left;
+        position: relative;
+        top: 15px;
+        padding-left: 10px;
+        color: #333;
+      }
+    }
+
+    .bl {
+      img {
+        width: 27.777%;
+        float: left;
+        min-height: 96px;
+      }
+      div {
+        float: right;
+        width: 72%;
+        padding: 10px;
+        h5 {
+          font-size: 22px;
+          @extend .eclipflow;
+          width: 100%;
+          margin-bottom: 5px;
+        }
+        p {
+          font-size: 12px;
+          color: #999;
+          line-height: 22px;
+          margin: 0;
+          height: 44px;
+          width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          display: -webkit-box;
+        }
+
+      }
+
+    }
+    .br {
+      img {
+        width: 27.777%;
+        float: right;
+        min-height: 96px;
+      }
+      div {
+        float: left;
+        width: 72%;
+        padding: 10px;
+        h5 {
+          font-size: 22px;
+          @extend .eclipflow;
+          width: 100%;
+          margin-bottom: 5px;
+        }
+        p {
+          font-size: 12px;
+          color: #999;
+          line-height: 22px;
+          margin: 0;
+          height: 44px;
+          width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          display: -webkit-box;
+        }
+
+      }
+
+    }
+
+    .cv {
+      img {
+        width: 100%;
+      }
+      div {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 0, 0, .6);
+        height: 56px;
+        padding: 5px 10px;
+        h5 {
+          font-size: 18px;
+          color: #fff;
+          margin-bottom: 5px;
+          @extend .eclipflow;
+        }
+        p {
+          font-size: 14px;
+          color: #bbb;
+          @extend .eclipflow;
+        }
+      }
+    }
+
+  }
+
+}
+
+
+
+
