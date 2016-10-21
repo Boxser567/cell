@@ -85,7 +85,8 @@
             <div class="motion">
                 <p class="title">站点基本信息设置</p>
                 <p class="tl">站点(会展)名称:</p>
-                <input class="ipt_name" ng-model="currentExbt.title" type="text" placeholder="请输入站点(会展)名称">
+                <input class="ipt_name" ng-model="currentExbt.title" datatype="title" edit-extitle type="text"
+                       placeholder="请输入站点(会展)名称">
                 <p class="tl">站点(会展)标识:</p>
                 <div class="logo clearfix">
                     <img ng-src="{{currentExbt.logo}}" alt="">
@@ -93,7 +94,6 @@
                         <!--<a class="btn" datawhere="logo" upload-logo>上传logo</a>-->
                         <div class="btn" datawhere="logo" upload-logo>
                             上传logo
-
                             <span us-spinner="{lines:9, color:'white',radius:5, width:3, length: 6}"
                                   spinner-on="imgloading"></span>
                         </div>
@@ -109,12 +109,13 @@
                 <p class="tl">首页(banner)背景图:</p>
                 <div class="banner">
                     <img src="{{currentExbt.banner}}-640" alt="">
-                    <div class="btn">自定义设置</div>
+                    <div class="btn" ng-click="getBannerFn()">自定义设置</div>
                 </div>
 
                 <div class="instructions">
                     <p class="mark">可选文字说明:</p>
-                    <input type="text" ng-model="currentExbt.property.sub_title" placeholder="如:  协办企业:腾讯网络">
+                    <input type="text" datatype="sub_title" edit-extitle ng-model="currentExbt.property.sub_title"
+                           placeholder="如:  协办企业:腾讯网络">
                     <p class="r">文字会显示在标题下方,可以用简单的语句描述您的站点、或者您可以协商主办方(承办方)名称。</p>
                 </div>
             </div>
@@ -153,20 +154,73 @@
                 </ul>
             </div>
         </div>
+
+
+        <!--手机模型内容显示-->
         <div class="slide-mobile">
             <div class="hosted-phones">
-                <div class="diff">
-                    <div class="d"></div>
-                    <img ng-src="{{currentExbt.banner}}-640" alt="">
-                </div>
-                <div class="icon">
-                    <div>
-                        <img ng-src="{{currentExbt.logo}}" alt="">
+                <div class="mb_header">
+                    <div class="diff">
+                        <div class="d"></div>
+                        <img ng-src="{{currentExbt.banner}}-640" alt="">
                     </div>
-                    <p class="title">{{currentExbt.title}}</p>
-                    <p class="time">2016-05-12 - 2016-08-25</p>
-                    <p class="ps" ng-bind="currentExbt.property.sub_title"></p>
+                    <div class="icon">
+                        <div>
+                            <img ng-src="{{currentExbt.logo}}" alt="">
+                        </div>
+                        <p class="title">{{currentExbt.title}}</p>
+                        <p class="time">{{currentExbt.start_date}} - {{currentExbt.end_date}}</p>
+                        <p class="ps" ng-bind="currentExbt.property.sub_title"></p>
+                    </div>
                 </div>
+                <div class="mb_file">
+                    <span ng-if="fileloading" class="loading" us-spinner="{lines:9,radius:5, width:3, length: 6}"
+                          spinner-on="fileloading"></span>
+                    <ul class="ui_file_Modelstyle">
+                        <li ng-repeat="file in FilesList">
+                            <a class="clearfix sl active" ng-if="file.property.style==1">
+                                <img src="{{file.property.back_pic}}-c320" alt="">
+                                <div>{{file.property.title}}</div>
+                            </a>
+                            <a class="clearfix sr" ng-if="file.property.style==2">
+                                <div>{{file.property.title}}</div>
+                                <img src="{{file.property.back_pic}}-c320" alt="">
+                            </a>
+                            <a class="clearfix bl" ng-if="file.property.style==3">
+                                <img src="{{file.property.back_pic}}-c320" alt="">
+                                <div>
+                                    <h5>{{file.property.title}}</h5>
+                                    <p>{{file.property.sub_title}}</p>
+                                </div>
+                            </a>
+                            <a class="clearfix br" ng-if="file.property.style==4">
+                                <img src="{{file.property.back_pic}}-c320"
+                                     alt="">
+                                <div>
+                                    <h5>{{file.property.title}}</h5>
+                                    <p>{{file.property.sub_title}}</p>
+                                </div>
+                            </a>
+                            <a class="clearfix cv" ng-if="file.property.style==5">
+                                <img src="{{file.property.back_pic}}-c592" alt="">
+                                <div>
+                                    <h5>{{file.property.title}}</h5>
+                                    <p>{{file.property.sub_title}}</p>
+                                </div>
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <!--<a class="add" ng-click="addFileFn()">添加内容模块</a>-->
+                            <div class="add" upload-files>
+                                添加内容模块
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+
             </div>
         </div>
 
@@ -179,6 +233,7 @@
                 </p>
                 <div class="h">选择新建内容方式</div>
                 <div class="btn file_upload">
+                    <div upload-files></div>
                     <span>上传文件内容</span>
                     <img src="../../../assets/images/1132.png" alt="">
                 </div>
@@ -324,6 +379,104 @@
                     </ul>
                 </div>
             </div>
+
+            <div class="topic_con">
+                <h3>模块设置/专题模块</h3>
+                <div class="d1">
+                    <div class="h">
+                        <i></i>专题名称
+                    </div>
+                    <input type="text" placeholder="请填写专题名称">
+                </div>
+
+                <div class="d2">
+                    <div class="h">
+                        <i></i>专题封面图
+                    </div>
+
+
+                    <div class="style">
+                        <div class="ui_dir_Modelstyle">
+                            <div class="diff"></div>
+                            <!--<div class="p1" >-->
+                                <!--<img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">-->
+                            <!--</div>-->
+                            <!--<div class="p2 clearfix">-->
+                                <!--<div>-->
+                                    <!--<img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">-->
+                                <!--</div>-->
+                                <!--<div>-->
+                                    <!--<img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class="p3 clearfix">
+                                <div class="left">
+                                    <img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">
+                                </div>
+                                <div class="right">
+                                    <img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">
+                                    <img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="title">-->
+                            <!--<p class="tl">{{dir.title}}</p>-->
+                            <!--<p class="count">{{dir.file_count}}条内容-->
+                                <!--<i class="glyphicon glyphicon-menu-right"></i>-->
+                            <!--</p>-->
+                        <!--</div>-->
+                    </div>
+
+
+
+
+
+
+
+
+                </div>
+                <div class="d3">
+                    <div class="h">
+                        <i></i>非有效期内是否隐藏分组内容
+                    </div>
+                    <div class="hide">
+                        <div>如设置不隐藏,用户将只能看到该组内的分类标题,但无法查看内容。</div>
+                    </div>
+                </div>
+                <div class="d4">
+                    <div class="h">
+                        <i></i>专题有效时间
+                    </div>
+                    <select>
+                        <option value="1">永久有效</option>
+                        <option value="2">自定义有效时间</option>
+                    </select>
+                </div>
+                <div class="d5">
+                    <div class="h">
+                        <i></i>自定义样式
+                    </div>
+
+                    <div class="cen">
+                        <p>标题显示在封面中央</p>
+                        <div>
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <p>样式二:标题显示在封面下方</p>
+                        <div>
+                            <img src="" alt="">
+                        </div>
+                        <div>
+                            <h4>够快云库资料整合</h4>
+                            <p>共23条内容</p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
         </div>
     </div>
 </div>
@@ -374,7 +527,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-
 
 <!--开启资料收集窗口信息-->
 <div class="modal fade" id="msgCollectFile" tabindex="-1" role="dialog"
@@ -431,6 +583,45 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!--修改背景图片弹出窗口-->
+<div class="modal fade" id="changeBannerModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel13" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="myModalLabel13">
+                    更换背景图片
+                </h5>
+            </div>
+            <div class="modal-body">
+                <p class="tl">自定义图片 :</p>
+                <div class="load">
+                    <img src="{{currentExbt.banner}}-c592" alt="">
+                    <span datawhere="banner" upload-logo> + 自定义上传</span>
+                    <s us-spinner="{lines:11,radius:9, width:5, length: 9}" ng-if="imgloading"
+                       spinner-on="imgloading"></s>
+                </div>
+                <p class="warn">提示:仅支持上传JPG、PNG 格式,不超过1M,建议尺寸: 640x360 像素</p>
+
+                <p class="tl">系统预设图片 :</p>
+                <div class="bg-banner">
+                    <ul class="clearfix">
+                        <li ng-repeat="list in bannerList track by $index" select-bgimg>
+                            <img src="{{list}}-340" alt="刷新重试">
+                            <i></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn">确定</div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
