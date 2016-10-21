@@ -53,17 +53,16 @@
             </div>
         </div>
         <div class="right">
-            <span class="switch">资料收集:&nbsp;已关闭
+            <span class="switch">资料收集
                 <span ng-if="currentExbt.res_collect_lock==-1">:&nbsp;已关闭</span>
                  <span ng-if="currentExbt.res_collect_lock==1">:&nbsp;已开启</span> </span>
             <label ng-click="checkCollecFn()">
                 <input class="mui-switch mui-switch-anim" type="checkbox"
                        value="{{currentExbt.res_collect_lock}}"></label>
-            <s ng-click="showCollection()">查看</s>
+            <s ng-click="showCollection()" ng-if="currentExbt.res_collect_lock!=0">查看</s>
             <div class="size">
-                <span>1个分组 ,&nbsp;3个专题 ,&nbsp;15条内容 ,&nbsp;共11.34MB</span>
+                <span>{{currentExbt.property.dir_count}}个分组 ,&nbsp;{{currentExbt.property.file_count}}个专题 ,&nbsp;共{{currentExbt.property.file_count | bitSize}}</span>
             </div>
-
             <div class="btn upgrade">升级</div>
             <div class="btn save_publish"><i class="glyphicon glyphicon-floppy-open"></i>保存和发布</div>
         </div>
@@ -86,29 +85,36 @@
             <div class="motion">
                 <p class="title">站点基本信息设置</p>
                 <p class="tl">站点(会展)名称:</p>
-                <input class="ipt_name" type="text" placeholder="请输入站点(会展)名称">
+                <input class="ipt_name" ng-model="currentExbt.title" type="text" placeholder="请输入站点(会展)名称">
                 <p class="tl">站点(会展)标识:</p>
                 <div class="logo clearfix">
-                    <img src="../../../assets/images/profile.png" alt="">
+                    <img ng-src="{{currentExbt.logo}}" alt="">
                     <div>
-                        <a class="btn">上传图片</a>
+                        <!--<a class="btn" datawhere="logo" upload-logo>上传logo</a>-->
+                        <div class="btn" datawhere="logo" upload-logo>
+                            上传logo
+
+                            <span us-spinner="{lines:9, color:'white',radius:5, width:3, length: 6}"
+                                  spinner-on="imgloading"></span>
+                        </div>
                         <p>支持160x160像素的JPG/PNG格式,大小不超过1M</p>
                     </div>
                 </div>
                 <p class="tl">会展持续时间:</p>
                 <div class="time">
-                    <input class="ipt_time" type="text">
+                    <input type="text" date-range-picker class="ipt_time date-picker" type="text"
+                           ng-model="date" options="opts">
                     <p>专业版可选择长期有效,确保您的站点永久可被用户访问。<a>查看详情</a></p>
                 </div>
                 <p class="tl">首页(banner)背景图:</p>
                 <div class="banner">
-                    <img src="../../../assets/images/qcode.png" alt="">
+                    <img src="{{currentExbt.banner}}-640" alt="">
                     <div class="btn">自定义设置</div>
                 </div>
 
                 <div class="instructions">
                     <p class="mark">可选文字说明:</p>
-                    <input type="text" placeholder="如:  协办企业:腾讯网络">
+                    <input type="text" ng-model="currentExbt.property.sub_title" placeholder="如:  协办企业:腾讯网络">
                     <p class="r">文字会显示在标题下方,可以用简单的语句描述您的站点、或者您可以协商主办方(承办方)名称。</p>
                 </div>
             </div>
@@ -149,12 +155,22 @@
         </div>
         <div class="slide-mobile">
             <div class="hosted-phones">
+                <div class="diff">
+                    <div class="d"></div>
+                    <img ng-src="{{currentExbt.banner}}-640" alt="">
+                </div>
+                <div class="icon">
+                    <div>
+                        <img ng-src="{{currentExbt.logo}}" alt="">
+                    </div>
+                    <p class="title">{{currentExbt.title}}</p>
+                    <p class="time">2016-05-12 - 2016-08-25</p>
+                    <p class="ps" ng-bind="currentExbt.property.sub_title"></p>
+                </div>
             </div>
         </div>
 
         <div class="slide-note">
-
-
             <div class="defaults">      <!--文件上传样式-->
                 <h3>
                     模块设置/内容模块
@@ -162,7 +178,6 @@
                 <p>您可直接上传文件作为内容,如 PDF 文件、图片、Office 文档。上传后站点访客即可直接在线查看文件内容,而无需下载文件,您也可以使用我们的在线编辑器创建新的图文内容。<a>查看范例教程</a>
                 </p>
                 <div class="h">选择新建内容方式</div>
-
                 <div class="btn file_upload">
                     <span>上传文件内容</span>
                     <img src="../../../assets/images/1132.png" alt="">
@@ -178,40 +193,262 @@
             </div>
 
             <div class="filemask">
-                <div class="row">
-                    <div class="col-md-6 col-sm-10 preview">
-                        <div class="h">
-                            <i></i>
-                            内容预览
-                        </div>
+                <h3>模块设置/内容模块</h3>
+                <div class="preview">
+                    <div class="h">
+                        <i></i>
+                        内容预览
                     </div>
-                    <div class="col-md-6 col-sm-10 coverfetcher">
-                        <div class="h">
-                            <i></i>
-                            封面设置
-                        </div>
+                    <ul class="ui_file_Modelstyle">
+                        <li>
+                            <a class="clearfix sl active">
+                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                                     alt="">
+                                <div>光影艺术、设计师的作品全集</div>
+                            </a>
+                            <a class="clearfix sr">
+                                <div>光影艺术、设计师的作品全集</div>
+                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                                     alt="">
+                            </a>
+                            <a class="clearfix bl">
+                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                                     alt="">
+                                <div>
+                                    <h5>设计师要懂的心理学</h5>
+                                    <p>
+                                        学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
+                                </div>
+                            </a>
+                            <a class="clearfix br">
+                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                                     alt="">
+                                <div>
+                                    <h5>设计师要懂的心理学</h5>
+                                    <p>
+                                        学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
+                                </div>
+                            </a>
+                            <a class="clearfix cv">
+                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c592"
+                                     alt="">
+                                <div>
+                                    <h5>设计师要懂的心理学</h5>
+                                    <p>
+                                        学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="r">
+                        <div class="btn">重命名</div>
                     </div>
-                    <div class="col-md-6 col-sm-10 Informatik">
-                        <div class="h">
-                            <i></i>
-                            内容摘要
-                        </div>
+
+                </div>
+                <div class="coverfetcher">
+                    <div class="h">
+                        <i></i>
+                        封面设置
                     </div>
-                    <div class="col-md-6 col-sm-10 displayTile">
-                        <div class="h">
-                            <i></i>
-                            模块展示样式
+                    <div class="img">
+                        <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320" alt="">
+                        <div class="r">
+                            <div class="btn">
+                                更换背景
+                            </div>
+                            <p>支持 600x320像素的 JPG/PNG 格式 , 不超过1M </p>
                         </div>
                     </div>
                 </div>
+                <div class="Informatik">
+                    <div class="h">
+                        <i></i>
+                        内容摘要(选填)
+                    </div>
+                    <div class="txt">
+                        <textarea placeholder="请输入内容摘要"></textarea>
+                    </div>
+                </div>
+                <div class="displayTile">
+                    <div class="h">
+                        <i></i>
+                        模块展示样式
+                    </div>
+
+                    <ul class="ui_file_Modelstyle">
+                        <li>
+                            <a class="clearfix sl active">
+                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                                     alt="">
+                                <div>光影艺术、设计师的作品全集</div>
+                                <i class="check"></i>
+                            </a>
+                            <a class="clearfix sr">
+                                <div>光影艺术、设计师的作品全集</div>
+                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                                     alt="">
+                                <i class="check"></i>
+                            </a>
+                            <a class="clearfix bl">
+                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                                     alt="">
+                                <div>
+                                    <h5>设计师要懂的心理学</h5>
+                                    <p>
+                                        学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
+                                </div>
+                                <i class="check"></i>
+                            </a>
+                            <a class="clearfix br">
+                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                                     alt="">
+                                <div>
+                                    <h5>设计师要懂的心理学</h5>
+                                    <p>
+                                        学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
+                                </div>
+                                <i class="check"></i>
+                            </a>
+                            <a class="clearfix cv">
+                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c592"
+                                     alt="">
+                                <div>
+                                    <h5>设计师要懂的心理学</h5>
+                                    <p>
+                                        学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
+                                </div>
+                                <i class="check"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-
-
         </div>
-
-
     </div>
-
-
 </div>
+
+
+<!--  开启资料收集弹出窗口-->
+<div class="modal fade" id="openCollectFile" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" style="width: 400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="myModalLabel3">
+                    开启资料收集
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="warning">
+                    开启资料收集,并将上传地址发送给他人,所有收到链接的人均可在此上传文件(上传者之间无法查看其他人上传的文件),实现资料快速收集。
+                </div>
+                <div class="form-group">
+                    <div class="btn" ng-click="openCollection()">开启资料收集</div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!--  关闭资料收集弹出窗口-->
+<div class="modal fade" id="closeCollectFile" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" style="width: 400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="myModalLabel4">
+                    关闭资料收集
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="warning">
+                    关闭资料收集后,您仍可以管理其他人已上传的文件,但其他人无法再通过之前的链接上传文件。
+                </div>
+                <div class="form-group">
+                    <div class="btn" ng-click="closeCollection()">关闭资料收集</div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!--开启资料收集窗口信息-->
+<div class="modal fade" id="msgCollectFile" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel5" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="myModalLabel5">
+                    开启资料收集
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group clearfix">
+                    <div class="col-sm-8">
+                        <h5>上传地址:</h5>
+                        <p>{{collectUrl}}</p>
+                        <span class="btn" data-clipboard-text="{{collectUrl}}"
+                              ng-if="collectUrl" copy-website>复制链接</span>
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="/file/qr?size=160&text={{collectUrl | encodeURIComponent}}" alt="刷新重试">
+                    </div>
+                </div>
+
+                <div class="collect">
+                    <div class="title clearfix">
+                        <div class="col-sm-5">文件名</div>
+                        <div class="col-sm-2">大小</div>
+                        <div class="col-sm-3">上传时间</div>
+                        <div class="col-sm-2">操作</div>
+                    </div>
+
+                    <div class="info">
+                        <div class="loading" ng-if="collectLoading">
+                            <span></span>
+                        </div>
+
+                        <div class="empty_list" ng-if="collectList.length==0">
+                            <img src="../../../assets/images/1205.png" alt="">
+                        </div>
+                        <ul ng-if="collectList.length>0">
+                            <li class="clearfix" ng-repeat="list in collectList">
+                                <div class="col-sm-5" title="{{list.filename}}">{{list.filename}}</div>
+                                <div class="col-sm-2">{{list.filesize | bitSize}}</div>
+                                <div class="col-sm-3">{{list.create_dateline*1000 | date:"yyyy-MM-dd"}}</div>
+                                <div class="col-sm-2">
+                                    <a href="{{list.uri}}" title="下载"><i
+                                            class="glyphicon glyphicon-save"></i></a>
+                                    <i class="glyphicon glyphicon-trash" title="删除"
+                                       ng-click="delCollectfile($event,list.fullpath)"></i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="alertMsg" ng-if="alertMsg">
+    复制成功
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 

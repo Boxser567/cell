@@ -203,7 +203,7 @@ export default function (app) {
         };
     });
 
-//发送验证码
+    //发送验证码
     app.directive('sendCode', function (Exhibition) {
         return {
             restrict: 'A',
@@ -241,22 +241,7 @@ export default function (app) {
         };
     });
 
-
-    app.directive('imgHovers', function ($timeout) {
-        return {
-            restrict: 'A',
-            link: function (scope, elem) {
-                elem.on("mouseenter", function () {
-                    $(".img-text-warning").show();
-                });
-                elem.on('mouseleave', function () {
-                    $(".img-text-warning").hide();
-                });
-            },
-        };
-    });
-
-//更换会展背景图片
+    //更换会展背景图片
     app.directive('selectBgimg', function ($timeout, Exhibition) {
         return {
             restrict: 'A',
@@ -281,7 +266,7 @@ export default function (app) {
         };
     });
 
-//分组时间切换
+    //分组时间切换
     app.directive('selectGrotime', function ($timeout) {
         return {
             restrict: 'A',
@@ -289,7 +274,6 @@ export default function (app) {
                 elem.on("change", function () {
                     $timeout(function () {
                         scope.groupSetting.forever = elem.val();
-                        console.log(" qiehuan123", scope.groupSetting.forever);
                     })
                 });
             },
@@ -297,7 +281,7 @@ export default function (app) {
     });
 
 
-//复制制定文本信息
+    //复制制定文本信息
     app.directive("copyWebsite", function ($timeout, $rootScope) {
         return {
             restrict: 'A',
@@ -320,7 +304,7 @@ export default function (app) {
     });
 
 
-//删除管理员信息
+    //删除管理员信息
     app.directive("delManger", function ($timeout, $rootScope, Exhibition) {
         return {
             restrict: 'A',
@@ -343,7 +327,7 @@ export default function (app) {
         };
     });
 
-//普通文件上传
+    //普通文件上传
     app.directive('uploadFiles', function ($timeout, Exhibition) {
         return {
             restrict: 'A',
@@ -450,7 +434,7 @@ export default function (app) {
         };
     });
 
-//上传logo、banner、topicImg
+    //上传logo、banner、topicImg
     app.directive('uploadLogo', function ($timeout, Exhibition) {
         return {
             restrict: 'A',
@@ -471,7 +455,7 @@ export default function (app) {
                         }
                         uploadimg(imgTypes, da.data.upload_domain, da.data.token, da.data.file_name);
                     });
-                });
+                })
 
                 function uploadimg(imgTypes, server, token, file_name) {
                     var uploader = WebUploader.create({
@@ -554,7 +538,7 @@ export default function (app) {
         };
     });
 
-//上传分类所需文件
+    //上传分类所需文件
     app.directive('uploadDirFiles', function ($timeout, Exhibition) {
         return {
             restrict: 'A',
@@ -693,7 +677,7 @@ export default function (app) {
         };
     });
 
-//修改各种文件的名称
+    //修改各种文件的名称
     app.directive('editName', function (Exhibition, $timeout, $rootScope) {
         return {
             restrict: 'A',
@@ -815,7 +799,7 @@ export default function (app) {
     });
 
 
-//创建新分组
+    //创建新分组
     app.directive('addGroup', function (Exhibition, $timeout) {
         return {
             restrict: 'A',
@@ -842,7 +826,7 @@ export default function (app) {
         };
     });
 
-//添加分类
+    //添加分类
     app.directive('filesortAdd', function (Exhibition, $timeout) {
         return {
             restrict: 'A',
@@ -888,7 +872,7 @@ export default function (app) {
         };
     });
 
-//从云库中选择文件
+    //从云库中选择文件
     app.directive('gokuaiCloud', function (Exhibition, $timeout) {
         return {
             restrict: 'A',
@@ -1029,7 +1013,7 @@ export default function (app) {
     });
 
 
-//资料收集夹文件上传
+    //资料收集夹文件上传
     app.directive('collectUpload', function ($timeout, Exhibition) {
         return {
             restrict: 'A',
@@ -1124,7 +1108,7 @@ export default function (app) {
     });
 
 
-// 点击选中当前文件
+    // 点击选中当前文件
     app.directive('chooseCollect', function ($timeout) {
         return {
             restrict: 'A',
@@ -1145,7 +1129,7 @@ export default function (app) {
     });
 
 
-//从已有文件或资料收集夹中选取文件
+    //从已有文件或资料收集夹中选取文件
     app.directive('selectUpload', function ($timeout, Exhibition) {
         return {
             restrict: 'A',

@@ -189,7 +189,6 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
             $(".mui-switch").prop("checked", true);
         }
         if (va == -1) {
-
             $("#msgCollectFile").modal('show');
             Exhibition.openCollection({exhibition_id: $scope.currentExbt.id, action: "open"}).then(function (res) {
                 Exhibition.getDirFilesByID({org_id: $scope.orgid, fullpath: res.fullpath}, false).then(function (data) {
@@ -202,8 +201,6 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
             });
 
         }
-
-
     }
 
 
@@ -226,7 +223,7 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
 
     };
 
-//关闭资料收集夹
+    //关闭资料收集夹
     $scope.closeCollection = function () {
         Exhibition.openCollection({exhibition_id: $scope.currentExbt.id, action: "close"}).then(function (res) {
             $("#closeCollectFile").modal('hide');

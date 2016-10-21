@@ -35,16 +35,14 @@
                 <div class="file" title="请上传160x160像素会展Logo">
                     <img src="{{currentExbt.logo}}" alt="" ng-if="currentExbt.logo!=''">
                     <div class="loding" ng-if="imgloading">
-                        <span us-spinner="{lines:11, color:'white',radius:9, width:5, length: 9}"
+                        <span us-spinner="{lines:9, color:'white',radius:7, width:3, length: 6}"
                               spinner-on="imgloading"></span>
                     </div>
                     <div class="img-text-warning">更换Logo</div>
                     <div id="uploadImgdiv" ng-if="currentExbt.id" datawhere="logo" upload-logo img-hovers>
                     </div>
-
                 </div>
                 <div class="name" dataid="{{currentExbt.id}}" dataedit="title" edit-name>{{currentExbt.title}}</div>
-
                 <input class="time" date-range-picker class="form-control date-picker" type="text"
                        ng-model="date" options="opts"/>
                 <p class="code">
@@ -504,10 +502,7 @@
                                     </li>
                                 </ul>
                             </div>
-
-
                         </div>
-
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
