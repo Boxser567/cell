@@ -68,7 +68,7 @@ class ExhibitionTest extends TestCase
         $this->checkOut($result);
     }
 
-    public function testInfo()
+    public function estInfo()
     {
         dump("修改会展详情");
         $result = $this->request(
@@ -111,7 +111,7 @@ class ExhibitionTest extends TestCase
     }
 
 
-    public function estModule()
+    public function testModule()
     {
         dump("创建模块");
         $result = $this->request(

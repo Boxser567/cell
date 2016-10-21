@@ -158,7 +158,7 @@ function createWith($relations)
     return $new_relation;
 }
 
-function get_page_size($size = 20)
+function get_page_size($size = 5)
 {
     return inputGet('size', $size);
 }
