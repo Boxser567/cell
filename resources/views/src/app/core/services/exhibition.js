@@ -206,6 +206,12 @@ export default function (app) {
                         return res.data;
                     })
                 },
+                //添加常用文件夹
+                addFileinfo: function (params) {
+                    return $http.post('/exhibition/module', params).then(function (res) {
+                        return res.data;
+                    })
+                },
 
                 //获取所有专题及详细信息
                 getGroupInfoByPath: function (exid) {

@@ -188,7 +188,6 @@ $checkedColor: #64bd63;
   }
 }
 
-
 .eclipflow {
   width: 100%;
   overflow: hidden;
@@ -220,6 +219,9 @@ $checkedColor: #64bd63;
         width: 20px;
         height: 20px;
         background: url("../../../assets/images/1233.png") no-repeat;
+      }
+      &:hover {
+        text-decoration: none;
       }
       &.active {
         i {
@@ -364,6 +366,51 @@ $checkedColor: #64bd63;
       }
     }
 
+  }
+
+}
+
+//分组样式
+.ui_dir_Modelstyle {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+
+  .diff {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .6);
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+  }
+  .p1 {
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .p2 {
+    & > div {
+      width: 50%;
+      float: left;
+      height: 140px;
+    }
+  }
+  .p3 {
+    .left, .right {
+      float: left;
+      width: 50%;
+      height: 140px;
+    }
+    .right {
+      width: 50%;
+      img {
+        width: 100%;
+        height: 50%;
+      }
+    }
   }
 
 }

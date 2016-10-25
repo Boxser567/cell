@@ -15,6 +15,28 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.collectUrl = "http://cell.meetingfile.com/#/collect/" + $stateParams.unicode + "";
     //logo上传加载
     $scope.imgloading = false;
+    $scope.fileloading = true;//常用文件的加载
+
+
+    //常用文件的获取
+    $scope.FilesList = [];
+    Exhibition.getFileInfoByPath({
+        ex_id: $scope.currentExbt.id,
+        fullpath: $scope.currentExbt.base_folder
+    }, false).then(function (file) {
+        $scope.fileloading = false;
+        _.each(file.data, function (r) {
+            r.property = JSON.parse(r.property);
+        })
+        $scope.FilesList = file.data;
+        console.log("常用文件信息", $scope.FilesList);
+    });
+
+    $scope.addFileFn = function () {
+        Exhibition.addFileinfo({ex_id: $scope.currentExbt.id}).then(function (res) {
+            console.log(res);
+        })
+    }
 
 
     if ($scope.currentExbt.res_collect_lock == 1) {     //收集按钮是否选中
@@ -36,7 +58,6 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
             dateLimit: 120,     //最大只能选择120天
         },
     };
-
     $scope.$watch('date', function (time) {
         if (typeof time.startDate == "object") {
             var start = time.startDate.format('YYYY-MM-DD');
@@ -49,6 +70,8 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
                     end_date: end
                 }).then(function (res) {
                     console.log("时间", res);
+                    $scope.currentExbt.start_date = start;
+                    $scope.currentExbt.end_date = end;
                 })
             }
         }
@@ -161,6 +184,19 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
             $scope.currentExbt.res_collect_lock = -1;
         })
     };
+
+
+    //更换banner背景图
+    $scope.bannerList=[];
+    $scope.getBannerFn = function () {
+        $("#changeBannerModal").modal('show');
+        if ($scope.bannerList.length <= 0) {
+            Exhibition.getBannerList().then(function (res) {
+                console.log("bannerList", res)
+                $scope.bannerList = res;
+            })
+        }
+    }
 
 
 }
