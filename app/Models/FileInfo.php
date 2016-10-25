@@ -23,9 +23,9 @@ class FileInfo extends BaseModel
     const USUAL_FOLDER_COUNT=1;
 
 
-    public static function getCount($ex_id)
+    public static function getCount($ex_id,$folder_id)
     {
-        return self::createWith()->where("ex_id", $ex_id)->count();
+        return self::createWith()->where("ex_id", $ex_id)->where('folder_id',$folder_id)->count();
     }
 
     public static function getFolderId($folder_id)

@@ -111,7 +111,7 @@ class ExhibitionTest extends TestCase
     }
 
 
-    public function testModule()
+    public function estModule()
     {
         dump("创建模块");
         $result = $this->request(
@@ -122,12 +122,13 @@ class ExhibitionTest extends TestCase
         $this->checkOut($result);
     }
 
-    public function estModules()
+    public function testModules()
     {
         dump("更新模块");
         $result = $this->request(
             "POST", "/exhibition/update-module", [
-                "file_id"=>1,
+                "ex_id"=>80,
+                //'folder_id'=>30,
                 "title"=>"wangyuxiang",
                 //"back_pic"=>"dfdfdfdsfadsfadfadsfadsfadsfadsf",
                 //"sub_title"=>"zhongguoren",

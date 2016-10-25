@@ -101,11 +101,11 @@ class ExhibitionController extends BaseController
     }
 
     //新建更新模块
-    public function postModule()
+    public function postModule($ex_id=0,$folder_id=0)
     {
-        $ex_id = inputGetOrFail("ex_id");
-        $folder_id = inputGet("folder_id", "");
-        $order_by = FileInfo::getCount($ex_id) + 1;
+        $ex_id = inputGet("ex_id",$ex_id);
+        $folder_id = inputGet("folder_id",$folder_id );
+        $order_by = FileInfo::getCount($ex_id,$folder_id) + 1;
         if (!$folder_id) {
             // $this->judgePermission('base_count',$order_by-1);//常用文件上传个数
         }else{
@@ -116,9 +116,18 @@ class ExhibitionController extends BaseController
     }
 
     //修改模块设置
-    public function getUpdateModule()
+    public function postUpdateModule()
     {
-        $id = inputGetOrFail("file_id");
+        if(\Request::has('ex_id')){
+            if(\Request::has('folder_id')){
+                $module=$this->postModule(inputGet("ex_id"),inputGet("folder_id"));
+            }else{
+                $module=$this->postModule(inputGet("ex_id"));
+            }
+            $id=$module->id;
+        }else{
+            $id = inputGetOrFail("file_id");
+        }
         $module = FileInfo::_findOrFail($id);
         $property = json_decode($module->property, true);
         $hash = inputGet("hash", "");
@@ -142,7 +151,6 @@ class ExhibitionController extends BaseController
         if ($size) {
             $property["size"] = $size;
         }
-
         $property = json_encode($property);
         return LAccount::setFile($id, "", $hash, "", "", $property);
     }
