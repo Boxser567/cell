@@ -101,7 +101,7 @@ class ExhibitionController extends BaseController
     }
 
     //新建更新模块
-    public function postModule($ex_id=0,$folder_id=0)
+    public static function postModule($ex_id=0,$folder_id=0,$title="新建模块",$hash='',$size='')
     {
         $ex_id = inputGet("ex_id",$ex_id);
         $folder_id = inputGet("folder_id",$folder_id );
@@ -111,8 +111,8 @@ class ExhibitionController extends BaseController
         }else{
             // $this->judgePermission('file_count',$order_by-1);//每个专题下文件个数
         }
-        $property = json_encode(["title" => "新建模块", "back_pic" => "http://res.meetingfile.com/2168a80ad9c3a8b1a07eb78751e37e4d2491041a.jpg", "sub_title" => "", "style" => FileInfo::STYLE_LIST_LEFT,"size"=>""]);
-        return LAccount::setFile("", $ex_id, "", $folder_id, $order_by, $property);
+        $property = json_encode(["title" => $title, "back_pic" => "http://res.meetingfile.com/2168a80ad9c3a8b1a07eb78751e37e4d2491041a.jpg", "sub_title" => "", "style" => FileInfo::STYLE_LIST_LEFT,"size"=>$size]);
+        return LAccount::setFile("", $ex_id,$hash, $folder_id, $order_by, $property);
     }
 
     //修改模块设置
@@ -120,9 +120,9 @@ class ExhibitionController extends BaseController
     {
         if(\Request::has('ex_id')){
             if(\Request::has('folder_id')){
-                $module=$this->postModule(inputGet("ex_id"),inputGet("folder_id"));
+                $module=self::postModule(inputGet("ex_id"),inputGet("folder_id"));
             }else{
-                $module=$this->postModule(inputGet("ex_id"));
+                $module=self::postModule(inputGet("ex_id"));
             }
             $id=$module->id;
         }else{

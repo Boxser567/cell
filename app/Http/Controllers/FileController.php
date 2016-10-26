@@ -312,15 +312,52 @@ class FileController extends Controller
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
         return $yunkufile->setYunkuFile(inputGetOrFail("filename"), inputGetOrFail("size"), inputGetOrFail("hash"));
     }
+    
 
     //从资料收集夹或者已有文件中获取
     public function postSelfFile()
     {
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
-        $files = inputGetOrFail("files");
+        $return_files = array();
+        foreach ($return_files as $key => $file) {
+            $result = $yunkufile->setYunkuFile($file["filename"], $file["size"], $file["hash"]);
+            $module=[];
+            if(\Request::has('ex_id')){
+                if(\Request::has('folder_id')){
+                    $module=ExhibitionController::postModule(inputGet("ex_id"),inputGet("folder_id"),$result['fullpath'],$result['hash'],$result['filesize']);
+                }else{
+                    $module=ExhibitionController::postModule(inputGet("ex_id"),'',$result['fullpath'],$result['hash'],$result['filesize']);
+                }
+            }
+            $return_files[$key]=$module;
+        }
+        if (\Request::has('hash')) {
+            $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
+            $file_size = $folder_info->file_size + inputGetOrFail('dirsize');
+            $file_count = $folder_info->file_count + inputGetOrFail('dircount');
+            FolderInfo::updateInfo(inputGetOrFail('hash'), $file_count, $file_size);
+            FolderInfo::cacheForget();
+        }
+        return $return_files;
+    }
+    
+    
+    
+    public function createModule($files)
+    {
+        $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
         $return_files = array();
         foreach ($files as $key => $file) {
-            $return_files[$key] = $yunkufile->setYunkuFile($file["filename"], $file["size"], $file["hash"]);
+            $result = $yunkufile->setYunkuFile($file["filename"], $file["size"], $file["hash"]);
+            $module=[];
+            if(\Request::has('ex_id')){
+                if(\Request::has('folder_id')){
+                    $module=ExhibitionController::postModule(inputGet("ex_id"),inputGet("folder_id"),$result['fullpath'],$result['hash'],$result['filesize']);
+                }else{
+                    $module=ExhibitionController::postModule(inputGet("ex_id"),'',$result['fullpath'],$result['hash'],$result['filesize']);
+                }
+            }
+            $return_files[$key]=$module;
         }
         if (\Request::has('hash')) {
             $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
