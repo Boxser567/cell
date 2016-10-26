@@ -318,8 +318,9 @@ class FileController extends Controller
     public function postSelfFile()
     {
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
+        $files = inputGetOrFail("files");
         $return_files = array();
-        foreach ($return_files as $key => $file) {
+        foreach ($files as $key => $file) {
             $result = $yunkufile->setYunkuFile($file["filename"], $file["size"], $file["hash"]);
             $module=[];
             if(\Request::has('ex_id')){
