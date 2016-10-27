@@ -30,10 +30,10 @@ function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
         $scope.DirsList = res;
     });
 
-    $scope.showMoreFile=function () {
-
-    }
-
+    // $scope.showMoreFile=function () {
+    //
+    // }
+    //
     // $scope.DirsList = [];
     // $scope.AllFileList = [], $scope.FilesList = [];
     // var files = [], dirs = [];
@@ -58,8 +58,8 @@ function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
     //         })
     //     })
     // })
-
-
+    //
+    //
     // $timeout(function () {
     //     $scope.DirsList = temp;
     //     console.log("$scope.DirsList", $scope.DirsList);

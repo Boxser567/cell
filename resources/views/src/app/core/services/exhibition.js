@@ -213,6 +213,20 @@ export default function (app) {
                     })
                 },
 
+                //修改常用文件夹
+                editFileinfo: function (params) {
+                    return $http.post('/exhibition/update-module', params).then(function (res) {
+                        return res.data;
+                    })
+                },
+
+                //删除常用文件夹
+                delFileinfo: function (params) {
+                    return $http.post('/exhibition/delete-module', params).then(function (res) {
+                        return res.data;
+                    })
+                },
+
                 //获取所有专题及详细信息
                 getGroupInfoByPath: function (exid) {
                     return $http.get('/file/ex-group', {params: {ex_id: exid}}).then(function (res) {
@@ -227,7 +241,7 @@ export default function (app) {
                 },
 
 
-                //将云库的文件同步到会文件列表
+                //将云库的文件同步到会文件列表-----无效了
                 copyFilrFromCloud: function (params) {
                     return $http.get('/file/yunku-file', {params: params}).then(function (res) {
                         return res.data;

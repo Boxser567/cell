@@ -1544,84 +1544,6 @@ body {
       }
     }
   }
-  #uploadFileModal {
-    button {
-      outline: medium;
-    }
-    .modal-body {
-      margin-bottom: 30px;
-    }
-    .form-group {
-      margin: 0;
-      margin-top: 20px;
-      height: 30px;
-      text-align: center;
-      .uploadByCollect {
-        background: #009beb;
-        color: #fff;
-        padding: 6px 25px;
-        border-radius: 15px;
-        .webuploader-pick {
-          background: none;
-          padding: 0;
-          overflow: inherit;
-        }
-        & > div:nth-child(2) {
-          width: 122px;
-          height: 31px;
-        }
-      }
-      .uploadByLocal {
-        background: #009beb;
-        color: #fff;
-        padding: 6px 25px;
-        border-radius: 25px;
-        .webuploader-pick {
-          background: none;
-          padding: 0;
-          overflow: inherit;
-        }
-        & > div:nth-child(2) {
-          width: 122px !important;
-          height: 31px !important;
-        }
-      }
-      .uploadByHave {
-        background: #009beb;
-        color: #fff;
-        padding: 6px 40px;
-        border-radius: 25px;
-      }
-
-      .uploadByCloud {
-        color: #009beb;
-        border: 1px solid #009beb;
-        padding: 6px 10px;
-        border-radius: 25px;
-      }
-    }
-    .othergroup {
-      position: relative;
-      height: 24px;
-      margin-top: 35px;
-      p {
-        border-top: 1px solid #ddd;
-        position: relative;
-        top: 10px;
-        width: 70%;
-        margin-left: 15%;
-      }
-      span {
-        position: absolute;
-        width: 100px;
-        left: 50%;
-        margin-left: -50px;
-        text-align: center;
-        top: 1px;
-        background: #fff;
-      }
-    }
-  }
 
   //分组设置弹窗
   #groupSettingModal {
@@ -2098,6 +2020,7 @@ body {
         width: 320px;
         height: 570px;
         background: #e6e6e6;
+        overflow: scroll;
         .mb_header {
           .diff {
             position: relative;
@@ -2149,6 +2072,7 @@ body {
         }
 
         .mb_file {
+          margin-top: 15px;
           padding: 0 10px;
           position: relative;
           .loading {
@@ -2160,28 +2084,57 @@ body {
             list-style: none;
             padding: 0;
             li {
+              position: relative;
               width: 100%;
-
+              a {
+                &.active {
+                  box-shadow: 0px 0px 8px #009bff;
+                }
+              }
+              .cover {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 9;
+                span {
+                  background: rgba(0, 153, 255, 0.6);
+                  display: inline-block;
+                  height: 100%;
+                  border-radius: 4px;
+                }
+                i {
+                  font-style: normal;
+                  color: #999;
+                  position: absolute;
+                  top: 8px;
+                  right: 8px;
+                  padding: 10px;
+                  cursor: pointer;
+                  z-index: 11;
+                }
+              }
               .add {
                 cursor: pointer;
                 text-decoration: none;
                 display: block;
-                padding: 22px 0;
+                padding: 17px 0;
                 color: #fff;
                 background: #333;
                 font-size: 16px;
                 text-align: center;
                 border-radius: 4px;
-                position: relative;
-                & > div {
-                  z-index: 99;
-                  position: absolute;
-                  top: 0 !important;
-                  left: 0 !important;
-                  width: 100% !important;
-                  height: 100% !important;
-                  background: none;
-                }
+                //position: relative;
+                //& > div {
+                //  z-index: 99;
+                //  position: absolute;
+                //  top: 0 !important;
+                //  left: 0 !important;
+                //  width: 100% !important;
+                //  height: 100% !important;
+                //  background: none;
+                //}
 
               }
             }
@@ -2304,7 +2257,7 @@ body {
       }
 
       .filemask {
-        display: none;
+        //display: none;
         & > div {
           margin: 30px;
           margin-bottom: 0;
@@ -2313,15 +2266,63 @@ body {
         h3 {
           margin-top: 33px;
           padding-left: 30px;
+          width: 430px;
+          span {
+            color: #fff;
+            background: #e9362b;
+            font-size: 12px;
+            font-weight: 400;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            i {
+              margin-right: 5px;
+            }
+          }
         }
         .preview {
           text-align: left;
           ul {
             li {
-              & > a {
-                display: none;
-                &.active {
-                  display: block;
+              .sl {
+                input {
+                  width: 75%;
+                  position: absolute;
+                  top: 15px;
+                  right: 15px;
+
+                }
+              }
+              .sr {
+                input {
+                  width: 75%;
+                  position: absolute;
+                  top: 15px;
+                  left: 10px;
+                }
+              }
+              .bl {
+                input {
+                  width: 65%;
+                  position: absolute;
+                  top: 10px;
+                  right: 18px;
+                }
+              }
+              .br {
+                input {
+                  width: 67%;
+                  position: absolute;
+                  top: 10px;
+                  left: 10px;
+                }
+              }
+              .cv {
+                input {
+                  width: 85%;
+                  position: absolute;
+                  bottom: 25px;
+                  left: 10px;
                 }
               }
             }
@@ -2346,28 +2347,44 @@ body {
         .coverfetcher {
           .img {
             margin-top: 15px;
+            p {
+              color: #666;
+              margin-top: 8px;
+            }
             img {
-              display: inline-block;
+              float: left;
               width: 120px;
+              height: 120px;
             }
             .r {
-              display: inline-block;
+              float: left;
               width: 275px;
               padding-left: 15px;
-              p {
-                color: #666;
-              }
               .btn {
-                margin-top: 20px;
+                display: block;
+                margin-top: 18px;
                 width: 120px;
                 background-color: #f1f1f1;
                 border: 1px solid #cccccc;
                 border-radius: 4px;
                 color: #666;
+                position: relative;
                 &:hover {
                   background-color: #333333;
-                  color: #fff;
                 }
+                .webuploader-pick {
+                  background: none;
+                  padding: 0;
+                  color: #666;
+                  overflow: inherit;
+                }
+                & > div:nth-child(2) {
+                  width: 118px !important;
+                  height: 30px !important;
+                  left: 0 !important;
+                  right: 0 !important;
+                }
+
               }
             }
           }
@@ -2395,6 +2412,7 @@ body {
       }
 
       .topic_con {
+        display: none;
         padding: 30px;
 
         & > div {
@@ -2412,15 +2430,97 @@ body {
 
         }
         .d2 {
-          .style{
+          .style {
             margin-top: 15px;
           }
         }
         .d3 {
+          width: 400px;
+          .text {
+            margin-top: 15px;
+            div {
+              width: 310px;
+              display: inline-block;
+            }
+          }
+          label {
+            float: right;
+            input {
+              outline: medium;
+            }
+          }
         }
         .d4 {
+          select {
+            width: 100%;
+            margin-top: 15px;
+          }
         }
         .d5 {
+          .cen {
+            margin-top: 15px;
+            p {
+              margin-bottom: 5px;
+              font-size: 16px;
+            }
+            img {
+              border-radius: 8px;
+            }
+            & > div {
+              position: relative;
+              .diff {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, .6);
+                z-index: 3;
+              }
+              .content {
+                z-index: 5;
+                position: absolute;
+                width: 100%;
+                left: 0;
+                top: 55px;
+                text-align: center;
+                color: #fff;
+                height: 60px;
+                .tl {
+                  font-size: 20px;
+                }
+              }
+            }
+          }
+          .bottom {
+            margin-top: 10px;
+            p {
+              margin-bottom: 5px;
+              font-size: 16px;
+            }
+            img {
+              border-top-left-radius: 8px;
+              border-top-right-radius: 8px;
+            }
+            & > div {
+              width: 400px;
+              background: #fff;
+              border-bottom-left-radius: 8px;
+              border-bottom-right-radius: 8px;
+              height: 40px;
+              line-height: 40px;
+              h4 {
+                width: 73.666%;
+                display: inline-block;
+              }
+              p {
+                width: 25.3333%;
+                text-align: right;
+                display: inline-block;
+              }
+
+            }
+          }
         }
 
       }
@@ -2429,6 +2529,86 @@ body {
 
   }
 
+}
+
+//文件上传弹出窗
+#uploadFileModal {
+  button {
+    outline: medium;
+  }
+  .modal-body {
+    margin-bottom: 30px;
+  }
+  .form-group {
+    margin: 0;
+    margin-top: 20px;
+    height: 30px;
+    text-align: center;
+    .uploadByCollect {
+      background: #009beb;
+      color: #fff;
+      padding: 6px 25px;
+      border-radius: 15px;
+      .webuploader-pick {
+        background: none;
+        padding: 0;
+        overflow: inherit;
+      }
+      & > div:nth-child(2) {
+        width: 122px;
+        height: 31px;
+      }
+    }
+    .uploadByLocal {
+      background: #009beb;
+      color: #fff;
+      padding: 6px 25px;
+      border-radius: 25px;
+      .webuploader-pick {
+        background: none;
+        padding: 0;
+        overflow: inherit;
+      }
+      & > div:nth-child(2) {
+        width: 122px !important;
+        height: 31px !important;
+      }
+    }
+    .uploadByHave {
+      background: #009beb;
+      color: #fff;
+      padding: 6px 40px;
+      border-radius: 25px;
+    }
+
+    .uploadByCloud {
+      color: #009beb;
+      border: 1px solid #009beb;
+      padding: 6px 10px;
+      border-radius: 25px;
+    }
+  }
+  .othergroup {
+    position: relative;
+    height: 24px;
+    margin-top: 35px;
+    p {
+      border-top: 1px solid #ddd;
+      position: relative;
+      top: 10px;
+      width: 70%;
+      margin-left: 15%;
+    }
+    span {
+      position: absolute;
+      width: 100px;
+      left: 50%;
+      margin-left: -50px;
+      text-align: center;
+      top: 1px;
+      background: #fff;
+    }
+  }
 }
 
 //banner背景图片
@@ -2554,12 +2734,7 @@ body {
       .loading {
         margin-top: 10px;
         text-align: center;
-        span {
-          width: 32px;
-          height: 32px;
-          display: inline-block;
-          background: url("../../images/pass.gif") no-repeat;
-        }
+        height: 60px;
       }
       ul {
         margin: 0;
@@ -2638,18 +2813,11 @@ body {
       }
 
     }
-    .info {
+    .loading {
+      height: 60px;
       position: relative;
-      .loading {
-        margin-top: 10px;
-        text-align: center;
-        span {
-          width: 32px;
-          height: 32px;
-          display: inline-block;
-          background: url("../../images/pass.gif") no-repeat;
-        }
-      }
+    }
+    .info {
       ul {
         margin: 0;
         padding: 0;

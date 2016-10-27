@@ -38,6 +38,12 @@ body {
     @media all and (min-width: 376px) {
       min-height: 360px;
     }
+    .mark{
+      position: absolute;
+      width: 100%;
+      padding: 5px 15px;
+      color: #fff;
+    }
     .diff {
       position: absolute;
       top: 0;

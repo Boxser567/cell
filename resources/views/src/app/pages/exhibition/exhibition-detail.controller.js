@@ -374,7 +374,6 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
             $scope.thisDirPath = false;
             $scope.thisDirHash = false;
         })
-
     }
 
 

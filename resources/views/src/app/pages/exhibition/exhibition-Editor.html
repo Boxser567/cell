@@ -57,17 +57,21 @@
                 <span ng-if="currentExbt.res_collect_lock==-1">:&nbsp;已关闭</span>
                  <span ng-if="currentExbt.res_collect_lock==1">:&nbsp;已开启</span> </span>
             <label ng-click="checkCollecFn()">
-                <input class="mui-switch mui-switch-anim" type="checkbox"
+                <input class="mui-switch mui-switch-anim mui_collect" type="checkbox"
                        value="{{currentExbt.res_collect_lock}}"></label>
             <s ng-click="showCollection()" ng-if="currentExbt.res_collect_lock!=0">查看</s>
             <div class="size">
                 <span>{{currentExbt.property.dir_count}}个分组 ,&nbsp;{{currentExbt.property.file_count}}个专题 ,&nbsp;共{{currentExbt.property.file_count | bitSize}}</span>
             </div>
             <div class="btn upgrade">升级</div>
-            <div class="btn save_publish"><i class="glyphicon glyphicon-floppy-open"></i>保存和发布</div>
+            <div class="btn save_publish" data-target="#exhibitionCode" data-toggle="modal">
+                <i class="glyphicon glyphicon-floppy-open"></i>保存和发布
+            </div>
         </div>
     </div>
 
+
+    <!--<div ng-click="addFileFn()" >创建一个壳子</div>-->
 
     <div class="FILE_ARTICLE clearfix">
         <!--<img class="bgimg" src="../../../assets/images/10.png" alt="">-->
@@ -178,22 +182,27 @@
                           spinner-on="fileloading"></span>
                     <ul class="ui_file_Modelstyle">
                         <li ng-repeat="file in FilesList">
-                            <a class="clearfix sl active" ng-if="file.property.style==1">
+                            <a class="clearfix sl" ng-if="file.property.style==1"
+                               ng-click="selectFileFn($event,$index,file)">
                                 <img src="{{file.property.back_pic}}-c320" alt="">
                                 <div>{{file.property.title}}</div>
                             </a>
-                            <a class="clearfix sr" ng-if="file.property.style==2">
+                            <a class="clearfix sr" ng-if="file.property.style==2"
+                               ng-click="selectFileFn($event,$index,file)">
                                 <div>{{file.property.title}}</div>
                                 <img src="{{file.property.back_pic}}-c320" alt="">
                             </a>
-                            <a class="clearfix bl" ng-if="file.property.style==3">
-                                <img src="{{file.property.back_pic}}-c320" alt="">
+                            <a class="clearfix bl" ng-if="file.property.style==3"
+                               ng-click="selectFileFn($event,$index,file)">
+                                <img src="{{file.property.back_pic}}-c320" alt=""
+                                     ng-click="selectFileFn($event,$index,file)">
                                 <div>
                                     <h5>{{file.property.title}}</h5>
                                     <p>{{file.property.sub_title}}</p>
                                 </div>
                             </a>
-                            <a class="clearfix br" ng-if="file.property.style==4">
+                            <a class="clearfix br" ng-if="file.property.style==4"
+                               ng-click="selectFileFn($event,$index,file)">
                                 <img src="{{file.property.back_pic}}-c320"
                                      alt="">
                                 <div>
@@ -201,19 +210,22 @@
                                     <p>{{file.property.sub_title}}</p>
                                 </div>
                             </a>
-                            <a class="clearfix cv" ng-if="file.property.style==5">
+                            <a class="clearfix cv" ng-if="file.property.style==5"
+                               ng-click="selectFileFn($event,$index,file)">
                                 <img src="{{file.property.back_pic}}-c592" alt="">
                                 <div>
                                     <h5>{{file.property.title}}</h5>
                                     <p>{{file.property.sub_title}}</p>
                                 </div>
                             </a>
+                            <div class="cover" ng-if="file.filewidth && file.filewidth!=100">
+                                <span style="width: {{file.filewidth}}%"></span>
+                                <i>X</i>
+                            </div>
                         </li>
-
-
                         <li>
                             <!--<a class="add" ng-click="addFileFn()">添加内容模块</a>-->
-                            <div class="add" upload-files>
+                            <div class="add" ng-click="fileChooser()">
                                 添加内容模块
                             </div>
                         </li>
@@ -248,7 +260,8 @@
             </div>
 
             <div class="filemask">
-                <h3>模块设置/内容模块</h3>
+                <h3>模块设置/内容模块 <span class="pull-right" ng-click="delFileFn()"><i class="glyphicon glyphicon-trash"></i>删除</span>
+                </h3>
                 <div class="preview">
                     <div class="h">
                         <i></i>
@@ -256,48 +269,57 @@
                     </div>
                     <ul class="ui_file_Modelstyle">
                         <li>
-                            <a class="clearfix sl active">
-                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                            <a class="clearfix sl" ng-if="fileglobal.property.style==1">
+                                <img src="{{fileglobal.property.back_pic}}-c320"
                                      alt="">
-                                <div>光影艺术、设计师的作品全集</div>
+                                <div ng-if="!fileglobal.isEdit">{{fileglobal.property.title}}</div>
+                                <input type="text" ng-if="fileglobal.isEdit" class="form-control"
+                                       ng-model="fileglobal.property.title">
                             </a>
-                            <a class="clearfix sr">
-                                <div>光影艺术、设计师的作品全集</div>
-                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                            <a class="clearfix sr" ng-if="fileglobal.property.style==2">
+                                <div ng-if="!fileglobal.isEdit">{{fileglobal.property.title}}</div>
+                                <img src="{{fileglobal.property.back_pic}}-c320"
                                      alt="">
+                                <input type="text" ng-if="fileglobal.isEdit" class="form-control"
+                                       ng-model="fileglobal.property.title">
                             </a>
-                            <a class="clearfix bl">
-                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                            <a class="clearfix bl" ng-if="fileglobal.property.style==3">
+                                <img src="{{fileglobal.property.back_pic}}-c320"
                                      alt="">
                                 <div>
-                                    <h5>设计师要懂的心理学</h5>
-                                    <p>
-                                        学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
+                                    <input type="text" ng-if="fileglobal.isEdit" class="form-control"
+                                           ng-model="fileglobal.property.title">
+                                    <h5 ng-if="!fileglobal.isEdit">{{fileglobal.property.title}}</h5>
+                                    <p>{{fileglobal.property.sub_title}}</p>
                                 </div>
                             </a>
-                            <a class="clearfix br">
-                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                            <a class="clearfix br" ng-if="fileglobal.property.style==4">
+                                <img src="{{fileglobal.property.back_pic}}-c320"
                                      alt="">
                                 <div>
-                                    <h5>设计师要懂的心理学</h5>
-                                    <p>
-                                        学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
+                                    <input type="text" ng-if="fileglobal.isEdit" class="form-control"
+                                           ng-model="fileglobal.property.title">
+                                    <h5 ng-if="!fileglobal.isEdit">{{fileglobal.property.title}}</h5>
+                                    <p>{{fileglobal.property.sub_title}}</p>
                                 </div>
                             </a>
-                            <a class="clearfix cv">
-                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c592"
+                            <a class="clearfix cv" ng-if="fileglobal.property.style==5">
+                                <img src="{{fileglobal.property.back_pic}}-c592"
                                      alt="">
                                 <div>
-                                    <h5>设计师要懂的心理学</h5>
-                                    <p>
-                                        学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
+
+                                    <h5 ng-if="!fileglobal.isEdit">{{fileglobal.property.title}}</h5>
+                                    <p>{{fileglobal.property.sub_title}}</p>
                                 </div>
+                                <input type="text" ng-if="fileglobal.isEdit" class="form-control"
+                                       ng-model="fileglobal.property.title">
                             </a>
                         </li>
                     </ul>
 
                     <div class="r">
-                        <div class="btn">重命名</div>
+                        <div class="btn">替换内容</div>
+                        <div class="btn" edit-filename>重命名</div>
                     </div>
 
                 </div>
@@ -306,14 +328,19 @@
                         <i></i>
                         封面设置
                     </div>
-                    <div class="img">
-                        <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320" alt="">
-                        <div class="r">
-                            <div class="btn">
-                                更换背景
+                    <div class="img ">
+                        <div class="clearfix">
+                            <img src="{{fileglobal.property.back_pic}}-c320" alt="">
+                            <div class="r">
+                                <div class="btn" datawhere="fileimg" upload-logo>
+                                    更换背景
+                                </div>
+                                <div class="btn" ng-click="resetfilebgFn()">
+                                    重置背景
+                                </div>
                             </div>
-                            <p>支持 600x320像素的 JPG/PNG 格式 , 不超过1M </p>
                         </div>
+                        <p>支持 600x320像素的 JPG/PNG 格式 , 不超过1M </p>
                     </div>
                 </div>
                 <div class="Informatik">
@@ -322,7 +349,7 @@
                         内容摘要(选填)
                     </div>
                     <div class="txt">
-                        <textarea placeholder="请输入内容摘要"></textarea>
+                        <textarea placeholder="请输入内容摘要" ng-model="fileglobal.property.sub_title"  edit-filesubname></textarea>
                     </div>
                 </div>
                 <div class="displayTile">
@@ -333,47 +360,47 @@
 
                     <ul class="ui_file_Modelstyle">
                         <li>
-                            <a class="clearfix sl active">
-                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                            <a class="clearfix sl" datastyle="1" select-filestyle>
+                                <img src="{{fileglobal.property.back_pic}}-c320"
                                      alt="">
-                                <div>光影艺术、设计师的作品全集</div>
-                                <i class="check"></i>
+                                <div>{{fileglobal.property.title}}</div>
+                                <i class="check" ng-if="fileglobal.property.style==1"></i>
                             </a>
-                            <a class="clearfix sr">
-                                <div>光影艺术、设计师的作品全集</div>
-                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                            <a class="clearfix sr" datastyle="2" select-filestyle>
+                                <div>{{fileglobal.property.title}}</div>
+                                <img src="{{fileglobal.property.back_pic}}-c320"
                                      alt="">
-                                <i class="check"></i>
+                                <i class="check" ng-if="fileglobal.property.style==2"></i>
                             </a>
-                            <a class="clearfix bl">
-                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                            <a class="clearfix bl" datastyle="3" select-filestyle>
+                                <img src="{{fileglobal.property.back_pic}}-c320"
                                      alt="">
                                 <div>
-                                    <h5>设计师要懂的心理学</h5>
+                                    <h5>{{fileglobal.property.title}}</h5>
                                     <p>
                                         学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
                                 </div>
-                                <i class="check"></i>
+                                <i class="check" ng-if="fileglobal.property.style==3"></i>
                             </a>
-                            <a class="clearfix br">
-                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c320"
+                            <a class="clearfix br" datastyle="4" select-filestyle>
+                                <img src="{{fileglobal.property.back_pic}}-c320"
                                      alt="">
                                 <div>
-                                    <h5>设计师要懂的心理学</h5>
+                                    <h5>{{fileglobal.property.title}}</h5>
                                     <p>
                                         学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
                                 </div>
-                                <i class="check"></i>
+                                <i class="check" ng-if="fileglobal.property.style==4"></i>
                             </a>
-                            <a class="clearfix cv">
-                                <img src="http://res.meetingfile.com/02c9fba9910dcc6689298ec53d1a3f6187248631.jpg-c592"
+                            <a class="clearfix cv" datastyle="5" select-filestyle>
+                                <img src="{{fileglobal.property.back_pic}}-c592"
                                      alt="">
                                 <div>
-                                    <h5>设计师要懂的心理学</h5>
+                                    <h5>{{fileglobal.property.title}}</h5>
                                     <p>
                                         学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
                                 </div>
-                                <i class="check"></i>
+                                <i class="check" ng-if="fileglobal.property.style==5"></i>
                             </a>
                         </li>
                     </ul>
@@ -393,45 +420,40 @@
                     <div class="h">
                         <i></i>专题封面图
                     </div>
-
-
                     <div class="style">
                         <div class="ui_dir_Modelstyle">
                             <div class="diff"></div>
                             <!--<div class="p1" >-->
-                                <!--<img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">-->
+                            <!--<img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">-->
                             <!--</div>-->
                             <!--<div class="p2 clearfix">-->
-                                <!--<div>-->
-                                    <!--<img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">-->
-                                <!--</div>-->
-                                <!--<div>-->
-                                    <!--<img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">-->
-                                <!--</div>-->
+                            <!--<div>-->
+                            <!--<img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">-->
+                            <!--</div>-->
+                            <!--<div>-->
+                            <!--<img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">-->
+                            <!--</div>-->
                             <!--</div>-->
                             <div class="p3 clearfix">
                                 <div class="left">
-                                    <img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">
+                                    <img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340"
+                                         alt="">
                                 </div>
                                 <div class="right">
-                                    <img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">
-                                    <img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">
+                                    <img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340"
+                                         alt="">
+                                    <img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340"
+                                         alt="">
                                 </div>
                             </div>
                         </div>
                         <!--<div class="title">-->
-                            <!--<p class="tl">{{dir.title}}</p>-->
-                            <!--<p class="count">{{dir.file_count}}条内容-->
-                                <!--<i class="glyphicon glyphicon-menu-right"></i>-->
-                            <!--</p>-->
+                        <!--<p class="tl">{{dir.title}}</p>-->
+                        <!--<p class="count">{{dir.file_count}}条内容-->
+                        <!--<i class="glyphicon glyphicon-menu-right"></i>-->
+                        <!--</p>-->
                         <!--</div>-->
                     </div>
-
-
-
-
-
-
 
 
                 </div>
@@ -439,15 +461,17 @@
                     <div class="h">
                         <i></i>非有效期内是否隐藏分组内容
                     </div>
-                    <div class="hide">
+                    <div class="text">
                         <div>如设置不隐藏,用户将只能看到该组内的分类标题,但无法查看内容。</div>
+                        <label> <input class="mui-switch mui-switch-anim" type="checkbox"></label>
                     </div>
+
                 </div>
                 <div class="d4">
                     <div class="h">
                         <i></i>专题有效时间
                     </div>
-                    <select>
+                    <select class="form-control">
                         <option value="1">永久有效</option>
                         <option value="2">自定义有效时间</option>
                     </select>
@@ -460,14 +484,21 @@
                     <div class="cen">
                         <p>标题显示在封面中央</p>
                         <div>
-                            <img src="" alt="">
+                            <div class="diff"></div>
+                            <img src="http://res.meetingfile.com/90947cde8abf548dbefaedfe14c1971f55c27f79.jpg-340"
+                                 alt="" width="100%">
+
+                            <div class="content">
+                                <p class="tl">够快云库资料整合</p>
+                                <p>共16条内容 ></p>
+                            </div>
+
                         </div>
                     </div>
                     <div class="bottom">
                         <p>样式二:标题显示在封面下方</p>
-                        <div>
-                            <img src="" alt="">
-                        </div>
+                        <img src="http://res.meetingfile.com/90947cde8abf548dbefaedfe14c1971f55c27f79.jpg-340" alt=""
+                             width="100%">
                         <div>
                             <h4>够快云库资料整合</h4>
                             <p>共23条内容</p>
@@ -562,10 +593,11 @@
 
                     <div class="info">
                         <div class="loading" ng-if="collectLoading">
-                            <span></span>
+                            <span us-spinner="{lines:11,radius:9, width:3, length: 7}"
+                                  spinner-on="collectLoading"></span>
                         </div>
 
-                        <div class="empty_list" ng-if="collectList.length==0">
+                        <div class="empty_list" ng-if="collectList.length>0">
                             <img src="../../../assets/images/1205.png" alt="">
                         </div>
                         <ul ng-if="collectList.length>0">
@@ -627,6 +659,138 @@
     </div><!-- /.modal -->
 </div>
 
+<!--//上传文件弹出窗口-->
+<div class="modal fade" id="uploadFileModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" style="width: 400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="myModalLabel1">
+                    上传文件
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group clearfix">
+                    <div class="col-sm-6">
+                        <div class="btn uploadByLocal" ng-if="uploadstate=='files'" upload-files>从本地上传</div>
+                        <div class="btn uploadByLocal" ng-if="currentExbt.org_id && thisDirPath && thisDirHash"
+                             dataDirPath="{{thisDirPath}}" dataDirhash="{{thisDirHash}}"
+                             dataorgid="{{currentExbt.org_id}}" upload-dir-files>从本地上传
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="btn uploadByCloud" gokuai-cloud>从够快云库中选择</div>
+                    </div>
+                </div>
+
+                <div class="othergroup">
+                    <p></p>
+                    <span>其它方式</span>
+                </div>
+                <div class="form-group">
+                    <div class="btn uploadByCollect" dataselect="collect" select-upload>
+                        从「资料收集」选择
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="btn uploadByHave" dataselect="types" select-upload>从已有分类选择</div>
+                </div>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!--从资料收集中选择文件弹出窗-->
+<div class="modal fade" id="fileFromCollect" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel5" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="myModalLabel6">
+                    {{collectTitle}}
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="collect">
+                    <div class="title clearfix">
+                        <div class="col-sm-1">
+                            <!--全选 &nbsp;<input type="checkbox" value="">-->
+                        </div>
+                        <div class="col-sm-6">文件名</div>
+                        <div class="col-sm-2">大小</div>
+                        <div class="col-sm-3">上传时间</div>
+                    </div>
+                    <div class="loading" ng-if="collectLoading">
+                        <span us-spinner="{lines:11,radius:9, width:3, length: 7}" spinner-on="collectLoading"></span>
+                    </div>
+                    <div class="empty_list" ng-if="dataCollectList.length==0">
+                        <img src="../../../assets/images/1204.png" alt="">
+                    </div>
+
+                    <div class="info" ng-if="dataCollectList.length>0">
+                        <ul>
+                            <li class="clearfix" ng-repeat="list in dataCollectList"
+                                ng-click="list.selects=!list.selects">
+                                <!--choose-collect-->
+                                <div class="col-sm-1">
+                                    <input type="checkbox" class="cb_choose" ng-model="list.selects">
+                                </div>
+                                <div class="col-sm-6">
+                                    <div title="{{list.filename}}">{{list.filename}}</div>
+                                </div>
+                                <div class="col-sm-2">{{list.filesize | bitSize}}</div>
+                                <div class="col-sm-3">{{list.create_dateline*1000 | date:"yyyy-MM-dd"}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <p ng-if="dataCollectList.length>0">
+                    <input type="checkbox" class="ckb_selectAll" ng-click="ckb_selectFn()"> &nbsp;全选
+                </p>
+                <div class="btn btn_sure_collect">
+                    <div ng-if="btnloading">
+                                <span us-spinner="{ color: '#fff',radius: 6, width: 2, lines: 9, length: 5,top:'50%',left:'25%'}"
+                                      spinner-on="true"></span>
+                    </div>
+                    <div ng-click="addSelectFile()" class="btn_ok">确定</div>
+                </div>
+                <div class="btn" data-dismiss="modal" aria-hidden="true">
+                    取消
+                </div>
+            </div>
+
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!--  关闭资料收集弹出窗口-->
+<div class="modal fade" id="exhibitionCode" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" style="width: 400px">
+        <div class="modal-content">
+            <!--<div class="modal-header">-->
+            <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+            <!--<h5 class="modal-title" id="myModalLabel6">-->
+            <!--关闭资料收集-->
+            <!--</h5>-->
+            <!--</div>-->
+            <div class="modal-body">
+
+                <img src="/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}"/>
+
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 <div class="alertMsg" ng-if="alertMsg">
     复制成功
 </div>
