@@ -321,7 +321,7 @@ class FileController extends Controller
         $files = inputGetOrFail("files");
         $return_files = array();
         foreach ($files as $key => $file) {
-            $result = $yunkufile->setYunkuFile($file["filename"], $file["size"], $file["hash"]);
+            $result = $yunkufile->setYunkuFile(ExhibitionController::BASE_FILE_NAME.'/'.$file["filename"], $file["size"], $file["hash"]);
             $module=[];
             if(\Request::has('ex_id')){
                 if(\Request::has('folder_id')){
