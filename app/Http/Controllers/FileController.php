@@ -155,7 +155,7 @@ class FileController extends Controller
         $folder_info->save();
         FolderInfo::cacheForget();
         $files_info += ["img_url" => json_decode($folder_info->img_url, true)];
-        return $files_info;
+        return FolderInfo::find($folder_info->id)->toArray();
     }
 
     //更新文件夹信息
