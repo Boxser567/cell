@@ -53,6 +53,7 @@ class FileController extends Controller
 
     public function getModule()
     {
+        FileInfo::cacheForget();
         if(\Request::has("folder_id")){
             $modules=FileInfo::getFolderId(inputGet("folder_id"));
         }else{
@@ -321,13 +322,15 @@ class FileController extends Controller
         $files = inputGetOrFail("files");
         $return_files = array();
         foreach ($files as $key => $file) {
-            $result = $yunkufile->setYunkuFile(ExhibitionController::BASE_FILE_NAME.'/'.$file["filename"], $file["size"], $file["hash"]);
             $module=[];
             if(\Request::has('ex_id')){
                 if(\Request::has('folder_id')){
-                    $module=ExhibitionController::postModule(inputGet("ex_id"),inputGet("folder_id"),$result['fullpath'],$result['hash'],$result['filesize']);
+                    $folder=FolderInfo::find(inputGet("folder_id"));
+                    $result = $yunkufile->setYunkuFile($folder->title.'/'.$file["filename"], $file["size"], $file["hash"]);
+                    $module=ExhibitionController::postModule(inputGet("ex_id"),inputGet("folder_id"),$file["filename"],$result['hash'],$result['filesize']);
                 }else{
-                    $module=ExhibitionController::postModule(inputGet("ex_id"),'',$result['fullpath'],$result['hash'],$result['filesize']);
+                    $result = $yunkufile->setYunkuFile(ExhibitionController::BASE_FILE_NAME.'/'.$file["filename"], $file["size"], $file["hash"]);
+                    $module=ExhibitionController::postModule(inputGet("ex_id"),'',$file["filename"],$result['hash'],$result['filesize']);
                 }
             }
             $return_files[$key]=$module;
