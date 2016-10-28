@@ -55,10 +55,10 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 elem.on("click", function () {
-                    if (scope.stateMode) {
+                    if (!scope.stateMode) {
                         $('.motion').fadeOut(function () {
                             $timeout(function () {
-                                scope.stateMode = false;
+                                scope.stateMode = true;
                             })
                             $(".FILE_ARTICLE .slide-bar").animate({
                                 width: '70px'
@@ -72,10 +72,8 @@ export default function (app) {
                                 }, 100)
                             });
                         });
-
-
                     }
-                    if (!scope.stateMode) {
+                    if (scope.stateMode) {
                         $('.graphic').fadeOut(function () {
                             $(".nav-bar .left").animate({
                                 width: '508px'
@@ -87,15 +85,13 @@ export default function (app) {
                                         width: '360px'
                                     }, function () {
                                         $timeout(function () {
-                                            scope.stateMode = true;
+                                            scope.stateMode = false;
                                         })
                                         $('.motion').fadeIn();
                                     })
                                 })
                             });
                         });
-
-
                         // $(".slide-bar .slide").animate({
                         //     width: '360px'
                         // }, function () {
@@ -288,6 +284,7 @@ export default function (app) {
             link: function (scope, elem) {
                 var clipboard = new Clipboard(elem[0], {
                     text: function (trigger) {
+                        console.log(trigger.getAttribute('data-clipboard-text'));
                         return trigger.getAttribute('data-clipboard-text');
                     }
                 });
@@ -744,6 +741,12 @@ export default function (app) {
                         }).then(function (res) {
                         })
                     }
+                    if (types == "groupname") {
+                        Exhibition.editGroupInfo({
+                            group_id: scope.groupglobal.id,
+                            name: scope.groupglobal.name
+                        })
+                    }
                 })
             }
         }
@@ -945,70 +948,51 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 elem.click(function () {
-                    for (var i = 0; i < scope.groupList.length; i++) {
-                        if (scope.groupList[i].name == "新分组") {
+                    for (var i = 0; i < scope.GroupList.length; i++) {
+                        if (scope.GroupList[i].name == "新分组") {
                             alert("请先给原始分组命名!");
                             return false;
+                            break;
                         }
                     }
+                    scope.group_loding = true;
                     Exhibition.addNewGroup(scope.currentExbt.id).then(function (res) {
-                        $timeout(function () {
-                            scope.groupList.push({
-                                id: res.id,
-                                name: res.name
-                            })
+                        res.folder = [];
+                        scope.GroupList.push(res);
+                        scope.group_loding = false;
+                        scope.groupglobal = res;
+                        $(".slide-note").find(".grouping").show().siblings().hide();
+                        var input = $(".grouping .group-name");
+                        input.focus().select();
+                        input.blur(function () {
+                            if (scope.groupglobal.name != "新分组") {
+                                Exhibition.editGroupInfo({
+                                    group_id: scope.groupglobal.id,
+                                    name: scope.groupglobal.name
+                                })
+                            }
                         })
                     })
-
                 })
 
             },
         };
     });
 
-    //添加分类
-    app.directive('filesortAdd', function (Exhibition, $timeout) {
+    //添加专题 filesortAdd
+    app.directive('groupToggle', function (Exhibition, $timeout) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 elem.click(function () {
-                    var arr = attrs;
-                    var state = false;
-                    _.each(scope.DirsList, function (d) {
-                        if (d.title == "请填写专题名称") {
-                            alert("请先给原始文件夹命名!");
-                            state = true;
-                        }
-                    })
-                    if (state) {
-                        return;
+                    $(this).parent().siblings().stop().slideToggle();
+                    if ($(this).hasClass("active")) {
+                        $(this).removeClass("active");
+                    } else {
+                        $(this).addClass("active");
                     }
-                    scope.sort_maskloading = true;
-                    //$scope.select_groid = groid;
-                    // console.log("scope.select_groid", scope.select_groid)
-                    Exhibition.addFolder({
-                        org_id: arr.dataorgid,
-                        group_id: scope.select_groid,
-                        fullpath: "请填写专题名称"
-                    }).then(function (r) {
-                        var data = r.data;
-                        console.log("tijiaoxinxi ", data);
-                        $timeout(function () {
-                            scope.DirsList.push({
-                                title: data.fullpath,
-                                folder_hash: data.hash,
-                                autoEditName: true,
-                                file_count: 0,
-                                file_size: 0,
-                                img_url: [data.img_url[0]]
-                            });
-                            scope.sort_maskloading = false;
-                            scope.currentExbt.property.dir_count = Number(scope.currentExbt.property.dir_count) + 1;
-                        })
-                    });
                 })
-
-            },
+            }
         };
     });
 
@@ -1045,23 +1029,26 @@ export default function (app) {
                                         'width': '610px',
                                         'zIndex': 99999
                                     },
-                                    ok: function (files) {
-                                        files = files[0];
-                                        console.log(files);
-                                        var name = Util.String.baseName(files.fullpath);
-                                        var params = {
-                                            org_id: $scope.currentExbt.org_id,
-                                            ex_id: $scope.currentExbt.id,
+                                    ok: function (obj) {
+                                        var newfiles = obj[0];
+                                        console.log(newfiles);
+                                        // var array=["文件夹.jpg","文件夹/思维.pdf","文件夹/word/火箭技术/ijhfkd.pdf"];
+                                        // console.log(Util.String.baseName(array[0]));
+                                        // console.log(Util.String.baseName(array[1]));
+                                        // console.log(Util.String.baseName(array[2]));
+                                        var pms = {
+                                            org_id: scope.currentExbt.org_id,
+                                            ex_id: scope.currentExbt.id,
                                             files: []
                                         };
-                                        params.files.push({
-                                            filename: files.fullpath,
-                                            hash: files.filehash,
-                                            size: files.filesize
+                                        var filename = Util.String.baseName(newfiles.fullpath);
+                                        pms.files.push({
+                                            filename: filename,
+                                            hash: newfiles.filehash,
+                                            size: newfiles.filesize
                                         });
-                                        debugger;
                                         if (scope.uploadstate == "files") {
-                                            Exhibition.copyFilFromHad(params).then(function (res) {
+                                            Exhibition.copyFilFromHad(pms).then(function (res) {
                                                 _.each(res, function (r) {
                                                     r.property = JSON.parse(r.property);
                                                     scope.FilesList.push(r);

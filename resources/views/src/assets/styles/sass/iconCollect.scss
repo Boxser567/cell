@@ -73,6 +73,41 @@
   background: url("../../images/1123.png") no-repeat;
 }
 
+.tl-pre {
+  background: url("../../images/ex_icons.png") no-repeat;
+  background-position: -126px -172px;
+}
+
+.tl-img {
+  background: url("../../images/ex_icons.png") no-repeat;
+  background-position: -89px -172px;
+}
+
+.tl-warm {
+  background: url("../../images/ex_icons.png") no-repeat;
+  background-position: -53px -172px;
+}
+
+.tl-style {
+  background: url("../../images/ex_icons.png") no-repeat;
+  background-position: -18px -172px;
+}
+
+.tl-name {
+  background: url("../../images/ex_icons.png") no-repeat;
+  background-position: -242px -172px;
+}
+
+.tl-time {
+  background: url("../../images/ex_icons.png") no-repeat;
+  background-position: -204px -172px;
+}
+
+.tl-hide {
+  background: url("../../images/ex_icons.png") no-repeat;
+  background-position: -166px -172px;
+}
+
 //滚动条
 ::-webkit-scrollbar {
   width: 8px;
@@ -418,6 +453,99 @@ $checkedColor: #64bd63;
 
 }
 
+//专题样式提取
+.ui_topic_Modelstyle {
+  .con {
+    display: block;
+    color: #333;
+    position: relative;
+    margin-bottom: 12px;
+    cursor: pointer;
+    .bg {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+      .diff {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, .6);
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+      }
+      .p2 {
+        & > div {
+          width: 50%;
+          float: left;
+          height: 140px;
+        }
+      }
+      .p3 {
+        .left, .right {
+          float: left;
+          width: 50%;
+          height: 140px;
+        }
+        .right {
+          img {
+            height: 70px;
+          }
+        }
+      }
 
+    }
+    .title {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 50%;
+      margin-top: -23px;
+      .tl {
+        font-size: 18px;
+        color: #fff;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 25px;
+      }
+      .count {
+        font-size: 14px;
+        color: #fff;
+        text-align: center;
+        margin: 0;
+      }
+    }
+    .text-light {
+      background: #fff;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      p {
+        margin: 0;
+      }
+      .pull-left {
+        width: 70%;
+        padding: 9px 0;
+        padding-left: 8px;
+        font-size: 16px;
+        @extend .eclipflow;
+      }
+      .pull-right {
+        width: 28%;
+        font-size: 12px;
+        padding: 11px 0;
+        margin: 0;
+        padding-right: 8px;
+        @extend .eclipflow;
+
+      }
+    }
+  }
+}
 
 

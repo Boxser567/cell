@@ -1,39 +1,5 @@
 <div class="FILE_MODE">
 
-    <!--<div style="width: 600px; padding: 30px">-->
-    <!--<div class="dropdown form-group">-->
-    <!--<label>Start Date</label>-->
-    <!--<a class="dropdown-toggle" id="dropdownStart" role="button" data-toggle="dropdown" data-target="#" href="#">-->
-    <!--<div class="input-group date">-->
-    <!--<input type="text" class="form-control" data-ng-model="dateRangeStart">-->
-    <!--<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>-->
-    <!--</div>-->
-    <!--</a>-->
-    <!--<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">-->
-    <!--<datetimepicker data-ng-model="dateRangeStart"-->
-    <!--data-datetimepicker-config="{ dropdownSelector: '#dropdownStart', renderOn: 'end-date-changed' }"-->
-    <!--data-on-set-time="startDateOnSetTime()"-->
-    <!--data-before-render="startDateBeforeRender($dates)"></datetimepicker>-->
-    <!--</ul>-->
-    <!--</div>-->
-    <!--<div class="dropdown form-group">-->
-    <!--<label>End Date</label>-->
-    <!--<a class="dropdown-toggle" id="dropdownEnd" role="button" data-toggle="dropdown" data-target="#"-->
-    <!--href="#">-->
-    <!--<div class="input-group date">-->
-    <!--<input type="text" class="form-control" data-ng-model="dateRangeEnd">-->
-    <!--<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>-->
-    <!--</div>-->
-    <!--</a>-->
-    <!--<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">-->
-    <!--<datetimepicker data-ng-model="dateRangeEnd"-->
-    <!--data-datetimepicker-config="{ dropdownSelector: '#dropdownEnd', renderOn: 'start-date-changed' }"-->
-    <!--data-on-set-time="endDateOnSetTime()"-->
-    <!--data-before-render="endDateBeforeRender($view, $dates, $leftDate, $upDate, $rightDate)"></datetimepicker>-->
-    <!--</ul>-->
-    <!--</div>-->
-    <!--</div>-->
-
 
     <!--<div class="mobile_model">-->
     <!--<div class="mobile">-->
@@ -162,78 +128,174 @@
 
         <!--手机模型内容显示-->
         <div class="slide-mobile">
-            <div class="hosted-phones">
-                <div class="mb_header">
-                    <div class="diff">
-                        <div class="d"></div>
-                        <img ng-src="{{currentExbt.banner}}-640" alt="">
-                    </div>
-                    <div class="icon">
-                        <div>
-                            <img ng-src="{{currentExbt.logo}}" alt="">
+            <div class="mobile-phone">
+                <div class="hosted-phones">
+                    <div class="mb_header">
+                        <div class="diff">
+                            <div class="d"></div>
+                            <img ng-src="{{currentExbt.banner}}-640" alt="">
                         </div>
-                        <p class="title">{{currentExbt.title}}</p>
-                        <p class="time">{{currentExbt.start_date}} - {{currentExbt.end_date}}</p>
-                        <p class="ps" ng-bind="currentExbt.property.sub_title"></p>
+                        <div class="icon">
+                            <div>
+                                <img ng-src="{{currentExbt.logo}}" alt="">
+                            </div>
+                            <p class="title">{{currentExbt.title}}</p>
+                            <p class="time">{{currentExbt.start_date}} - {{currentExbt.end_date}}</p>
+                            <p class="ps" ng-bind="currentExbt.property.sub_title"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="mb_file">
+                    <div class="mb_file">
                     <span ng-if="fileloading" class="loading" us-spinner="{lines:9,radius:5, width:3, length: 6}"
                           spinner-on="fileloading"></span>
-                    <ul class="ui_file_Modelstyle">
-                        <li ng-repeat="file in FilesList">
-                            <a class="clearfix sl" ng-if="file.property.style==1"
-                               ng-click="selectFileFn($event,$index,file)">
-                                <img src="{{file.property.back_pic}}-c320" alt="">
-                                <div>{{file.property.title}}</div>
-                            </a>
-                            <a class="clearfix sr" ng-if="file.property.style==2"
-                               ng-click="selectFileFn($event,$index,file)">
-                                <div>{{file.property.title}}</div>
-                                <img src="{{file.property.back_pic}}-c320" alt="">
-                            </a>
-                            <a class="clearfix bl" ng-if="file.property.style==3"
-                               ng-click="selectFileFn($event,$index,file)">
-                                <img src="{{file.property.back_pic}}-c320" alt=""
-                                     ng-click="selectFileFn($event,$index,file)">
-                                <div>
-                                    <h5>{{file.property.title}}</h5>
-                                    <p>{{file.property.sub_title}}</p>
+                        <ul class="ui_file_Modelstyle">
+                            <li ng-repeat="file in FilesList">
+                                <a class="clearfix sl" ng-if="file.property.style==1"
+                                   ng-click="selectFileFn($event,$index,file)">
+                                    <img src="{{file.property.back_pic}}-c320" alt="">
+                                    <div>{{file.property.title}}</div>
+                                </a>
+                                <a class="clearfix sr" ng-if="file.property.style==2"
+                                   ng-click="selectFileFn($event,$index,file)">
+                                    <div>{{file.property.title}}</div>
+                                    <img src="{{file.property.back_pic}}-c320" alt="">
+                                </a>
+                                <a class="clearfix bl" ng-if="file.property.style==3"
+                                   ng-click="selectFileFn($event,$index,file)">
+                                    <img src="{{file.property.back_pic}}-c320" alt=""
+                                         ng-click="selectFileFn($event,$index,file)">
+                                    <div>
+                                        <h5>{{file.property.title}}</h5>
+                                        <p>{{file.property.sub_title}}</p>
+                                    </div>
+                                </a>
+                                <a class="clearfix br" ng-if="file.property.style==4"
+                                   ng-click="selectFileFn($event,$index,file)">
+                                    <img src="{{file.property.back_pic}}-c320"
+                                         alt="">
+                                    <div>
+                                        <h5>{{file.property.title}}</h5>
+                                        <p>{{file.property.sub_title}}</p>
+                                    </div>
+                                </a>
+                                <a class="clearfix cv" ng-if="file.property.style==5"
+                                   ng-click="selectFileFn($event,$index,file)">
+                                    <img src="{{file.property.back_pic}}-c592" alt="">
+                                    <div>
+                                        <h5>{{file.property.title}}</h5>
+                                        <p>{{file.property.sub_title}}</p>
+                                    </div>
+                                </a>
+                                <div class="cover" ng-if="file.filewidth && file.filewidth!=100">
+                                    <span style="width: {{file.filewidth}}%"></span>
+                                    <i>X</i>
                                 </div>
-                            </a>
-                            <a class="clearfix br" ng-if="file.property.style==4"
-                               ng-click="selectFileFn($event,$index,file)">
-                                <img src="{{file.property.back_pic}}-c320"
-                                     alt="">
-                                <div>
-                                    <h5>{{file.property.title}}</h5>
-                                    <p>{{file.property.sub_title}}</p>
+                            </li>
+                            <li>
+                                <!--<a class="add" ng-click="addFileFn()">添加内容模块</a>-->
+                                <div class="add" ng-click="fileChooser()">
+                                    添加内容模块
                                 </div>
-                            </a>
-                            <a class="clearfix cv" ng-if="file.property.style==5"
-                               ng-click="selectFileFn($event,$index,file)">
-                                <img src="{{file.property.back_pic}}-c592" alt="">
-                                <div>
-                                    <h5>{{file.property.title}}</h5>
-                                    <p>{{file.property.sub_title}}</p>
-                                </div>
-                            </a>
-                            <div class="cover" ng-if="file.filewidth && file.filewidth!=100">
-                                <span style="width: {{file.filewidth}}%"></span>
-                                <i>X</i>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mb_classification">
+                        <div class="group" ng-repeat="item in GroupList track by $index">
+                            <div class="tl">
+                                <span group-toggle></span>
+                                <a ng-click="selectGroupFn($even,$index,item)">{{item.name}}</a>
                             </div>
-                        </li>
-                        <li>
-                            <!--<a class="add" ng-click="addFileFn()">添加内容模块</a>-->
-                            <div class="add" ng-click="fileChooser()">
-                                添加内容模块
+
+                            <div class="ui_topic_Modelstyle topic" ng-repeat="list in item.folder"
+                                 ng-click="slideTopicFn(list)">
+                                <a class="con" ng-if="list.property.position=='middle'">
+                                    <div class="bg">
+                                        <div class="diff"></div>
+                                        <div class="p1" ng-if="list.img_url.length==1">
+                                            <img src="{{list.img_url[0]}}-340" alt="">
+                                        </div>
+                                        <div class="p2 clearfix" ng-if="list.img_url.length==2">
+                                            <div>
+                                                <img src="{{list.img_url[0]}}-340" alt="">
+                                            </div>
+                                            <div>
+                                                <img src="{{list.img_url[1]}}-340" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="p3 clearfix" ng-if="list.img_url.length==3">
+                                            <div class="left">
+                                                <img src="{{list.img_url[0]}}-340" alt="">
+                                            </div>
+                                            <div class="right">
+                                                <img src="{{list.img_url[1]}}-340" alt="">
+                                                <img src="{{list.img_url[2]}}-340" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="title">
+                                        <p class="tl">{{list.title}}</p>
+                                        <p class="count">{{list.file_count}}条内容
+                                            <i class="glyphicon glyphicon-menu-right"></i>
+                                        </p>
+                                    </div>
+                                </a>
+                                <a class="con" ng-if="list.property.position=='under'">
+                                    <div class="bg">
+                                        <div class="p1" ng-if="list.img_url.length==1">
+                                            <img src="{{list.img_url[0]}}-340" alt="">
+                                        </div>
+                                        <div class="p2 clearfix" ng-if="list.img_url.length==2">
+                                            <div>
+                                                <img src="{{list.img_url[0]}}-340" alt="">
+                                            </div>
+                                            <div>
+                                                <img src="{{list.img_url[1]}}-340" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="p3 clearfix" ng-if="list.img_url.length==3">
+                                            <div class="left">
+                                                <img src="{{list.img_url[0]}}-340" alt="">
+                                            </div>
+                                            <div class="right">
+                                                <img src="{{list.img_url[1]}}-340" alt="">
+                                                <img src="{{list.img_url[2]}}-340" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-light clearfix">
+                                        <p class="pull-left">{{list.title}}</p>
+                                        <p class="pull-right">{{list.file_count}} 条内容
+                                            <i class="glyphicon glyphicon-menu-right"></i>
+                                        </p>
+                                    </div>
+                                </a>
+
                             </div>
-                        </li>
-                    </ul>
+
+                            <div class="addtopic">
+                                <h4 ng-click="addProjectFn(item,$index)">添加新专题</h4>
+                                <p>专题中可包含多条内容</p>
+                                <div class="model" ng-if="folder_loding">
+                                <span us-spinner="{color: '#fff',lines:11,radius:9, width:5, length: 9}"
+                                      spinner-on="folder_loding"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="addgroup">
+                            <h4 add-group>添加新分组</h4>
+                            <p>分组中可包含多个专题</p>
+                            <div class="model" ng-if="group_loding">
+                            <span us-spinner="{color: '#fff',lines:9,radius:7, width:3, length: 7}"
+                                  spinner-on="group_loding"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-
+                <div class="topic-page">
+                    <a ng-click="slideBakcFn()">返回</a>
+                    专题详情页面
+                </div>
             </div>
+
         </div>
 
         <div class="slide-note">
@@ -241,21 +303,8 @@
                 <h3>
                     模块设置/内容模块
                 </h3>
-                <p>您可直接上传文件作为内容,如 PDF 文件、图片、Office 文档。上传后站点访客即可直接在线查看文件内容,而无需下载文件,您也可以使用我们的在线编辑器创建新的图文内容。<a>查看范例教程</a>
-                </p>
-                <div class="h">选择新建内容方式</div>
-                <div class="btn file_upload">
-                    <div upload-files></div>
-                    <span>上传文件内容</span>
-                    <img src="../../../assets/images/1132.png" alt="">
-                </div>
-                <div class="btn file_editor">
-                    <span>新建图文内容内容</span>
-                    <img src="../../../assets/images/1133.png" alt="">
-                </div>
-                <div class="form-group clearfix">
-                    <div class="btn btnbyhave">选择已有内容</div>
-                    <div class="btn btnbycollect">从资料收集选择</div>
+                <div class="warning">
+                    <img src="../../../assets/images/104.png" alt="">
                 </div>
             </div>
 
@@ -264,7 +313,7 @@
                 </h3>
                 <div class="preview">
                     <div class="h">
-                        <i></i>
+                        <i class="tl-pre"></i>
                         内容预览
                     </div>
                     <ul class="ui_file_Modelstyle">
@@ -325,7 +374,7 @@
                 </div>
                 <div class="coverfetcher">
                     <div class="h">
-                        <i></i>
+                        <i class="tl-img"></i>
                         封面设置
                     </div>
                     <div class="img ">
@@ -345,16 +394,17 @@
                 </div>
                 <div class="Informatik">
                     <div class="h">
-                        <i></i>
+                        <i class="tl-warm"></i>
                         内容摘要(选填)
                     </div>
                     <div class="txt">
-                        <textarea placeholder="请输入内容摘要" ng-model="fileglobal.property.sub_title"  edit-filesubname></textarea>
+                        <textarea placeholder="请输入内容摘要" ng-model="fileglobal.property.sub_title"
+                                  edit-filesubname></textarea>
                     </div>
                 </div>
                 <div class="displayTile">
                     <div class="h">
-                        <i></i>
+                        <i class="tl-style"></i>
                         模块展示样式
                     </div>
 
@@ -377,8 +427,7 @@
                                      alt="">
                                 <div>
                                     <h5>{{fileglobal.property.title}}</h5>
-                                    <p>
-                                        学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
+                                    <p>{{fileglobal.property.sub_title}}</p>
                                 </div>
                                 <i class="check" ng-if="fileglobal.property.style==3"></i>
                             </a>
@@ -387,8 +436,7 @@
                                      alt="">
                                 <div>
                                     <h5>{{fileglobal.property.title}}</h5>
-                                    <p>
-                                        学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
+                                    <p>{{fileglobal.property.sub_title}}</p>
                                 </div>
                                 <i class="check" ng-if="fileglobal.property.style==4"></i>
                             </a>
@@ -397,8 +445,7 @@
                                      alt="">
                                 <div>
                                     <h5>{{fileglobal.property.title}}</h5>
-                                    <p>
-                                        学习心理学，可以加深人们对自身的了解。通过学习心理学，你可以知道自己为什么会做出某些行为,这些行为背后究竟隐藏着什么样的心理活动,以及自己现在的个性、脾气等特征又是如何形成的等等。</p>
+                                    <p>{{fileglobal.property.sub_title}}</p>
                                 </div>
                                 <i class="check" ng-if="fileglobal.property.style==5"></i>
                             </a>
@@ -407,6 +454,74 @@
                 </div>
             </div>
 
+            <div class="grouping">
+                <h3>模块设置/内容模块 <span class="pull-right" ng-click="delGroupFn()"><i class="glyphicon glyphicon-trash"></i>删除</span>
+                </h3>
+                <div class="name">
+                    <div class="h">
+                        <i class="tl-name"></i>分组名称
+                    </div>
+                    <input type="text" class="form-control group-name" ng-model="groupglobal.name" datatype="groupname"
+                           edit-extitle>
+                </div>
+                <div class="time">
+                    <div class="h">
+                        <i class="tl-time"></i>分组有效时间
+                    </div>
+                    <select class="form-control group-time">
+                        <option value="1">永久有效</option>
+                        <option value="0" selected="selected">自定义有效时间</option>
+                    </select>
+                    <div class="settime" ng-if="groupglobal.forever==0">
+                        <div class="dropdown form-group">
+                            <a class="dropdown-toggle" id="dropdownStart" role="button" data-toggle="dropdown"
+                               data-target="#" href="#">
+                                <div class="input-group date">
+                                    <input type="text" class="form-control" data-ng-model="dateRangeStart">
+                                    <!--<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>-->
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <datetimepicker data-ng-model="dateRangeStart"
+                                                data-datetimepicker-config="{ dropdownSelector: '#dropdownStart', renderOn: 'end-date-changed' }"
+                                                data-on-set-time="startDateOnSetTime()"
+                                                data-before-render="startDateBeforeRender($dates)"></datetimepicker>
+                            </ul>
+                        </div>
+                        <span>至</span>
+                        <div class="dropdown form-group">
+                            <a class="dropdown-toggle" id="dropdownEnd" role="button" data-toggle="dropdown"
+                               data-target="#"
+                               href="#">
+                                <div class="input-group date">
+                                    <input type="text" class="form-control" data-ng-model="dateRangeEnd">
+                                    <!--<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>-->
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <datetimepicker data-ng-model="dateRangeEnd"
+                                                data-datetimepicker-config="{ dropdownSelector: '#dropdownEnd', renderOn: 'start-date-changed' }"
+                                                data-on-set-time="endDateOnSetTime()"
+                                                data-before-render="endDateBeforeRender($view, $dates, $leftDate, $upDate, $rightDate)"></datetimepicker>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="ishide">
+                    <div class="h">
+                        <i class="tl-hide"></i>非有效期内是否隐藏分组内容
+                    </div>
+                    <div class="clearfix">
+                        <p class="pull-left">
+                            如果设置不隐藏,用户将只能看到该组内的分类标题,但无法查看内容。
+                        </p>
+                        <label class="pull-right">
+                            <input class="mui-switch mui-switch-anim mui_group" ng-click="editGroupOfferFn()"
+                                   type="checkbox">
+                        </label>
+                    </div>
+                </div>
+            </div>
             <div class="topic_con">
                 <h3>模块设置/专题模块</h3>
                 <div class="d1">
@@ -597,7 +712,7 @@
                                   spinner-on="collectLoading"></span>
                         </div>
 
-                        <div class="empty_list" ng-if="collectList.length>0">
+                        <div class="empty_list" ng-if="collectList.length==0">
                             <img src="../../../assets/images/1205.png" alt="">
                         </div>
                         <ul ng-if="collectList.length>0">
@@ -764,8 +879,6 @@
                     取消
                 </div>
             </div>
-
-
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
@@ -776,14 +889,12 @@
      aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-dialog" style="width: 400px">
         <div class="modal-content">
-            <!--<div class="modal-header">-->
-            <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-            <!--<h5 class="modal-title" id="myModalLabel6">-->
-            <!--关闭资料收集-->
-            <!--</h5>-->
-            <!--</div>-->
-            <div class="modal-body">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
+            </div>
+            <div class="modal-body">
+                <p>用微信扫描下方二维码即可浏览该会展内容</p>
                 <img src="/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}"/>
 
 
