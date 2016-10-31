@@ -37,6 +37,7 @@ export default function (app) {
         };
     });
 
+
 //页面刷新提示
     app.directive('refreshLoad', function () {
         return {
@@ -59,6 +60,7 @@ export default function (app) {
                         $('.motion').fadeOut(function () {
                             $timeout(function () {
                                 scope.stateMode = true;
+                                scope.mobilesize.left = "120px";
                             })
                             $(".FILE_ARTICLE .slide-bar").animate({
                                 width: '70px'
@@ -67,9 +69,13 @@ export default function (app) {
                                 $(".nav-bar .left").animate({
                                     width: '218px'
                                 });
-                                $(".slide-note").animate({
-                                    left: "530px"
-                                }, 100)
+                                // $(".slide-note").animate({
+                                //     left: "530px"
+                                // }, 100)
+                                $(".percentsixty").animate({
+                                    width: "59.666%"
+                                })
+
                             });
                         });
                     }
@@ -78,14 +84,16 @@ export default function (app) {
                             $(".nav-bar .left").animate({
                                 width: '508px'
                             }, 200, function () {
-                                $(".slide-note").animate({
-                                    left: "820px"
+                                $(".percentsixty").animate({
+                                    width: "41.666%"
                                 }, 200, function () {
                                     $(".FILE_ARTICLE .slide-bar").animate({
                                         width: '360px'
                                     }, function () {
+
                                         $timeout(function () {
                                             scope.stateMode = false;
+                                            scope.mobilesize.left = "390px";
                                         })
                                         $('.motion').fadeIn();
                                     })
@@ -771,7 +779,6 @@ export default function (app) {
                         if (attrs.dataedit == "filename") {
                             var selectionEnd = name.length;
                             var lenIndex = name.lastIndexOf('.');
-                            console.log("selectionEnd", selectionEnd, lenIndex);
                             if (lenIndex > 0) {
                                 selectionEnd = lenIndex;
                             }
@@ -880,12 +887,19 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 elem.on('click', function () {
-                    var element = $(".filemask .preview ul li a");
+                    var element = $(".filemask .preview .name");
                     var lastname = scope.fileglobal.property.title;
                     scope.$apply(function () {
                         scope.fileglobal.isEdit = true;
                     })
-                    element.find("input").focus().select();
+                    var selectionEnd = lastname.length;
+                    var lenIndex = lastname.lastIndexOf('.');
+                    if (lenIndex > 0) {
+                        selectionEnd = lenIndex;
+                    }
+                    element.find('input')[0].selectionStart = 0;
+                    element.find('input')[0].selectionEnd = selectionEnd;
+                    element.find('input').focus();
                     element.find('input').blur(function () {
                         if (lastname != scope.fileglobal.property.title) {
                             Exhibition.editFileinfo({

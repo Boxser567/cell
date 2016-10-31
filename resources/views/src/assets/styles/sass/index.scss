@@ -1660,8 +1660,12 @@ body {
     background-color: #f2f2f2;
     height: 70px;
     padding-right: 20px;
-    border-bottom: 1px solid #d43f3a;
-    min-width: 1320px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-width: 1200px;
+    z-index: 8;
     .left {
       float: left;
       width: 200px;
@@ -1738,11 +1742,12 @@ body {
 
   }
   .FILE_ARTICLE {
-    position: relative;
+    position: absolute;
     background: url("../../images/icon_1.png") no-repeat center center;
     background-size: cover;
-    min-height: 1000px;
-    min-width: 1320px;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
     .bgimg {
       position: absolute;
       height: 1000px;
@@ -1752,12 +1757,13 @@ body {
 
     }
     .slide-bar {
-      position: relative;
+      position: fixed;
       width: 70px;
       background: rgba(255, 255, 255, .8);
-      min-height: 1000px;
-      float: left;
-      top: -70px;
+      top: 0px;
+      left: 0;
+      bottom: 0;
+      z-index: 9;
 
       .slide {
         width: 360px;
@@ -1807,9 +1813,14 @@ body {
       }
 
       .graphic {
-        min-height: 1000px;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        bottom: 0;
+        z-index: 9;
         display: block;
         padding: 20px;
+        height: 100%;
         ul {
           list-style: none;
           margin: 0;
@@ -1828,8 +1839,11 @@ body {
 
       }
       .motion {
+        height: 100%;
         padding: 30px;
+        padding-bottom: 80px;
         display: none;
+        overflow-y: scroll;
         .title {
           font-size: 24px;
           font-weight: bold;
@@ -1961,13 +1975,23 @@ body {
       }
 
     }
-
+    .percentfourty {
+      width: 40%;
+      height: 100%;
+      float: left;
+    }
+    .percentsixty {
+      float: right;
+      width: 59.666%;
+      height: 100%;
+      padding-top: 70px;
+    }
     .slide-mobile {
       width: 360px;
       height: 732px;
-      float: left;
-      margin: 50px;
-      position: relative;
+      left: 120px;
+      top: 20px;
+      position: absolute;
       background: url("../../../assets/images/phone_white.png");
       .mobile-phone {
         position: absolute;
@@ -2194,7 +2218,6 @@ body {
         .topic-page {
           z-index: 5;
           position: absolute;
-          padding: 15px;
           font-size: 18px;
           top: 0;
           left: 320px;
@@ -2202,20 +2225,78 @@ body {
           height: 570px;
           background: #e6e6e6;
           display: inline-block;
+          overflow-y: scroll;
+
+          .topicdetail {
+            position: relative;
+            .glyphicon-chevron-left {
+              position: absolute;
+              top: 3px;
+              left: 5px;
+              z-index: 9;
+              color: #fff;
+              text-decoration: none;
+              padding: 5px;
+            }
+            .fMask {
+              width: 100%;
+              background: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(255, 255, 255, 0)), to(#000));
+              bottom: 0;
+              left: 0;
+              position: absolute;
+              color: #fff;
+              height: 45px;
+              padding: 0 10px;
+              padding-top: 12px;
+              .bg {
+                border-radius: 0;
+                .diff {
+                  border-radius: 0;
+                }
+              }
+              & > p {
+                display: inline-block;
+              }
+              .tl {
+                font-size: 16px;
+                width: 75.333%;
+                @extend .eclipflow;
+              }
+              .count {
+                vertical-align: text-bottom;
+                font-size: 14px;
+                text-align: right;
+                width: 22.666%;
+              }
+
+            }
+          }
+
+          .project{
+            padding: 0 10px;
+            position: relative;
+            .add{
+              cursor: pointer;
+              text-decoration: none;
+              display: block;
+              padding: 17px 0;
+              color: #fff;
+              background: #333;
+              font-size: 16px;
+              text-align: center;
+              border-radius: 4px;
+            }
+
+          }
         }
       }
     }
 
     .slide-note {
-      position: absolute;
-      top: 0;
-      left: 820px;
-      right: 0;
-      min-height: 800px;
+      width: 100%;
+      height: 100%;
+      overflow-y: overlay;
       background: rgba(255, 255, 255, .8);
-      //@media all and (max-width: 900px) {
-      //  background: #ff0000;
-      //}
       .h {
         font-size: 18px;
         color: #333333;
@@ -2249,15 +2330,15 @@ body {
 
       .filemask {
         display: none;
+        width: 540px;
         & > div {
           margin: 30px;
           margin-bottom: 0;
-          width: 400px;
         }
         h3 {
           margin-top: 33px;
           padding-left: 30px;
-          width: 430px;
+          width: 510px;
           span {
             color: #fff;
             background: #e9362b;
@@ -2273,52 +2354,20 @@ body {
         }
         .preview {
           text-align: left;
-          ul {
-            li {
-              .sl {
-                input {
-                  width: 75%;
-                  position: absolute;
-                  top: 15px;
-                  right: 15px;
-
-                }
-              }
-              .sr {
-                input {
-                  width: 75%;
-                  position: absolute;
-                  top: 15px;
-                  left: 10px;
-                }
-              }
-              .bl {
-                input {
-                  width: 65%;
-                  position: absolute;
-                  top: 10px;
-                  right: 18px;
-                }
-              }
-              .br {
-                input {
-                  width: 67%;
-                  position: absolute;
-                  top: 10px;
-                  left: 10px;
-                }
-              }
-              .cv {
-                input {
-                  width: 85%;
-                  position: absolute;
-                  bottom: 25px;
-                  left: 10px;
-                }
-              }
+          .name {
+            width: 100%;
+            border: 1px solid #999;
+            padding: 6px 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            position: relative;
+            input {
+              position: absolute;
+              top: 0;
+              left: 0;
+              bottom: 0;
             }
           }
-
           .r {
             margin-top: 20px;
             .btn {
@@ -2405,9 +2454,9 @@ body {
       .topic_con {
         display: none;
         padding: 30px;
-
+        width: 540px;
+        margin: 0 auto;
         & > div {
-          width: 400px;
           margin-top: 30px;
         }
         .d1 {
@@ -2517,16 +2566,17 @@ body {
       }
 
       .grouping {
+        width: 540px;
+        margin: 0 auto;
         display: none;
         & > div {
           margin: 30px;
           margin-bottom: 0;
-          width: 400px;
         }
         h3 {
           margin-top: 33px;
           padding-left: 30px;
-          width: 430px;
+          width: 510px;
           span {
             color: #fff;
             background: #e9362b;

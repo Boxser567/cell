@@ -4,7 +4,7 @@ import 'bootstrap-sass/assets/javascripts/bootstrap';
 import "angular-bootstrap-datetimepicker/src/js/datetimepicker";
 import datetimepicker from  "angular-bootstrap-datetimepicker/src/js/datetimepicker.templates";
 
-function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, currentExhibition, Exhibition) {
+function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $timeout, currentExhibition, Exhibition) {
     'ngInject';
     console.log("返回详情数据", currentExhibition);
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
@@ -17,7 +17,6 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     $scope.imgloading = false;
     $scope.fileloading = true;//常用文件的加载
     $scope.localFilesJSON = [];   //用于缓存正在上传文件信息
-
     //常用文件的获取
     $scope.FilesList = [];
     Exhibition.getFileInfoByPath({
@@ -34,11 +33,42 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
     });
 
 
-    $scope.slideTopicFn = function () {
-        $(".topic-page").animate({left: '0px'});
+    // 以下代码用于调整页面布局
+    $scope.mobilesize = {
+        top: "20px",
+        left: "120px"
+    }
+    $window.onresize = function () {
+        var $height = $window.innerHeight - 580;
+        //最低高度760px     //最高处理950px  相差190px
+        $height = ($height - 70) / 2;
+        if (0 < $height < 200) {
+            $scope.$apply(function () {
+                $scope.mobilesize.top = $height + "px";
+            })
+        } else {
+            $scope.$apply(function () {
+                $scope.mobilesize.top = "120px";
+            })
+        }
+    }
+
+
+    $scope.slideTopicFn = function (list) {
+        $(".hosted-phones").slideUp(0, function () {
+            $(".topic-page").animate({left: '0px'});
+        })
+        $scope.topDetails = list;
+        console.log("$scope.topDetails", $scope.topDetails)
+
+        Exhibition.getFileInfoByPath({ex_id: $scope.currentExbt.id, folder_id: list.id}).then(function (res) {
+            $scope.topDetails.lists.push(res.data);
+        })
     }
     $scope.slideBakcFn = function () {
-        $(".topic-page").animate({left: '320px'});
+        $(".topic-page").animate({left: '320px'}, function () {
+            $(".hosted-phones").show();
+        });
     }
 
 
@@ -118,6 +148,11 @@ function ExhibitionDetailController($scope, $rootScope, $stateParams, $timeout, 
         $("#uploadFileModal").modal('show');
         $scope.uploadstate = "files";
     }
+    $scope.topicChooser = function () {
+        $("#uploadFileModal").modal('show');
+        $scope.uploadstate = "topic";
+    }
+
 
     //收集资料全选事件
     $scope.ckb_selectFn = function () {
