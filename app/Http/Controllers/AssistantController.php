@@ -25,7 +25,7 @@ class AssistantController extends BaseController
 
     public function getList()
     {
-               Member::cacheForget();
+        Member::cacheForget();
         return Member::getEntId(inputGetOrFail('ent_id'))->toArray();
     }
     
