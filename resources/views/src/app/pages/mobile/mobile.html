@@ -73,7 +73,7 @@
             <div class="group_list" ng-repeat="group in DirsList">
                 <div class="tl"><i></i>{{group.name}}</div>
                 <ul ng-if="group.allList.length>0">
-                    <li ng-repeat="dir in group.folder">
+                    <li class="ui_topic_Modelstyle" ng-repeat="dir in group.folder">
                         <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.folder_hash}}/{{dir.title}}"
                            ng-if="dir.property.position=='middle'">
                             <div class="bg">
@@ -106,10 +106,9 @@
                                 </p>
                             </div>
                         </a>
-                        <a class="con clearfix" href="#/mobile_folder/{{pageunicode}}/{{dir.folder_hash}}/{{dir.title}}"
+                        <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.folder_hash}}/{{dir.title}}"
                            ng-if="dir.property.position=='under'">
                             <div class="bg">
-                                <div class="diff"></div>
                                 <div class="p1" ng-if="dir.img_url.length==1">
                                     <img src="{{dir.img_url[0]}}-340" alt="">
                                 </div>
@@ -131,10 +130,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="pull-left">{{dir.title}}</p>
-                            <p class="pull-right">{{dir.file_count}} 条内容
-                                <i class="glyphicon glyphicon-menu-right"></i>
-                            </p>
+                            <div class="text-light clearfix">
+                                <p class="pull-left">{{dir.title}}</p>
+                                <p class="pull-right">{{dir.file_count}} 条内容
+                                    <i class="glyphicon glyphicon-menu-right"></i>
+                                </p>
+                            </div>
                         </a>
 
                     </li>

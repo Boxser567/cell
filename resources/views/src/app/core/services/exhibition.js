@@ -152,7 +152,9 @@ export default function (app) {
 
                 //添加文件夹
                 addFolder: function (params) {
-                    return $http.post('/file/create-folder', params);
+                    return $http.post('/file/create-folder', params).then(function (res) {
+                        return res.data;
+                    });
                 },
 
                 //获取文件夹的文件列表
