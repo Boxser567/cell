@@ -41,7 +41,7 @@ class YunkuFile extends \GokuaiFile
         ];
         $res = $this->callAPI2('GET', '/1/file/ls', $data);
         $this->checkResult($res);
-        if($res) {
+        if ($res) {
             foreach ($res['list'] as $key => $re) {
                 $res['list'][$key] = $this->getInfo($re['fullpath']);
             }
@@ -54,6 +54,7 @@ class YunkuFile extends \GokuaiFile
     {
         $data = [
             'fullpath' => $fullpath,
+            'overwrite' => 0
         ];
         $res = $this->callAPI2('POST', '/1/file/create_folder', $data);
         $this->checkResult($res);
@@ -149,13 +150,13 @@ class YunkuFile extends \GokuaiFile
 
 
     //文件秒传
-    public function setYunkuFile($fullpath,$file_size,$file_hash)
+    public function setYunkuFile($fullpath, $file_size, $file_hash)
     {
         $data = [
-            "fullpath"=>$fullpath,
+            "fullpath" => $fullpath,
             'filehash' => $file_hash,
             'filesize' => $file_size,
-            'overwrite'=>0
+            'overwrite' => 0
         ];
         $res = $this->callAPI2('POST', '/1/file/create_file', $data);
         $this->checkResult($res);
@@ -176,7 +177,7 @@ class YunkuFile extends \GokuaiFile
     }
 
     //获取文件外链
-    public function getLink($fullpath,$auth="upload",$deadline='')
+    public function getLink($fullpath, $auth = "upload", $deadline = '')
     {
         $data = [
             'fullpath' => $fullpath,
@@ -189,7 +190,7 @@ class YunkuFile extends \GokuaiFile
     }
 
     //获取文件最近更新列表
-    public function getAllFiles($fetch_dateline=0,$dir=0)
+    public function getAllFiles($fetch_dateline = 0, $dir = 0)
     {
         $data = [
             'fetch_dateline' => $fetch_dateline,
