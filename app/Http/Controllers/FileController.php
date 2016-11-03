@@ -76,6 +76,36 @@ class FileController extends Controller
         return $group_info;
     }
 
+    //获取移动端分组信息
+    public function getMobileGroup()
+    {
+        GroupInfo::cacheForget();
+        FolderInfo::cacheForget();
+        $group_info = GroupInfo::getFolderInfo(inputGetOrFail('group_id'));
+        $now = date('Y-m-d H:i:s');
+        if ($group_info->hidden == 1) {
+            return [0];
+        } else if($group_info->end_time!=='0000-00-00 00:00:00'){
+            if ($now > $group_info->end_time || $now < $group_info->start_time) {
+                return [1];
+            }
+        }
+        $folder_info = $group_info->folder->toArray();
+        foreach ($folder_info as $key => &$folder) {
+            if ($folder['hidden'] == 1) {
+                $folder_info[$key] = [0];
+            } else if($group_info->end_time!=='0000-00-00 00:00:00'){
+                if ($now > $folder['end_time'] || $now < $folder['start_time']) {
+                    $folder_info[$key] = [1];
+                }
+            }
+        }
+        $group_info = $group_info->toArray();
+        $group_info['folder'] = $folder_info;
+        return $group_info;
+    }
+
+
 
     //获取会展分组信息
     public function getExGroup($id='')
@@ -185,7 +215,7 @@ class FileController extends Controller
     {
         //  $base_controller->judgePermission("self_class_pic");//权限判断上传自定义专题图片
         $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
-        $img_url = json_decode($folder_info->img_url, true);
+        $img_url = json_decode($folder_info->img_url, true);//todo 图片个数限制
         if (inputGetOrFail('type')) {
             array_push($img_url, inputGetOrFail("img_url"));
         } else {

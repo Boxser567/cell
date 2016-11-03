@@ -17,6 +17,7 @@ use Session;
 use Input;
 use App\Logic\LAccount;
 use EasyWeChat\Foundation\Application;
+use App\Models\GroupInfo;
 
 class TestController extends Controller
 {
@@ -45,14 +46,14 @@ class TestController extends Controller
 
     public function getF()
     {
-        $yunku = new YunkuFile(708118);
-        return $yunku->getFileList("base_folder");
+        $yunku = new YunkuFile(708325);
+        return $yunku->getFileList();
     }
 
     public function getG()
     {
-        $yunku = new YunkuFile(708118);
-        return $yunku->setFolder("");
+        $yunku = new YunkuFile(708325);
+        return $yunku->setFolder("wang");
     }
 
     public function getH()
@@ -200,4 +201,7 @@ class TestController extends Controller
     {
         throw new \Exception("dddddd",33333);
     }
+
+    
+    
 }
