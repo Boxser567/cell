@@ -80,6 +80,7 @@ class FileController extends Controller
     public function getMobileGroup()
     {
         GroupInfo::cacheForget();
+        GroupInfo::cacheForget(['folder']);//todo shd
         FolderInfo::cacheForget();
         $group_info = GroupInfo::getFolderInfo(inputGetOrFail('group_id'));
         $now = date('Y-m-d H:i:s');
@@ -93,15 +94,52 @@ class FileController extends Controller
         $folder_info = $group_info->folder->toArray();
         foreach ($folder_info as $key => &$folder) {
             if ($folder['hidden'] == 1) {
-                $folder_info[$key] = [0];
-            } else if($group_info->end_time!=='0000-00-00 00:00:00'){
+                $folder = [0];
+            } else if($folder['end_time']!=='0000-00-00 00:00:00'){
                 if ($now > $folder['end_time'] || $now < $folder['start_time']) {
-                    $folder_info[$key] = [1];
+                    $folder = [1];
                 }
             }
         }
         $group_info = $group_info->toArray();
         $group_info['folder'] = $folder_info;
+        return $group_info;
+    }
+
+    //获取移动端会展分组信息
+    public function getMobileExGroup($id='')
+    {
+        GroupInfo::cacheForget();//todo shd
+        GroupInfo::cacheForget(['folder']);//todo shd
+        FolderInfo::cacheForget();
+        $group_info=GroupInfo::getExIdWithOutFolder(inputGet('ex_id',$id))->toArray();
+        $now = date('Y-m-d H:i:s');
+        foreach ($group_info as $key=>&$group){
+            if ($group['hidden'] == 1) {
+                unset($group_info[$key]);
+            } else if($group['end_time']!=='0000-00-00 00:00:00'){
+                if ($now > $group['end_time ']|| $now < $group['start_time']) {
+                    $group=[1];
+                }
+            }else{
+                $folder_infos=FolderInfo::getByGroupId($group['id']);
+                $folder_info=!$folder_infos?$folder_infos:$folder_infos->toArray();
+                if($folder_info) {
+                    foreach ($folder_info as $key2 => &$folder) {
+                        if ($folder['hidden'] == 1) {
+                            unset($folder_info[$key2]);
+                        } else {
+                            if ($folder['end_time'] !== '0000-00-00 00:00:00') {
+                                if ($now > $folder['end_time'] || $now < $folder['start_time']) {
+                                    $folder_info[$key2] = [1];
+                                }
+                            }
+                        }
+                    }
+                }
+                $group+=['folder'=>$folder_info];
+            }
+        }
         return $group_info;
     }
 
@@ -114,7 +152,6 @@ class FileController extends Controller
         GroupInfo::cacheForget(['folder']);//todo shd
         return $group_info=GroupInfo::getExId(inputGet('ex_id',$id))->toArray();
     }
-
 
     //获取文件夹或文件详情
     public function getInfo()

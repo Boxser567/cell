@@ -35,4 +35,11 @@ class GroupInfo extends BaseModel
     {
         return self::createWith(['folder'])->where('ex_id',$ex_id)->get();
     }
+
+    public static function getExIdWithOutFolder($ex_id)
+    {
+        return self::createWith()->where('ex_id',$ex_id)->get();
+    }
+    
+    
 }
