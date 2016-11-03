@@ -2,6 +2,8 @@
 // import  wx from "weixin-js-sdk";
 function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
     'ngInject';
+    console.log("currentMobileExbt", currentMobileExbt);
+    currentMobileExbt.property = JSON.parse(currentMobileExbt.property);
     $scope.EXfileList = currentMobileExbt;
     $scope.pageCode = window.location.href;
     $scope.pageunicode = Util.String.baseName(currentMobileExbt.unique_code);
@@ -18,21 +20,47 @@ function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
         if (res.total > 4) {
             $scope.showMore = true;
         }
-        for (var i = 0; i < res.data.length; i++) {
-            res.data[i].property = JSON.parse(res.data[i].property);
-        }
-        console.log("信息显示", res);
-        $scope.FilesList = res.data;
+        _.each(res.data, function (r) {
+            r.property = JSON.parse(r.property);
+        })
+        $scope.FilesList = res;
     })
+    //显示更多数据
+    $scope.showMoreFile = function () {
+        var url = $scope.FilesList.next_page_url;
+        if (url == null || url == "") {
+            return;
+        }
+        var num = Util.String.getParamsbyUrl(url, "page");
+        Exhibition.getFileInfoByPath({
+            ex_id: currentMobileExbt.id,
+            fullpath: currentMobileExbt.base_folder,
+            page: num
+        }).then(function (res) {
+            if (res.last_page >= num) {
+                $scope.showMore = false;
+            }
+            _.each(res.data, function (r) {
+                r.property = JSON.parse(r.property);
+                $scope.FilesList.data.push(r);
+            })
+            $scope.FilesList.last_page = res.last_page;
+            $scope.FilesList.next_page_url = res.next_page_url;
+        })
+    }
 
     //专题信息
     Exhibition.getGroupInfoByPath(currentMobileExbt.id).then(function (res) {
+        _.each(res, function (r) {
+            _.each(r.folder, function (f) {
+                f.img_url = JSON.parse(f.img_url);
+                f.property = JSON.parse(f.property);
+            })
+        })
+        console.log("数组", res);
         $scope.DirsList = res;
     });
 
-    // $scope.showMoreFile=function () {
-    //
-    // }
     //
     // $scope.DirsList = [];
     // $scope.AllFileList = [], $scope.FilesList = [];

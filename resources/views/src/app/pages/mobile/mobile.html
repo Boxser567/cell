@@ -2,7 +2,7 @@
     <div class="mobileindex">
         <div class="navtop">
             <div class="diff"></div>
-            <img class="m-bgimg" src="{{EXfileList.banner}}-640" alt="" width="100%"/>
+            <img class="m-bgimg" src="{{EXfileList.banner}}-640" alt=""/>
             <div class="con">
                 <div class="img"><img src="{{EXfileList.logo}}" alt=""/></div>
                 <p class="tl">{{EXfileList.title}}</p>
@@ -12,15 +12,15 @@
                        data-target="#ModalCode"></a>
                 </div>
             </div>
-            <p class="mark">{{currentExbt.property.sub_title}}</p>
+            <p class="mark">{{EXfileList.property.sub_title}}</p>
         </div>
 
         <div class="blocklist">
             <div class="warp-mark" ng-if="loading">
-                <span></span>
+                <span us-spinner="{lines:11,radius:9, width:3, length: 7}"  spinner-on="loading"></span>
             </div>
             <ul class="ui_file_Modelstyle">
-                <li ng-repeat="file in FilesList">
+                <li ng-repeat="file in FilesList.data">
                     <a class="clearfix sl" ng-if="file.property.style==1"
                        href="#/mobile_file/{{pageunicode}}/{{file.property.title}}">
                         <img src="{{file.property.back_pic}}-c320" alt="">
@@ -67,12 +67,13 @@
         </div>
 
         <div class="listCollection">
+        <div class="warp-list">
             <div class="empty_list" ng-if="DirsList.length==0">
                 <img src="../../../assets/images/102.png" alt="" style="width: 50%;">
             </div>
             <div class="group_list" ng-repeat="group in DirsList">
-                <div class="tl"><i></i>{{group.name}}</div>
-                <ul ng-if="group.allList.length>0">
+                <div class="tl"><i group-toggle></i>{{group.name}}</div>
+                <ul>
                     <li class="ui_topic_Modelstyle" ng-repeat="dir in group.folder">
                         <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.folder_hash}}/{{dir.title}}"
                            ng-if="dir.property.position=='middle'">

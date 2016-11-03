@@ -10,7 +10,6 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $rootScope.projectTitle = currentExhibition.data.title + " - 会文件";
-    $scope.stateMode = true;
     $scope.collectLoading = true;       //资料收集
     $scope.collectUrl = "http://cell.meetingfile.com/#/collect/" + $stateParams.unicode + "";
     //logo上传加载
@@ -54,24 +53,6 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     }
 
 
-    $scope.slideTopicFn = function (list) {
-        $(".hosted-phones").slideUp(0, function () {
-            $(".topic-page").animate({left: '0px'});
-        })
-        $scope.topDetails = list;
-        console.log("$scope.topDetails", $scope.topDetails)
-
-        Exhibition.getFileInfoByPath({ex_id: $scope.currentExbt.id, folder_id: list.id}).then(function (res) {
-            $scope.topDetails.lists.push(res.data);
-        })
-    }
-    $scope.slideBakcFn = function () {
-        $(".topic-page").animate({left: '320px'}, function () {
-            $(".hosted-phones").show();
-        });
-    }
-
-
     //分组及专题信息查询
     $scope.GroupList = [];
     Exhibition.getGroupInfoByPath($scope.currentExbt.id).then(function (res) {
@@ -92,7 +73,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 break;
             }
         }
-        $scope.folder_loding = true;
+        group.folder_loding = true;
         Exhibition.addFolder({
             org_id: $scope.currentExbt.org_id,
             group_id: group.id,
@@ -102,7 +83,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
             data.img_url = JSON.parse(data.img_url);
             $timeout(function () {
                 $scope.GroupList[index].folder.push(data);
-                $scope.folder_loding = false;
+                group.folder_loding = false;
             })
         });
     }
@@ -189,29 +170,77 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 });
             }
         });
-        Exhibition.copyFilFromHad(params).then(function (res) {
-            $scope.btnloading = false;
-            _.each(res, function (r) {
-                r.property = JSON.parse(r.property);
-                $scope.FilesList.push(r);
+        if ($scope.uploadstate == "files") {
+            Exhibition.copyFilFromHad(params).then(function (res) {
+                $scope.btnloading = false;
+                _.each(res, function (r) {
+                    r.property = JSON.parse(r.property);
+                    $scope.FilesList.push(r);
+                })
+                $("#fileFromCollect").modal('hide');
             })
-            $("#fileFromCollect").modal('hide');
-        })
+        }
+        if ($scope.uploadstate == "topic") {
+            params.folder_id = $scope.topDetails.id;
+            Exhibition.copyFilFromHad(params).then(function (res) {
+                $scope.btnloading = false;
+                _.each(res, function (r) {
+                    r.property = JSON.parse(r.property);
+                    $scope.topDetails.lists.push(r);
+                })
+                $("#fileFromCollect").modal('hide');
+            })
+        }
+
     };
 
 
     $scope.delFileFn = function () {        //删除常用文件
         if (confirm("确定要删除该文件吗?")) {
-            Exhibition.delFileinfo({
-                org_id: $scope.currentExbt.org_id,
-                file_id: $scope.fileglobal.id
-            }).then(function (res) {
-                $(".slide-note").find(".defaults").show().siblings().hide();
-                $timeout(function () {
-                    $scope.FilesList.splice($scope.fileglobal.Indexer, 1);
+            if ($scope.uploadstate == "files") {
+                Exhibition.delFileinfo({
+                    org_id: $scope.currentExbt.org_id,
+                    file_id: $scope.fileglobal.id
+                }).then(function (res) {
+                    $(".slide-note").find(".defaults").show().siblings().hide();
+                    $timeout(function () {
+                        $scope.FilesList.splice($scope.fileglobal.Indexer, 1);
+                    })
                 })
-            })
+            }
+            if ($scope.uploadstate == "topic") {
+                Exhibition.delFileinfo({
+                    org_id: $scope.currentExbt.org_id,
+                    file_id: $scope.fileglobal.id,
+                    hash: $scope.topDetails.folder_hash,
+                    folder_title: $scope.topDetails.title
+                }).then(function (res) {
+                    $(".slide-note").find(".topic_con").show().siblings().hide();
+                    $timeout(function () {
+                        $scope.topDetails.lists.splice($scope.fileglobal.Indexer, 1);
+                    })
+                })
+            }
         }
+    }
+    $scope.delTopicFn = function () { //删除专题
+
+        Exhibition.delExFile({
+            org_id: $scope.currentExbt.org_id,
+            fullpath: $scope.topDetails.title,
+            is_dir: "1",
+            hash: $scope.topDetails.folder_hash
+        }).then(function (res) {
+            $scope.slideBakcFn();
+
+            var listfolder = $scope.GroupList[$scope.groupIndex].folder;
+            for (let i = 0; i < listfolder.length; i++) {
+                if (listfolder[i].id == $scope.topDetails.id) {
+                    $scope.GroupList[$scope.groupIndex].folder.splice(i, 1);
+                }
+            }
+        })
+
     }
 
 
@@ -219,7 +248,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         $(".mui_collect").attr("checked", true);
     }
 
-
+    //选中常用文件
     $scope.selectFileFn = function (e, index, file) {
         $(e.currentTarget).addClass("active").parent().siblings().find("a").removeClass("active");
         $(".slide-note").find(".filemask").show().siblings().hide();
@@ -411,6 +440,67 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 $scope.bannerList = res;
             })
         }
+    }
+
+
+    //手机模版  专题页面设置
+    $scope.slideTopicFn = function (groindex, list) {
+        $scope.groupIndex = groindex;
+        $(".hosted-phones").slideUp(0, function () {
+            $(".topic-page").animate({left: '0px'});
+        });
+        $(".slide-note").find(".topic_con").show().siblings().hide();
+        list.oldtitle = list.title;
+        $scope.topDetails = list;
+        $scope.topDetails.fileloading = true;
+        $scope.topDetails.lists = [];
+        $scope.uploadstate = "topic";
+        $(".mui-topic").prop("checked", Boolean($scope.topDetails.hidden));
+        $(".topic-time").val($scope.topDetails.forever);
+        Exhibition.getFileInfoByPath({
+            ex_id: $scope.currentExbt.id,
+            size: 200,
+            folder_id: list.id
+        }).then(function (res) {
+            _.each(res.data, function (m) {
+                m.property = JSON.parse(m.property);
+                $scope.topDetails.lists.push(m);
+                console.log("topDetails123", $scope.topDetails)
+
+            })
+            $scope.topDetails.fileloading = false;
+        })
+    }
+
+    $scope.slideBakcFn = function () {
+        $(".topic-page").animate({left: '320px'}, function () {
+            $(".hosted-phones").show();
+        });
+        $(".slide-note").find(".defaults").show().siblings().hide();
+        $scope.uploadstate = "files";
+    }
+    //切换到专题设置
+    $scope.setTopicFn = function () {
+        $(".slide-note").find(".topic_con").show().siblings().hide();
+    }
+
+    //修改专题隐藏
+    $scope.topicIsHideFn = function () {
+        var len = Number(!Boolean($scope.topDetails.hidden));
+        Exhibition.editTopicDetail({hash: $scope.topDetails.folder_hash, hidden: len}).then(function (res) {
+            $scope.topDetails.hidden = len;
+        })
+    }
+
+    //删除专题图片
+    $scope.delTopicImgFn = function () {
+        Exhibition.updateTopicImg({
+            hash: $scope.topDetails.folder_hash,
+            img_url: $scope.topDetails.img_url[0],
+            type: 0
+        }).then(function (res) {
+            $scope.topDetails.img_url.shift();
+        })
     }
 
 

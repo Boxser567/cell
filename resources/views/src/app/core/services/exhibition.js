@@ -101,7 +101,9 @@ export default function (app) {
 
                 //删除文件(夹)
                 delExFile: function (params) {
-                    return $http.post('/file/del', params);
+                    return $http.post('/file/del', params).then(function (res) {
+                        return res.data;
+                    });
                 },
 
                 //创建新分组
@@ -244,11 +246,11 @@ export default function (app) {
 
 
                 //将云库的文件同步到会文件列表-----无效了
-                copyFilrFromCloud: function (params) {
-                    return $http.get('/file/yunku-file', {params: params}).then(function (res) {
-                        return res.data;
-                    })
-                },
+                // copyFilrFromCloud: function (params) {
+                //     return $http.get('/file/yunku-file', {params: params}).then(function (res) {
+                //         return res.data;
+                //     })
+                // },
 
                 //从已有文件中选择文件
                 copyFilFromHad: function (params) {

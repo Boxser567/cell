@@ -89,7 +89,7 @@
                     <p class="r">文字会显示在标题下方,可以用简单的语句描述您的站点、或者您可以协商主办方(承办方)名称。</p>
                 </div>
             </div>
-            <div class="graphic">
+            <div class="graphic" slide-animate>
                 <ul>
                     <li>
                         <a>
@@ -146,7 +146,8 @@
                             </div>
                         </div>
                         <div class="mb_file">
-                    <span ng-if="fileloading" class="loading" us-spinner="{lines:9,radius:5, width:3, length: 6}"
+                    <span ng-if="fileloading" class="loading"
+                          us-spinner="{lines:9,radius:5, width:3, length: 6}"
                           spinner-on="fileloading"></span>
                             <ul class="ui_file_Modelstyle">
                                 <li ng-repeat="file in FilesList">
@@ -194,20 +195,20 @@
                                 <li>
                                     <!--<a class="add" ng-click="addFileFn()">添加内容模块</a>-->
                                     <div class="add" ng-click="fileChooser()">
-                                        添加内容模块
+                                        添加内容
                                     </div>
                                 </li>
                             </ul>
                         </div>
                         <div class="mb_classification">
-                            <div class="group" ng-repeat="item in GroupList track by $index">
+                            <div class="group" ng-repeat="item in GroupList track by $index" ng-init='idx=$index'>
                                 <div class="tl">
                                     <span group-toggle></span>
                                     <a ng-click="selectGroupFn($even,$index,item)">{{item.name}}</a>
                                 </div>
 
                                 <div class="ui_topic_Modelstyle topic" ng-repeat="list in item.folder"
-                                     ng-click="slideTopicFn(list)">
+                                     ng-click="slideTopicFn(idx,list)">
                                     <a class="con" ng-if="list.property.position=='middle'">
                                         <div class="bg">
                                             <div class="diff"></div>
@@ -269,15 +270,14 @@
                                             </p>
                                         </div>
                                     </a>
-
                                 </div>
 
                                 <div class="addtopic">
                                     <h4 ng-click="addProjectFn(item,$index)">添加新专题</h4>
                                     <p>专题中可包含多条内容</p>
-                                    <div class="model" ng-if="folder_loding">
-                                <span us-spinner="{color: '#fff',lines:11,radius:9, width:5, length: 9}"
-                                      spinner-on="folder_loding"></span>
+                                    <div class="model" ng-if="item.folder_loding">
+                                    <span us-spinner="{color: '#fff',lines:11,radius:9, width:5, length: 9}"
+                                          spinner-on="item.folder_loding"></span>
                                     </div>
                                 </div>
                             </div>
@@ -297,7 +297,7 @@
                         <div class="ui_topic_Modelstyle topicdetail">
                             <a class="glyphicon glyphicon-chevron-left" ng-click="slideBakcFn()"></a>
                             <a class="con">
-                                <div class="bg">
+                                <div class="bg" ng-click="setTopicFn()">
                                     <div class="diff"></div>
                                     <div class="p1" ng-if="topDetails.img_url.length==1">
                                         <img src="{{topDetails.img_url[0]}}-340" alt="">
@@ -329,8 +329,9 @@
 
 
                         <div class="project">
-                            <span ng-if="fileloading" class="loading" us-spinner="{lines:9,radius:5, width:3, length: 6}"
-                                  spinner-on="fileloading"></span>
+                            <span ng-if="topDetails.fileloading" class="loading"
+                                  us-spinner="{lines:9,radius:5, width:3, length: 6}"
+                                  spinner-on="topDetails.fileloading"></span>
                             <ul class="ui_file_Modelstyle">
                                 <li ng-repeat="file in topDetails.lists">
                                     <a class="clearfix sl" ng-if="file.property.style==1"
@@ -375,25 +376,13 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <!--<a class="add" ng-click="addFileFn()">添加内容模块</a>-->
                                     <div class="add" ng-click="topicChooser()">
-                                        添加内容模块
+                                        添加内容
                                     </div>
                                 </li>
                             </ul>
 
                         </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
                     </div>
@@ -405,6 +394,8 @@
         </div>
         <div class="percentsixty">
             <div class="slide-note">
+
+                <!--主页面提示-->
                 <div class="defaults">      <!--文件上传样式-->
                     <h3>
                         模块设置/内容模块
@@ -413,7 +404,7 @@
                         <img src="../../../assets/images/104.png" alt="">
                     </div>
                 </div>
-
+                <!--文件设置-->
                 <div class="filemask">
                     <h3>模块设置/内容模块 <span class="pull-right" ng-click="delFileFn()"><i
                             class="glyphicon glyphicon-trash"></i>删除</span>
@@ -517,6 +508,7 @@
                     </div>
                 </div>
 
+                <!--分组设置-->
                 <div class="grouping">
                     <h3>模块设置/内容模块 <span class="pull-right" ng-click="delGroupFn()"><i
                             class="glyphicon glyphicon-trash"></i>删除</span>
@@ -535,7 +527,7 @@
                         </div>
                         <select class="form-control group-time">
                             <option value="1">永久有效</option>
-                            <option value="0" selected="selected">自定义有效时间</option>
+                            <option value="0">自定义有效时间</option>
                         </select>
                         <div class="settime" ng-if="groupglobal.forever==0">
                             <div class="dropdown form-group">
@@ -574,11 +566,11 @@
                     </div>
                     <div class="ishide">
                         <div class="h">
-                            <i class="tl-hide"></i>非有效期内是否隐藏分组内容
+                            <i class="tl-hide"></i>有效期内显示分组内容
                         </div>
                         <div class="clearfix">
                             <p class="pull-left">
-                                如果设置不隐藏,用户将只能看到该组内的分类标题,但无法查看内容。
+                                如果设置不显示,用户将只能看到该组内的分类标题,但无法查看内容。
                             </p>
                             <label class="pull-right">
                                 <input class="mui-switch mui-switch-anim mui_group" ng-click="editGroupOfferFn()"
@@ -587,103 +579,105 @@
                         </div>
                     </div>
                 </div>
+
+                <!--专题设置-->
                 <div class="topic_con">
-                    <h3>模块设置/专题模块</h3>
+                    <h3>模块设置/专题模块
+                        <span class="pull-right" ng-click="delTopicFn()">
+                            <i class="glyphicon glyphicon-trash"></i>删除</span>
+                    </h3>
                     <div class="d1">
                         <div class="h">
-                            <i></i>专题名称
+                            <i class="tl-name"></i>专题名称
                         </div>
-                        <input type="text" placeholder="请填写专题名称">
+                        <input type="text" class="form-control" ng-model="topDetails.title" placeholder="请填写专题名称"
+                               edit-topicname>
                     </div>
 
                     <div class="d2">
                         <div class="h">
-                            <i></i>专题封面图
+                            <i class="tl-img"></i>专题封面图
                         </div>
                         <div class="style">
                             <div class="ui_dir_Modelstyle">
                                 <div class="diff"></div>
-                                <!--<div class="p1" >-->
-                                <!--<img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">-->
-                                <!--</div>-->
-                                <!--<div class="p2 clearfix">-->
-                                <!--<div>-->
-                                <!--<img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">-->
-                                <!--</div>-->
-                                <!--<div>-->
-                                <!--<img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340" alt="">-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <div class="p3 clearfix">
+                                <div class="p1" ng-if="topDetails.img_url.length==1">
+                                    <img src="{{topDetails.img_url[0]}}-340" alt="">
+                                </div>
+                                <div class="p2 clearfix" ng-if="topDetails.img_url.length==2">
+                                    <div>
+                                        <img src="{{topDetails.img_url[0]}}-340" alt="">
+                                    </div>
+                                    <div>
+                                        <img src="{{topDetails.img_url[1]}}-340" alt="">
+                                    </div>
+                                </div>
+                                <div class="p3 clearfix" ng-if="topDetails.img_url.length==3">
                                     <div class="left">
-                                        <img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340"
-                                             alt="">
+                                        <img src="{{topDetails.img_url[0]}}-340" alt="">
                                     </div>
                                     <div class="right">
-                                        <img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340"
-                                             alt="">
-                                        <img src="http://res.meetingfile.com/d9cfe05740f4ef617b23431d720b83ee7b4229d7.jpg-340"
-                                             alt="">
+                                        <img src="{{topDetails.img_url[1]}}-340" alt="">
+                                        <img src="{{topDetails.img_url[2]}}-340" alt="">
                                     </div>
                                 </div>
                             </div>
-                            <!--<div class="title">-->
-                            <!--<p class="tl">{{dir.title}}</p>-->
-                            <!--<p class="count">{{dir.file_count}}条内容-->
-                            <!--<i class="glyphicon glyphicon-menu-right"></i>-->
-                            <!--</p>-->
-                            <!--</div>-->
+                            <div class="did">
+                                <div class="btn" ng-if="topDetails.img_url.length<3" datawhere="topicBg" upload-logo>
+                                    上传封面图
+                                </div>
+                                <div class="btn" ng-if="topDetails.img_url.length>1" ng-click="delTopicImgFn()">删除封面图
+                                </div>
+                            </div>
                         </div>
-
-
+                        <p class="warn">支持 JPG/PNG格式, 每张图片不超过1M,图片总数不得超过3张</p>
                     </div>
                     <div class="d3">
                         <div class="h">
-                            <i></i>非有效期内是否隐藏分组内容
+                            <i class="tl-hide"></i>有效期内隐藏专题内容
                         </div>
                         <div class="text">
-                            <div>如设置不隐藏,用户将只能看到该组内的分类标题,但无法查看内容。</div>
-                            <label> <input class="mui-switch mui-switch-anim" type="checkbox"></label>
+                            <div>如设置不隐藏,用户将只能看到该专题的文件标题,但无法查看内容。</div>
+                            <label> <input class="mui-switch mui-switch-anim mui-topic" type="checkbox"
+                                           ng-click="topicIsHideFn()"></label>
                         </div>
-
                     </div>
                     <div class="d4">
                         <div class="h">
-                            <i></i>专题有效时间
+                            <i class="tl-time"></i>专题有效时间
                         </div>
-                        <select class="form-control">
+                        <select class="form-control topic-time">
                             <option value="1">永久有效</option>
-                            <option value="2">自定义有效时间</option>
+                            <option value="0">自定义有效时间</option>
                         </select>
                     </div>
                     <div class="d5">
                         <div class="h">
-                            <i></i>自定义样式
+                            <i class="tl-style"></i>自定义样式
                         </div>
 
                         <div class="cen">
                             <p>标题显示在封面中央</p>
-                            <div>
+                            <div dtype="middle" set-topic-style>
                                 <div class="diff"></div>
                                 <img src="http://res.meetingfile.com/90947cde8abf548dbefaedfe14c1971f55c27f79.jpg-340"
                                      alt="" width="100%">
-
                                 <div class="content">
-                                    <p class="tl">够快云库资料整合</p>
-                                    <p>共16条内容 ></p>
+                                    <p class="tl">{{topDetails.title}}</p>
+                                    <p>共{{topDetails.file_size}}条内容 ></p>
                                 </div>
-
                             </div>
+                            <i class="check" ng-if="topDetails['property']['position']=='middle'"></i>
                         </div>
-                        <div class="bottom">
+                        <div class="bottom" dtype="under" set-topic-style>
                             <p>样式二:标题显示在封面下方</p>
                             <img src="http://res.meetingfile.com/90947cde8abf548dbefaedfe14c1971f55c27f79.jpg-340"
-                                 alt=""
-                                 width="100%">
+                                 alt="" width="100%">
                             <div>
-                                <h4>够快云库资料整合</h4>
-                                <p>共23条内容</p>
+                                <h4>{{topDetails.title}}</h4>
+                                <p>共{{topDetails.file_size}}条内容</p>
                             </div>
+                            <i class="check" ng-if="topDetails['property']['position']=='under'"></i>
                         </div>
                     </div>
 
@@ -855,8 +849,9 @@
             <div class="modal-body">
                 <div class="form-group clearfix">
                     <div class="col-sm-6">
-                        <div class="btn uploadByLocal" ng-if="uploadstate=='files' || uploadstate=='topic' " upload-files>从本地上传</div>
-                        <div class="btn uploadByLocal" ng-if="uploadstate=='dirs'"  upload-dir-files>从本地上传
+                        <div class="btn uploadByLocal" ng-if="uploadstate=='files'" upload-files>从本地上传
+                        </div>
+                        <div class="btn uploadByLocal" ng-if="uploadstate=='topic'" upload-dir-files>从本地上传
                         </div>
                     </div>
                     <div class="col-sm-6">

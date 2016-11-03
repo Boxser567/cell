@@ -56,10 +56,10 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 elem.on("click", function () {
-                    if (!scope.stateMode) {
+                    if (scope.stateMode) {
                         $('.motion').fadeOut(function () {
                             $timeout(function () {
-                                scope.stateMode = true;
+                                scope.stateMode = false;
                                 scope.mobilesize.left = "120px";
                             })
                             $(".FILE_ARTICLE .slide-bar").animate({
@@ -69,9 +69,6 @@ export default function (app) {
                                 $(".nav-bar .left").animate({
                                     width: '218px'
                                 });
-                                // $(".slide-note").animate({
-                                //     left: "530px"
-                                // }, 100)
                                 $(".percentsixty").animate({
                                     width: "59.666%"
                                 })
@@ -79,7 +76,7 @@ export default function (app) {
                             });
                         });
                     }
-                    if (scope.stateMode) {
+                    if (!scope.stateMode) {
                         $('.graphic').fadeOut(function () {
                             $(".nav-bar .left").animate({
                                 width: '508px'
@@ -90,9 +87,8 @@ export default function (app) {
                                     $(".FILE_ARTICLE .slide-bar").animate({
                                         width: '360px'
                                     }, function () {
-
                                         $timeout(function () {
-                                            scope.stateMode = false;
+                                            scope.stateMode = true;
                                             scope.mobilesize.left = "390px";
                                         })
                                         $('.motion').fadeIn();
@@ -380,7 +376,8 @@ export default function (app) {
                             property: {
                                 style: 1,
                                 back_pic: "http://res.meetingfile.com/2168a80ad9c3a8b1a07eb78751e37e4d2491041a.jpg",
-                                title: file.name
+                                title: file.name,
+                                sub_title: '<这里是内容摘要>'
                             }
                         };
                         scope.FilesList.push(thisfile);
@@ -407,24 +404,6 @@ export default function (app) {
                                 break;
                             }
                         }
-
-
-                        //Exhibition.editFileinfo({ex_id:})
-                        // var len = scope.FilesList.length;
-                        // for (var i = len; i >= 0; i--) {
-                        //     if (scope.FilesList[i] && scope.FilesList[i].wid) {
-                        //         if (scope.FilesList[i].wid == uploadFile.id) {
-                        //             $timeout(function () {
-                        //                 scope.FilesList[i].filename = returnFile.fullpath;
-                        //                 scope.FilesList[i].hash = returnFile.hash;
-                        //                 scope.FilesList[i].fullpath = returnFile.fullpath;
-                        //                 scope.currentExbt.property.file_count = Number(scope.currentExbt.property.file_count) + 1;
-                        //                 scope.currentExbt.property.size_use = Number(scope.currentExbt.property.size_use) + scope.FilesList[i].filesize;
-                        //             })
-                        //             break;
-                        //         }
-                        //     }
-                        // }
                     });
                     uploader.on('uploadProgress', function (fileObj, progress) {
                         var file = _.findWhere(scope.FilesList, {
@@ -451,8 +430,6 @@ export default function (app) {
                                 console.log("fileObj2asdasdddddd", scope.FilesList);
                             })
                         });
-
-
                     });
                     uploader.on('error', function (err) {
                         console.log("文件上传报错", err);
@@ -473,13 +450,15 @@ export default function (app) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
+                // elem.off("click");
+                // elem.on("click", function () {
                 $timeout(function () {
-                    if (attrs.datewhere == "topicBg") {
-                        if (scope.topicDetails.img_url.length >= 3) {
-                            alert("专题封面图最多为3张!");
-                            return false;
-                        }
-                    }
+                    // if (attrs.datewhere == "topicBg") {
+                    //     if (scope.topDetails.img_url.length >= 3) {
+                    //         alert("专题封面图最多为3张!");
+                    //         return false;
+                    //     }
+                    // }
                     Exhibition.getUrlToken().then(function (da) {
                         var imgTypes = '';
                         if (attrs.datawhere == "banner") {
@@ -489,6 +468,7 @@ export default function (app) {
                         }
                         uploadimg(imgTypes, da.data.upload_domain, da.data.token, da.data.file_name);
                     });
+                    //})
                 })
 
                 function uploadimg(imgTypes, server, token, file_name) {
@@ -544,19 +524,17 @@ export default function (app) {
                                 })
                             })
                         }
-                        if (attrs.datawhere == "topicBg") {
+                        if (attrs.datawhere === "topicBg") {
                             var arg = server + "/" + arguments[1].key;
-                            console.log("是否今日123999", scope.topicDetails.folder_hash, arg);
-
-
+                            console.log("是否今日123999", scope.topDetails.folder_hash, arg);
                             Exhibition.updateTopicImg({
-                                hash: scope.topicDetails.folder_hash,
+                                hash: scope.topDetails.folder_hash,
                                 img_url: arg,
                                 type: 1
                             }).then(function (res) {
                                 console.log("封面图片上传成功返回", res);
                                 $timeout(function () {
-                                    scope.topicDetails.img_url.push(arg);
+                                    scope.topDetails.img_url.push(arg);
                                 })
                             })
                         }
@@ -590,7 +568,7 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 $timeout(function () {
-                    Exhibition.getFileToken(attrs.dataorgid).then(function (da) {
+                    Exhibition.getFileToken(scope.currentExbt.org_id).then(function (da) {
                         uploadimg(da.data.url, da.data.org_client_id);
                     });
                 });
@@ -615,97 +593,82 @@ export default function (app) {
                         fileSingleSizeLimit: 1024 * 1024 * 1024
                     });
                     uploader.on('uploadStart', function () {
-                        uploader.options.formData.path = attrs.datadirpath
+                        uploader.options.formData.path = scope.topDetails.title;
                         // console.log("datadirpath", uploader.options.formData.path);
                     });
 
                     uploader.on('fileQueued', function (file) {
                         // console.log("文件队列", file);
                         uploader.options.formData.name = file.name;
-                        var timestamp = Date.parse(new Date());
-                        timestamp = timestamp / 1000;
-                        $timeout(function () {
-                            scope.dirList.push({
-                                filename: file.name,
-                                filesize: file.size,
-                                create_dateline: timestamp,
-                                filewidth: 0,
-                                wid: file.id
-                            })
-                            $("#uploadFileModal").modal('hide');
-                        })
-                    });
-                    uploader.on('uploadSuccess', function (wufile, succfile) {
-                        // console.log("队列文件上传成功", arguments);
-                        succfile.fullpath = Util.String.baseName(succfile.fullpath);
-                        Exhibition.fileUploadSuss({
-                            hash: attrs.datadirhash,
-                            type: 'add',
-                            size: succfile.filesize
-                        }).then(function (res) {
-                            // console.log("数据上传ces", scope.DirsList, scope.thisDirPath);
-
-                            //替换文件上传成功后文件的名称
-                            var len = scope.dirList.length;
-                            for (var i = len; i >= 0; i--) {
-                                if (scope.dirList[i] && scope.dirList[i].wid) {
-                                    if (scope.dirList[i].wid == wufile.id) {
-                                        $timeout(function () {
-                                            scope.dirList[i].filename = succfile.fullpath;
-                                            scope.dirList[i].hash = succfile.hash;
-                                            scope.dirList[i].fullpath = succfile.fullpath;
-                                        })
-                                        break;
-                                    }
-                                }
+                        var topicfile = {
+                            indexID: file.id,
+                            id: '',
+                            ex_id: scope.currentExbt.id,
+                            hash: '',
+                            size: file.size,
+                            title: file.name,
+                            property: {
+                                style: 1,
+                                back_pic: "http://res.meetingfile.com/2168a80ad9c3a8b1a07eb78751e37e4d2491041a.jpg",
+                                title: file.name
                             }
+                        };
+                        console.log("上传文件加入队列信息", topicfile);
+                        scope.topDetails.lists.push(topicfile);
+                        scope.localTopicFilesJSON = [];
+                        scope.localTopicFilesJSON.push(topicfile);
+                        $("#uploadFileModal").modal('hide');
+                    });
+                    uploader.on('uploadSuccess', function (uploadFile, returnFile) {
+                        console.log("专题文件上传成功", arguments);
+                        for (var i = 0; i < scope.localTopicFilesJSON.length; i++) {
+                            if (scope.localTopicFilesJSON[i].indexID == uploadFile.id) {
+                                scope.localTopicFilesJSON[i].hash = returnFile.hash;
+                                scope.localTopicFilesJSON[i].folder_id = scope.topDetails.id;
+                                console.log("scope.localTopicFilesJSON[i]", scope.localTopicFilesJSON[i])
 
-                            Exhibition.getDirCountSize({hash: attrs.datadirhash}).then(function (data) {
-                                console.log("数据上传成功后更新", data)
-                                for (var n = 0; n < scope.DirsList.length; n++) {
-                                    if (scope.DirsList[n].fullpath == scope.thisDirPath) {
-                                        break;
+                                Exhibition.editFileinfo(scope.localTopicFilesJSON[i]).then(function (res) {
+                                    var file = _.findWhere(scope.topDetails.lists, {
+                                        indexID: scope.localTopicFilesJSON[i].indexID
+                                    });
+                                    if (file) {
+                                        $timeout(function () {
+                                            file.id = res.id;
+                                            file.hash = returnFile.hash;
+                                        })
                                     }
-                                }
-                                $timeout(function () {
-                                    scope.DirsList[n].info = {
-                                        file_count: data.file_count,
-                                        file_size: data.file_size,
-                                        img_url: [scope.DirsList[n].info.img_url[0]]
-                                    };
-                                    var allCount = Number(scope.currentExbt.property.file_count);
-                                    scope.currentExbt.property.file_count = allCount + 1;
-                                    scope.currentExbt.property.size_use = Number(scope.currentExbt.property.size_use) + data.file_size;
-                                })
-                            })
-                        })
+                                    scope.localTopicFilesJSON.splice(i, 1);  //删除上传缓存
+                                });
+                                break;
+                            }
+                        }
                     });
 
 
                     uploader.on('uploadProgress', function (fileObj, progress) {
                         // console.log("上传进度", arguments);
-                        var file = _.findWhere(scope.dirList, {
-                            wid: fileObj.id
+                        var Tfile = _.findWhere(scope.topDetails.lists, {
+                            indexID: fileObj.id
                         });
-                        var index = "";
-                        _.each(scope.dirList, function (r) {
-                            if (r.wid == fileObj.id) {
-                                index = scope.dirList.indexOf(r);
-                            }
-                        });
-                        $("#loadFileList ul li:nth-child(" + (index + 1) + ")").find(".col-sm-12 i").on('click', function () {
-                            uploader.cancelFile(fileObj.id);
+                        if (Tfile) {
                             scope.$apply(function () {
-                                scope.dirList.splice(index, 1);
-                            })
-                        });
-
-                        if (file) {
-                            scope.$apply(function () {
-                                file.filewidth = Number(progress) * 100;
+                                Tfile.filewidth = Number(progress) * 100;
                             })
                         }
-
+                        var index = "";
+                        _.each(scope.topDetails.lists, function (r) {
+                            if (r.indexID == fileObj.id) {
+                                index = scope.topDetails.lists.indexOf(r);
+                            }
+                        });
+                        var element = $(".topic-page .project ul li:nth-child(" + (index + 1) + ")").find(".cover i");
+                        element.off("click");
+                        element.on('click', function () {
+                            uploader.cancelFile(fileObj.id);
+                            $timeout(function () {
+                                scope.topDetails.lists.splice(index, 1);
+                            })
+                        });
                     });
                     uploader.on('error', function (err) {
                         console.log("图片上传报错", err);
@@ -921,14 +884,13 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 elem.blur(function () {
-                    // var subname =scope.fileglobal.property.sub_title;
+                    var subname = scope.fileglobal.property.sub_title;
+                    if (subname == "" || subname == null) {
+                        return;
+                    }
                     Exhibition.editFileinfo({
                         file_id: scope.fileglobal.id,
                         sub_title: scope.fileglobal.property.sub_title
-                    }).then(function (res) {
-                        $timeout(function () {
-                            scope.fileglobal.property.sub_title = v;
-                        })
                     })
                 })
             },
@@ -940,13 +902,12 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 elem.on('click', function () {
+                    elem.addClass("active").siblings().removeClass("active");
                     var st = attrs.datastyle;
                     if (scope.fileglobal.property.style != st) {
                         Exhibition.editFileinfo({file_id: scope.fileglobal.id, style: st}).then(function (res) {
                             $timeout(function () {
-
                                 scope.fileglobal.property.style = st;
-                                //scope.FilesList[scope.fileglobal.Indexer].property.style = st;
                             })
                         })
                     }
@@ -999,12 +960,50 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 elem.click(function () {
+                    $(this).toggleClass("active");
                     $(this).parent().siblings().stop().slideToggle();
-                    if ($(this).hasClass("active")) {
-                        $(this).removeClass("active");
-                    } else {
-                        $(this).addClass("active");
+                })
+            }
+        };
+    });
+
+
+    //修改专题 -- 名称
+    app.directive('editTopicname', function (Exhibition, $timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.blur(function () {
+                    if (scope.topDetails.title != scope.topDetails.oldtitle) {
+                        Exhibition.editExFilename({
+                            org_id: scope.currentExbt.org_id,
+                            fullpath: scope.topDetails.oldtitle,
+                            hash: scope.topDetails.folder_hash,
+                            newpath: scope.topDetails.title
+                        })
                     }
+                })
+            }
+        };
+    });
+
+    //修改专题   -- set-topic-style 样式
+    app.directive('setTopicStyle', function (Exhibition, $timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.on("click", function () {
+                    var dt = attrs.dtype;
+                    Exhibition.editTopicDetail({
+                        hash: scope.topDetails.folder_hash,
+                        position: dt
+                    }).then(function (res) {
+                        $timeout(function () {
+                            scope.topDetails.property.position = dt;
+                        })
+                    })
+
+
                 })
             }
         };
@@ -1070,67 +1069,15 @@ export default function (app) {
                                                 $("#uploadFileModal").modal('hide');
                                             })
                                         }
-                                        if (scope.uploadstate == "dirFile") {
-                                            params.filename = scope.thisDirPath + "/" + name;
-                                            Exhibition.copyFilrFromCloud(params).then(function (res) {
-                                                // console.log("返回给我很多数据噢123123", res);
+                                        if (scope.uploadstate == "topic") {
+                                            pms.folder_id = scope.topDetails.id;
+                                            Exhibition.copyFilFromHad(pms).then(function (res) {
+                                                console.log("专题云库上传", res);
+                                                _.each(res, function (r) {
+                                                    r.property = JSON.parse(r.property);
+                                                    scope.topDetails.lists.push(r);
+                                                })
                                                 $("#uploadFileModal").modal('hide');
-                                                var backFilename = Util.String.baseName(res.fullpath);
-                                                scope.dirList.push({
-                                                    filename: backFilename,
-                                                    fullpath: res.fullpath,
-                                                    filesize: files.filesize,
-                                                    create_dateline: Date.parse(new Date()) / 1000
-                                                })
-                                                Exhibition.fileUploadSuss({
-                                                    hash: scope.thisDirHash,
-                                                    type: 'add',
-                                                    size: files.filesize
-                                                }).then(function (res) {
-                                                    // console.log("数据上传ces", res, scope.dirList);
-                                                    //替换文件上传成功后文件的名称
-                                                    var len = scope.DirsList.length;
-                                                    console.log("lenlenme", scope.DirsList);
-                                                    for (var i = 0; i < len; i++) {
-                                                        if (scope.DirsList[i]) {
-                                                            if (scope.DirsList[i].fullpath == scope.thisDirPath) {
-                                                                $timeout(function () {
-                                                                    scope.DirsList[i].info = {
-                                                                        file_count: Number(scope.DirsList[i].info.file_count) + 1,
-                                                                        file_size: Number(scope.DirsList[i].info.file_size) + files.filesize,
-                                                                        img_url: [scope.DirsList[i].info.img_url[0]]
-                                                                    };
-                                                                    scope.currentExbt.property.file_count = Number(scope.currentExbt.property.file_count) + 1;
-                                                                    scope.currentExbt.property.size_use = Number(scope.currentExbt.property.size_use) + files.filesize;
-                                                                })
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-
-                                                    // Exhibition.getDirCountSize({hash: scope.thisDirHash}).then(function (data) {
-                                                    //     console.log("数据上传成功后更新aaa", data);
-                                                    //     var len = scope.DirsList.length;
-                                                    //     for (var i = len; i >= 0; i--) {
-                                                    //         if (scope.DirsList[i].fullpath == scope.thisDirPath) {
-                                                    //             $timeout(function () {
-                                                    //                 scope.DirsList[i].info = {
-                                                    //                     file_count: data.file_count,
-                                                    //                     file_size: data.file_size,
-                                                    //                     img_url: [scope.DirsList[i].info.img_url[0]]
-                                                    //                 };
-                                                    //                 var allCount = Number(scope.currentExbt.property.file_count);
-                                                    //                 scope.currentExbt.property.file_count = allCount + 1;
-                                                    //                 scope.currentExbt.property.size_use = Number(scope.currentExbt.property.size_use) + data.file_size;
-                                                    //             })
-                                                    //             break;
-                                                    //         }
-                                                    //     }
-                                                    //
-                                                    // })
-                                                })
-
-
                                             });
 
                                         }

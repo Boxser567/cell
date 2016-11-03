@@ -34,43 +34,34 @@ body {
 .mobileindex {
   .navtop {
     position: relative;
-    min-height: 250px;
-    @media all and (min-width: 376px) {
-      min-height: 360px;
-    }
-    .mark{
+    min-height: 180px;
+    .mark {
       position: absolute;
       width: 100%;
       padding: 5px 15px;
       color: #fff;
+      left: 0;
+      bottom: 5px;
+      background: none;
+      text-align: center;
+      margin: 0;
     }
     .diff {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      min-height: 250px;
+      right: 0;
+      bottom: 0;
       background: rgba(0, 0, 0, .4);
       z-index: 2;
-      @media all and (min-width: 376px) {
-        min-height: 360px;
-      }
     }
     .m-bgimg {
       width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      min-height: 250px;
-      @media all and (min-width: 376px) {
-        min-height: 360px;
-      }
     }
     .tl {
-      font-size: 20px;
       color: #fff;
       margin-top: 10px;
+      padding: 0 15px;
     }
     .con {
       position: absolute;
@@ -79,53 +70,81 @@ body {
       left: 0;
       text-align: center;
       width: 100%;
-      @media all and (min-width: 376px) {
+      @media all and (max-width: 376px) {
         top: 40px;
-        .tl {
-          margin-top: 30px;
-          font-size: 20px;
+        .img {
+          text-align: center;
+          img {
+            border-radius: 50%;
+            width: 56px;
+          }
         }
-        .time {
-          margin-top: 20px;
-          margin-bottom: 30px;
+        .tl {
+          margin-top: 10px;
+          margin-bottom: 2px;
           font-size: 18px;
         }
+        .time {
+          font-size: 14px;
+        }
         .code {
+          display: none;
           a {
             font-size: 32px;
           }
         }
       }
 
-      @media all and (min-width: 420px) {
-        top: 60px;
+      @media all and (min-width: 376px) and (max-width: 420px) {
+        top: 40px;
+        .img {
+          text-align: center;
+          img {
+            border-radius: 50%;
+            width: 72px;
+          }
+        }
         .tl {
-          margin-top: 30px;
-          font-size: 28px;
+          margin-top: 10px;
+          margin-bottom: 2px;
+          font-size: 20px;
         }
         .time {
-          font-size: 18px;
+          font-size: 16px;
         }
         .code {
+          display: none;
           a {
             font-size: 40px;
           }
         }
       }
-      .img {
-        border-radius: 40px;
-        text-align: center;
-        img {
-          border-radius: 50px;
-          width: 100px;
+      @media all and (min-width: 420px) {
+        top: 40px;
+        .img {
+          text-align: center;
+          img {
+            border-radius: 50%;
+            width: 84px;
+          }
+        }
+        .tl {
+          margin-top: 15px;
+          margin-bottom: 5px;
+          font-size: 22px;
+        }
+        .time {
+          font-size: 16px;
         }
       }
+
     }
     .time {
       color: #fff;
       margin: 0;
     }
     .code {
+      display: none;
       text-align: right;
       padding-right: 30px;
       a {
@@ -135,13 +154,25 @@ body {
     }
   }
 
-  .listCollection {
-    background: #fff;
+  .warp-list {
     padding: 20px 0;
     .group_list {
+      padding: 0 15px;
       .tl {
         font-size: 18px;
-        padding: 0 15px;
+        margin-bottom: 5px;
+        i {
+          vertical-align: middle;
+          width: 20px;
+          height: 20px;
+          display: inline-block;
+          margin-right: 5px;
+          background: url("../../../assets/images/ex_icons.png") no-repeat;
+          background-position: -18px -246px;
+          &.active {
+            background-position: -54px -246px;
+          }
+        }
       }
     }
     ul {
@@ -374,28 +405,24 @@ body {
     padding-top: 30px;
     padding-bottom: 10px;
     color: #a7a7a7;
-    background: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(255, 255, 255, 0.6)), to(#eee));
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(255, 255, 255, 0)), to(#eee));
     i {
       font-size: 12px;
       padding-right: 5px;
     }
   }
   .warp-mark {
-    text-align: center;
     z-index: 6;
-    width: 100%;
-    span {
-      margin-top: 10px;
-      width: 36px;
-      height: 36px;
-      display: inline-block;
-      background: url("../../images/pass.gif") no-repeat;
-    }
-
+    position: relative;
+    height: 60px;
   }
 
   .ui_file_Modelstyle {
-
+    li {
+      & > a {
+        overflow: hidden;
+      }
+    }
   }
 
 }

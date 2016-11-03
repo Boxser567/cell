@@ -147,6 +147,18 @@
                 return paraObj;
             }
         },
+
+        getParamsbyUrl: function (url, param) {
+            var reg = new RegExp('(^|&)' + param + '=([^&]*)(&|$)', 'i');
+            url=url.split("?");
+            var r = url[1].match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        },
+
+
         /**
          * uri编码
          * @param request_uri

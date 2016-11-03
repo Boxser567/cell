@@ -230,11 +230,25 @@ $checkedColor: #64bd63;
   white-space: nowrap;
 }
 
+.webuploader-container {
+  .webuploader-pick {
+    background: none;
+    padding: 0;
+  }
+  & > div:nth-child(2) {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
 //常用文件五种样式集合
 .ui_file_Modelstyle {
   list-style: none;
   padding: 0;
   li {
+    position: relative;
     a {
       cursor: pointer;
       background: #fff;
@@ -243,20 +257,23 @@ $checkedColor: #64bd63;
       background: #fff;
       border-radius: 4px;
       margin: 10px 0px;
-      overflow: hidden;
       font-size: 18px;
       color: #333;
       i {
         display: block;
         position: absolute;
-        top: 3px;
-        right: 5px;
-        width: 20px;
-        height: 20px;
+        top: -12px;
+        right: -12px;
+        width: 24px;
+        height: 24px;
         background: url("../../../assets/images/1233.png") no-repeat;
+        background-size: cover;
       }
       &:hover {
         text-decoration: none;
+      }
+      &.active {
+        border: 2px solid #0081e4 !important;
       }
     }
     .sl {
@@ -464,6 +481,7 @@ $checkedColor: #64bd63;
     .bg {
       position: relative;
       border-radius: 4px;
+      min-height: 124px;
       overflow: hidden;
       img {
         width: 100%;
