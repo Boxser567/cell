@@ -88,16 +88,17 @@ class FileController extends Controller
             return [0];
         } else if($group_info->end_time!=='0000-00-00 00:00:00'){
             if ($now > $group_info->end_time || $now < $group_info->start_time) {
-                return [1];
+                $group_info->hidden = 3;
+                return $group_info;
             }
         }
         $folder_info = $group_info->folder->toArray();
         foreach ($folder_info as $key => &$folder) {
             if ($folder['hidden'] == 1) {
-                $folder = [0];
+                unset($folder_info[$key]);
             } else if($folder['end_time']!=='0000-00-00 00:00:00'){
                 if ($now > $folder['end_time'] || $now < $folder['start_time']) {
-                    $folder = [1];
+                    $folder ['hidden']= 3;
                 }
             }
         }
@@ -119,7 +120,7 @@ class FileController extends Controller
                 unset($group_info[$key]);
             } else if($group['end_time']!=='0000-00-00 00:00:00'){
                 if ($now > $group['end_time ']|| $now < $group['start_time']) {
-                    $group=[1];
+                    $group['hidden']=2;
                 }
             }else{
                 $folder_infos=FolderInfo::getByGroupId($group['id']);
@@ -131,7 +132,7 @@ class FileController extends Controller
                         } else {
                             if ($folder['end_time'] !== '0000-00-00 00:00:00') {
                                 if ($now > $folder['end_time'] || $now < $folder['start_time']) {
-                                    $folder_info[$key2] = [1];
+                                    $folder_info[$key2]['hidden'] =2;
                                 }
                             }
                         }
