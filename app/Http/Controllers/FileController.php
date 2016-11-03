@@ -261,6 +261,7 @@ class FileController extends Controller
                     unset($img_url[$key]);
                 }
             }
+            $img_url=array_values($img_url);
         }
         $folder_info->img_url = json_encode($img_url);
         $folder_info->save();
