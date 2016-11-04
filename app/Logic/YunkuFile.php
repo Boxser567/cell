@@ -164,10 +164,10 @@ class YunkuFile extends \GokuaiFile
     }
 
     //文件信息
-    public function getInfo($fullpath, $attribute = 0, $net = '')
+    public function getInfo($hash, $attribute = 0, $net = '')
     {
         $data = [
-            'fullpath' => $fullpath,
+            'hash' => $hash,
             'net' => $net,
             'attribute' => $attribute
         ];

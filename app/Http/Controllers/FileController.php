@@ -158,7 +158,7 @@ class FileController extends Controller
     public function getInfo()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        return $files->getInfo(inputGetOrFail('fullpath'), 1);
+        return $files->getInfo(inputGetOrFail('hash'), 1);
     }
 
     //获取专题详情

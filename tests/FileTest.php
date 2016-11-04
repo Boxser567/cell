@@ -14,19 +14,19 @@ class FileTest extends TestCase
         $result = $this->request(
             "GET", "/file/list", [
                 'org_id'=>'665030',
-                'fullpath'=>" ",
+                'fullpath'=>"1e99ac27ba78d6464504fac9164da4c79410f5c1",
             ]
         );
         $this->checkOut($result);
     }
 
-    public function estList()
+    public function testList()
     {
         dump("获取文件(夹)详情");
         $result = $this->request(
             "GET", "/file/info", [
-                'org_id'=>'665030',
-                'fullpath'=>'概况RESTful.md',
+                'org_id'=>'830379',
+                'fullpath'=>'1e99ac27ba78d6464504fac9164da4c79410f5c1',
             ]
         );
         $this->checkOut($result);
@@ -45,7 +45,7 @@ class FileTest extends TestCase
 
     }
 
-    public function testImg()
+    public function estImg()
     {
         dump("修改文件夹图片");
         $result = $this->request(

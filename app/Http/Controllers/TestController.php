@@ -71,8 +71,8 @@ class TestController extends Controller
 
     public function getJ()
     {
-        $yunku = new YunkuFile(665030);
-        return $yunku->getInfo("/wang", 1);
+        $yunku = new YunkuFile(830379);
+        return $yunku->getInfo("441980a850fb320d45009d36d42653b7c920fb8a", 1);
     }
 
     public function getK()
