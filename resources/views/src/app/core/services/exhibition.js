@@ -237,6 +237,11 @@ export default function (app) {
                         return res.data;
                     })
                 },
+                getTopicDetails: function (params) {
+                    return $http.get('/file/ex-group', {params: params}).then(function (res) {
+                        return res.data;
+                    })
+                },
 
 
                 //文件上传成功
@@ -279,6 +284,21 @@ export default function (app) {
                         return res.data;
                     });
                 },
+
+
+
+
+                //移动端分组信息查询
+                getGroup_mobile:function (params) {
+                    return $http.get('/file/mobile-ex-group', {params: params}).then(function (res) {
+                        return res.data;
+                    })
+                },
+                
+                //用于预览
+                m_getFileInfo:function (params) {
+                    return $http.get('/file/info', {params: params});
+                }
             }
         }])
 

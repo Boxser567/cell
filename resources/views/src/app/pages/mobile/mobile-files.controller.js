@@ -2,26 +2,20 @@
 
 function MobileFilesController($scope, $stateParams, currentMobileExbt, Exhibition) {
     'ngInject';
-
+    console.log("currentMobileExbt123123", $stateParams, currentMobileExbt);
     $scope.loading = true;
-    $scope.dirName = $stateParams.path;
-    //$scope.dirlistCount = currentMobileExbt.data.count;
-    Exhibition.getDirCountSize({hash: $stateParams.hash}).then(function (respon) {
-        respon.img_url = JSON.parse(respon.img_url);
-        $scope.dirInfo = respon;
-        console.log("getDirCountSize", respon);
+    $scope.dirName = "";
+    currentMobileExbt.img_url = JSON.parse(currentMobileExbt.img_url);
+    $scope.topicInfo = currentMobileExbt;
 
-    })
-
-
-    Exhibition.getDirFilesByID({org_id: currentMobileExbt.org_id, fullpath: $stateParams.path}).then(function (data) {
-        console.debug("data", data);
-        $scope.pageunicode = $stateParams.code;
-        $scope.ExbtCurrent = data.list;
+    Exhibition.getFileInfoByPath({ex_id: $stateParams.ex_id, size: 1000, folder_id: 65}).then(function (res) {
+        _.each(res.data, function (t) {
+            t.property = JSON.parse(t.property);
+        })
+        $scope.topicList = res.data;
         $scope.loading = false;
+        console.log("$scope.topicList", $scope.topicList);
     })
-
-
 }
 
 export default MobileFilesController;

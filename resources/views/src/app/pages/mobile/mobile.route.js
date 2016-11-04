@@ -6,32 +6,42 @@ import mobileViewsTpl from './mobile-preview.html';
 
 function routeConfig($stateProvider) {
     'ngInject';
-    var resolves = {
-        currentMobileExbt: ['Exhibition', '$stateParams', function (Exhibition, $stateParams) {
-            return Exhibition.m_getfileShow($stateParams.code);
-        }]
-    };
 
     $stateProvider
         .state('mobile', {
             url: '/mobile/:code',
             templateUrl: mobileTpl,
             controller: require('./mobile.controller'),
-            resolve: resolves
-        })
-
-        .state('mobile_folder', {
-            url: '/mobile_folder/:code/:hash/:path',
-            templateUrl: mobileFileTpl,
-            controller: require('./mobile-files.controller'),
-            resolve: resolves
+            resolve: {
+                currentMobileExbt: ['Exhibition', '$stateParams', function (Exhibition, $stateParams) {
+                    return Exhibition.m_getfileShow($stateParams.code);
+                }]
+            }
         })
 
         .state('mobile_file', {
-            url: '/mobile_file/:code/*path',
+            url: '/mobile_file/:ex_id/:hash',
+            templateUrl: mobileFileTpl,
+            controller: require('./mobile-files.controller'),
+            resolve: {
+                currentMobileExbt: ['Exhibition', '$stateParams', function (Exhibition, $stateParams) {
+                    return Exhibition.getDirCountSize({hash: $stateParams.hash})
+                }]
+            }
+        })
+
+        .state('mobile-preview', {
+            url: '/mobile-preview/:orgid/:hash',
             templateUrl: mobileViewsTpl,
             controller: require('./mobile-preview.controller'),
-            resolve: resolves
+            resolve: {
+                currentPreview: ['Exhibition', '$stateParams', function (Exhibition, $stateParams) {
+                    return Exhibition.m_getFileInfo({
+                        org_id: $stateParams.orgid,
+                        hash: $stateParams.hash
+                    })
+                }]
+            }
         });
 
 }

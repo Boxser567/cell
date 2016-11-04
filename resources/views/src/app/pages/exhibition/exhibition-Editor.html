@@ -18,6 +18,7 @@
                 <span>编辑模式</span>
             </div>
         </div>
+        <span class="text-warning">修改成功</span>
         <div class="right">
             <span class="switch">资料收集
                 <span ng-if="currentExbt.res_collect_lock==-1">:&nbsp;已关闭</span>
@@ -38,6 +39,17 @@
 
 
     <!--<div ng-click="addFileFn()" >创建一个壳子</div>-->
+
+
+    <!--<div class="well" style="position: absolute;top:100px; left: 100px; z-index: 999">-->
+    <!--<div id="datetimepicker2" class="input-append">-->
+    <!--<input class="form-control" type="text"/>-->
+    <!--<span class="add-on">-->
+    <!--<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>-->
+    <!--</span>-->
+    <!--</div>-->
+    <!--</div>-->
+
 
     <div class="FILE_ARTICLE clearfix">
         <!--<img class="bgimg" src="../../../assets/images/10.png" alt="">-->
@@ -282,11 +294,10 @@
                                 </div>
                             </div>
                             <div class="addgroup">
-                                <h4 add-group>添加新分组</h4>
-                                <p>分组中可包含多个专题</p>
+                                <h4 add-group><i class="tl-add"></i> 添加新分组</h4>
                                 <div class="model" ng-if="group_loding">
-                            <span us-spinner="{color: '#fff',lines:9,radius:7, width:3, length: 7}"
-                                  spinner-on="group_loding"></span>
+                                    <span us-spinner="{color: '#fff',lines:9,radius:7, width:3, length: 7}"
+                                          spinner-on="group_loding"></span>
                                 </div>
                             </div>
                         </div>
@@ -518,8 +529,7 @@
                             <i class="tl-name"></i>分组名称
                         </div>
                         <input type="text" class="form-control group-name" ng-model="groupglobal.name"
-                               datatype="groupname"
-                               edit-extitle>
+                               datatype="groupname" edit-extitle>
                     </div>
                     <div class="time">
                         <div class="h">
@@ -534,8 +544,10 @@
                                 <a class="dropdown-toggle" id="dropdownStart" role="button" data-toggle="dropdown"
                                    data-target="#" href="#">
                                     <div class="input-group date">
-                                        <input type="text" class="form-control" data-ng-model="dateRangeStart">
-                                        <!--<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>-->
+                                        <input type="text" class="form-control"
+                                               data-ng-model="dateRangeStart">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -551,8 +563,10 @@
                                    data-target="#"
                                    href="#">
                                     <div class="input-group date">
-                                        <input type="text" class="form-control" data-ng-model="dateRangeEnd">
-                                        <!--<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>-->
+                                        <input type="text" class="form-control"
+                                               data-ng-model="dateRangeEnd">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -563,6 +577,7 @@
                                 </ul>
                             </div>
                         </div>
+
                     </div>
                     <div class="ishide">
                         <div class="h">
@@ -864,7 +879,7 @@
                     <span>其它方式</span>
                 </div>
                 <div class="form-group">
-                    <div class="btn uploadByCollect" dataselect="collect" select-upload>
+                    <div class="btn uploadByCollect" ng-if="currentExbt.res_collect" dataselect="collect" select-upload>
                         从「资料收集」选择
                     </div>
                 </div>

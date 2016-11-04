@@ -22,18 +22,18 @@
             <ul class="ui_file_Modelstyle">
                 <li ng-repeat="file in FilesList.data">
                     <a class="clearfix sl" ng-if="file.property.style==1"
-                       href="#/mobile_file/{{pageunicode}}/{{file.property.title}}">
+                       href="#/mobile-preview/{{EXfileList.org_id}}/{{file.hash}}">
                         <img src="{{file.property.back_pic}}-c320" alt="">
                         <div>{{file.property.title}}</div>
                         <i class="pull-right"></i>
                     </a>
                     <a class="clearfix sr" ng-if="file.property.style==2"
-                       href="#/mobile_file/{{pageunicode}}/{{file.property.title}}">
+                       href="#/mobile-preview/{{EXfileList.org_id}}/{{file.hash}}">
                         <div>{{file.property.title}}</div>
                         <img src="{{file.property.back_pic}}-c320" alt="">
                     </a>
                     <a class="clearfix bl" ng-if="file.property.style==3"
-                       href="#/mobile_file/{{pageunicode}}/{{file.property.title}}">
+                       href="#/mobile-preview/{{EXfileList.org_id}}/{{file.hash}}">
                         <img src="{{file.property.back_pic}}-c320" alt="">
                         <div>
                             <h5>{{file.property.title}}</h5>
@@ -41,7 +41,7 @@
                         </div>
                     </a>
                     <a class="clearfix br" ng-if="file.property.style==4"
-                       href="#/mobile_file/{{pageunicode}}/{{file.property.title}}">
+                       href="#/mobile-preview/{{EXfileList.org_id}}/{{file.hash}}">
                         <img src="{{file.property.back_pic}}-c320" alt="">
                         <div>
                             <h5>{{file.property.title}}</h5>
@@ -49,7 +49,7 @@
                         </div>
                     </a>
                     <a class="clearfix cv" ng-if="file.property.style==5"
-                       href="#/mobile_file/{{pageunicode}}/{{file.property.title}}">
+                       href="#/mobile-preview/{{EXfileList.org_id}}/{{file.hash}}">
                         <img src="{{file.property.back_pic}}-c592" alt="">
                         <div>
                             <h5>{{file.property.title}}</h5>
@@ -75,8 +75,7 @@
                 <div class="tl"><i group-toggle></i>{{group.name}}</div>
                 <ul>
                     <li class="ui_topic_Modelstyle" ng-repeat="dir in group.folder">
-                        <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.folder_hash}}/{{dir.title}}"
-                           ng-if="dir.property.position=='middle'">
+                        <a class="con" href="#/mobile_file/{{EXfileList.id}}/{{dir.folder_hash}}" ng-if="dir.property.position=='middle'">
                             <div class="bg">
                                 <div class="diff"></div>
                                 <div class="p1" ng-if="dir.img_url.length==1">
@@ -107,7 +106,7 @@
                                 </p>
                             </div>
                         </a>
-                        <a class="con" href="#/mobile_folder/{{pageunicode}}/{{dir.folder_hash}}/{{dir.title}}"
+                        <a class="con" href="#/mobile_file/{{EXfileList.id}}/{{dir.folder_hash}}"
                            ng-if="dir.property.position=='under'">
                             <div class="bg">
                                 <div class="p1" ng-if="dir.img_url.length==1">

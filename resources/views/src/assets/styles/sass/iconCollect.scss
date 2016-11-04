@@ -108,6 +108,11 @@
   background-position: -166px -172px;
 }
 
+.tl-add {
+  background: url("../../images/ex_icons.png") no-repeat;
+  background-position: -19px -131px;
+}
+
 //滚动条
 ::-webkit-scrollbar {
   width: 8px;
@@ -299,7 +304,8 @@ $checkedColor: #64bd63;
         background-size: 100% 100%;
         position: absolute;
         right: 10px;
-        top: 16px;
+        top: 50%;
+        margin-top: -12px;
       }
 
     }
@@ -547,16 +553,17 @@ $checkedColor: #64bd63;
         margin: 0;
       }
       .pull-left {
-        width: 70%;
+        width: 74%;
         padding: 9px 0;
         padding-left: 8px;
         font-size: 16px;
         @extend .eclipflow;
       }
       .pull-right {
-        width: 28%;
+        width: 24%;
         font-size: 12px;
         padding: 11px 0;
+        text-align: right;
         margin: 0;
         padding-right: 8px;
         @extend .eclipflow;

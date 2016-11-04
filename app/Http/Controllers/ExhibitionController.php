@@ -76,14 +76,14 @@ class ExhibitionController extends BaseController
         $exhibition = ExhibitionInfo::getUniqueCode(inputGetOrFail('unique_code'));
         $this->format($exhibition);
         /*************计算更新会展文件个数记总大小****************/
-        $files = new YunkuFile($exhibition['org_id']);
-        $file_list = $files->getFileList(inputGet('fullpath', ''));
-        $statistics = $this->updateStatistic($file_list['list'], $exhibition['org_id']);
-        $property = json_decode($exhibition["property"], true);
-        $property['file_count'] = $statistics['files'];
-        $property['size_use'] = $statistics['size'];
-        $property['dir_count'] = $statistics['dirs'] - 1;
-        $exhibition["property"] = json_encode($property);
+//        $files = new YunkuFile($exhibition['org_id']);
+//        $file_list = $files->getFileList(inputGet('fullpath', ''));
+//        $statistics = $this->updateStatistic($file_list['list'], $exhibition['org_id']);
+//        $property = json_decode($exhibition["property"], true);
+//        $property['file_count'] = $statistics['files'];
+//        $property['size_use'] = $statistics['size'];
+//        $property['dir_count'] = $statistics['dirs'] - 1;
+//        $exhibition["property"] = json_encode($property);
         /*****************************************************/
         /*if($exhibition['end_date']< date('Y-m-d')){//权限判断会展结束后地址有效时间
             $end_hour=(time()-strtotime($exhibition['end_date']))/(60*60);

@@ -495,7 +495,7 @@ export default function (app) {
                         fileSingleSizeLimit: 1 * 1024 * 1024
                     });
                     uploader.on('fileQueued', function (file) {
-                        scope.imgloading = true;
+                        //scope.imgloading = true;
                         uploader.options.formData.key = file_name + '.' + Util.String.getExt(file.name);
                     });
                     uploader.on('uploadSuccess', function () {
@@ -526,7 +526,6 @@ export default function (app) {
                         }
                         if (attrs.datawhere === "topicBg") {
                             var arg = server + "/" + arguments[1].key;
-                            console.log("是否今日123999", scope.topDetails.folder_hash, arg);
                             Exhibition.updateTopicImg({
                                 hash: scope.topDetails.folder_hash,
                                 img_url: arg,

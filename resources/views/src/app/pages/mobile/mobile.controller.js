@@ -6,7 +6,6 @@ function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
     currentMobileExbt.property = JSON.parse(currentMobileExbt.property);
     $scope.EXfileList = currentMobileExbt;
     $scope.pageCode = window.location.href;
-    $scope.pageunicode = Util.String.baseName(currentMobileExbt.unique_code);
     $scope.showMore = false;  //显示更多
     $scope.loading = true;  //初始化动画过度
     $scope.FilesList = [];  //常用文件集合
@@ -49,17 +48,17 @@ function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
         })
     }
 
-    //专题信息
-    Exhibition.getGroupInfoByPath(currentMobileExbt.id).then(function (res) {
+    //获取分组信息
+    Exhibition.getGroup_mobile({ex_id: currentMobileExbt.id}).then(function (res) {
         _.each(res, function (r) {
             _.each(r.folder, function (f) {
                 f.img_url = JSON.parse(f.img_url);
                 f.property = JSON.parse(f.property);
             })
         })
-        console.log("数组", res);
         $scope.DirsList = res;
     });
+
 
     //
     // $scope.DirsList = [];
