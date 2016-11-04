@@ -239,7 +239,7 @@ class ExhibitionController extends BaseController
         $org_file = new YunkuFile($org_id);
         foreach ($file_list as $key => $file) {
             if ($file['filename'] == FileController::RES_COLLECTION_FOLDER_NAME) {
-                $res_col_info = $org_file->getInfo(FileController::RES_COLLECTION_FOLDER_NAME, 1);
+                $res_col_info = $org_file->getInfo('',1,FileController::RES_COLLECTION_FOLDER_NAME);
                 $files = $org_info['info']['file_count'] - $res_col_info['file_count'];
                 $size = $org_info['info']['size_org_use'] - $res_col_info['files_size'];
                 $dirs = $org_info['info']['dir_count'] - 1;

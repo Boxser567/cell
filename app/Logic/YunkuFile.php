@@ -43,7 +43,7 @@ class YunkuFile extends \GokuaiFile
         $this->checkResult($res);
         if ($res) {
             foreach ($res['list'] as $key => $re) {
-                $res['list'][$key] = $this->getInfo($re['fullpath']);
+                $res['list'][$key] = $this->getInfo($re['hash']);
             }
         }
         return $res;
@@ -164,9 +164,10 @@ class YunkuFile extends \GokuaiFile
     }
 
     //文件信息
-    public function getInfo($hash, $attribute = 0, $net = '')
+    public function getInfo($hash, $attribute = 0, $fullpath='',$net = '')
     {
         $data = [
+            'fullpath'=>$fullpath,
             'hash' => $hash,
             'net' => $net,
             'attribute' => $attribute

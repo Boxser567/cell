@@ -57,12 +57,12 @@ class ExhibitionTest extends TestCase
 
     }
 
-    public function estSendMail()
+    public function testSendMail()
     {
         dump("获取会展详情");
         $result = $this->request(
             "GET", "/exhibition/detail", [
-                'unique_code'=>'1106459739'
+                'unique_code'=>'0827557535'
             ]
         );
         $this->checkOut($result);
@@ -122,7 +122,7 @@ class ExhibitionTest extends TestCase
         $this->checkOut($result);
     }
 
-    public function testModules()
+    public function estModules()
     {
         dump("更新模块");
         $result = $this->request(
