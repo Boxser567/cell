@@ -28,26 +28,27 @@ class FileController extends Controller
     public function getList()
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        if (\Request::has('hash') && \Request::has('fullpath')) {
-            $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
-            $now = date('Y-m-d H:i:s');
-           /* if ($now < $folder_info->start_time || $now > $folder_info->end_time) {
-                throw new \Exception("文件夹未授权开放", 400001);
-            }*/
-        }
         $file_list = $files->getFileList(inputGet('fullpath', ''));
-        if (!\Request::has('fullpath')) {
-            foreach ($file_list["list"] as $key => &$file) {
-                if ($file['dir']) {
-                    if ($file['fullpath'] == FileController::RES_COLLECTION_FOLDER_NAME) {
-                        unset($file_list["list"][$key]);
-                    } else {
-                        //  dump($file['hash']);
-                        $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
-                    }
-                }
-            }
-        }
+
+//        if (\Request::has('hash') && \Request::has('fullpath')) {
+//            $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
+//            $now = date('Y-m-d H:i:s');
+//           /* if ($now < $folder_info->start_time || $now > $folder_info->end_time) {
+//                throw new \Exception("文件夹未授权开放", 400001);
+//            }*/
+//        }
+//        if (!\Request::has('fullpath')) {
+//            foreach ($file_list["list"] as $key => &$file) {
+//                if ($file['dir']) {
+//                    if ($file['fullpath'] == FileController::RES_COLLECTION_FOLDER_NAME) {
+//                        unset($file_list["list"][$key]);
+//                    } else {
+//                        //  dump($file['hash']);
+//                        $file_list["list"][$key] += ["info" => FolderInfo::getByHash($file['hash'])->toArray()];
+//                    }
+//                }
+//            }
+//        }
         return $file_list;
     }
 
@@ -86,7 +87,7 @@ class FileController extends Controller
         $now = date('Y-m-d H:i:s');
         if ($group_info->hidden == 1) {
             return [0];
-        } else if($group_info->end_time!=='0000-00-00 00:00:00'){
+        } else if($group_info->end_time!==''){
             if ($now > $group_info->end_time || $now < $group_info->start_time) {
                 $group_info->hidden = 3;
                 return $group_info;
@@ -96,7 +97,7 @@ class FileController extends Controller
         foreach ($folder_info as $key => &$folder) {
             if ($folder['hidden'] == 1) {
                 unset($folder_info[$key]);
-            } else if($folder['end_time']!=='0000-00-00 00:00:00'){
+            } else if($folder['end_time']!==''){
                 if ($now > $folder['end_time'] || $now < $folder['start_time']) {
                     $folder ['hidden']= 3;
                 }
@@ -118,7 +119,7 @@ class FileController extends Controller
         foreach ($group_info as $key=>&$group){
             if ($group['hidden'] == 1) {
                 unset($group_info[$key]);
-            } else if($group['end_time']!=='0000-00-00 00:00:00'){
+            } else if($group['end_time']!==''){
                 if ($now > $group['end_time ']|| $now < $group['start_time']) {
                     $group['hidden']=2;
                 }
@@ -130,7 +131,7 @@ class FileController extends Controller
                         if ($folder['hidden'] == 1) {
                             unset($folder_info[$key2]);
                         } else {
-                            if ($folder['end_time'] !== '0000-00-00 00:00:00') {
+                            if ($folder['end_time'] !== '') {
                                 if ($now > $folder['end_time'] || $now < $folder['start_time']) {
                                     $folder_info[$key2]['hidden'] =2;
                                 }
@@ -144,8 +145,6 @@ class FileController extends Controller
         return $group_info;
     }
 
-
-
     //获取会展分组信息
     public function getExGroup($id='')
     {
@@ -155,10 +154,10 @@ class FileController extends Controller
     }
 
     //获取文件夹或文件详情
-    public function getInfo()
+    public function getInfo($org_id=0,$hash=0)
     {
-        $files = new YunkuFile(inputGetOrFail('org_id'));
-        return $files->getInfo(inputGetOrFail('hash'), 1);
+        $files = new YunkuFile(inputGet('org_id',$org_id));
+        return $files->getInfo(inputGet('hash',$hash), 1);
     }
 
     //获取专题详情
@@ -207,14 +206,15 @@ class FileController extends Controller
     //创建文件夹
     public function postCreateFolder()
     {
-        // $folder_count=FolderInfo::getCountByGroup(inputGetOrFail('group_id'));
+        $folder_count=FolderInfo::getCountByGroup(inputGetOrFail('group_id'));
         // $base_controller=new BaseController();
-        //  $base_controller->judgePermission("class_count",$folder_count);//权限判断子分类个数
+        // $base_controller->judgePermission("class_count",$folder_count);//权限判断子分类个数
         $files = new YunkuFile(inputGetOrFail('org_id'));
         $files_info = $files->setFolder(inputGetOrFail('fullpath'));
         $folder_info = new FolderInfo();
         $folder_info->org_id = inputGetOrFail('org_id');
         $folder_info->title = inputGet('title', '请填写专题名称');
+        $folder_info->order_by=$folder_count+1;
         $folder_info->folder_hash = $files_info['hash'];
         $folder_info->group_id = inputGetOrFail('group_id');
         $folder_info->property = json_encode(['position' => 'middle']);
@@ -418,8 +418,7 @@ class FileController extends Controller
         return $return_files;
     }
     
-    
-    
+
     public function createModule($files)
     {
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
@@ -453,54 +452,12 @@ class FileController extends Controller
         return $org->getLink(self::RES_COLLECTION_FOLDER_NAME);
     }
 
+
     //获取所有文件列表
     public function getAllFiles()
     {
-        $yunkufile = new YunkuFile(inputGetOrFail('org_id'));
-        $files = $yunkufile->getAllFiles();
-        $file_list = array();
-        if (!$files['list']) {
-            return [];
-        }
-        foreach ($files['list'] as $key => &$file) {
-            $names = explode('/', $file['fullpath']);
-            if (\Request::has('has_col') || \Request::has('fullpath')) {//去除资料收集夹以及某个文件夹内的文件
-                if (count($names) == 2) {
-                    if ($names['0'] == FileController::RES_COLLECTION_FOLDER_NAME || $names['0'] == inputGet('fullpath')) {
-                        unset($files['list'][$key]);
-                    } else {
-                        $file['fullpath'] = $names['1'];
-                    }
-                } elseif (!\Request::has('fullpath') && count($names) == 1) {
-                    unset($files['list'][$key]);
-                }
-            } else {
-                if (count($names) == 2) {
-                    $file['fullpath'] = $names['1'];
-                } elseif (!\Request::has('fullpath')) {
-                    unset($files['list'][$key]);
-                }
-            }
-            $file_list = $files['list'];
-        }
-        if (!$file_list) {
-            return [];
-        }
-        $file_list = array_values($file_list);
-        $diff_files[0] = $file_list[0];//初始化比较对象
-
-        foreach ($file_list as $key => &$file) {//嵌套循环去除同名文件
-            if ($key > 0) {
-                foreach ($diff_files as $keys => $diff_file) {
-                    if ($diff_file['fullpath'] == $file['fullpath']) {
-                        unset($file_list[$key]);
-                    } else {
-                        array_push($diff_files, $file);
-                    }
-                }
-            }
-        }
-        return array_values($file_list);
+        $file_list=FileInfo::getElseFiles(inputGetOrFail('ex_id'),inputGet('folder_id',0));
+        return $file_list?$file_list->toArray():[];
     }
 
 

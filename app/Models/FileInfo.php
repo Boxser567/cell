@@ -23,6 +23,11 @@ class FileInfo extends BaseModel
     const USUAL_FOLDER_COUNT=1;
 
 
+    public static function getElseFiles($ex_id,$folder_id){
+        return self::createWith()->where('ex_id',$ex_id)->where('folder_id','<>',$folder_id)->get();
+    }
+
+
     public static function getCount($ex_id,$folder_id)
     {
         return self::createWith()->where("ex_id", $ex_id)->where('folder_id',$folder_id)->count();
@@ -41,5 +46,14 @@ class FileInfo extends BaseModel
     public static function deleteId($id)
     {
         return self::where('id',$id)->delete();
+    }
+
+    public static function getSize($ex_id){
+        return self::createWith()->where('ex_id',$ex_id)->sum('size');
+    }
+
+    public static function getCountByExId($ex_id)
+    {
+        return self::createWith()->where("ex_id", $ex_id)->count();
     }
 }

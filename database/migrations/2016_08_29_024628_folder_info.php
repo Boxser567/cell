@@ -13,6 +13,7 @@
         $table->string("property", 150);
         $table->integer("file_count");
         $table->integer("file_size");
+        $table->integer("order_by");
         $table->dateTime("start_time");
         $table->dateTime("end_time");
         $table->tinyInteger("forever");

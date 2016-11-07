@@ -57,12 +57,25 @@ class ExhibitionTest extends TestCase
 
     }
 
-    public function testSendMail()
+
+    public function testSize()
+    {
+        dump("更新大小");
+        $result = $this->request(
+            "GET", "/exhibition/size", [
+                'unique_code'=>'0911368292'
+            ]
+        );
+        $this->checkOut($result);
+
+    }
+
+    public function estSendMail()
     {
         dump("获取会展详情");
         $result = $this->request(
             "GET", "/exhibition/detail", [
-                'unique_code'=>'0827557535'
+                'unique_code'=>'0539527426'
             ]
         );
         $this->checkOut($result);

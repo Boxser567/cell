@@ -116,4 +116,16 @@ class FileTest extends TestCase
         $this->checkOut($result);
 
     }
+    
+    public function getSize()
+    {
+        dump("更新大小");
+        $result = $this->request(
+            "GET", "/exhibition/detail", [
+                'unique_code'=>'0827557535'
+            ]
+        );
+        $this->checkOut($result);
+        
+    }
 }

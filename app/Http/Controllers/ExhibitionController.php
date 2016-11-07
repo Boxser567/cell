@@ -37,14 +37,14 @@ class ExhibitionController extends BaseController
             $ent_id = $this->ent_id;
         }
         $lists = ExhibitionInfo::getOfEntId($ent_id);
-        $ex_list=$lists->toArray();
-        foreach ($ex_list as $key=>$list){
-            if(date("Y-m-d")>$list['end_date']){
-                $ex_list[$key]+=["finished"=>1];
-            }elseif( date("Y-m-d")< $list['start_date']){
-                $ex_list[$key]+=["finished"=>-1];
-            }else{
-                $ex_list[$key]+=["finished"=>0];
+        $ex_list = $lists->toArray();
+        foreach ($ex_list as $key => $list) {
+            if (date("Y-m-d") > $list['end_date']) {
+                $ex_list[$key] += ["finished" => 1];
+            } elseif (date("Y-m-d") < $list['start_date']) {
+                $ex_list[$key] += ["finished" => -1];
+            } else {
+                $ex_list[$key] += ["finished" => 0];
             }
         }
         return $ex_list;
@@ -53,8 +53,8 @@ class ExhibitionController extends BaseController
     //创建展会
     public function postCreate()
     {
-        $ex_count = ExhibitionInfo::getCountByEntId($this->ent_id);
-        $meanwhile_ex_count = ExhibitionInfo::getCountByEntTime(date('Y-m-d'), $this->ent_id);
+        //$ex_count = ExhibitionInfo::getCountByEntId($this->ent_id);
+        // $meanwhile_ex_count = ExhibitionInfo::getCountByEntTime(date('Y-m-d'), $this->ent_id);
         //  $this->judgePermission('meanwhile_amount',$meanwhile_ex_count);//权限判断同时进行的会展
         //  $this->judgePermission('exhi_amount',$ex_count);//权限判断会展总数量
         $yunku_org = new YunkuOrg();
@@ -92,40 +92,57 @@ class ExhibitionController extends BaseController
         return $exhibition;
     }
 
+
+    //更新会展文件大小统计
+    public function getSize()
+    {
+        $exhibition = ExhibitionInfo::getUniqueCode(inputGetOrFail('unique_code'))->toArray();
+        $yunku_org = new YunkuOrg();
+        $org_info = $yunku_org->getOrgInfo($exhibition['org_id']);
+        $dirs = $org_info['info']['dir_count'];
+        $files = $org_info['info']['file_count'];
+        $size = $org_info['info']['size_org_use'];
+        LAccount::postUpdateExhibition($exhibition['org_id'], $dirs, $files, $size);
+        $space = FileInfo::getSize($exhibition['id']);
+        $class = FolderInfo::getCountByOrgId($exhibition['org_id']);
+        $group=GroupInfo::getCountByExId($exhibition['id']);
+        return ['group' => $group, 'class' => $class, 'space' => $space];
+    }
+
     //创建新分组
     public function postGroup()
     {
         $group_count = GroupInfo::getCountByExId(inputGetOrFail('ex_id'));
         // $this->judgePermission('group_count',$group_count);//权限判断分组个数
-        return LAccount::setGroup(inputGetOrFail('ex_id'));
+        return LAccount::setGroup(inputGetOrFail('ex_id'),$group_count+1);
     }
 
     //新建更新模块
-    public static function postModule($ex_id=0,$folder_id=0,$title="新建模块",$hash='',$size='')
+    public static function postModule($ex_id = 0, $folder_id = 0, $title = "新建模块", $hash = '', $size = '')
     {
-        $ex_id = inputGet("ex_id",$ex_id);
-        $folder_id = inputGet("folder_id",$folder_id );
-        $order_by = FileInfo::getCount($ex_id,$folder_id) + 1;
+        $ex_id = inputGet("ex_id", $ex_id);
+        $folder_id = inputGet("folder_id", $folder_id);
+        $order_by = FileInfo::getCount($ex_id, $folder_id) + 1;
         if (!$folder_id) {
             // $this->judgePermission('base_count',$order_by-1);//常用文件上传个数
-        }else{
+        } else {
             // $this->judgePermission('file_count',$order_by-1);//每个专题下文件个数
         }
-        $property = json_encode(["title" => $title, "back_pic" => "http://res.meetingfile.com/2168a80ad9c3a8b1a07eb78751e37e4d2491041a.jpg", "sub_title" => "", "style" => FileInfo::STYLE_LIST_LEFT,"size"=>$size]);
-        return LAccount::setFile("", $ex_id,$hash, $folder_id, $order_by, $property);
+        $property = json_encode(["title" => $title, "back_pic" => "http://res.meetingfile.com/2168a80ad9c3a8b1a07eb78751e37e4d2491041a.jpg", "sub_title" => "", "style" => FileInfo::STYLE_LIST_LEFT, "size" => $size]);
+        return LAccount::setFile("", $ex_id, $hash, $folder_id, $order_by, $size, $property);
     }
 
     //修改模块设置
     public function postUpdateModule()
     {
-        if(\Request::has('ex_id')){
-            if(\Request::has('folder_id')){
-                $module=self::postModule(inputGet("ex_id"),inputGet("folder_id"));
-            }else{
-                $module=self::postModule(inputGet("ex_id"));
+        if (\Request::has('ex_id')) {
+            if (\Request::has('folder_id')) {
+                $module = self::postModule(inputGet("ex_id"), inputGet("folder_id"));
+            } else {
+                $module = self::postModule(inputGet("ex_id"));
             }
-            $id=$module->id;
-        }else{
+            $id = $module->id;
+        } else {
             $id = inputGetOrFail("file_id");
         }
         $module = FileInfo::_findOrFail($id);
@@ -135,7 +152,7 @@ class ExhibitionController extends BaseController
         $back_pic = inputGet("back_pic", "");
         $sub_title = inputGet("sub_title", "");
         $style = inputGet("style", "");
-        $size = inputGet("size", "");
+        $size = inputGet("size", 0);
         if ($title) {
             $property["title"] = $title;
         }
@@ -149,10 +166,10 @@ class ExhibitionController extends BaseController
             $property["style"] = $style;
         }
         if ($size) {
-            $property["size"] = $size;
+            // $property["size"] = $size;
         }
         $property = json_encode($property);
-        return LAccount::setFile($id, "", $hash, "", "", $property);
+        return LAccount::setFile($id, "", $hash, "", "", $size, $property);
     }
 
 
@@ -161,17 +178,17 @@ class ExhibitionController extends BaseController
     {
         $files = new YunkuFile(inputGetOrFail('org_id'));
         $id = inputGetOrFail("file_id");
-        $module=FileInfo::_findOrFail($id);
+        $module = FileInfo::_findOrFail($id);
         $property = json_decode($module->property, true);
-        if(\Request::has("hash")){
-            $fullpath=inputGetOrFail("folder_title")."/".$property['title'];
-            $file_controller=new FileController();
+        if (\Request::has("hash")) {
+            $fullpath = inputGetOrFail("folder_title") . "/" . $property['title'];
+            $file_controller = new FileController();
             $file_controller->postUpdateFolder(inputGetOrFail('hash'), "delete", $property['size']);
-        }else{
-            $fullpath=self::BASE_FILE_NAME."/".$property['title'];
+        } else {
+            $fullpath = self::BASE_FILE_NAME . "/" . $property['title'];
         }
         $files->deleteFile($fullpath);
-        $result= FileInfo::deleteId($id);
+        $result = FileInfo::deleteId($id);
         FileInfo::cacheForget();
         return $result;
     }
@@ -239,7 +256,7 @@ class ExhibitionController extends BaseController
         $org_file = new YunkuFile($org_id);
         foreach ($file_list as $key => $file) {
             if ($file['filename'] == FileController::RES_COLLECTION_FOLDER_NAME) {
-                $res_col_info = $org_file->getInfo('',1,FileController::RES_COLLECTION_FOLDER_NAME);
+                $res_col_info = $org_file->getInfo('', 1, FileController::RES_COLLECTION_FOLDER_NAME);
                 $files = $org_info['info']['file_count'] - $res_col_info['file_count'];
                 $size = $org_info['info']['size_org_use'] - $res_col_info['files_size'];
                 $dirs = $org_info['info']['dir_count'] - 1;

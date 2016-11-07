@@ -19,6 +19,12 @@ class FolderInfo extends BaseModel
         return self::createWith()->where("folder_hash", $hash)->first();
     }
 
+
+    public static function getCountByOrgId($org_id)
+    {
+        return self::createWith()->where('org_id',$org_id)->count();
+    }
+
     public static function getByGroupId($group_id)
     {
         return self::createWith()->where('group_id',$group_id)->get();

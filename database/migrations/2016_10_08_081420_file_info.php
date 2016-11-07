@@ -10,6 +10,7 @@
         $table->string("property", 300);
         $table->integer("folder_id");
         $table->integer("order_by");
+        $table->string("size",20);
         $table->dateTime("created_at");
         $table->dateTime("updated_at");
     }

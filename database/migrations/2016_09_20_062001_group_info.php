@@ -10,6 +10,7 @@
         $table->dateTime("end_time");
         $table->tinyInteger("forever");
         $table->integer("ex_id");
+        $table->integer("order_by");
         $table->tinyInteger("hidden");
         $table->dateTime("created_at");
         $table->dateTime("updated_at");

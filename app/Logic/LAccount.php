@@ -73,13 +73,14 @@ class LAccount
     }
 
     //创建新的分组
-    public static function setGroup($ex_id, $id = "", $name = "新分组", $start_time = "0000-00-00 00:00:00", $end_time = "0000-00-00 00:00:00", $hidden = 0)
+    public static function setGroup($ex_id, $order=1,$id = "", $name = "新分组", $start_time = "0000-00-00 00:00:00", $end_time = "0000-00-00 00:00:00", $hidden = 0)
     {
         if ($id) {
             $group = GroupInfo::_findOrFail($id);
         } else {
             $group = new GroupInfo();
         }
+        $group->order_by = $order;
         $group->ex_id = $ex_id;
         $group->name = $name;
         $group->start_time = $start_time;
@@ -91,7 +92,7 @@ class LAccount
     }
 
     //创建更新新模块
-    public static function setFile($id = "", $ex_id = "", $hash = "", $folder_id = "", $order_by = "", $property = "")
+    public static function setFile($id = "", $ex_id = "", $hash = "", $folder_id = "", $order_by = "",$size=0, $property = "")
     {
         if ($id) {
             $module = FileInfo::_findOrFail($id);
@@ -104,6 +105,9 @@ class LAccount
         }
         if ($hash) {
             $module->hash = $hash;
+        }
+        if ($size) {
+            $module->size = $size;
         }
         if ($folder_id) {
             $module->folder_id = $folder_id;
