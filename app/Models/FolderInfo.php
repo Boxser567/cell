@@ -59,4 +59,9 @@ class FolderInfo extends BaseModel
     {
         return self::where('group_id',$group_id)->count();
     }
+
+    public static function addCount($id)
+    {
+        return self::find($id)->increment('file_count');
+    }
 }
