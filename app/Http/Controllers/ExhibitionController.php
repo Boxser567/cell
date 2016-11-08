@@ -203,6 +203,8 @@ class ExhibitionController extends BaseController
     public function postDeleteGroup()
     {
         GroupInfo::deleteById(inputGetOrFail('group_id'));
+        FolderInfo::deleteByGroupId(inputGetOrFail('group_id'));
+        FolderInfo::cacheForget();
         GroupInfo::cacheForget();
         return;
     }
