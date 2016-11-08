@@ -97,12 +97,14 @@ class ExhibitionController extends BaseController
     public function getSize()
     {
         $exhibition = ExhibitionInfo::getUniqueCode(inputGetOrFail('unique_code'))->toArray();
-        $yunku_org = new YunkuOrg();
-        $org_info = $yunku_org->getOrgInfo($exhibition['org_id']);
-        $dirs = $org_info['info']['dir_count'];
-        $files = $org_info['info']['file_count'];
-        $size = $org_info['info']['size_org_use'];
-        LAccount::postUpdateExhibition($exhibition['org_id'], $dirs, $files, $size);
+        if(!inputGet('kind',0)) {
+            $yunku_org = new YunkuOrg();
+            $org_info = $yunku_org->getOrgInfo($exhibition['org_id']);
+            $dirs = $org_info['info']['dir_count'];
+            $files = $org_info['info']['file_count'];
+            $size = $org_info['info']['size_org_use'];
+            LAccount::postUpdateExhibition($exhibition['org_id'], $dirs, $files, $size);
+        }
         $space = FileInfo::getSize($exhibition['id']);
         $class = FolderInfo::getCountByOrgId($exhibition['org_id']);
         $group=GroupInfo::getCountByExId($exhibition['id']);
