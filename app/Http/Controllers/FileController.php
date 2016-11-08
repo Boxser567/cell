@@ -211,7 +211,10 @@ class FileController extends Controller
         // $base_controller->judgePermission("class_count",$folder_count);//权限判断子分类个数
         $files = new YunkuFile(inputGetOrFail('org_id'));
         $files_info = $files->setFolder(inputGetOrFail('fullpath'));
+        $group_info=GroupInfo::_find(inputGetOrFail('group_id'));
         $folder_info = new FolderInfo();
+        $folder_info->start_time = $group_info->start_time;
+        $folder_info->end_time= $group_info->end_time;
         $folder_info->org_id = inputGetOrFail('org_id');
         $folder_info->title = inputGet('title', '请填写专题名称');
         $folder_info->order_by=$folder_count+1;
@@ -393,7 +396,7 @@ class FileController extends Controller
     {
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
         $files = inputGetOrFail("files");
-        $type=inputGet("type",1);
+        $type=inputGet("type",0);
         $return_files = array();
         foreach ($files as $key => $file) {
             $module=[];

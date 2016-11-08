@@ -73,7 +73,7 @@ class LAccount
     }
 
     //创建新的分组
-    public static function setGroup($ex_id, $order=1,$id = "", $name = "新分组", $start_time = NULL, $end_time = NULL, $hidden = 0)
+    public static function setGroup($ex_id, $order=1,$id = "", $name = "新分组", $start_time = NULL, $end_time = NULL, $hidden = 0,$forever=1)
     {
         if ($id) {
             $group = GroupInfo::_findOrFail($id);
@@ -86,6 +86,7 @@ class LAccount
         $group->start_time = $start_time;
         $group->end_time = $end_time;
         $group->hidden = $hidden;
+        $group->forever = $forever;
         $group->save();
         GroupInfo::cacheForget();
         return $group;
