@@ -19,4 +19,13 @@ export default function (app) {
             'SORT_COMMON': ['exe', 'rar', 'zip', 'cmd']
             //'SORT_EXE': ['exe', 'bat', 'com']
         })
+        // .factory('$modal', [$modal, function () {
+    //     return {
+    //         templateUrl:'../ngDialog/ex_collection.html',
+    //         windowClass:'',
+    //         controller:function ($scope) {
+    //         }
+    //     }
+    // }])
+
 }

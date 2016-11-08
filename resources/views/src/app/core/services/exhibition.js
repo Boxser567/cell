@@ -16,6 +16,11 @@ export default function (app) {
                         return res.data;
                     });
                 },
+                getExcount: function (code) {
+                    return $http.get('/exhibition/size', {params: {unique_code: code}}).then(function (res) {
+                        return res.data;
+                    });
+                },
 
                 //发送验证码
                 getcode: function (phone) {
@@ -286,17 +291,15 @@ export default function (app) {
                 },
 
 
-
-
                 //移动端分组信息查询
-                getGroup_mobile:function (params) {
+                getGroup_mobile: function (params) {
                     return $http.get('/file/mobile-ex-group', {params: params}).then(function (res) {
                         return res.data;
                     })
                 },
-                
+
                 //用于预览
-                m_getFileInfo:function (params) {
+                m_getFileInfo: function (params) {
                     return $http.get('/file/info', {params: params});
                 }
             }

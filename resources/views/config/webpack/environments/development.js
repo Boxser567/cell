@@ -8,6 +8,7 @@ module.exports = function(_path) {
     devtool: 'cheap-source-map',
     devServer: {
       contentBase: './dist',
+      port:8088,
       info: true,
       hot: true,
       inline: true,

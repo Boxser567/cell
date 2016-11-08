@@ -18,7 +18,8 @@
                 <span>编辑模式</span>
             </div>
         </div>
-        <span class="text-warning">修改成功</span>
+        <div class="operate-warn"><span>修改成功</span></div>
+
         <div class="right">
             <span class="switch">资料收集
                 <span ng-if="currentExbt.res_collect_lock==-1">:&nbsp;已关闭</span>
@@ -28,7 +29,7 @@
                        value="{{currentExbt.res_collect_lock}}"></label>
             <s ng-click="showCollection()" ng-if="currentExbt.res_collect_lock!=0">查看</s>
             <div class="size">
-                <span>{{currentExbt.property.dir_count}}个分组 ,&nbsp;{{currentExbt.property.file_count}}个专题 ,&nbsp;共{{currentExbt.property.file_count | bitSize}}</span>
+                <span>{{ExDataflow.group}}个分组 ,&nbsp;{{ExDataflow.class}}个专题 ,&nbsp;共{{ExDataflow.space | bitSize}}</span>
             </div>
             <div class="btn upgrade">升级</div>
             <div class="btn save_publish" data-target="#exhibitionCode" data-toggle="modal">
@@ -140,7 +141,7 @@
 
         <!--手机模型内容显示-->
         <div class="percentfourty">
-            <div class="slide-mobile" style="top:{{mobilesize.top}};left:{{mobilesize.left}}">
+            <div class="slide-mobile" style="top:{{mobilesize.top}}">
                 <div class="mobile-phone">
                     <div class="hosted-phones">
                         <div class="mb_header">
@@ -535,26 +536,26 @@
                         <div class="h">
                             <i class="tl-time"></i>分组有效时间
                         </div>
-                        <select class="form-control group-time">
-                            <option value="1">永久有效</option>
-                            <option value="0">自定义有效时间</option>
+                        <select class="form-control group-time" ng-model="groupglobal.forever"
+                                ng-options=" option.value  as option.name  for option in selectArray ">
                         </select>
                         <div class="settime" ng-if="groupglobal.forever==0">
                             <div class="dropdown form-group">
                                 <a class="dropdown-toggle" id="dropdownStart" role="button" data-toggle="dropdown"
                                    data-target="#" href="#">
                                     <div class="input-group date">
-                                        <input type="text" class="form-control"
-                                               data-ng-model="dateRangeStart">
-                                        <span class="input-group-addon"><i
-                                                class="glyphicon glyphicon-calendar"></i></span>
+                                        <input type="text" class="form-control" data-ng-model="dateRangeStart">
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </span>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                     <datetimepicker data-ng-model="dateRangeStart"
-                                                    data-datetimepicker-config="{ dropdownSelector: '#dropdownStart', renderOn: 'end-date-changed' }"
-                                                    data-on-set-time="startDateOnSetTime()"
-                                                    data-before-render="startDateBeforeRender($dates)"></datetimepicker>
+                                                    data-datetimepicker-config="{ dropdownSelector: '#dropdownStart', renderOn: 'end-date-changed' ,modelType:'YYYY-MM-DD HH:mm'}"
+                                                    data-on-set-time="startDateOnSetTime(newDate, oldDate)"
+                                                    data-before-render="startDateBeforeRender($dates)"
+                                                    style="width: 365px;"></datetimepicker>
                                 </ul>
                             </div>
                             <span>至</span>
@@ -565,17 +566,18 @@
                                     <div class="input-group date">
                                         <input type="text" class="form-control"
                                                data-ng-model="dateRangeEnd">
-                                        <span class="input-group-addon"><i
-                                                class="glyphicon glyphicon-calendar"></i></span>
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                    <datetimepicker data-ng-model="dateRangeEnd"
-                                                    data-datetimepicker-config="{ dropdownSelector: '#dropdownEnd', renderOn: 'start-date-changed' }"
-                                                    data-on-set-time="endDateOnSetTime()"
+                                    <datetimepicker style="width: 365px;" data-ng-model="dateRangeEnd"
+                                                    data-datetimepicker-config="{ dropdownSelector: '#dropdownEnd', renderOn: 'start-date-changed' ,modelType:'YYYY-MM-DD HH:mm' }"
+                                                    data-on-set-time="endDateOnSetTime(newDate, oldDate)"
                                                     data-before-render="endDateBeforeRender($view, $dates, $leftDate, $upDate, $rightDate)"></datetimepicker>
                                 </ul>
                             </div>
+                            <div class="btn" ng-click="editGroupTimeFn()">确定</div>
                         </div>
 
                     </div>
@@ -661,10 +663,47 @@
                         <div class="h">
                             <i class="tl-time"></i>专题有效时间
                         </div>
-                        <select class="form-control topic-time">
-                            <option value="1">永久有效</option>
-                            <option value="0">自定义有效时间</option>
+                        <select class="form-control group-time" ng-model="topDetails.forever"
+                                ng-options=" option.value  as option.name  for option in selectArray ">
                         </select>
+                        <div class="settime clearfix" ng-if="topDetails.forever==0">
+                            <div class="dropdown form-group">
+                                <a class="dropdown-toggle" id="topicDownStart" role="button" data-toggle="dropdown"
+                                   data-target="#" href="#">
+                                    <div class="input-group date">
+                                        <input type="text" class="form-control" data-ng-model="topicDateStart">
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </span>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <datetimepicker data-ng-model="topicDateStart"
+                                                    data-datetimepicker-config="{ dropdownSelector: '#topicDownStart', renderOn: 'topic-end-changed' ,modelType:'YYYY-MM-DD HH:mm'}"
+                                                    data-on-set-time="startDateOnSetTime(newDate, oldDate,'topic')"
+                                                    data-before-render="startDateBeforeRender($dates,'topic')"
+                                                    style="width: 365px;"></datetimepicker>
+                                </ul>
+                            </div>
+                            <span>至</span>
+                            <div class="dropdown form-group">
+                                <a class="dropdown-toggle" id="topicDownEnd" role="button" data-toggle="dropdown"
+                                   data-target="#" href="#">
+                                    <div class="input-group date">
+                                        <input type="text" class="form-control" data-ng-model="topicDateEnd">
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <datetimepicker style="width: 365px;" data-ng-model="topicDateEnd"
+                                                    data-datetimepicker-config="{ dropdownSelector: '#topicDownEnd', renderOn: 'topic-start-changed' ,modelType:'YYYY-MM-DD HH:mm' }"
+                                                    data-on-set-time="endDateOnSetTime(newDate, oldDate,'topic')"
+                                                    data-before-render="endDateBeforeRender($view, $dates, $leftDate, $upDate, $rightDate,'topic')"></datetimepicker>
+                                </ul>
+                            </div>
+                            <div class="btn" ng-click="editTopicTimeFn()">确定</div>
+                        </div>
                     </div>
                     <div class="d5">
                         <div class="h">
@@ -879,20 +918,85 @@
                     <span>其它方式</span>
                 </div>
                 <div class="form-group">
-                    <div class="btn uploadByCollect" ng-if="currentExbt.res_collect" dataselect="collect" select-upload>
+                    <div class="btn uploadByCollect" dataselect="collect" select-files-bycollect>
                         从「资料收集」选择
                     </div>
                 </div>
                 <div class="form-group ">
                     <div class="btn uploadByHave" dataselect="types" select-upload>从已有分类选择</div>
                 </div>
-
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
 
-<!--从资料收集中选择文件弹出窗-->
+<!--从已有分类中选择文件弹出窗  (Exist) -->
+<div class="modal fade" id="fileFromExist" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel5" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="myModalLabel7">
+                    从已有分类选择文件
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="collect">
+                    <div class="title clearfix">
+                        <div class="col-sm-1">
+                            <!--全选 &nbsp;<input type="checkbox" value="">-->
+                        </div>
+                        <div class="col-sm-6">文件名</div>
+                        <div class="col-sm-2">大小</div>
+                        <div class="col-sm-3">上传时间</div>
+                    </div>
+                    <div class="loading" ng-if="collectLoading">
+                        <span us-spinner="{lines:11,radius:9, width:3, length: 7}" spinner-on="collectLoading"></span>
+                    </div>
+                    <div class="empty_list" ng-if="dataExsitList.length==0">
+                        <img src="../../../assets/images/1204.png" alt="">
+                    </div>
+
+                    <div class="info" ng-if="dataExsitList.length>0">
+                        <ul>
+                            <li class="clearfix" ng-repeat="list in dataExsitList"
+                                ng-click="list.selects=!list.selects">
+                                <div class="col-sm-1">
+                                    <input type="checkbox" class="cb_choose" ng-model="list.selects">
+                                </div>
+                                <div class="col-sm-6">
+                                    <div title="{{list.property.title}}">{{list.property.title}}</div>
+                                </div>
+                                <div class="col-sm-2">{{list.size | bitSize}}</div>
+                                <div class="col-sm-3">{{list.created_at | dataStr}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <p ng-if="dataExsitList.length>0">
+                    <input type="checkbox" class="ckb_selectAll" ng-click="ckb_selectFn(dataExsitList)"> &nbsp;全选
+                </p>
+                <div class="btn btn_sure_collect">
+                    <div ng-if="btnloading">
+                        <span us-spinner="{ color: '#fff',radius: 6, width: 2, lines: 9, length: 5,top:'50%',left:'25%'}"
+                              spinner-on="true"></span>
+                    </div>
+                    <div ng-click="addSelectFile(dataExsitList,'exist')" class="btn_ok">确定</div>
+                </div>
+                <div class="btn" data-dismiss="modal" aria-hidden="true">
+                    取消
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!--从资料收集中选择文件弹出窗  (Collect) -->
 <div class="modal fade" id="fileFromCollect" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel5" aria-hidden="true">
     <div class="modal-dialog">
@@ -900,7 +1004,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h5 class="modal-title" id="myModalLabel6">
-                    {{collectTitle}}
+                    从资料收集选择文件
                 </h5>
             </div>
             <div class="modal-body">
@@ -924,7 +1028,6 @@
                         <ul>
                             <li class="clearfix" ng-repeat="list in dataCollectList"
                                 ng-click="list.selects=!list.selects">
-                                <!--choose-collect-->
                                 <div class="col-sm-1">
                                     <input type="checkbox" class="cb_choose" ng-model="list.selects">
                                 </div>
@@ -932,7 +1035,7 @@
                                     <div title="{{list.filename}}">{{list.filename}}</div>
                                 </div>
                                 <div class="col-sm-2">{{list.filesize | bitSize}}</div>
-                                <div class="col-sm-3">{{list.create_dateline*1000 | date:"yyyy-MM-dd"}}</div>
+                                <div class="col-sm-3">{{list.create_dateline | date:'yyyy-MM-dd'}}</div>
                             </li>
                         </ul>
                     </div>
@@ -941,14 +1044,14 @@
 
             <div class="modal-footer">
                 <p ng-if="dataCollectList.length>0">
-                    <input type="checkbox" class="ckb_selectAll" ng-click="ckb_selectFn()"> &nbsp;全选
+                    <input type="checkbox" class="ckb_selectAll" ng-click="ckb_selectFn(dataCollectList)"> &nbsp;全选
                 </p>
                 <div class="btn btn_sure_collect">
                     <div ng-if="btnloading">
-                                <span us-spinner="{ color: '#fff',radius: 6, width: 2, lines: 9, length: 5,top:'50%',left:'25%'}"
-                                      spinner-on="true"></span>
+                        <span us-spinner="{ color: '#fff',radius: 6, width: 2, lines: 9, length: 5,top:'50%',left:'25%'}"
+                              spinner-on="true"></span>
                     </div>
-                    <div ng-click="addSelectFile()" class="btn_ok">确定</div>
+                    <div ng-click="addSelectFile(dataCollectList,'collect')" class="btn_ok">确定</div>
                 </div>
                 <div class="btn" data-dismiss="modal" aria-hidden="true">
                     取消
@@ -959,20 +1062,17 @@
 </div>
 
 
-<!--  关闭资料收集弹出窗口-->
+<!--  会展二维码-->
 <div class="modal fade" id="exhibitionCode" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-dialog" style="width: 400px">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-
             </div>
             <div class="modal-body">
                 <p>用微信扫描下方二维码即可浏览该会展内容</p>
                 <img src="/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}"/>
-
-
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->

@@ -4,7 +4,7 @@
 
 import 'jquery';
 
-import moment from "moment/moment";
+
 
 import  "angular";
 

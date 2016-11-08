@@ -18,6 +18,14 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     $scope.imgloading = false;
     $scope.fileloading = true;//常用文件的加载
     $scope.localFilesJSON = [];   //用于缓存正在上传文件信息
+    $scope.selectArray = [{
+        name: '永久有效',
+        value: 1
+    }, {
+        name: '自定义时间',
+        value: 0
+    }];
+
     //常用文件的获取
     $scope.FilesList = [];
     Exhibition.getFileInfoByPath({
@@ -35,8 +43,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
 
     // 以下代码用于调整页面布局
     $scope.mobilesize = {
-        top: "20px",
-        left: "120px"
+        top: "20px"
     }
     $window.onresize = function () {
         var $height = $window.innerHeight - 580;
@@ -64,6 +71,13 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
             })
         })
         $scope.GroupList = res;
+
+
+        Exhibition.getExcount($stateParams.unicode).then(function (res) {      //会文件数据总量统计
+            $scope.ExDataflow = res;
+        })
+
+
     })
     //添加新专题
     $scope.addProjectFn = function (group, index) {
@@ -83,6 +97,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
             data.property = JSON.parse(data.property);
             data.img_url = JSON.parse(data.img_url);
             $timeout(function () {
+                ++$scope.ExDataflow['class'];
                 $scope.GroupList[index].folder.push(data);
                 group.folder_loding = false;
             })
@@ -92,30 +107,116 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     //选中分组信息
     $scope.selectGroupFn = function (e, index, group) {
         $(".slide-note").find(".grouping").show().siblings().hide();
+        $(".mui_group").prop("checked", Boolean(group.hidden));
+        group.gidx = index;
+        console.log("groupglobal", group);
+        $scope.dateRangeStart = group.start_time == null ? "" : group.start_time;
+        $scope.dateRangeEnd = group.end_time == null ? "" : group.end_time;
         $timeout(function () {
-
-            $(".group-time").val(group.forever);
-            if (group.forever == 0) {
-                //$scope.dateRangeStart = group.start_time;
-                //$scope.dateRangeEnd = group.end_time;
-            }
-            $(".mui_group").prop("checked", Boolean(group.hidden));
-            group.gidx = index;
             $scope.groupglobal = group;
-            console.log("groupglobal", $scope.groupglobal);
         })
     }
+
+
+    $scope.groupTime = {};
+    $scope.endDateBeforeRender = function ($view, $dates, $leftDate, $upDate, $rightDate, states) {
+        console.log("endDateBeforeRender", states);
+        if (states == "topic") {
+            if ($scope.topicDateStart) {
+                var activeDate = moment($scope.topicDateStart).subtract(1, $view).add(1, 'minute');
+                $dates.filter(function (date) {
+                    return date.localDateValue() <= activeDate.valueOf()
+                }).forEach(function (date) {
+                    date.selectable = false;
+                })
+            }
+        } else {
+            if ($scope.dateRangeStart) {
+                var activeDate = moment($scope.dateRangeStart).subtract(1, $view).add(1, 'minute');
+                $dates.filter(function (date) {
+                    return date.localDateValue() <= activeDate.valueOf()
+                }).forEach(function (date) {
+                    date.selectable = false;
+                })
+            }
+        }
+    }
+    $scope.endDateOnSetTime = function (newDate, oldDate, states) {
+        console.log("endDateOnSetTime", states);
+        if (states == "topic") {
+            $scope.$broadcast('topic-end-changed');
+        } else {
+            $scope.groupTime.endTime = newDate;
+            $scope.$broadcast('end-date-changed');
+        }
+    }
+
+
+    $scope.startDateBeforeRender = function ($dates, states) {
+        console.log("startDateBeforeRender", states);
+        if (states == "topic") {
+            if ($scope.topicDateEnd) {
+                var activeDate = moment($scope.topicDateEnd);
+                $dates.filter(function (date) {
+                    return date.localDateValue() >= activeDate.valueOf()
+                }).forEach(function (date) {
+                    date.selectable = false;
+                })
+            }
+        } else {
+            if ($scope.dateRangeEnd) {
+                var activeDate = moment($scope.dateRangeEnd);
+                $dates.filter(function (date) {
+                    return date.localDateValue() >= activeDate.valueOf()
+                }).forEach(function (date) {
+                    date.selectable = false;
+                })
+            }
+        }
+    }
+    $scope.startDateOnSetTime = function (newDate, oldDate, states) {
+        console.log("startDateOnSetTime", states);
+        if (states == "topic") {
+            $scope.$broadcast('topic-start-changed');
+        } else {
+            $scope.groupTime.strTime = newDate;
+            $scope.$broadcast('start-date-changed');
+        }
+    }
+    //专题时间修改
+    $scope.editTopicTimeFn = function () {
+
+    }
+
     //分组信息删除
     $scope.delGroupFn = function () {
         if (confirm("确定要删除当前分组吗? \n 删除后,该分组内的专题及文件都将不可查看!")) {
             Exhibition.delGroupInfo($scope.groupglobal.id).then(function (res) {
                 $(".slide-note").find(".defaults").show().siblings().hide();
                 $timeout(function () {
+                    --$scope.ExDataflow.group;
                     $scope.GroupList.splice($scope.groupglobal.gidx, 1);
                 })
             })
         }
     }
+
+    //分组信息修改--时间
+    $scope.editGroupTimeFn = function () {
+
+        Exhibition.editGroupInfo({
+            group_id: $scope.groupglobal.id,
+            forever: 0,
+            start_time: $scope.groupTime.strTime,
+            end_time: $scope.groupTime.endTime
+        }).then(function (res) {
+            $scope.GroupList[$scope.groupglobal.gidx].start_time = $scope.groupTime.strTime;
+            $scope.GroupList[$scope.groupglobal.gidx].end_time = $scope.groupTime.endTime;
+            console.log($scope.groupglobal, "时间修改信息", $scope.GroupList);
+
+        })
+    }
+
     //分组信息修改--是否隐藏
     $scope.editGroupOfferFn = function () {
         var flag = Number(!Boolean($scope.groupglobal.hidden));
@@ -140,17 +241,17 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
 
 
     //收集资料全选事件
-    $scope.ckb_selectFn = function () {
+    $scope.ckb_selectFn = function (list) {
         var isCheck = $(".ckb_selectAll").prop("checked");
         if (!isCheck) {
             $timeout(function () {
-                _.each($scope.dataCollectList, function (ck) {
+                _.each(list, function (ck) {
                     ck.selects = false;
                 })
             })
         } else {
             $timeout(function () {
-                _.each($scope.dataCollectList, function (ck) {
+                _.each(list, function (ck) {
                     ck.selects = true;
                 })
             })
@@ -158,22 +259,38 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     };
 
     //收集资料全选----添加选中文件
-    $scope.addSelectFile = function () {
+    $scope.addSelectFile = function (list, collected) {
+
+        console.log("选中的文件信息", list)
+
         $scope.btnloading = true;
         var params = {
             org_id: $scope.currentExbt.org_id,
             ex_id: $scope.currentExbt.id,
             files: []
         };
-        _.each($scope.dataCollectList, function (r) {
-            if (r.selects) {
-                params.files.push({
-                    filename: r.filename,
-                    hash: r.filehash,
-                    size: r.filesize
-                });
-            }
-        });
+        if (collected === 'exist') {
+            _.each(list, function (r) {
+                if (r.selects) {
+                    params.files.push({
+                        filename: r.property.title,
+                        hash: r.hash,
+                        size: r.size
+                    });
+                }
+            });
+        }
+        if (collected === 'collect') {
+            _.each(list, function (r) {
+                if (r.selects) {
+                    params.files.push({
+                        filename: r.filename,
+                        hash: r.hash,
+                        size: r.filesize
+                    });
+                }
+            });
+        }
         if ($scope.uploadstate == "files") {
             Exhibition.copyFilFromHad(params).then(function (res) {
                 $scope.btnloading = false;
@@ -181,7 +298,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                     r.property = JSON.parse(r.property);
                     $scope.FilesList.push(r);
                 })
-                $("#fileFromCollect").modal('hide');
+                $("#fileFromExist").modal('hide');
             })
         }
         if ($scope.uploadstate == "topic") {
@@ -192,7 +309,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                     r.property = JSON.parse(r.property);
                     $scope.topDetails.lists.push(r);
                 })
-                $("#fileFromCollect").modal('hide');
+                $("#fileFromExist").modal('hide');
             })
         }
 
@@ -208,6 +325,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 }).then(function (res) {
                     $(".slide-note").find(".defaults").show().siblings().hide();
                     $timeout(function () {
+                        $scope.ExDataflow.space -= $scope.fileglobal.size;
                         $scope.FilesList.splice($scope.fileglobal.Indexer, 1);
                     })
                 })
@@ -221,6 +339,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 }).then(function (res) {
                     $(".slide-note").find(".topic_con").show().siblings().hide();
                     $timeout(function () {
+                        $scope.ExDataflow.space -= $scope.fileglobal.size;
                         $scope.topDetails.lists.splice($scope.fileglobal.Indexer, 1);
                     })
                 })
@@ -235,8 +354,8 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 is_dir: "1",
                 hash: $scope.topDetails.folder_hash
             }).then(function (res) {
+                --$scope.ExDataflow['class'];
                 $scope.slideBakcFn();
-
                 var listfolder = $scope.GroupList[$scope.groupIndex].folder;
                 for (let i = 0; i < listfolder.length; i++) {
                     if (listfolder[i].id == $scope.topDetails.id) {
@@ -260,6 +379,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         $timeout(function () {
             $scope.fileglobal = file;
         })
+        $scope.uploadstate = "files";
         console.log(file);
     }
     $scope.resetfilebgFn = function () {
@@ -310,37 +430,6 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         }
     }, false);
 
-
-    $timeout(function () {
-        moment.locale('zh-cn');
-    }, 2000)
-    $scope.endDateBeforeRender = function ($view, $dates) {
-        if ($scope.dateRangeStart) {
-            var activeDate = moment($scope.dateRangeStart).subtract(1, $view).add(1, 'minute');
-            $dates.filter(function (date) {
-                return date.localDateValue() <= activeDate.valueOf()
-            }).forEach(function (date) {
-                date.selectable = false;
-            })
-        }
-    }
-    $scope.endDateOnSetTime = function () {
-        $scope.$broadcast('end-date-changed');
-    }
-    $scope.startDateBeforeRender = function ($dates) {
-        if ($scope.dateRangeEnd) {
-            var activeDate = moment($scope.dateRangeEnd);
-            $dates.filter(function (date) {
-                return date.localDateValue() >= activeDate.valueOf()
-            }).forEach(function (date) {
-                date.selectable = false;
-            })
-        }
-    }
-    $scope.startDateOnSetTime = function () {
-        $scope.$broadcast('start-date-changed');
-    }
-    $scope.dateRangeStart = "2016-12-05";
 
     //资料收集状态
     $scope.checkCollecFn = function () {
@@ -456,7 +545,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         $scope.topDetails.lists = [];
         $scope.uploadstate = "topic";
         $(".mui-topic").prop("checked", Boolean($scope.topDetails.hidden));
-        $(".topic-time").val($scope.topDetails.forever);
+        // $(".topic-time").val($scope.topDetails.forever);
         Exhibition.getFileInfoByPath({
             ex_id: $scope.currentExbt.id,
             size: 200,

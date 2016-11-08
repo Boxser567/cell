@@ -1694,6 +1694,20 @@ body {
       }
 
     }
+
+    .operate-warn {
+      display: inline-block;
+      display: none;
+      height: 70px;
+      line-height: 70px;
+      min-width: 200px;
+      position: relative;
+      text-align: center;
+      span {
+        display: inline-block;
+        position: relative;
+      }
+    }
     .right {
       float: right;
       height: 70px;
@@ -1743,12 +1757,13 @@ body {
   }
   .FILE_ARTICLE {
     position: absolute;
-    background: url("../../images/icon_1.png") no-repeat center center;
+    background: url("../../images/10.jpg") no-repeat center center;
     background-size: cover;
     overflow: hidden;
     height: 100%;
     width: 100%;
     min-width: 1200px;
+    padding-left: 70px;
     .bgimg {
       position: absolute;
       height: 1000px;
@@ -1830,6 +1845,7 @@ body {
             a {
               display: block;
               padding: 10px 0;
+              color: #333;
               p {
                 margin-top: 5px;
               }
@@ -1952,15 +1968,17 @@ body {
             font-size: 12px;
             color: #999;
             margin-top: 10px;
+
           }
         }
       }
 
     }
     .percentfourty {
-      width: 40%;
+      width: 40.333%;
       height: 100%;
       float: left;
+      position: relative;
     }
     .percentsixty {
       float: right;
@@ -1971,7 +1989,8 @@ body {
     .slide-mobile {
       width: 360px;
       height: 732px;
-      left: 120px;
+      left: 50%;
+      margin-left: -180px;
       top: 20px;
       position: absolute;
       background: url("../../../assets/images/phone_white.png");
@@ -2561,6 +2580,29 @@ body {
             width: 100%;
             margin-top: 15px;
           }
+          .settime {
+            margin-top: 15px;
+            & > div {
+              display: inline-block;
+            }
+            & > span {
+              position: relative;
+              display: inline-block;
+              padding: 8px;
+              top: -26px;
+            }
+            .dropdown {
+              width: 185px;
+            }
+            .btn {
+              position: relative;
+              background: #b7b7b7;
+              color: #fff;
+              left: 13px;
+              top: -28px;
+              padding: 6px 12px;
+            }
+          }
         }
         .d5 {
           .cen {
@@ -2697,6 +2739,14 @@ body {
               position: relative;
               top: -10px;
               left: -3px;
+            }
+            .btn {
+              position: relative;
+              top: -13px;
+              left: 18px;
+              background: #b7b7b7;
+              color: #fff;
+              padding: 6px 14px;
             }
           }
         }
@@ -2994,7 +3044,7 @@ body {
 
 }
 
-#fileFromCollect {
+#fileFromCollect, #fileFromExist {
 
   .collect {
     padding: 5px;

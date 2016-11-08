@@ -60,8 +60,10 @@ export default function (app) {
                         $('.motion').fadeOut(function () {
                             $timeout(function () {
                                 scope.stateMode = false;
-                                scope.mobilesize.left = "120px";
                             })
+                            $(".FILE_ARTICLE").animate({
+                                "padding-left": "70px"
+                            });
                             $(".FILE_ARTICLE .slide-bar").animate({
                                 width: '70px'
                             }, function () {
@@ -69,10 +71,6 @@ export default function (app) {
                                 $(".nav-bar .left").animate({
                                     width: '218px'
                                 });
-                                $(".percentsixty").animate({
-                                    width: "59.666%"
-                                })
-
                             });
                         });
                     }
@@ -81,26 +79,19 @@ export default function (app) {
                             $(".nav-bar .left").animate({
                                 width: '508px'
                             }, 200, function () {
-                                $(".percentsixty").animate({
-                                    width: "41.666%"
-                                }, 200, function () {
-                                    $(".FILE_ARTICLE .slide-bar").animate({
-                                        width: '360px'
-                                    }, function () {
-                                        $timeout(function () {
-                                            scope.stateMode = true;
-                                            scope.mobilesize.left = "390px";
-                                        })
-                                        $('.motion').fadeIn();
+                                $(".FILE_ARTICLE").animate({
+                                    "padding-left": "360px"
+                                });
+                                $(".FILE_ARTICLE .slide-bar").animate({
+                                    width: '360px'
+                                }, function () {
+                                    $timeout(function () {
+                                        scope.stateMode = true;
                                     })
+                                    $('.motion').fadeIn();
                                 })
                             });
                         });
-                        // $(".slide-bar .slide").animate({
-                        //     width: '360px'
-                        // }, function () {
-                        //     $(".slide-bar .slide").find(".info").fadeIn();
-                        // })
                     }
                 })
             },
@@ -399,6 +390,7 @@ export default function (app) {
                                             file.hash = returnFile.hash;
                                         })
                                     }
+                                    scope.ExDataflow.space += file.size;
                                     scope.localFilesJSON.splice(i, 1);  //删除上传缓存
                                 });
                                 break;
@@ -636,6 +628,8 @@ export default function (app) {
                                             file.hash = returnFile.hash;
                                         })
                                     }
+                                    scope.ExDataflow.space += file.size;
+                                    ++scope.ExDataflow['class'];
                                     scope.localTopicFilesJSON.splice(i, 1);  //删除上传缓存
                                 });
                                 break;
@@ -931,6 +925,7 @@ export default function (app) {
                     }
                     scope.group_loding = true;
                     Exhibition.addNewGroup(scope.currentExbt.id).then(function (res) {
+                        ++scope.ExDataflow.group;
                         res.folder = [];
                         scope.GroupList.push(res);
                         scope.group_loding = false;
@@ -1043,11 +1038,7 @@ export default function (app) {
                                     },
                                     ok: function (obj) {
                                         var newfiles = obj[0];
-                                        console.log(newfiles);
-                                        // var array=["文件夹.jpg","文件夹/思维.pdf","文件夹/word/火箭技术/ijhfkd.pdf"];
-                                        // console.log(Util.String.baseName(array[0]));
-                                        // console.log(Util.String.baseName(array[1]));
-                                        // console.log(Util.String.baseName(array[2]));
+                                        console.log("从云库上传文件", newfiles);
                                         var pms = {
                                             org_id: scope.currentExbt.org_id,
                                             ex_id: scope.currentExbt.id,
@@ -1065,7 +1056,7 @@ export default function (app) {
                                                     r.property = JSON.parse(r.property);
                                                     scope.FilesList.push(r);
                                                 })
-                                                $("#uploadFileModal").modal('hide');
+
                                             })
                                         }
                                         if (scope.uploadstate == "topic") {
@@ -1076,15 +1067,11 @@ export default function (app) {
                                                     r.property = JSON.parse(r.property);
                                                     scope.topDetails.lists.push(r);
                                                 })
-                                                $("#uploadFileModal").modal('hide');
                                             });
-
                                         }
-
-
+                                        scope.ExDataflow.space += newfiles.filesize;
+                                        $("#uploadFileModal").modal('hide');
                                     }
-
-
                                 });
                             }
                         }
@@ -1133,10 +1120,6 @@ export default function (app) {
                     uploader.on('fileQueued', function (file) {
                         uploader.options.formData.path = attrs.datacollect;
                         uploader.options.formData.name = file.name;
-
-                        console.log("队列上茶123", uploader.options.formData.name);
-
-
                         $timeout(function () {
                             scope.fileCollect.push({
                                 filename: file.name,
@@ -1146,8 +1129,6 @@ export default function (app) {
                                 create_dateline: Date.parse(new Date()),
                                 wid: file.id
                             })
-
-
                         })
                     });
                     uploader.on('uploadSuccess', function (uploadFile, returnFile) {
@@ -1193,26 +1174,37 @@ export default function (app) {
         };
     });
 
-
-    // 点击选中当前文件
-    app.directive('chooseCollect', function ($timeout) {
+    //从资料收集中选择文件
+    app.directive('selectFilesBycollect', function ($timeout, Exhibition) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 elem.on('click', function () {
-                    var state = elem.find("input[type=checkbox]").prop("checked");
-                    // console.log(state, elem.find("input[type=checkbox]").val());
-                    if (state == false) {
-                        scope.dataCollectList.selects = true;
-                        elem.find("input[type=checkbox]").prop("checked", true);
-                    } else {
-                        scope.dataCollectList.selects = false;
-                        elem.find("input[type=checkbox]").prop("checked", false);
+                    $("#uploadFileModal").modal('hide');
+                    scope.collectLoading = true;
+                    scope.dataCollectList = [];
+                    if (scope.currentExbt.res_collect_lock == 0) {
+                        $("#openCollectFile").modal('show');
+                        return;
                     }
+                    $("#fileFromCollect").modal('show');
+                    Exhibition.getDirFilesByID({
+                        org_id: scope.currentExbt.org_id,
+                        fullpath: scope.currentExbt.res_collect
+                    }).then(function (res) {
+                        console.log("资料收集夹信息", res);
+                        $timeout(function () {
+                            scope.collectLoading = false;
+                            _.each(res.list, function (r) {
+                                r.selects = false;
+                            })
+                            scope.dataCollectList = res.list;
+                        })
+                    });
                 })
-            },
-        };
-    });
+            }
+        }
+    })
 
 
     //从已有文件或资料收集夹中选取文件
@@ -1223,14 +1215,13 @@ export default function (app) {
                 elem.on('click', function () {
                     $("#uploadFileModal").modal('hide');
                     scope.collectLoading = true;
-                    scope.dataCollectList = [];
+                    scope.dataExsitList = [];
                     if (attrs.dataselect == "collect") {
                         if (scope.currentExbt.res_collect_lock == 0) {
                             $("#openCollectFile").modal('show');
                             return;
                         }
-                        $("#fileFromCollect").modal('show');
-                        scope.collectTitle = "从资料收集选择文件";
+                        $("#fileFromExist").modal('show');
                         Exhibition.getDirFilesByID({
                             org_id: scope.currentExbt.org_id,
                             fullpath: scope.currentExbt.res_collect
@@ -1241,14 +1232,13 @@ export default function (app) {
                                 _.each(res.list, function (r) {
                                     r.selects = false;
                                 })
-                                scope.dataCollectList = res.list;
+                                scope.dataExsitList = res.list;
                             })
                         });
                     } else {  //已有分类中选择
-                        $("#fileFromCollect").modal('show');
-                        scope.collectTitle = "从已有分类选择文件";
+                        $("#fileFromExist").modal('show');
                         var paras = {
-                            org_id: scope.currentExbt.org_id,
+                            ex_id: scope.currentExbt.id,
                             has_col: scope.currentExbt.res_collect_lock
                         };
                         if (scope.uploadstate == "dirs") {
@@ -1263,8 +1253,9 @@ export default function (app) {
                                 scope.collectLoading = false;
                                 _.each(res, function (re) {
                                     re.selects = false;
+                                    re.property = JSON.parse(re.property);
                                 })
-                                scope.dataCollectList = res;
+                                scope.dataExsitList = res;
                             })
                         })
                     }
@@ -1274,6 +1265,7 @@ export default function (app) {
             }
         }
     })
+
 
     function validationTestDirective() {
         'ngInject';

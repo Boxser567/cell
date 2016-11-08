@@ -49,6 +49,11 @@ export default function (app) {
         .filter('dataToJson', function (data) {
             return JSON.parse(data);
         })
+        .filter('dataStr', function () {
+            return function (str) {
+                return str.substr(0, 10);
+            }
+        })
 
 
 }
