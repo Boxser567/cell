@@ -138,6 +138,8 @@ class ExhibitionController extends BaseController
         if (\Request::has('ex_id')) {
             if (\Request::has('folder_id')) {
                 $module = self::postModule(inputGet("ex_id"), inputGet("folder_id"));
+                FolderInfo::addCount(inputGet("folder_id"));
+                FolderInfo::cacheForget();
             } else {
                 $module = self::postModule(inputGet("ex_id"));
             }
