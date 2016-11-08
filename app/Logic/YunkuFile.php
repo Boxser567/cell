@@ -78,6 +78,18 @@ class YunkuFile extends \GokuaiFile
     }
 
     //修改文件(夹)名
+    public function copy($from_fullpath,$fullpath)
+    {
+        $data = [
+            'fullpath' => $fullpath,
+            'from_fullpath' => $from_fullpath,
+        ];
+        $res = $this->callAPI2('POST', '/1/file/copy', $data);
+        $this->checkResult($res);
+        return $res;
+    }
+
+    //修改文件(夹)名
     public function setName($fullpath, $dest_fullpath, $op_id = '', $op_name = '')
     {
         $data = [

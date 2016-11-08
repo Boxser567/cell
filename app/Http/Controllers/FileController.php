@@ -23,7 +23,7 @@ class FileController extends Controller
 {
 
     const RES_COLLECTION_FOLDER_NAME = "GKKJ_ZLSJJ";//资料收集夹
-
+    const TYPE_FILE_FROM_YUNKU="yunku";
     //获取文件列表
     public function getList()
     {
@@ -393,16 +393,29 @@ class FileController extends Controller
     {
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
         $files = inputGetOrFail("files");
+        $type=inputGet("type",1);
         $return_files = array();
         foreach ($files as $key => $file) {
             $module=[];
-            if(\Request::has('ex_id')){
+            if(\Request::has('ex_id') && $type){
                 if(\Request::has('folder_id')){
                     $folder=FolderInfo::find(inputGet("folder_id"));
                     $result = $yunkufile->setYunkuFile($folder->title.'/'.$file["filename"], $file["size"], $file["hash"]);
                     $module=ExhibitionController::postModule(inputGet("ex_id"),inputGet("folder_id"),$file["filename"],$result['hash'],$result['filesize']);
                 }else{
                     $result = $yunkufile->setYunkuFile(ExhibitionController::BASE_FILE_NAME.'/'.$file["filename"], $file["size"], $file["hash"]);
+                    $module=ExhibitionController::postModule(inputGet("ex_id"),'',$file["filename"],$result['hash'],$result['filesize']);
+                }
+            }else{
+                if(\Request::has('folder_id')){
+                    $new_folder=FolderInfo::find(inputGet("folder_id"));
+                    $older_folder=FileInfo::getByHash($file["hash"]);
+                    $result = $yunkufile->copy($older_folder->title.'/'.$file["filename"], $new_folder->title.'/'.$file["filename"]);
+                    $module=ExhibitionController::postModule(inputGet("ex_id"),inputGet("folder_id"),$file["filename"],$result['hash'],$result['filesize']);
+                }else{
+                    $files=FileInfo::getByHash($file["hash"]);
+                    $older_folder=FolderInfo::find($files->folder_id);
+                    $result = $yunkufile->copy($older_folder->title.'/'.$file["filename"], ExhibitionController::BASE_FILE_NAME.'/'.$file["filename"]);
                     $module=ExhibitionController::postModule(inputGet("ex_id"),'',$file["filename"],$result['hash'],$result['filesize']);
                 }
             }

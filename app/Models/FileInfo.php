@@ -56,4 +56,9 @@ class FileInfo extends BaseModel
     {
         return self::createWith()->where("ex_id", $ex_id)->count();
     }
+    
+    public static function getByHash($hash)
+    {
+       return self::createWith()->where('hash',$hash)->first();
+    }
 }

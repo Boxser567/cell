@@ -155,6 +155,7 @@ class ExhibitionController extends BaseController
         $sub_title = inputGet("sub_title", "");
         $style = inputGet("style", "");
         $size = inputGet("size", 0);
+        $file_hash = inputGet("file_hash", 0);
         if ($title) {
             $property["title"] = $title;
         }
@@ -167,8 +168,8 @@ class ExhibitionController extends BaseController
         if ($style) {
             $property["style"] = $style;
         }
-        if ($size) {
-            // $property["size"] = $size;
+        if ($file_hash) {
+            $property["file_hash"] = $file_hash;
         }
         $property = json_encode($property);
         return LAccount::setFile($id, "", $hash, "", "", $size, $property);
@@ -229,10 +230,16 @@ class ExhibitionController extends BaseController
             $folder_info = FolderInfo::getByGroupId(inputGetOrFail('group_id'))->toArray();
             foreach ($folder_info as $folder) {
                 $base_folder = FolderInfo::_findOrFail($folder['id']);
-                if (inputGet('start_time') && $base_folder->start_time < inputGet('start_time')) {
+                if (inputGet('start_time') && !$base_folder->start_time ) {
                     $base_folder->start_time = inputGet('start_time');
                 }
-                if (inputGet('end_time') && $base_folder->end_time > inputGet('end_time')) {
+                if (inputGet('end_time') && !$base_folder->end_time ) {
+                    $base_folder->end_time = inputGet('end_time');
+                }
+                if (inputGet('start_time') && $base_folder->start_time && $base_folder->start_time > inputGet('start_time')) {
+                    $base_folder->start_time = inputGet('start_time');
+                }
+                if (inputGet('end_time') && $base_folder->end_time && $base_folder->end_time < inputGet('end_time')) {
                     $base_folder->end_time = inputGet('end_time');
                 }
                 if (inputGet('hidden')) {
