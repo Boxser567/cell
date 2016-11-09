@@ -119,7 +119,7 @@ class FileController extends Controller
         foreach ($group_info as $key=>&$group){
             if ($group['hidden'] == 1) {
                 unset($group_info[$key]);
-            } else if($group['end_time']!==''){
+            } else if($group['end_time']!== NULL){
                 if ($now > $group['end_time']|| $now < $group['start_time']) {
                     $group['hidden']=2;
                 }
@@ -131,7 +131,7 @@ class FileController extends Controller
                         if ($folder['hidden'] == 1) {
                             unset($folder_info[$key2]);
                         } else {
-                            if ($folder['end_time'] !== '') {
+                            if ($folder['end_time'] !== NULL) {
                                 if ($now > $folder['end_time'] || $now < $folder['start_time']) {
                                     $folder_info[$key2]['hidden'] =2;
                                 }
