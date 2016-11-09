@@ -251,6 +251,7 @@ body {
   line-height: 60px;
   background: #24292e;
   margin: 0;
+  border-radius: 0 !important;
   .lf {
     float: left;
     color: #fff;
@@ -1697,15 +1698,17 @@ body {
 
     .operate-warn {
       display: inline-block;
-      display: none;
       height: 70px;
       line-height: 70px;
-      min-width: 200px;
       position: relative;
-      text-align: center;
+      overflow: hidden;
+      text-align: left;
+      text-indent: 20px;
+      width: 150px;
       span {
         display: inline-block;
-        position: relative;
+        position: absolute;
+        left: 0;
       }
     }
     .right {
@@ -1828,6 +1831,7 @@ body {
       }
 
       .graphic {
+        cursor: pointer;
         position: fixed;
         top: 70px;
         left: 0;
@@ -1846,8 +1850,15 @@ body {
               display: block;
               padding: 10px 0;
               color: #333;
+              text-decoration: none;
               p {
                 margin-top: 5px;
+                color: #999;
+              }
+              &:hover {
+                p {
+                  color: #333;
+                }
               }
             }
           }

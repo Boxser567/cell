@@ -2,6 +2,7 @@
 
 function ExhibitionListController($scope, $rootScope, $state, Exhibition, currentExhibition) {
     'ngInject';
+    $rootScope.projectTitle = "会文件";
     $scope.newMask = false;
     $rootScope.alertMsg = false;
     $scope.start_ebts = [];

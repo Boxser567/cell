@@ -1,6 +1,6 @@
 'use strict';
 // import  wx from "weixin-js-sdk";
-function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
+function MobileController($scope, currentMobileExbt, $timeout, Exhibition, $state) {
     'ngInject';
     console.log("currentMobileExbt", currentMobileExbt);
     currentMobileExbt.property = JSON.parse(currentMobileExbt.property);
@@ -59,6 +59,16 @@ function MobileController($scope, currentMobileExbt, $timeout, Exhibition) {
         $scope.DirsList = res;
     });
 
+    //专题链接跳转
+    $scope.hrefTopicFn = function (detail) {
+        console.log("当前跳转的页面信息", detail);
+        if (detail.hidden === 2) {
+            $state.go('mobile_icant', {});
+        } else {
+            $state.go('mobile_file', {ex_id: $scope.EXfileList.id, hash: detail.folder_hash});
+        }
+
+    }
 
     //
     // $scope.DirsList = [];

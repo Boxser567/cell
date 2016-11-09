@@ -3,6 +3,7 @@
 import mobileTpl from './mobile.html';
 import mobileFileTpl from './mobile-files.html';
 import mobileViewsTpl from './mobile-preview.html';
+import mobileIcantTpl from './mobile-icant.html';
 
 function routeConfig($stateProvider) {
     'ngInject';
@@ -29,6 +30,15 @@ function routeConfig($stateProvider) {
                 }]
             }
         })
+
+        .state('mobile_icant', {
+            url: '/mobile_icant',
+            templateUrl: mobileIcantTpl,
+            controller: require('./mobile-icant.controller'),
+            resolve: {}
+        })
+
+
 
         .state('mobile-preview', {
             url: '/mobile-preview/:orgid/:hash',

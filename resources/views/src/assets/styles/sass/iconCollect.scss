@@ -265,7 +265,7 @@ $checkedColor: #64bd63;
       font-size: 18px;
       color: #333;
       i {
-        display: block;
+        display: none;
         position: absolute;
         top: -12px;
         right: -12px;
@@ -279,6 +279,9 @@ $checkedColor: #64bd63;
       }
       &.active {
         border: 2px solid #0081e4 !important;
+        i {
+          display: block;
+        }
       }
     }
     .sl {

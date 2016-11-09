@@ -3,7 +3,7 @@
 function routeConfig($urlRouterProvider) {
   'ngInject';
 
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/exhibition');
 
 }
 

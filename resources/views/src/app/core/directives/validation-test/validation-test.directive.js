@@ -629,7 +629,7 @@ export default function (app) {
                                         })
                                     }
                                     scope.ExDataflow.space += file.size;
-                                    ++scope.ExDataflow['class'];
+                                    // ++scope.ExDataflow['class'];
                                     scope.localTopicFilesJSON.splice(i, 1);  //删除上传缓存
                                 });
                                 break;
@@ -691,6 +691,7 @@ export default function (app) {
                 })
                 elem.on('blur', function () {
                     if (types == "title") {
+                        Util.String.warning(".operate-warn");
                         Exhibition.editExTitle({
                             exhibition_id: scope.currentExbt.id,
                             title: scope.currentExbt.title
@@ -1181,12 +1182,12 @@ export default function (app) {
             link: function (scope, elem, attrs) {
                 elem.on('click', function () {
                     $("#uploadFileModal").modal('hide');
-                    scope.collectLoading = true;
                     scope.dataCollectList = [];
                     if (scope.currentExbt.res_collect_lock == 0) {
                         $("#openCollectFile").modal('show');
                         return;
                     }
+                    scope.collectLoading = true;
                     $("#fileFromCollect").modal('show');
                     Exhibition.getDirFilesByID({
                         org_id: scope.currentExbt.org_id,
@@ -1214,40 +1215,29 @@ export default function (app) {
             link: function (scope, elem, attrs) {
                 elem.on('click', function () {
                     $("#uploadFileModal").modal('hide');
-                    scope.collectLoading = true;
                     scope.dataExsitList = [];
-                    if (attrs.dataselect == "collect") {
-                        if (scope.currentExbt.res_collect_lock == 0) {
-                            $("#openCollectFile").modal('show');
-                            return;
-                        }
-                        $("#fileFromExist").modal('show');
-                        Exhibition.getDirFilesByID({
-                            org_id: scope.currentExbt.org_id,
-                            fullpath: scope.currentExbt.res_collect
-                        }).then(function (res) {
-                            console.log("加载列表信息", res);
+                    $("#fileFromExist").modal('show');
+                    scope.collectLoading = true;
+                    console.log("进行专题分类文件选择", scope.uploadstate);
+                    var paras = {
+                        ex_id: scope.currentExbt.id,
+                        has_col: scope.currentExbt.res_collect_lock
+                    }
+                    if (scope.uploadstate === "files") {
+                        Exhibition.getAllOfFile(paras).then(function (res) {
                             $timeout(function () {
                                 scope.collectLoading = false;
-                                _.each(res.list, function (r) {
-                                    r.selects = false;
+                                _.each(res, function (re) {
+                                    re.selects = false;
+                                    re.property = JSON.parse(re.property);
                                 })
-                                scope.dataExsitList = res.list;
+                                scope.dataExsitList = res;
                             })
-                        });
-                    } else {  //已有分类中选择
-                        $("#fileFromExist").modal('show');
-                        var paras = {
-                            ex_id: scope.currentExbt.id,
-                            has_col: scope.currentExbt.res_collect_lock
-                        };
-                        if (scope.uploadstate == "dirs") {
-                            // paras = {
-                            //     org_id: scope.currentExbt.org_id,
-                            //     has_col: scope.currentExbt.res_collect_lock,
-                            //     fullpath: scope.thisDirPath
-                            // }
-                        }
+                        })
+
+                    }
+                    if (scope.uploadstate === "topic") {
+                        paras.folder_id = scope.topDetails.id
                         Exhibition.getAllOfFile(paras).then(function (res) {
                             $timeout(function () {
                                 scope.collectLoading = false;
@@ -1259,7 +1249,6 @@ export default function (app) {
                             })
                         })
                     }
-
                 })
 
             }

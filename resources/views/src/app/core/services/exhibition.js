@@ -16,8 +16,8 @@ export default function (app) {
                         return res.data;
                     });
                 },
-                getExcount: function (code) {
-                    return $http.get('/exhibition/size', {params: {unique_code: code}}).then(function (res) {
+                getExcount: function (param) {
+                    return $http.get('/exhibition/size', {params:param }).then(function (res) {
                         return res.data;
                     });
                 },

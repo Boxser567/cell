@@ -18,7 +18,7 @@
                 <span>编辑模式</span>
             </div>
         </div>
-        <div class="operate-warn"><span>修改成功</span></div>
+        <div class="operate-warn"><span>更新成功</span></div>
 
         <div class="right">
             <span class="switch">资料收集
@@ -141,7 +141,7 @@
 
         <!--手机模型内容显示-->
         <div class="percentfourty">
-            <div class="slide-mobile" style="top:{{mobilesize.top}}">
+            <div class="slide-mobile">
                 <div class="mobile-phone">
                     <div class="hosted-phones">
                         <div class="mb_header">
@@ -476,44 +476,51 @@
 
                         <ul class="ui_file_Modelstyle">
                             <li>
-                                <a class="clearfix sl" datastyle="1" select-filestyle>
+                                <a class="clearfix sl" ng-class="{'active':fileglobal.property.style==1}"
+                                   datastyle="1" select-filestyle>
                                     <img src="{{fileglobal.property.back_pic}}-c320"
                                          alt="">
                                     <div>{{fileglobal.property.title}}</div>
-                                    <i class="check" ng-if="fileglobal.property.style==1"></i>
+                                    <i class="check"></i>
                                 </a>
-                                <a class="clearfix sr" datastyle="2" select-filestyle>
+                                <a class="clearfix sr"
+                                   ng-class="{'active':fileglobal.property.style==2}"
+                                   datastyle="2" select-filestyle>
                                     <div>{{fileglobal.property.title}}</div>
                                     <img src="{{fileglobal.property.back_pic}}-c320"
                                          alt="">
-                                    <i class="check" ng-if="fileglobal.property.style==2"></i>
+                                    <i class="check"></i>
                                 </a>
-                                <a class="clearfix bl" datastyle="3" select-filestyle>
-                                    <img src="{{fileglobal.property.back_pic}}-c320"
-                                         alt="">
+                                <a class="clearfix bl"
+                                   ng-class="{'active':fileglobal.property.style==3}"
+                                   datastyle="3" select-filestyle>
+                                    <img src="{{fileglobal.property.back_pic}}-c320" alt="">
                                     <div>
                                         <h5>{{fileglobal.property.title}}</h5>
                                         <p>{{fileglobal.property.sub_title}}</p>
                                     </div>
                                     <i class="check" ng-if="fileglobal.property.style==3"></i>
                                 </a>
-                                <a class="clearfix br" datastyle="4" select-filestyle>
+                                <a class="clearfix br"
+                                   ng-class="{'active':fileglobal.property.style==4}"
+                                   datastyle="4" select-filestyle>
                                     <img src="{{fileglobal.property.back_pic}}-c320"
                                          alt="">
                                     <div>
                                         <h5>{{fileglobal.property.title}}</h5>
                                         <p>{{fileglobal.property.sub_title}}</p>
                                     </div>
-                                    <i class="check" ng-if="fileglobal.property.style==4"></i>
+                                    <i class="check"></i>
                                 </a>
-                                <a class="clearfix cv" datastyle="5" select-filestyle>
-                                    <img src="{{fileglobal.property.back_pic}}-c592"
-                                         alt="">
+                                <a class="clearfix cv"
+                                   ng-class="{'active':fileglobal.property.style==5}"
+                                   datastyle="5" select-filestyle>
+                                    <img src="{{fileglobal.property.back_pic}}-c592" alt="">
                                     <div>
                                         <h5>{{fileglobal.property.title}}</h5>
                                         <p>{{fileglobal.property.sub_title}}</p>
                                     </div>
-                                    <i class="check" ng-if="fileglobal.property.style==5"></i>
+                                    <i class="check"></i>
                                 </a>
                             </li>
                         </ul>
@@ -537,21 +544,21 @@
                             <i class="tl-time"></i>分组有效时间
                         </div>
                         <select class="form-control group-time" ng-model="groupglobal.forever"
-                                ng-options=" option.value  as option.name  for option in selectArray ">
+                                ng-options=" option.value  as option.name  for option in selectArray " ng-change="changeGroTimeFn()">
                         </select>
                         <div class="settime" ng-if="groupglobal.forever==0">
                             <div class="dropdown form-group">
                                 <a class="dropdown-toggle" id="dropdownStart" role="button" data-toggle="dropdown"
                                    data-target="#" href="#">
                                     <div class="input-group date">
-                                        <input type="text" class="form-control" data-ng-model="dateRangeStart">
+                                        <input type="text" class="form-control" data-ng-model="dateRange.start">
                                         <span class="input-group-addon">
                                             <i class="glyphicon glyphicon-calendar"></i>
                                         </span>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                    <datetimepicker data-ng-model="dateRangeStart"
+                                    <datetimepicker data-ng-model="dateRange.start"
                                                     data-datetimepicker-config="{ dropdownSelector: '#dropdownStart', renderOn: 'end-date-changed' ,modelType:'YYYY-MM-DD HH:mm'}"
                                                     data-on-set-time="startDateOnSetTime(newDate, oldDate)"
                                                     data-before-render="startDateBeforeRender($dates)"
@@ -565,13 +572,13 @@
                                    href="#">
                                     <div class="input-group date">
                                         <input type="text" class="form-control"
-                                               data-ng-model="dateRangeEnd">
+                                               data-ng-model="dateRange.end">
                                         <span class="input-group-addon">
                                             <i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                    <datetimepicker style="width: 365px;" data-ng-model="dateRangeEnd"
+                                    <datetimepicker style="width: 365px;" data-ng-model="dateRange.end"
                                                     data-datetimepicker-config="{ dropdownSelector: '#dropdownEnd', renderOn: 'start-date-changed' ,modelType:'YYYY-MM-DD HH:mm' }"
                                                     data-on-set-time="endDateOnSetTime(newDate, oldDate)"
                                                     data-before-render="endDateBeforeRender($view, $dates, $leftDate, $upDate, $rightDate)"></datetimepicker>
@@ -590,8 +597,8 @@
                                 如果设置不显示,用户将只能看到该组内的分类标题,但无法查看内容。
                             </p>
                             <label class="pull-right">
-                                <input class="mui-switch mui-switch-anim mui_group" ng-click="editGroupOfferFn()"
-                                       type="checkbox">
+                                <input class="mui-switch mui-switch-anim" ng-model="groupglobal.hidden"
+                                       ng-click="editGroupOfferFn()" type="checkbox">
                             </label>
                         </div>
                     </div>
@@ -655,7 +662,7 @@
                         </div>
                         <div class="text">
                             <div>如设置不隐藏,用户将只能看到该专题的文件标题,但无法查看内容。</div>
-                            <label> <input class="mui-switch mui-switch-anim mui-topic" type="checkbox"
+                            <label> <input class="mui-switch mui-switch-anim" ng-model="topDetails.hidden" type="checkbox"
                                            ng-click="topicIsHideFn()"></label>
                         </div>
                     </div>
@@ -664,21 +671,21 @@
                             <i class="tl-time"></i>专题有效时间
                         </div>
                         <select class="form-control group-time" ng-model="topDetails.forever"
-                                ng-options=" option.value  as option.name  for option in selectArray ">
+                                ng-options=" option.value  as option.name  for option in selectArray " ng-change="changeTopicTimeFn()">
                         </select>
                         <div class="settime clearfix" ng-if="topDetails.forever==0">
                             <div class="dropdown form-group">
                                 <a class="dropdown-toggle" id="topicDownStart" role="button" data-toggle="dropdown"
                                    data-target="#" href="#">
                                     <div class="input-group date">
-                                        <input type="text" class="form-control" data-ng-model="topicDateStart">
+                                        <input type="text" class="form-control" data-ng-model="topicDate.start">
                                         <span class="input-group-addon">
                                             <i class="glyphicon glyphicon-calendar"></i>
                                         </span>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                    <datetimepicker data-ng-model="topicDateStart"
+                                    <datetimepicker data-ng-model="topicDate.start"
                                                     data-datetimepicker-config="{ dropdownSelector: '#topicDownStart', renderOn: 'topic-end-changed' ,modelType:'YYYY-MM-DD HH:mm'}"
                                                     data-on-set-time="startDateOnSetTime(newDate, oldDate,'topic')"
                                                     data-before-render="startDateBeforeRender($dates,'topic')"
@@ -690,13 +697,13 @@
                                 <a class="dropdown-toggle" id="topicDownEnd" role="button" data-toggle="dropdown"
                                    data-target="#" href="#">
                                     <div class="input-group date">
-                                        <input type="text" class="form-control" data-ng-model="topicDateEnd">
+                                        <input type="text" class="form-control" data-ng-model="topicDate.end">
                                         <span class="input-group-addon">
                                             <i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                    <datetimepicker style="width: 365px;" data-ng-model="topicDateEnd"
+                                    <datetimepicker style="width: 365px;" data-ng-model="topicDate.end"
                                                     data-datetimepicker-config="{ dropdownSelector: '#topicDownEnd', renderOn: 'topic-start-changed' ,modelType:'YYYY-MM-DD HH:mm' }"
                                                     data-on-set-time="endDateOnSetTime(newDate, oldDate,'topic')"
                                                     data-before-render="endDateBeforeRender($view, $dates, $leftDate, $upDate, $rightDate,'topic')"></datetimepicker>
@@ -918,12 +925,12 @@
                     <span>其它方式</span>
                 </div>
                 <div class="form-group">
-                    <div class="btn uploadByCollect" dataselect="collect" select-files-bycollect>
+                    <div class="btn uploadByCollect" select-files-bycollect>
                         从「资料收集」选择
                     </div>
                 </div>
                 <div class="form-group ">
-                    <div class="btn uploadByHave" dataselect="types" select-upload>从已有分类选择</div>
+                    <div class="btn uploadByHave" select-upload>从已有分类选择</div>
                 </div>
             </div>
         </div><!-- /.modal-content -->
