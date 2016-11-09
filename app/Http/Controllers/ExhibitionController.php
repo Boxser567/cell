@@ -130,6 +130,11 @@ class ExhibitionController extends BaseController
         } else {
             // $this->judgePermission('file_count',$order_by-1);//每个专题下文件个数
         }
+
+        if($folder_id){
+            FolderInfo::addCount($folder_id);
+            FolderInfo::cacheForget();
+        }
         $property = json_encode(["title" => $title, "back_pic" => "http://res.meetingfile.com/2168a80ad9c3a8b1a07eb78751e37e4d2491041a.jpg", "sub_title" => "", "style" => FileInfo::STYLE_LIST_LEFT, "size" => $size]);
         return LAccount::setFile("", $ex_id, $hash, $folder_id, $order_by, $size, $property);
     }
@@ -140,8 +145,6 @@ class ExhibitionController extends BaseController
         if (\Request::has('ex_id')) {
             if (\Request::has('folder_id')) {
                 $module = self::postModule(inputGet("ex_id"), inputGet("folder_id"));
-                FolderInfo::addCount(inputGet("folder_id"));
-                FolderInfo::cacheForget();
             } else {
                 $module = self::postModule(inputGet("ex_id"));
             }
