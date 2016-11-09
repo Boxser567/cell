@@ -123,7 +123,6 @@ class FileController extends Controller
                 if ($now > $group['end_time']|| $now < $group['start_time']) {
                     $group['hidden']=2;
                 }
-            }else{
                 $folder_infos=FolderInfo::getByGroupId($group['id']);
                 $folder_info=!$folder_infos?$folder_infos:$folder_infos->toArray();
                 if($folder_info) {
