@@ -334,6 +334,8 @@ class ExhibitionController extends BaseController
         ExhibitionInfo::cacheForget();
         if ($exhibition->res_collect_lock != 0) {
             return ["fullpath" => FileController::RES_COLLECTION_FOLDER_NAME];
+        }else {
+            return ;
         }
     }
 

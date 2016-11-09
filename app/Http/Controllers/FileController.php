@@ -411,7 +411,8 @@ class FileController extends Controller
             }else{
                 if(\Request::has('folder_id')){
                     $new_folder=FolderInfo::find(inputGet("folder_id"));
-                    $older_folder=FileInfo::getByHash($file["hash"]);
+                    $files=FileInfo::getByHash($file["hash"]);
+                    $older_folder=FolderInfo::find($files->folder_id);
                     $result = $yunkufile->copy($older_folder->title.'/'.$file["filename"], $new_folder->title.'/'.$file["filename"]);
                     $module=ExhibitionController::postModule(inputGet("ex_id"),inputGet("folder_id"),$file["filename"],$result['hash'],$result['filesize']);
                 }else{
