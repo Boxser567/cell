@@ -395,7 +395,7 @@ class FileController extends Controller
     {
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
         $files = inputGetOrFail("files");
-        $type=inputGet("type",0);
+        $type=inputGet("type",1);
         $return_files = array();
         foreach ($files as $key => $file) {
             $module=[];
