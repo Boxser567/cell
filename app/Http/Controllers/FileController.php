@@ -120,7 +120,7 @@ class FileController extends Controller
             if ($group['hidden'] == 1) {
                 unset($group_info[$key]);
             } else if($group['end_time']!==''){
-                if ($now > $group['end_time ']|| $now < $group['start_time']) {
+                if ($now > $group['end_time']|| $now < $group['start_time']) {
                     $group['hidden']=2;
                 }
             }else{
