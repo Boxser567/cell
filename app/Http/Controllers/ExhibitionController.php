@@ -111,6 +111,29 @@ class ExhibitionController extends BaseController
         return ['group' => $group, 'class' => $class, 'space' => $space];
     }
 
+    //更新模块
+    public function postReplaceModule()
+    {
+        $file=FileInfo::_find(inputGetOrFail('file_id'));
+        $file->hash=inputGetOrFail('hash');
+        $file->size=inputGetOrFail('size');
+        $property = json_decode($file->property, true);
+        $files = new YunkuFile(inputGetOrFail('org_id'));
+        if(inputGet('folder_id',0)){
+            $folder=FolderInfo::_find(inputGet('folder_id'));
+            $fullpath=$folder->title.'/'.$property["title"];
+        }else{
+            $fullpath=self::BASE_FILE_NAME.'/'.$property["title"];
+        }
+        $files->deleteFile($fullpath);
+        $property["title"] = inputGetOrFail('title');
+        $file->property= json_encode($property);
+        $file->save();
+        FileInfo::cacheForget();
+        return;
+    }
+
+
     //创建新分组
     public function postGroup()
     {
