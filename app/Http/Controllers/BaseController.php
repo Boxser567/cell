@@ -22,32 +22,32 @@ class BaseController extends Controller
 
     public function __construct($member = [])
     {
-      if (array_key_exists("member", $_COOKIE)) {
-          setcookie('member', $_COOKIE['member'], time() + 60 * 360, '/');
-          $members = json_decode($_COOKIE['member'], true);
-        } else {
-            $members = [];
-        }
-       if (!$members) {
-            $wechat = app('wechat');
-            $response = $wechat->oauth->scopes(['snsapi_login'])->redirect();
-            $response->send();
-        } elseif (!$members['phone'] && !array_key_exists('info', $_GET)) {
-           header("Location:baseinfo/register?user_id=" . $members['id']);
-        } else {
-            if ($members['phone']) {
-               $edition = $this->getSetting($members['edition']);
-               $members += ['edition_info' => $edition];
-           }
-           $this->member = $members;
-        }
-
-//       $member = Session::get('member', $member);
-//        if (!$member) {
-//            throw new Exception(40106);
+//      if (array_key_exists("member", $_COOKIE)) {
+//          setcookie('member', $_COOKIE['member'], time() + 60 * 360, '/');
+//          $members = json_decode($_COOKIE['member'], true);
 //        } else {
-//            $this->member = $member;
+//            $members = [];
 //        }
+//       if (!$members) {
+//            $wechat = app('wechat');
+//            $response = $wechat->oauth->scopes(['snsapi_login'])->redirect();
+//            $response->send();
+//        } elseif (!$members['phone'] && !array_key_exists('info', $_GET)) {
+//           header("Location:baseinfo/register?user_id=" . $members['id']);
+//        } else {
+//            if ($members['phone']) {
+//               $edition = $this->getSetting($members['edition']);
+//               $members += ['edition_info' => $edition];
+//           }
+//           $this->member = $members;
+//        }
+
+       $member = Session::get('member', $member);
+        if (!$member) {
+            throw new Exception(40106);
+        } else {
+            $this->member = $member;
+        }
 
     }
 
