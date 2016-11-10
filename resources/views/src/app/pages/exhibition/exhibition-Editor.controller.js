@@ -364,7 +364,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
             }
             if ($scope.uploadstate == "topic") {
                 params.hash = $scope.topDetails.folder_hash;
-                params.folder_title = $scope.topDetails.title;
+                params.folder_id = $scope.topDetails.id;
                 console.log($scope.topDetails.lists, "专题文件删除", params);
                 Exhibition.delFileinfo(params).then(function (res) {
                     $(".slide-note").find(".topic_con").show().siblings().hide();
