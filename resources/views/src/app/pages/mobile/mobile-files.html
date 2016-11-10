@@ -4,7 +4,6 @@
 <div class="wecontent">
     <div class="mobile-dir-info">
         <div class="bg">
-
             <div class="diff"></div>
             <!--<img src="{{dirInfo.img_url[0]}}-340" alt="加载失败">-->
             <div class="p1" ng-if="topicInfo.img_url.length==1">
@@ -46,19 +45,19 @@
                    href="#/mobile-preview/{{topicInfo.org_id}}/{{file.hash}}">
                     <!--href="#/mobile-preview/{{EXfileList.org_id}}/{{file.hash}}"-->
                     <img src="{{file.property.back_pic}}-c320" alt="">
-                    <div>{{file.property.title}}</div>
+                    <div>{{file.property.title | parseName}}</div>
                     <i class="pull-right"></i>
                 </a>
                 <a class="clearfix sr" ng-if="file.property.style==2"
                    href="#/mobile-preview/{{topicInfo.org_id}}/{{file.hash}}">
-                    <div>{{file.property.title}}</div>
+                    <div>{{file.property.title | parseName}}</div>
                     <img src="{{file.property.back_pic}}-c320" alt="">
                 </a>
                 <a class="clearfix bl" ng-if="file.property.style==3"
                    href="#/mobile-preview/{{topicInfo.org_id}}/{{file.hash}}">
                     <img src="{{file.property.back_pic}}-c320" alt="">
                     <div>
-                        <h5>{{file.property.title}}</h5>
+                        <h5>{{file.property.title | parseName}}</h5>
                         <p>{{file.property.sub_title}}</p>
                     </div>
                 </a>
@@ -66,7 +65,7 @@
                    href="#/mobile-preview/{{topicInfo.org_id}}/{{file.hash}}">
                     <img src="{{file.property.back_pic}}-c320" alt="">
                     <div>
-                        <h5>{{file.property.title}}</h5>
+                        <h5>{{file.property.title | parseName}}</h5>
                         <p>{{file.property.sub_title}}</p>
                     </div>
                 </a>
@@ -74,7 +73,7 @@
                    href="#/mobile-preview/{{topicInfo.org_id}}/{{file.hash}}">
                     <img src="{{file.property.back_pic}}-c592" alt="">
                     <div>
-                        <h5>{{file.property.title}}</h5>
+                        <h5>{{file.property.title | parseName}}</h5>
                         <p>{{file.property.sub_title}}</p>
                     </div>
                 </a>

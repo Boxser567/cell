@@ -34,8 +34,7 @@ function routeConfig($stateProvider) {
         .state('mobile_icant', {
             url: '/mobile_icant',
             templateUrl: mobileIcantTpl,
-            controller: require('./mobile-icant.controller'),
-            resolve: {}
+            controller: require('./mobile-icant.controller')
         })
 
 

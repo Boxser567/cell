@@ -6,9 +6,10 @@ import datetimepicker from  "angular-bootstrap-datetimepicker/src/js/datetimepic
 // import datetimepicker from "eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min";
 
 
-function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $timeout, currentExhibition, Exhibition, $warning) {
+function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $timeout, currentExhibition, $location, Exhibition, $warning) {
     'ngInject';
     console.log("返回详情数据", currentExhibition);
+    $scope.siteHost = $location.host();
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $rootScope.projectTitle = currentExhibition.data.title + " - 会文件";
@@ -72,6 +73,11 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         })
         $scope.GroupList = res;
         $scope.getExCount();
+        //登陆用户信息
+        Exhibition.loginss().then(function (res) {
+            $scope.wxuser = res;
+        })
+
     })
 
 
