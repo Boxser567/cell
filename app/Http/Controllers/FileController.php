@@ -23,7 +23,8 @@ class FileController extends Controller
 {
 
     const RES_COLLECTION_FOLDER_NAME = "GKKJ_ZLSJJ";//资料收集夹
-    const TYPE_FILE_FROM_YUNKU="yunku";
+    const TYPE_FILE_FROM_YUNKU = "yunku";
+
     //获取文件列表
     public function getList()
     {
@@ -55,22 +56,22 @@ class FileController extends Controller
     public function getModule()
     {
         FileInfo::cacheForget();
-        if(\Request::has("folder_id")){
-            $modules=FileInfo::getFolderId(inputGet("folder_id"));
-        }else{
-            $modules=FileInfo::getExId(inputGetOrFail("ex_id"));
+        if (\Request::has("folder_id")) {
+            $modules = FileInfo::getFolderId(inputGet("folder_id"));
+        } else {
+            $modules = FileInfo::getExId(inputGetOrFail("ex_id"));
         }
         return $modules;
     }
 
 
     //获取分组信息
-    public function getGroup($id='')
+    public function getGroup($id = '')
     {
         GroupInfo::cacheForget();
         FolderInfo::cacheForget();
         GroupInfo::cacheForget(['folder']);//todo shd
-        $group_info = GroupInfo::getFolderInfo(inputGet('group_id',$id));
+        $group_info = GroupInfo::getFolderInfo(inputGet('group_id', $id));
         $folder_info = $group_info->folder->toArray();
         $group_info = $group_info->toArray();
         $group_info['folder'] = $folder_info;
@@ -87,19 +88,23 @@ class FileController extends Controller
         $now = date('Y-m-d H:i:s');
         if ($group_info->hidden == 1) {
             return [0];
-        } else if($group_info->end_time!==''){
-            if ($now > $group_info->end_time || $now < $group_info->start_time) {
-                $group_info->hidden = 3;
-                return $group_info;
+        } else {
+            if ($group_info->end_time !== '') {
+                if ($now > $group_info->end_time || $now < $group_info->start_time) {
+                    $group_info->hidden = 3;
+                    return $group_info;
+                }
             }
         }
         $folder_info = $group_info->folder->toArray();
         foreach ($folder_info as $key => &$folder) {
             if ($folder['hidden'] == 1) {
                 unset($folder_info[$key]);
-            } else if($folder['end_time']!==''){
-                if ($now > $folder['end_time'] || $now < $folder['start_time']) {
-                    $folder ['hidden']= 3;
+            } else {
+                if ($folder['end_time'] !== '') {
+                    if ($now > $folder['end_time'] || $now < $folder['start_time']) {
+                        $folder ['hidden'] = 3;
+                    }
                 }
             }
         }
@@ -109,54 +114,73 @@ class FileController extends Controller
     }
 
     //获取移动端会展分组信息
-    public function getMobileExGroup($id='')
+    public function getMobileExGroup($id = '')
     {
         GroupInfo::cacheForget();//todo shd
         GroupInfo::cacheForget(['folder']);//todo shd
         FolderInfo::cacheForget();
-        $group_info=GroupInfo::getExIdWithOutFolder(inputGet('ex_id',$id))->toArray();
+        $group_info = GroupInfo::getExIdWithOutFolder(inputGet('ex_id', $id))->toArray();
         $now = date('Y-m-d H:i:s');
-        foreach ($group_info as $key=>&$group){
-            if ($group['hidden'] == 1) {
-                unset($group_info[$key]);
-            } else if($group['end_time']!== NULL){
-                if ($now > $group['end_time']|| $now < $group['start_time']) {
-                    $group['hidden']=2;
+        foreach ($group_info as $key => &$group) {
+            if (!$group['forever']) {
+                if (($now > $group['end_time'] || $now < $group['start_time']) && !$group['hidden']) {
+                    $group['hidden'] = 2;
+                } else {
+                    if ($group['hidden'] == 1) {
+                        unset($group_info[$key]);
+                    }
                 }
-                $folder_infos=FolderInfo::getByGroupId($group['id']);
-                $folder_info=!$folder_infos?$folder_infos:$folder_infos->toArray();
-                if($folder_info) {
+                $folder_infos = FolderInfo::getByGroupId($group['id']);
+                $folder_info = !$folder_infos ? $folder_infos : $folder_infos->toArray();
+                if ($folder_info) {
                     foreach ($folder_info as $key2 => &$folder) {
-                        if ($folder['hidden'] == 1) {
-                            unset($folder_info[$key2]);
-                        } else {
-                            if ($folder['end_time'] !== NULL) {
-                                if ($now > $folder['end_time'] || $now < $folder['start_time']) {
-                                    $folder_info[$key2]['hidden'] =2;
+                        if(!$folder['forever']){
+                            if (($now > $folder['end_time'] || $now < $folder['start_time'])&& !$folder['hidden']) {
+                                $folder_info[$key2]['hidden'] = 2;
+                            }else{
+                                if ($folder['hidden'] == 1) {
+                                    unset($folder_info[$key2]);
                                 }
                             }
                         }
                     }
                 }
-                $group+=['folder'=>$folder_info];
+                $group += ['folder' => $folder_info];
+            } else {
+                $folder_infos = FolderInfo::getByGroupId($group['id']);
+                $folder_info = !$folder_infos ? $folder_infos : $folder_infos->toArray();
+                if ($folder_info) {
+                    foreach ($folder_info as $key2 => &$folder) {
+                        if(!$folder['forever']){
+                            if ($now > $folder['end_time'] || $now < $folder['start_time']) {
+                                $folder_info[$key2]['hidden'] = 2;
+                            }else{
+                                if ($folder['hidden'] == 1) {
+                                    unset($folder_info[$key2]);
+                                }
+                            }
+                        }
+                    }
+                }
+                $group += ['folder' => $folder_info];
             }
         }
         return $group_info;
     }
 
     //获取会展分组信息
-    public function getExGroup($id='')
+    public function getExGroup($id = '')
     {
         GroupInfo::cacheForget();//todo shd
         GroupInfo::cacheForget(['folder']);//todo shd
-        return $group_info=GroupInfo::getExId(inputGet('ex_id',$id))->toArray();
+        return $group_info = GroupInfo::getExId(inputGet('ex_id', $id))->toArray();
     }
 
     //获取文件夹或文件详情
-    public function getInfo($org_id=0,$hash=0)
+    public function getInfo($org_id = 0, $hash = 0)
     {
-        $files = new YunkuFile(inputGet('org_id',$org_id));
-        return $files->getInfo(inputGet('hash',$hash), 1);
+        $files = new YunkuFile(inputGet('org_id', $org_id));
+        return $files->getInfo(inputGet('hash', $hash), 1);
     }
 
     //获取专题详情
@@ -205,18 +229,18 @@ class FileController extends Controller
     //创建文件夹
     public function postCreateFolder()
     {
-        $folder_count=FolderInfo::getCountByGroup(inputGetOrFail('group_id'));
+        $folder_count = FolderInfo::getCountByGroup(inputGetOrFail('group_id'));
         // $base_controller=new BaseController();
         // $base_controller->judgePermission("class_count",$folder_count);//权限判断子分类个数
         $files = new YunkuFile(inputGetOrFail('org_id'));
         $files_info = $files->setFolder(inputGetOrFail('fullpath'));
-        $group_info=GroupInfo::_find(inputGetOrFail('group_id'));
+        $group_info = GroupInfo::_find(inputGetOrFail('group_id'));
         $folder_info = new FolderInfo();
         $folder_info->start_time = $group_info->start_time;
-        $folder_info->end_time= $group_info->end_time;
+        $folder_info->end_time = $group_info->end_time;
         $folder_info->org_id = inputGetOrFail('org_id');
         $folder_info->title = inputGet('title', '请填写专题名称');
-        $folder_info->order_by=$folder_count+1;
+        $folder_info->order_by = $folder_count + 1;
         $folder_info->folder_hash = $files_info['hash'];
         $folder_info->group_id = inputGetOrFail('group_id');
         $folder_info->property = json_encode(['position' => 'middle']);
@@ -259,12 +283,12 @@ class FileController extends Controller
         if (inputGetOrFail('type')) {
             array_push($img_url, inputGetOrFail("img_url"));
         } else {
-            foreach($img_url as $key=>&$value){
-                if(inputGetOrFail("img_url")==$value){
+            foreach ($img_url as $key => &$value) {
+                if (inputGetOrFail("img_url") == $value) {
                     unset($img_url[$key]);
                 }
             }
-            $img_url=array_values($img_url);
+            $img_url = array_values($img_url);
         }
         $folder_info->img_url = json_encode($img_url);
         $folder_info->save();
@@ -343,20 +367,20 @@ class FileController extends Controller
         $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/#/mobile/" . $exhibition['unique_code'];
         $exhibition['base_folder'] = ExhibitionController::BASE_FILE_NAME;
 
-        if($exhibition["group"]){
-            foreach ($exhibition["group"] as $key=>$value){
-                $exhibition["group"][$key]=$this->getGroup($value['id']);
+        if ($exhibition["group"]) {
+            foreach ($exhibition["group"] as $key => $value) {
+                $exhibition["group"][$key] = $this->getGroup($value['id']);
             }
         }
         if ($exhibition['res_collect_lock'] != 0) {
             $exhibition['res_collect'] = FileController::RES_COLLECTION_FOLDER_NAME;
         }
-        if(date("Y-m-d")>$exhibition['end_date']){
-            $exhibition+=["finished"=>1];
-        }elseif( date("Y-m-d")<$exhibition['start_date']){
-            $exhibition+=["finished"=>-1];
-        }else{
-            $exhibition+=["finished"=>0];
+        if (date("Y-m-d") > $exhibition['end_date']) {
+            $exhibition += ["finished" => 1];
+        } elseif (date("Y-m-d") < $exhibition['start_date']) {
+            $exhibition += ["finished" => -1];
+        } else {
+            $exhibition += ["finished" => 0];
         }
 
 
@@ -388,45 +412,45 @@ class FileController extends Controller
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
         return $yunkufile->setYunkuFile(inputGetOrFail("filename"), inputGetOrFail("size"), inputGetOrFail("hash"));
     }
-    
+
 
     //从资料收集夹或者已有文件中获取
     public function postSelfFile()
     {
         $yunkufile = new YunkuFile(inputGetOrFail("org_id"));
         $files = inputGetOrFail("files");
-        $type=inputGet("type",1);
+        $type = inputGet("type", 1);
         $return_files = array();
         foreach ($files as $key => $file) {
-            $module=[];
-            if(\Request::has('ex_id') && $type){
-                if(\Request::has('folder_id')){
-                    $folder=FolderInfo::find(inputGet("folder_id"));
-                    $result = $yunkufile->setYunkuFile($folder->title.'/'.$file["filename"], $file["size"], $file["hash"]);
-                    $module=ExhibitionController::postModule(inputGet("ex_id"),inputGet("folder_id"),$file["filename"],$result['hash'],$result['filesize']);
-                }else{
-                    $result = $yunkufile->setYunkuFile(ExhibitionController::BASE_FILE_NAME.'/'.$file["filename"], $file["size"], $file["hash"]);
-                    $module=ExhibitionController::postModule(inputGet("ex_id"),'',$file["filename"],$result['hash'],$result['filesize']);
+            $module = [];
+            if (\Request::has('ex_id') && $type) {
+                if (\Request::has('folder_id')) {
+                    $folder = FolderInfo::find(inputGet("folder_id"));
+                    $result = $yunkufile->setYunkuFile($folder->title . '/' . $file["filename"], $file["size"], $file["hash"]);
+                    $module = ExhibitionController::postModule(inputGet("ex_id"), inputGet("folder_id"), $file["filename"], $result['hash'], $result['filesize']);
+                } else {
+                    $result = $yunkufile->setYunkuFile(ExhibitionController::BASE_FILE_NAME . '/' . $file["filename"], $file["size"], $file["hash"]);
+                    $module = ExhibitionController::postModule(inputGet("ex_id"), '', $file["filename"], $result['hash'], $result['filesize']);
                 }
-            }else{
-                if(\Request::has('folder_id')){
-                    $new_folder=FolderInfo::find(inputGet("folder_id"));
-                    $files=FileInfo::getByHash($file["hash"]);
-                    if($files->folder_id!=0) {
+            } else {
+                if (\Request::has('folder_id')) {
+                    $new_folder = FolderInfo::find(inputGet("folder_id"));
+                    $files = FileInfo::getByHash($file["hash"]);
+                    if ($files->folder_id != 0) {
                         $older_folder = FolderInfo::find($files->folder_id);
-                        $result = $yunkufile->copy($older_folder->title.'/'.$file["filename"], $new_folder->title.'/'.$file["filename"]);
-                    }else{
-                        $result = $yunkufile->copy(ExhibitionController::BASE_FILE_NAME.'/'.$file["filename"], $new_folder->title.'/'.$file["filename"]);
+                        $result = $yunkufile->copy($older_folder->title . '/' . $file["filename"], $new_folder->title . '/' . $file["filename"]);
+                    } else {
+                        $result = $yunkufile->copy(ExhibitionController::BASE_FILE_NAME . '/' . $file["filename"], $new_folder->title . '/' . $file["filename"]);
                     }
-                    $module=ExhibitionController::postModule(inputGet("ex_id"),inputGet("folder_id"),$file["filename"],$result['hash'],$result['filesize']);
-                }else{
-                    $files=FileInfo::getByHash($file["hash"]);
-                    $older_folder=FolderInfo::find($files->folder_id);
-                    $result = $yunkufile->copy($older_folder->title.'/'.$file["filename"], ExhibitionController::BASE_FILE_NAME.'/'.$file["filename"]);
-                    $module=ExhibitionController::postModule(inputGet("ex_id"),'',$file["filename"],$result['hash'],$result['filesize']);
+                    $module = ExhibitionController::postModule(inputGet("ex_id"), inputGet("folder_id"), $file["filename"], $result['hash'], $result['filesize']);
+                } else {
+                    $files = FileInfo::getByHash($file["hash"]);
+                    $older_folder = FolderInfo::find($files->folder_id);
+                    $result = $yunkufile->copy($older_folder->title . '/' . $file["filename"], ExhibitionController::BASE_FILE_NAME . '/' . $file["filename"]);
+                    $module = ExhibitionController::postModule(inputGet("ex_id"), '', $file["filename"], $result['hash'], $result['filesize']);
                 }
             }
-            $return_files[$key]=$module;
+            $return_files[$key] = $module;
         }
         if (\Request::has('hash')) {
             $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
@@ -437,7 +461,7 @@ class FileController extends Controller
         }
         return $return_files;
     }
-    
+
 
     public function createModule($files)
     {
@@ -445,15 +469,15 @@ class FileController extends Controller
         $return_files = array();
         foreach ($files as $key => $file) {
             $result = $yunkufile->setYunkuFile($file["filename"], $file["size"], $file["hash"]);
-            $module=[];
-            if(\Request::has('ex_id')){
-                if(\Request::has('folder_id')){
-                    $module=ExhibitionController::postModule(inputGet("ex_id"),inputGet("folder_id"),$result['fullpath'],$result['hash'],$result['filesize']);
-                }else{
-                    $module=ExhibitionController::postModule(inputGet("ex_id"),'',$result['fullpath'],$result['hash'],$result['filesize']);
+            $module = [];
+            if (\Request::has('ex_id')) {
+                if (\Request::has('folder_id')) {
+                    $module = ExhibitionController::postModule(inputGet("ex_id"), inputGet("folder_id"), $result['fullpath'], $result['hash'], $result['filesize']);
+                } else {
+                    $module = ExhibitionController::postModule(inputGet("ex_id"), '', $result['fullpath'], $result['hash'], $result['filesize']);
                 }
             }
-            $return_files[$key]=$module;
+            $return_files[$key] = $module;
         }
         if (\Request::has('hash')) {
             $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
@@ -476,8 +500,8 @@ class FileController extends Controller
     //获取所有文件列表
     public function getAllFiles()
     {
-        $file_list=FileInfo::getElseFiles(inputGetOrFail('ex_id'),inputGet('folder_id',0));
-        return $file_list?$file_list->toArray():[];
+        $file_list = FileInfo::getElseFiles(inputGetOrFail('ex_id'), inputGet('folder_id', 0));
+        return $file_list ? $file_list->toArray() : [];
     }
 
 
