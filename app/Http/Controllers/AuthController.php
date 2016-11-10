@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use App\Logic\LAccount;
 use App\Models\EntConfig;
 use App\Models\Member;
+use Illuminate\Support\Facades\Log;
 use Session;
 use Auth;
 use URL;
@@ -93,11 +94,12 @@ class AuthController extends Controller
 
     public static function addAssistant($user,$ent_id)
     {
+        Log::info('创建共同管理员'.$user->id);
         $member = Member::getUnionid($user->id);//如果进行企业判断,那么在扫微信登录后就要进行管理企业的选择
         if($member){
             throw new \Exception('用户已经存在',403005);
         }else{
-            LAccount::setUser($user->name, $user->id, $user->avatar,$ent_id)->toArray();
+            LAccount::setUser($user->name, $user->id, $user->avatar,$ent_id);
         }
     }
 

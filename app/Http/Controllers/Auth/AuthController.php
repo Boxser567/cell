@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\AssistantController;
 use App\Models\Member;
 use App\User;
+use Illuminate\Support\Facades\Log;
 use Overtrue\Socialite\Config;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -85,6 +86,7 @@ class AuthController extends Controller
         $auth=new \App\Http\Controllers\AuthController();
         Member::cacheForget();
         if(\Request::has('target')){
+            Log::info('微信回跳添加共同管理员');
             $auth->addAssistant($user,inputGetOrFail('ent_id'));
             header("Location:/admin/#/exhibition?");
         }
