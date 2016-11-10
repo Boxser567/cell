@@ -97,7 +97,7 @@ class ExhibitionController extends BaseController
     public function getSize()
     {
         $exhibition = ExhibitionInfo::getUniqueCode(inputGetOrFail('unique_code'))->toArray();
-        if(!inputGet('kind',0)) {
+        if (!inputGet('kind', 0)) {
             $yunku_org = new YunkuOrg();
             $org_info = $yunku_org->getOrgInfo($exhibition['org_id']);
             $dirs = $org_info['info']['dir_count'];
@@ -107,16 +107,39 @@ class ExhibitionController extends BaseController
         }
         $space = FileInfo::getSize($exhibition['id']);
         $class = FolderInfo::getCountByOrgId($exhibition['org_id']);
-        $group=GroupInfo::getCountByExId($exhibition['id']);
+        $group = GroupInfo::getCountByExId($exhibition['id']);
         return ['group' => $group, 'class' => $class, 'space' => $space];
     }
+
+    //更新模块
+    public function postReplaceModule()
+    {
+        $file=FileInfo::_find(inputGetOrFail('file_id'));
+        $file->hash=inputGetOrFail('hash');
+        $file->size=inputGetOrFail('size');
+        $property = json_decode($file->property, true);
+        $files = new YunkuFile(inputGetOrFail('org_id'));
+        if(inputGet('folder_id',0)){
+            $folder=FolderInfo::_find(inputGet('folder_id'));
+            $fullpath=$folder->title.'/'.$property["title"];
+        }else{
+            $fullpath=self::BASE_FILE_NAME.'/'.$property["title"];
+        }
+        $files->deleteFile($fullpath);
+        $property["title"] = inputGetOrFail('title');
+        $file->property= json_encode($property);
+        $file->save();
+        FileInfo::cacheForget();
+        return;
+    }
+
 
     //创建新分组
     public function postGroup()
     {
         $group_count = GroupInfo::getCountByExId(inputGetOrFail('ex_id'));
         // $this->judgePermission('group_count',$group_count);//权限判断分组个数
-        return LAccount::setGroup(inputGetOrFail('ex_id'),$group_count+1);
+        return LAccount::setGroup(inputGetOrFail('ex_id'), $group_count + 1);
     }
 
     //新建更新模块
@@ -131,7 +154,7 @@ class ExhibitionController extends BaseController
             // $this->judgePermission('file_count',$order_by-1);//每个专题下文件个数
         }
 
-        if($folder_id){
+        if ($folder_id) {
             FolderInfo::addCount($folder_id);
             FolderInfo::cacheForget();
         }
@@ -188,10 +211,11 @@ class ExhibitionController extends BaseController
         $id = inputGetOrFail("file_id");
         $module = FileInfo::_findOrFail($id);
         $property = json_decode($module->property, true);
-        if (\Request::has("hash")) {
-            $fullpath = inputGetOrFail("folder_title") . "/" . $property['title'];
-            $file_controller = new FileController();
-            $file_controller->postUpdateFolder(inputGetOrFail('hash'), "delete", $property['size']);
+        if (\Request::has("folder_id")) {
+            $folder_info = FolderInfo::_find(inputGetOrFail("folder_id"));
+            $fullpath = $folder_info->title. "/" . $property['title'];
+            FolderInfo::delCount(inputGetOrFail("folder_id"));
+            FolderInfo::cacheForget();
         } else {
             $fullpath = self::BASE_FILE_NAME . "/" . $property['title'];
         }
@@ -237,10 +261,10 @@ class ExhibitionController extends BaseController
             $folder_info = FolderInfo::getByGroupId(inputGetOrFail('group_id'))->toArray();
             foreach ($folder_info as $folder) {
                 $base_folder = FolderInfo::_findOrFail($folder['id']);
-                if (inputGet('start_time') && !$base_folder->start_time ) {
+                if (inputGet('start_time') && !$base_folder->start_time) {
                     $base_folder->start_time = inputGet('start_time');
                 }
-                if (inputGet('end_time') && !$base_folder->end_time ) {
+                if (inputGet('end_time') && !$base_folder->end_time) {
                     $base_folder->end_time = inputGet('end_time');
                 }
                 if (inputGet('start_time') && $base_folder->start_time && $base_folder->start_time > inputGet('start_time')) {
@@ -337,8 +361,8 @@ class ExhibitionController extends BaseController
         ExhibitionInfo::cacheForget();
         if ($exhibition->res_collect_lock != 0) {
             return ["fullpath" => FileController::RES_COLLECTION_FOLDER_NAME];
-        }else {
-            return ;
+        } else {
+            return;
         }
     }
 

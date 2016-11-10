@@ -17,7 +17,7 @@ class AssistantController extends BaseController
     public  function getAdd()
     {
         $ent_id=inputGetOrFail('ent_id');
-        \Config::set('wechat.oauth.callback','http://cell.meetingfile.com/auth/callback?target=add&ent_id='.$ent_id);
+        \Config::set('wechat.oauth.callback',env('WEIXIN_REDIRECT_URI').'?target=add&ent_id='.$ent_id);
         $wechat=app('wechat');
         $wechat->oauth->scopes(['snsapi_login'])
             ->redirect()->send();

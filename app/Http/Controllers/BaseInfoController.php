@@ -72,7 +72,7 @@ class BaseInfoController extends Controller
     public  function getRegister()
     {
         $user_id=inputGet('user_id');
-        header("Location:http://cell.meetingfile.com/admin?info=1/#/register?".$user_id);
+        header("Location:/admin?info=1/#/register?".$user_id);
     }
     
     public function getBannerList()
@@ -96,35 +96,6 @@ class BaseInfoController extends Controller
         }
         return $list;
     }
-
-    //获取分组信息
-    public function getGroup()
-    {
-        GroupInfo::cacheForget();
-        FolderInfo::cacheForget();
-        $group_info = GroupInfo::getFolderInfo(inputGetOrFail('group_id'));
-        $now = date('Y-m-d H:i:s');
-        if ($group_info->hidden == 1) {
-            return [0];
-        } else {
-            if ($now > $group_info->end_time || $now < $group_info->start_time) {
-                return [1];
-            }
-        }
-        $folder_info = $group_info->folder->toArray();
-        foreach ($folder_info as $key => &$folder) {
-            if ($folder['hidden'] == 1) {
-                $folder_info[$key] = [0];
-            } else {
-                if ($now > $folder['end_time'] || $now < $folder['start_time']) {
-                    $folder_info[$key] = [1];
-                }
-            }
-        }
-        $group_info = $group_info->toArray();
-        $group_info['folder'] = $folder_info;
-        return $group_info;
-    }
-
+    
     
 }

@@ -23,7 +23,8 @@ class BaseController extends Controller
     public function __construct($member = [])
     {
 //      if (array_key_exists("member", $_COOKIE)) {
-//           $members = json_decode($_COOKIE['member'], true);
+//          setcookie('member', $_COOKIE['member'], time() + 60 * 360, '/');
+//          $members = json_decode($_COOKIE['member'], true);
 //        } else {
 //            $members = [];
 //        }
