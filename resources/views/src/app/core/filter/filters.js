@@ -54,6 +54,13 @@ export default function (app) {
                 return str.substr(0, 10);
             }
         })
+        .filter('parseName', function () {
+            return function (name) {
+                if (name)
+                    return Util.String.parseName(name);
+                else return '';
+            }
+        })
 
 
 }

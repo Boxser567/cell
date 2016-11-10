@@ -186,20 +186,7 @@
                 .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
-        },
-
-
-        // warning: function (elem, text) {
-        //     let t = '更新成功';
-        //     if (text) {
-        //         t = text
-        //     }
-        //     let ani = $(elem).find("span");
-        //     ani.text(t);
-        //     ani.css("top", "-50px").animate({
-        //         "top": "50px"
-        //     })
-        // }
+        }
 
     };
 

@@ -18,8 +18,7 @@
                 <span>编辑模式</span>
             </div>
         </div>
-        <div class="operate-warn"><span>更新成功</span></div>
-
+        <div class="operate-warn" id="operate-warn"><span></span></div>
         <div class="right">
             <span class="switch">资料收集
                 <span ng-if="currentExbt.res_collect_lock==-1">:&nbsp;已关闭</span>
@@ -77,6 +76,9 @@
                         <!--<a class="btn" datawhere="logo" upload-logo>上传logo</a>-->
                         <div class="btn" datawhere="logo" upload-logo>
                             上传logo
+
+                        </div>
+                        <div class="loading" ng-if="imgloading">
                             <span us-spinner="{lines:9, color:'white',radius:5, width:3, length: 6}"
                                   spinner-on="imgloading"></span>
                         </div>
@@ -165,38 +167,38 @@
                             <ul class="ui_file_Modelstyle">
                                 <li ng-repeat="file in FilesList">
                                     <a class="clearfix sl" ng-if="file.property.style==1"
-                                       ng-click="selectFileFn($event,$index,file)">
+                                       ng-click="selectFileFn($event,$index,file,'files')">
                                         <img src="{{file.property.back_pic}}-c320" alt="">
-                                        <div>{{file.property.title}}</div>
+                                        <div>{{file.property.title | parseName}}</div>
                                     </a>
                                     <a class="clearfix sr" ng-if="file.property.style==2"
-                                       ng-click="selectFileFn($event,$index,file)">
-                                        <div>{{file.property.title}}</div>
+                                       ng-click="selectFileFn($event,$index,file,'files')">
+                                        <div>{{file.property.title | parseName}}</div>
                                         <img src="{{file.property.back_pic}}-c320" alt="">
                                     </a>
                                     <a class="clearfix bl" ng-if="file.property.style==3"
-                                       ng-click="selectFileFn($event,$index,file)">
+                                       ng-click="selectFileFn($event,$index,file,'files')">
                                         <img src="{{file.property.back_pic}}-c320" alt=""
                                              ng-click="selectFileFn($event,$index,file)">
                                         <div>
-                                            <h5>{{file.property.title}}</h5>
+                                            <h5>{{file.property.title | parseName}}</h5>
                                             <p>{{file.property.sub_title}}</p>
                                         </div>
                                     </a>
                                     <a class="clearfix br" ng-if="file.property.style==4"
-                                       ng-click="selectFileFn($event,$index,file)">
+                                       ng-click="selectFileFn($event,$index,file,'files')">
                                         <img src="{{file.property.back_pic}}-c320"
                                              alt="">
                                         <div>
-                                            <h5>{{file.property.title}}</h5>
+                                            <h5>{{file.property.title | parseName}}</h5>
                                             <p>{{file.property.sub_title}}</p>
                                         </div>
                                     </a>
                                     <a class="clearfix cv" ng-if="file.property.style==5"
-                                       ng-click="selectFileFn($event,$index,file)">
+                                       ng-click="selectFileFn($event,$index,file,'files')">
                                         <img src="{{file.property.back_pic}}-c592" alt="">
                                         <div>
-                                            <h5>{{file.property.title}}</h5>
+                                            <h5>{{file.property.title | parseName}}</h5>
                                             <p>{{file.property.sub_title}}</p>
                                         </div>
                                     </a>
@@ -347,38 +349,38 @@
                             <ul class="ui_file_Modelstyle">
                                 <li ng-repeat="file in topDetails.lists">
                                     <a class="clearfix sl" ng-if="file.property.style==1"
-                                       ng-click="selectFileFn($event,$index,file)">
+                                       ng-click="selectFileFn($event,$index,file,'topic')">
                                         <img src="{{file.property.back_pic}}-c320" alt="">
-                                        <div>{{file.property.title}}</div>
+                                        <div>{{file.property.title | parseName}}</div>
                                     </a>
                                     <a class="clearfix sr" ng-if="file.property.style==2"
-                                       ng-click="selectFileFn($event,$index,file)">
-                                        <div>{{file.property.title}}</div>
+                                       ng-click="selectFileFn($event,$index,file,'topic')">
+                                        <div>{{file.property.title | parseName}}</div>
                                         <img src="{{file.property.back_pic}}-c320" alt="">
                                     </a>
                                     <a class="clearfix bl" ng-if="file.property.style==3"
-                                       ng-click="selectFileFn($event,$index,file)">
+                                       ng-click="selectFileFn($event,$index,file,'topic')">
                                         <img src="{{file.property.back_pic}}-c320" alt=""
                                              ng-click="selectFileFn($event,$index,file)">
                                         <div>
-                                            <h5>{{file.property.title}}</h5>
+                                            <h5>{{file.property.title | parseName}}</h5>
                                             <p>{{file.property.sub_title}}</p>
                                         </div>
                                     </a>
                                     <a class="clearfix br" ng-if="file.property.style==4"
-                                       ng-click="selectFileFn($event,$index,file)">
+                                       ng-click="selectFileFn($event,$index,file,'topic')">
                                         <img src="{{file.property.back_pic}}-c320"
                                              alt="">
                                         <div>
-                                            <h5>{{file.property.title}}</h5>
+                                            <h5>{{file.property.title | parseName}}</h5>
                                             <p>{{file.property.sub_title}}</p>
                                         </div>
                                     </a>
                                     <a class="clearfix cv" ng-if="file.property.style==5"
-                                       ng-click="selectFileFn($event,$index,file)">
+                                       ng-click="selectFileFn($event,$index,file,'topic')">
                                         <img src="{{file.property.back_pic}}-c592" alt="">
                                         <div>
-                                            <h5>{{file.property.title}}</h5>
+                                            <h5>{{file.property.title | parseName}}</h5>
                                             <p>{{file.property.sub_title}}</p>
                                         </div>
                                     </a>
@@ -480,13 +482,13 @@
                                    datastyle="1" select-filestyle>
                                     <img src="{{fileglobal.property.back_pic}}-c320"
                                          alt="">
-                                    <div>{{fileglobal.property.title}}</div>
+                                    <div>{{fileglobal.property.title | parseName}}</div>
                                     <i class="check"></i>
                                 </a>
                                 <a class="clearfix sr"
                                    ng-class="{'active':fileglobal.property.style==2}"
                                    datastyle="2" select-filestyle>
-                                    <div>{{fileglobal.property.title}}</div>
+                                    <div>{{fileglobal.property.title | parseName}}</div>
                                     <img src="{{fileglobal.property.back_pic}}-c320"
                                          alt="">
                                     <i class="check"></i>
@@ -496,7 +498,7 @@
                                    datastyle="3" select-filestyle>
                                     <img src="{{fileglobal.property.back_pic}}-c320" alt="">
                                     <div>
-                                        <h5>{{fileglobal.property.title}}</h5>
+                                        <h5>{{fileglobal.property.title | parseName}}</h5>
                                         <p>{{fileglobal.property.sub_title}}</p>
                                     </div>
                                     <i class="check" ng-if="fileglobal.property.style==3"></i>
@@ -507,7 +509,7 @@
                                     <img src="{{fileglobal.property.back_pic}}-c320"
                                          alt="">
                                     <div>
-                                        <h5>{{fileglobal.property.title}}</h5>
+                                        <h5>{{fileglobal.property.title | parseName}}</h5>
                                         <p>{{fileglobal.property.sub_title}}</p>
                                     </div>
                                     <i class="check"></i>
@@ -517,7 +519,7 @@
                                    datastyle="5" select-filestyle>
                                     <img src="{{fileglobal.property.back_pic}}-c592" alt="">
                                     <div>
-                                        <h5>{{fileglobal.property.title}}</h5>
+                                        <h5>{{fileglobal.property.title | parseName}}</h5>
                                         <p>{{fileglobal.property.sub_title}}</p>
                                     </div>
                                     <i class="check"></i>
@@ -544,7 +546,8 @@
                             <i class="tl-time"></i>分组有效时间
                         </div>
                         <select class="form-control group-time" ng-model="groupglobal.forever"
-                                ng-options=" option.value  as option.name  for option in selectArray " ng-change="changeGroTimeFn()">
+                                ng-options=" option.value  as option.name  for option in selectArray "
+                                ng-change="changeGroTimeFn()">
                         </select>
                         <div class="settime" ng-if="groupglobal.forever==0">
                             <div class="dropdown form-group">
@@ -590,7 +593,7 @@
                     </div>
                     <div class="ishide">
                         <div class="h">
-                            <i class="tl-hide"></i>有效期内显示分组内容
+                            <i class="tl-hide"></i>仅在有效期内显示分组内容
                         </div>
                         <div class="clearfix">
                             <p class="pull-left">
@@ -662,7 +665,8 @@
                         </div>
                         <div class="text">
                             <div>如设置不隐藏,用户将只能看到该专题的文件标题,但无法查看内容。</div>
-                            <label> <input class="mui-switch mui-switch-anim" ng-model="topDetails.hidden" type="checkbox"
+                            <label> <input class="mui-switch mui-switch-anim" ng-model="topDetails.hidden"
+                                           type="checkbox"
                                            ng-click="topicIsHideFn()"></label>
                         </div>
                     </div>
@@ -671,7 +675,8 @@
                             <i class="tl-time"></i>专题有效时间
                         </div>
                         <select class="form-control group-time" ng-model="topDetails.forever"
-                                ng-options=" option.value  as option.name  for option in selectArray " ng-change="changeTopicTimeFn()">
+                                ng-options=" option.value  as option.name  for option in selectArray "
+                                ng-change="changeTopicTimeFn()">
                         </select>
                         <div class="settime clearfix" ng-if="topDetails.forever==0">
                             <div class="dropdown form-group">
@@ -873,7 +878,7 @@
                 <p class="tl">自定义图片 :</p>
                 <div class="load">
                     <img src="{{currentExbt.banner}}-c592" alt="">
-                    <span datawhere="banner" upload-logo> + 自定义上传</span>
+                    <div class="upload-banner" datawhere="banner" upload-logo> + 自定义上传</div>
                     <s us-spinner="{lines:11,radius:9, width:5, length: 9}" ng-if="imgloading"
                        spinner-on="imgloading"></s>
                 </div>
@@ -889,9 +894,9 @@
                     </ul>
                 </div>
             </div>
-            <div class="modal-footer">
-                <div class="btn">确定</div>
-            </div>
+            <!--<div class="modal-footer">-->
+            <!--<div class="btn">确定</div>-->
+            <!--</div>-->
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>

@@ -19,7 +19,21 @@ export default function (app) {
             'SORT_COMMON': ['exe', 'rar', 'zip', 'cmd']
             //'SORT_EXE': ['exe', 'bat', 'com']
         })
-        // .factory('$modal', [$modal, function () {
+        .factory('$warning', [function () {
+            var msg = "更新成功";
+            return function (text) {
+                if (text) {
+                    msg = text
+                }
+                let ani = $("#operate-warn").find("span");
+                ani.text(msg);
+                ani.css("top", "50px").animate({
+                    "top": "-50px"
+                }, 1200);
+            };
+        }]);
+
+    // .factory('$modal', [$modal, function () {
     //     return {
     //         templateUrl:'../ngDialog/ex_collection.html',
     //         windowClass:'',

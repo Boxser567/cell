@@ -44,7 +44,7 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem) {
                 $(window).on('beforeunload', function () {
-                    return "刷新后上传的文件将不显示!";
+                    return "刷新后本次上传的文件将不显示!";
                 });
             },
         };
@@ -241,17 +241,15 @@ export default function (app) {
                     var index = $(this).index();
                     elem.find('i').css("display", "block").parent().siblings().find('i').css("display", "none");
                     var img = elem.find("img").prop("src").replace("-340", "");
-                    $timeout(function () {
-                        scope.currentExbt.banner = img;
-                    })
-                    $("#changeBannerModal .btn").off("click");
-                    $("#changeBannerModal .btn").on("click", function () {
-                        Exhibition.editExTitle({exhibition_id: scope.currentExbt.id, banner: img}).then(function (res) {
-                            // res = res.data;
-                            // console.log("更换后返回的信息", res);
-                            $("#changeBannerModal").modal("hide");
+                    // $("#changeBannerModal .btn").off("click");
+                    // $("#changeBannerModal .btn").on("click", function () {
+                    Exhibition.editExTitle({exhibition_id: scope.currentExbt.id, banner: img}).then(function (res) {
+                        $timeout(function () {
+                            scope.currentExbt.banner = img;
                         })
+                        $("#changeBannerModal").modal("hide");
                     })
+                    // })
                 });
             },
         };
@@ -487,7 +485,7 @@ export default function (app) {
                         fileSingleSizeLimit: 1 * 1024 * 1024
                     });
                     uploader.on('fileQueued', function (file) {
-                        //scope.imgloading = true;
+                        scope.imgloading = true;
                         uploader.options.formData.key = file_name + '.' + Util.String.getExt(file.name);
                     });
                     uploader.on('uploadSuccess', function () {
@@ -628,8 +626,12 @@ export default function (app) {
                                             file.hash = returnFile.hash;
                                         })
                                     }
+
                                     scope.ExDataflow.space += file.size;
-                                    // ++scope.ExDataflow['class'];
+                                    ++scope.topDetails.file_count;
+                                    scope.topDetails.file_size += file.size;
+
+                                    //scope.updateLocalTpoicSize({stateBase: 'add', size: file.size});
                                     scope.localTopicFilesJSON.splice(i, 1);  //删除上传缓存
                                 });
                                 break;
@@ -681,7 +683,7 @@ export default function (app) {
 
 
     //修改会展名称
-    app.directive('editExtitle', function (Exhibition, $timeout, $rootScope) {
+    app.directive('editExtitle', function (Exhibition, $timeout, $warning, $rootScope) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
@@ -691,11 +693,11 @@ export default function (app) {
                 })
                 elem.on('blur', function () {
                     if (types == "title") {
-                        Util.String.warning(".operate-warn");
                         Exhibition.editExTitle({
                             exhibition_id: scope.currentExbt.id,
                             title: scope.currentExbt.title
                         }).then(function (res) {
+                            $warning("站点名称修改成功!");
                             $rootScope.projectTitle = scope.currentExbt.title + " - 会文件";
                         })
                     }
@@ -704,12 +706,15 @@ export default function (app) {
                             exhibition_id: scope.currentExbt.id,
                             sub_title: scope.currentExbt.property.sub_title
                         }).then(function (res) {
+                            $warning();
                         })
                     }
                     if (types == "groupname") {
                         Exhibition.editGroupInfo({
                             group_id: scope.groupglobal.id,
                             name: scope.groupglobal.name
+                        }).then(function () {
+                            $warning("分组名称修改成功!");
                         })
                     }
                 })
@@ -718,7 +723,7 @@ export default function (app) {
     });
 
     //修改各种文件的名称
-    app.directive('editName', function (Exhibition, $timeout, $rootScope) {
+    app.directive('editName', function (Exhibition, $timeout, $warning, $rootScope) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
@@ -839,7 +844,7 @@ export default function (app) {
 
 
     //修改常用文件信息----文件名称
-    app.directive("editFilename", function ($timeout, Exhibition) {
+    app.directive("editFilename", function ($timeout, Exhibition, $warning) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
@@ -862,6 +867,8 @@ export default function (app) {
                             Exhibition.editFileinfo({
                                 file_id: scope.fileglobal.id,
                                 title: scope.fileglobal.property.title
+                            }).then(function () {
+                                $warning()
                             });
                         }
                         $timeout(function () {
@@ -873,7 +880,7 @@ export default function (app) {
         };
     });
     //修改常用文件信息----内容摘要
-    app.directive("editFilesubname", function ($timeout, Exhibition) {
+    app.directive("editFilesubname", function ($timeout, Exhibition, $warning) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
@@ -885,6 +892,8 @@ export default function (app) {
                     Exhibition.editFileinfo({
                         file_id: scope.fileglobal.id,
                         sub_title: scope.fileglobal.property.sub_title
+                    }).then(function () {
+                        $warning();
                     })
                 })
             },
@@ -964,7 +973,7 @@ export default function (app) {
 
 
     //修改专题 -- 名称
-    app.directive('editTopicname', function (Exhibition, $timeout) {
+    app.directive('editTopicname', function (Exhibition, $timeout, $warning) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
@@ -975,6 +984,8 @@ export default function (app) {
                             fullpath: scope.topDetails.oldtitle,
                             hash: scope.topDetails.folder_hash,
                             newpath: scope.topDetails.title
+                        }).then(function () {
+                            $warning("标题名称修改成功!");
                         })
                     }
                 })
@@ -1057,7 +1068,7 @@ export default function (app) {
                                                     r.property = JSON.parse(r.property);
                                                     scope.FilesList.push(r);
                                                 })
-
+                                                $("#uploadFileModal").modal('hide');
                                             })
                                         }
                                         if (scope.uploadstate == "topic") {
@@ -1068,10 +1079,12 @@ export default function (app) {
                                                     r.property = JSON.parse(r.property);
                                                     scope.topDetails.lists.push(r);
                                                 })
+                                                ++scope.topDetails.file_count;
+                                                scope.topDetails.file_size += newfiles.filesize;
+                                                $("#uploadFileModal").modal('hide');
                                             });
                                         }
                                         scope.ExDataflow.space += newfiles.filesize;
-                                        $("#uploadFileModal").modal('hide');
                                     }
                                 });
                             }
@@ -1148,7 +1161,9 @@ export default function (app) {
                                 index = scope.fileCollect.indexOf(r);
                             }
                         });
-                        $(".C_fileList ul li:nth-child(" + (index + 1) + ")").find(".diff i").on('click', function () {
+                        let element = $(".C_fileList ul li:nth-child(" + (index + 1) + ")").find(".diff i");
+                        element.off('click');
+                        element.on('click', function () {
                             uploader.cancelFile(fileObj.id);
                             scope.$apply(function () {
                                 scope.fileCollect.splice(index, 1);

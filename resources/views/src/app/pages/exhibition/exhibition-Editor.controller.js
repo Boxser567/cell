@@ -6,7 +6,7 @@ import datetimepicker from  "angular-bootstrap-datetimepicker/src/js/datetimepic
 // import datetimepicker from "eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min";
 
 
-function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $timeout, currentExhibition, Exhibition) {
+function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $timeout, currentExhibition, Exhibition, $warning) {
     'ngInject';
     console.log("返回详情数据", currentExhibition);
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
@@ -18,6 +18,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     $scope.imgloading = false;
     $scope.fileloading = true;//常用文件的加载
     $scope.localFilesJSON = [];   //用于缓存正在上传文件信息
+    $scope.uploadstate = "files";
     $scope.selectArray = [{
         name: '永久有效',
         value: 1
@@ -227,6 +228,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 forever: 1
             }).then(function (res) {
                 $scope.GroupList[$scope.groupglobal.gidx].forever = 1;
+                $warning();
             })
         }
     }
@@ -283,11 +285,12 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
             ex_id: $scope.currentExbt.id,
             files: []
         };
+        var totalSize = 0;
         if (collected === 'exist') {
             params.type = 0;
-
             _.each(list, function (r) {
                 if (r.selects) {
+                    totalSize += r.size;
                     params.files.push({
                         filename: r.property.title,
                         hash: r.hash,
@@ -296,9 +299,11 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 }
             });
         }
+
         if (collected === 'collect') {
             _.each(list, function (r) {
                 if (r.selects) {
+                    totalSize += r.filesize;
                     params.files.push({
                         filename: r.filename,
                         hash: r.filehash,
@@ -310,11 +315,11 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         if ($scope.uploadstate == "files") {
             Exhibition.copyFilFromHad(params).then(function (res) {
                 $scope.btnloading = false;
+                $scope.ExDataflow.space += Number(totalSize);
                 _.each(res, function (r) {
                     r.property = JSON.parse(r.property);
                     $scope.FilesList.push(r);
                 })
-
             })
         }
         if ($scope.uploadstate == "topic") {
@@ -325,7 +330,9 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                     r.property = JSON.parse(r.property);
                     $scope.topDetails.lists.push(r);
                 })
-
+                $scope.ExDataflow.space += Number(totalSize);
+                ++$scope.topDetails.file_count;
+                $scope.topicDetails.file_size += Number(totalSize);
             })
         }
         $("#fileFromCollect").modal('hide');
@@ -336,11 +343,12 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
 
     $scope.delFileFn = function () {        //删除常用文件
         if (confirm("确定要删除该文件吗?")) {
+            var params = {
+                org_id: $scope.currentExbt.org_id,
+                file_id: $scope.fileglobal.id
+            }
             if ($scope.uploadstate == "files") {
-                Exhibition.delFileinfo({
-                    org_id: $scope.currentExbt.org_id,
-                    file_id: $scope.fileglobal.id
-                }).then(function (res) {
+                Exhibition.delFileinfo(params).then(function (res) {
                     $(".slide-note").find(".defaults").show().siblings().hide();
                     $timeout(function () {
                         $scope.ExDataflow.space -= $scope.fileglobal.size;
@@ -349,15 +357,15 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 })
             }
             if ($scope.uploadstate == "topic") {
-                Exhibition.delFileinfo({
-                    org_id: $scope.currentExbt.org_id,
-                    file_id: $scope.fileglobal.id,
-                    hash: $scope.topDetails.folder_hash,
-                    folder_title: $scope.topDetails.title
-                }).then(function (res) {
+                params.hash = $scope.topDetails.folder_hash;
+                params.folder_title = $scope.topDetails.title;
+                console.log($scope.topDetails.lists, "专题文件删除", params);
+                Exhibition.delFileinfo(params).then(function (res) {
                     $(".slide-note").find(".topic_con").show().siblings().hide();
                     $timeout(function () {
                         $scope.ExDataflow.space -= $scope.fileglobal.size;
+                        --$scope.topDetails.file_count;
+                        $scope.topDetails.file_size -= $scope.fileglobal.size;
                         $scope.topDetails.lists.splice($scope.fileglobal.Indexer, 1);
                     })
                 })
@@ -390,14 +398,14 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     }
 
     //选中常用文件
-    $scope.selectFileFn = function (e, index, file) {
+    $scope.selectFileFn = function (e, index, file, type) {
         $(e.currentTarget).addClass("active").parent().siblings().find("a").removeClass("active");
         $(".slide-note").find(".filemask").show().siblings().hide();
         file.Indexer = index;
         $timeout(function () {
             $scope.fileglobal = file;
         })
-        $scope.uploadstate = "files";
+        $scope.uploadstate = type;
         console.log(file);
     }
     $scope.resetfilebgFn = function () {
@@ -443,6 +451,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                     console.log("时间", res);
                     $scope.currentExbt.start_date = start;
                     $scope.currentExbt.end_date = end;
+                    $warning("站点时间修改成功!");
                 })
             }
         }
@@ -617,8 +626,6 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 }
             }
         })
-
-
     }
 
     //修改专题隐藏
@@ -634,6 +641,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         if ($scope.topDetails.forever == 1) {
             Exhibition.editTopicDetail({hash: $scope.topDetails.folder_hash, forever: 1}).then(function (res) {
                 $scope.topDetails.hidden = 1;
+                $warning("专题时间修改成功!");
             })
         }
     }
@@ -647,6 +655,27 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         }).then(function (res) {
             $scope.topDetails.img_url.shift();
         })
+    }
+
+    //专题内部文件数据更新
+    $scope.updateLocalTpoicSize = function (rb_cFile) {
+        let group = $scope.GroupList[$scope.topDetails.groupIdx].folder;
+        for (let g = 0; g < group.length; g++) {
+            if ($scope.GroupList[$scope.topDetails.groupIdx].folder[g].id == $scope.topDetails.id) {
+                if (rb_cFile.stateBase === "add") {
+                    ++$scope.topDetails.file_count;
+                    $scope.topDetails.file_size += rb_cFile.size;
+                    //++$scope.GroupList[$scope.topDetails.groupIdx].folder[g].file_count;
+                    //$scope.GroupList[$scope.topDetails.groupIdx].folder[g].file_size += rb_cFile.size;
+                }
+                if (rb_cFile.stateBase === "del") {
+                    --$scope.topDetails.file_count;
+                    $scope.topDetails.file_size -= rb_cFile.size;
+                    //--$scope.GroupList[$scope.topDetails.groupIdx].folder[g].file_count;
+                    //$scope.GroupList[$scope.topDetails.groupIdx].folder[g].file_size -= rb_cFile.size;
+                }
+            }
+        }
     }
 
 

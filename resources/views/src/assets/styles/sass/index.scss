@@ -1899,6 +1899,7 @@ body {
             border-radius: 50%;
           }
           & > div {
+            position: relative;
             float: right;
             width: 180px;
             margin-left: 30px;
@@ -1912,6 +1913,16 @@ body {
             height: 35px;
             position: relative;
           }
+          .loading {
+            background: rgba(0, 0, 0, .6);
+            width: 180px;
+            height: 35px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 4px;
+          }
+
           p {
             padding-top: 10px;
             font-size: 12px;
@@ -2208,6 +2219,7 @@ body {
               padding-top: 12px;
               cursor: pointer;
               position: relative;
+              height: 45px;
               .tl-add {
                 display: inline-block;
                 width: 20px;
@@ -2222,6 +2234,7 @@ body {
                 bottom: 0;
                 background: rgba(0, 0, 0, .6);
                 z-index: 999;
+                border-radius: 4px;
               }
             }
 
@@ -2886,25 +2899,18 @@ body {
     img {
       width: 100%;
     }
-    span {
-      display: none;
+    .upload-banner {
       position: absolute;
       top: 20px;
       left: 30px;
       color: #fff;
       cursor: pointer;
-      .webuploader-pick {
-        background: rgba(8, 156, 228, .8);
-        border-radius: 25px;
-      }
-      & > div:nth-child(2) {
-        width: 100% !important;
-        height: 100% !important;
-      }
-    }
-    &:hover {
-      span {
-        display: block;
+      width: 100px;
+      height: 30px;
+      line-height: 30px;
+      .webuploader-pick{
+        width: 100%;
+        background: rgba(8, 156, 228, 0.8)
       }
     }
   }
