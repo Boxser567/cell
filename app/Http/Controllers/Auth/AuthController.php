@@ -86,15 +86,15 @@ class AuthController extends Controller
         Member::cacheForget();
         if(\Request::has('target')){
             $auth->addAssistant($user,inputGetOrFail('ent_id'));
-            header("Location:http://cell.meetingfile.com/admin/#/exhibition?");
+            header("Location:/admin/#/exhibition?");
         }
         $auth_user= $auth->login($user);
         if(!$auth_user['phone']) {
             View::addExtension('html', 'blade');
-            header("Location:http://cell.meetingfile.com/admin?info=1/#/register?user_id=".$auth_user['id']);
+            header("Location:/admin?info=1/#/register?user_id=".$auth_user['id']);
         }else{
             View::addExtension('html', 'blade');
-            header("Location:http://cell.meetingfile.com/admin/#/exhibition?");
+            header("Location:/admin/#/exhibition?");
         }
     }
 
