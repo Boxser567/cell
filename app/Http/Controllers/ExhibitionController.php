@@ -133,6 +133,16 @@ class ExhibitionController extends BaseController
         return;
     }
 
+    //开启关闭站点
+    public function postHandleExhibition()
+    {
+        $exhibition=ExhibitionInfo::_find(inputGetOrFail('ex_id'));
+        $exhibition->closed=inputGetOrFail('type');
+        $exhibition->save();
+        ExhibitionInfo::cacheForget();
+        return;
+    }
+
 
     //创建新分组
     public function postGroup()

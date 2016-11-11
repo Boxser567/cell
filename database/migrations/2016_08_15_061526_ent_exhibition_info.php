@@ -13,6 +13,7 @@ class EntExhibitionInfo extends CreateBase
         $table->string("banner",100);
         $table->date("start_date");
         $table->date("end_date");
+        $table->tinyInteger("closed");
         $table->integer("ent_id");
         $table->tinyInteger("res_collect_lock");
         $table->string("property",200);
