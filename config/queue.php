@@ -29,7 +29,7 @@ return [
     |
     */
     'sms' => [
-        ['host' => 'gv6.gokuai.com', 'port' => 3000],
+        ['host' => env('SMS_HOST'), 'port' => env('SMS_PORT')],
     ],
 
     'connections' => [

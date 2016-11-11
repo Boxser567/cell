@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Member;
+use Illuminate\Support\Facades\Log;
 
 class AssistantController extends BaseController
 {
@@ -18,6 +19,7 @@ class AssistantController extends BaseController
     {
         $ent_id=inputGetOrFail('ent_id');
         \Config::set('wechat.oauth.callback',env('WEIXIN_REDIRECT_URI').'?target=add&ent_id='.$ent_id);
+        Log::info('添加协同管理员'.env('WEIXIN_REDIRECT_URI').'?target=add&ent_id='.$ent_id);
         $wechat=app('wechat');
         $wechat->oauth->scopes(['snsapi_login'])
             ->redirect()->send();
