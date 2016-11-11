@@ -23,24 +23,24 @@ class AuthController extends Controller
 
     public function getLogin($oauthUser = '')
     {
-//        $name = "会展adminer";
-//        $unionid = "12345";
-////        $name=inputGetOrFail('name');
-////        $unionid=inputGetOrFail('unionid');
-////        $name=$oauthUser['nickname'];
-////        $unionid=$oauthUser['unionid'];
-////        $image=$oauthUser['headimgurl'];
-//        $member = LAccount::setUser($name, $unionid)->toArray();
-//        $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
-//        $member['edition'] = $ent['edition'];
-//        $his_member = Session::get('member');
-//        if (!$his_member) {
-//            Session::flush();
-//            Session::put('member', $member);
-//            Session::regenerate();
-//        }
-//        return $member;
-        return $_COOKIE['member'];
+        $name = "会展adminer";
+        $unionid = "12345";
+//        $name=inputGetOrFail('name');
+//        $unionid=inputGetOrFail('unionid');
+//        $name=$oauthUser['nickname'];
+//        $unionid=$oauthUser['unionid'];
+//        $image=$oauthUser['headimgurl'];
+        $member = LAccount::setUser($name, $unionid)->toArray();
+        $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
+        $member['edition'] = $ent['edition'];
+        $his_member = Session::get('member');
+        if (!$his_member) {
+            Session::flush();
+            Session::put('member', $member);
+            Session::regenerate();
+        }
+        return $member;
+   //      return $_COOKIE['member'];
     }
 
     public function getLogout()
