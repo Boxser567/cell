@@ -99,7 +99,7 @@ class AuthController extends Controller
         if($member){
             throw new \Exception('用户已经存在',403005);
         }else{
-            LAccount::setUser($user->name, $user->id, $user->avatar,$ent_id);
+            LAccount::setUser($user->name, $user->id, $user->avatar,$ent_id,1);//用1填充手机号 绕过完善信息检测
         }
     }
 

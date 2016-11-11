@@ -41,7 +41,6 @@ class BaseController extends Controller
            }
            $this->member = $members;
         }
-
 //       $member = Session::get('member', $member);
 //        if (!$member) {
 //            throw new Exception(40106);
