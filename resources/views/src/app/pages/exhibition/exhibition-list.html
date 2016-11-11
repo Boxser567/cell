@@ -12,10 +12,8 @@
         </div>
         <div class="rg">
             <span>欢迎您 , {{user.loginName}}</span>
-            <!--<span class="vs">免费版<i></i></span>-->
-            <!--<a ng-if="!loginName">登录</a>-->
-            <!--<a ng-click="register()" ng-if="loginName">注销</a>-->
             <a class="set" ng-click="setManagerFn()"><i></i>设置共同管理员</a>
+            <a class="reg" ng-click="register()" ng-if="user.loginName">注销</a>
         </div>
     </div>
 </div>
@@ -56,7 +54,7 @@
                                               ng-if="exhibition.finished==-1">正在筹备</span>
                                         <span class="pull-right" ng-if="exhibition.finished==0">正在举行</span>
                                     </h4>
-                                    <p>包含{{exhibition.property.dir_count}}个分类 {{exhibition.property.file_count}}个文件
+                                    <p>包含 {{exhibition.property.file_count}}个文件 &nbsp;
                                         共{{exhibition.property.size_use | bitSize}} </p>
                                     <div class="mg clearfix">
                                         <span><i class="code-img"></i></span>
@@ -116,7 +114,8 @@
                                 </div>
                             </div>
                             <div class="thumcode">
-                                <img src="/file/qr?size=160&text={{exhibition.unique_code | encodeURIComponent}}" alt="刷新重试">
+                                <img src="/file/qr?size=160&text={{exhibition.unique_code | encodeURIComponent}}"
+                                     alt="刷新重试">
                                 <p>分享链接: <span>{{exhibition.property.web_site}}</span></p>
                                 <a>关闭站点</a>
                             </div>
@@ -168,8 +167,7 @@
                             <img src="{{p.image}}" alt="" ng-if="p.image">
                             <img src="../../../assets/images/t_1.png" alt="" ng-if="!p.image">
                             <p>{{p.account}}</p>
-                            <i class="glyphicon glyphicon-remove-sign" data-target="#delmanagerModal"
-                               data-toggle="modal"></i>
+                            <i class="glyphicon glyphicon-remove-sign" ng-click="delManagerFn($index,p)"></i>
                         </div>
 
                         <div class="add" ng-click="ExtralManagerFn()">
@@ -181,31 +179,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-
-<!--管理员删除-->
-<div class="modal fade" id="delmanagerModal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel1" aria-hidden="true">
-    <div class="modal-dialog" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h5 class="modal-title" id="myModalLabel4">是否删除共同管理员</h5>
-            </div>
-
-            <div class="modal-body">
-                <div class="warning">
-                    删除后 , 用户 将无法再通过其微信号登录管理会文件。是否确认删除?
-                </div>
-                <div class="form-group">
-                    <div class="btn" ng-click="delManagerFn()">确认删除</div>
-                    <div class="close btn" data-dismiss="modal">取 消</div>
-                </div>
-                d
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-
 
 <!--添加共同管理员-->
 <div class="modal fade" id="addmanagerModal" tabindex="-1" role="dialog"

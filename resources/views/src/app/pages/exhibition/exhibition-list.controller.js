@@ -1,6 +1,6 @@
 'use strict';
 
-function ExhibitionListController($scope, $rootScope, $state, Exhibition, currentExhibition) {
+function ExhibitionListController($scope, $rootScope, $state, $location, $timeout, Exhibition, currentExhibition) {
     'ngInject';
     $rootScope.projectTitle = "会文件";
     $scope.newMask = false;
@@ -36,10 +36,10 @@ function ExhibitionListController($scope, $rootScope, $state, Exhibition, curren
     });
 
     //打开设置管理员信息
-    $scope.magList = [];
     $scope.setManagerFn = function () {
         $("#setManagerModal").modal('show');
         //获取管理员列表
+        $scope.magList = [];
         Exhibition.getAssistantList($scope.user.ent_id).then(function (res) {
             _.each(res, function (m) {
                 if (m.main_member === 1) {
@@ -50,23 +50,35 @@ function ExhibitionListController($scope, $rootScope, $state, Exhibition, curren
             })
         })
     }
+
+
     $scope.ExtralManagerFn = function () {
         $("#setManagerModal").modal('hide');
         $("#addmanagerModal").modal('show');
     }
-    $scope.delManagerFn = function () {
-        //删除管理员
-        Exhibition.delAssistant($scope.user.ent_id).then(function (res) {
-            for (var i = 0; i < $scope.magList.length; i++) {
-                if ($scope.magList[i].id === $scope.user.ent_id) {
-                    $timeout(function () {
-                        $scope.magList.splice(i, 1);
-                    })
-                    break;
-                }
-            }
-        })
+
+
+    $scope.delManagerFn = function (idx, manger) {
+        console.log(manger);
+        if (confirm("删除后, 该用户将无法再通过其微信号登录管理会文件。\n 是否确认删除?")) {
+            //删除协同管理员
+            Exhibition.delAssistant(manger.id).then(function (res) {
+                $timeout(function () {
+                    $scope.magList.splice(idx, 1);
+                })
+            })
+        }
     }
+
+    //注销
+    $scope.register = function () {
+        if (confirm("注销后页面将跳转到登陆界面")) {
+            Exhibition.logout().then(function () {
+                $state.go('http://' + $location.host() + '/admin');
+            })
+        }
+    }
+
 
 }
 

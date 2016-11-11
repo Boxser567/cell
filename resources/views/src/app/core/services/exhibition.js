@@ -6,8 +6,8 @@ export default function (app) {
             var exhibitions;
             var fileList = [];
             return {
-                login: function () {
-                    return $http.get('/auth/login').then(function (res) {
+                logout: function () {
+                    return $http.get('/auth/logout').then(function (res) {
                         return res.data;
                     });
                 },
