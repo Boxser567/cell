@@ -36,6 +36,7 @@ function ExhibitionListController($scope, $rootScope, $state, Exhibition, curren
     });
 
     //打开设置管理员信息
+    $scope.magList = [];
     $scope.setManagerFn = function () {
         $("#setManagerModal").modal('show');
         //获取管理员列表
@@ -49,11 +50,10 @@ function ExhibitionListController($scope, $rootScope, $state, Exhibition, curren
             })
         })
     }
-    $scope.ExtralManagerFn=function () {
+    $scope.ExtralManagerFn = function () {
         $("#setManagerModal").modal('hide');
         $("#addmanagerModal").modal('show');
     }
-
     $scope.delManagerFn = function () {
         //删除管理员
         Exhibition.delAssistant($scope.user.ent_id).then(function (res) {
