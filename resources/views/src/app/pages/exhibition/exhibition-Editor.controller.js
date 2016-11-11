@@ -14,7 +14,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     $scope.currentExbt = currentExhibition.data;
     $rootScope.projectTitle = currentExhibition.data.title + " - 会文件";
     $scope.collectLoading = true;       //资料收集
-    $scope.collectUrl = "http://cell.meetingfile.com/#/collect/" + $stateParams.unicode + "";
+    $scope.collectUrl = "http://" + $scope.siteHost + "/#/collect/" + $stateParams.unicode + "";
     //logo上传加载
     $scope.imgloading = false;
     $scope.fileloading = true;//常用文件的加载
@@ -46,9 +46,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
 
     // 以下代码用于调整页面布局
     $scope.reHeightFn = function () {
-        console.log("$window.innerHeight", $window.innerHeight);
         var $height = $window.innerHeight - 732;
-        //最低高度760px     //最高处理950px  相差190px
         $height = ($height + 70) / 2;
         $scope.$apply(function () {
             $(".slide-mobile").css("top", "" + $height + "px");
@@ -77,7 +75,6 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         Exhibition.loginss().then(function (res) {
             $scope.wxuser = res;
         })
-
     })
 
 
@@ -160,10 +157,8 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     }
     $scope.endDateOnSetTime = function (newDate, oldDate, states) {
         if (states == "topic") {
-            //$scope.$broadcast('topic-end-changed');
         } else {
             $scope.groupTime.endTime = newDate;
-            //$scope.$broadcast('end-date-changed');
         }
     }
 
@@ -480,38 +475,43 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         }
         if (va == -1) {
             $("#msgCollectFile").modal('show');
-            Exhibition.openCollection({exhibition_id: $scope.currentExbt.id, action: "open"}).then(function (res) {
-                Exhibition.getDirFilesByID({
-                    org_id: $scope.currentExbt.org_id,
-                    fullpath: res.fullpath
-                }, false).then(function (data) {
-                    console.log("返回所有的资料信息", data);
-                    $scope.collectLoading = false;
-                    $scope.collectList = data.list;
-                    $(".mui_collect").attr("checked", true);
-                    $scope.currentExbt.res_collect_lock = 1;
-                })
-            });
+            // Exhibition.openCollection({exhibition_id: $scope.currentExbt.id, action: "open"}).then(function (res) {
+            Exhibition.getDirFilesByID({
+                org_id: $scope.currentExbt.org_id,
+                fullpath: $scope.currentExbt.res_collect//res.fullpath
+            }, false).then(function (data) {
+                console.log("返回所有的资料信息", data);
+                $scope.collectLoading = false;
+                $scope.collectList = data.list;
+                $(".mui_collect").attr("checked", true);
+                $scope.currentExbt.res_collect_lock = 1;
+            })
+            // });
         }
     }
 
     //首次开启资料收集
+    $scope.collectList = [];
     $scope.openCollection = function () {
         $("#msgCollectFile").modal('show');
         Exhibition.openCollection({exhibition_id: $scope.currentExbt.id, action: "open"}).then(function (res) {
             $("#openCollectFile").modal('hide');
-            Exhibition.getDirFilesByID({
-                org_id: $scope.currentExbt.org_id,
-                fullpath: res.fullpath
-            }, false).then(function (data) {
-                $scope.collectLoading = false;
-                $scope.collectList = data.list;
-                $timeout(function () {
-                    $scope.currentExbt.res_collect_lock = 1;
-                    $(".mui_collect").prop("checked", true);
-                })
-
+            $scope.collectLoading = false;
+            $timeout(function () {
+                $scope.currentExbt.res_collect_lock = 1;
+                $(".mui_collect").prop("checked", true);
             })
+            // Exhibition.getDirFilesByID({
+            //     org_id: $scope.currentExbt.org_id,
+            //     fullpath: res.fullpath
+            // }, false).then(function (data) {
+            //     $scope.collectLoading = false;
+            //     $scope.collectList = data.list;
+            //     $timeout(function () {
+            //         $scope.currentExbt.res_collect_lock = 1;
+            //         $(".mui_collect").prop("checked", true);
+            //     })
+            // })
 
         });
     }
