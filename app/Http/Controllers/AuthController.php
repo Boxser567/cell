@@ -23,32 +23,33 @@ class AuthController extends Controller
 
     public function getLogin($oauthUser = '')
     {
-        $name = "会展adminer";
-        $unionid = "12345";
-//        $name=inputGetOrFail('name');
-//        $unionid=inputGetOrFail('unionid');
-//        $name=$oauthUser['nickname'];
-//        $unionid=$oauthUser['unionid'];
-//        $image=$oauthUser['headimgurl'];
-        $member = LAccount::setUser($name, $unionid)->toArray();
-        $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
-        $member['edition'] = $ent['edition'];
-        $his_member = Session::get('member');
-        if (!$his_member) {
-            Session::flush();
-            Session::put('member', $member);
-            Session::regenerate();
-        }
-        return $member;
-//          return $_COOKIE['member'];
+//        $name = "会展adminer";
+//        $unionid = "12345";
+////        $name=inputGetOrFail('name');
+////        $unionid=inputGetOrFail('unionid');
+////        $name=$oauthUser['nickname'];
+////        $unionid=$oauthUser['unionid'];
+////        $image=$oauthUser['headimgurl'];
+//        $member = LAccount::setUser($name, $unionid)->toArray();
+//        $ent = EntConfig::_findOrFail($member['ent_id'])->toArray();
+//        $member['edition'] = $ent['edition'];
+//        $his_member = Session::get('member');
+//        if (!$his_member) {
+//            Session::flush();
+//            Session::put('member', $member);
+//            Session::regenerate();
+//        }
+//        return $member;
+          return $_COOKIE['member'];
     }
 
     public function getLogout()
     {
         Session::flush();
         \Cookie::clearResolvedInstances();
+        clear_cookie();
         View::addExtension('html', 'blade');
-        return view('index');
+        return;
     }
 
     public static function login($user)
@@ -94,7 +95,6 @@ class AuthController extends Controller
 
     public static function addAssistant($user,$ent_id)
     {
-        Log::info('创建共同管理员'.$user->id);
         $member = Member::getUnionid($user->id);//如果进行企业判断,那么在扫微信登录后就要进行管理企业的选择
         if($member){
             throw new \Exception('用户已经存在',403005);
