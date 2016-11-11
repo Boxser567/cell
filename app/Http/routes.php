@@ -19,7 +19,7 @@ Route::get('/pic', function () {
 Route::get('/login', function () {
     return view('show');
 });
-
+Route::get('/logout', 'AuthController@getLogout');
 # 用户点击登录按钮时请求的地址
 Route::get('/auth/oauth', 'Auth\AuthController@oauth');
 # 微信接口回调地址

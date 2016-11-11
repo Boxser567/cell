@@ -335,3 +335,17 @@ function getUniqueCode()
 {
     return date('His') . rand(1111,9999);
 }
+
+function set_cookie($name, $value = null, $expire = 0, $path = '/')
+{
+    $_COOKIE[$name] = urlencode(serialize($value));
+    setcookie($name, urlencode(serialize($value)), $expire, $path);
+}
+
+
+function clear_cookie()
+{
+    foreach ($_COOKIE as $key => $value) {
+        set_cookie($key, '', time() - 3600);
+    }
+}
