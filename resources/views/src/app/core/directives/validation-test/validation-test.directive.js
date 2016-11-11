@@ -68,29 +68,40 @@ export default function (app) {
                                 width: '70px'
                             }, function () {
                                 $('.graphic').fadeIn();
-                                $(".nav-bar .left").animate({
-                                    width: '218px'
-                                });
+
                             });
+
+                            $(".nav-bar .left").animate({
+                                width: '218px'
+                            });
+
+
                         });
                     }
                     if (!scope.stateMode) {
                         $('.graphic').fadeOut(function () {
                             $(".nav-bar .left").animate({
                                 width: '508px'
-                            }, 200, function () {
-                                $(".FILE_ARTICLE").animate({
-                                    "padding-left": "360px"
-                                });
-                                $(".FILE_ARTICLE .slide-bar").animate({
-                                    width: '360px'
-                                }, function () {
-                                    $timeout(function () {
-                                        scope.stateMode = true;
-                                    })
-                                    $('.motion').fadeIn();
-                                })
+                            },function () {
+
                             });
+
+
+
+                            $(".FILE_ARTICLE").animate({
+                                "padding-left": "360px"
+                            });
+                            $(".FILE_ARTICLE .slide-bar").animate({
+                                width: '360px'
+                            }, function () {
+                                $timeout(function () {
+                                    scope.stateMode = true;
+                                })
+                                $('.motion').fadeIn();
+                            })
+
+
+
                         });
                     }
                 })

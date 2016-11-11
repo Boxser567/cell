@@ -65,13 +65,6 @@ export default function (app) {
                     return $http.post('/exhibition/create');
                 },
 
-                //开启/关闭站点
-                setExState: function () {
-                    return $http.post('/exhibition/res-collection').then(function (res) {
-                        return res.data;
-                    });
-                },
-
                 //根据ID获取会展详情
                 getById: function (code) {
                     return $http.get('/exhibition/detail', {params: {unique_code: code}});
@@ -278,7 +271,7 @@ export default function (app) {
 
                 //开启资料收集
                 openCollection: function (params) {
-                    return $http.post("exhibition/res-collection", params).then(function (res) {
+                    return $http.post("/exhibition/res-collection", params).then(function (res) {
                         return res.data;
                     });
                 },

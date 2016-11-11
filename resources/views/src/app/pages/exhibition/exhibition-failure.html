@@ -1,0 +1,345 @@
+<div class="FILE_MODE">
+    <div class="nav-bar clearfix">
+        <div class="left clearfix">
+            <div class="pModel">
+                <a ng-href="http://{{siteHost}}" class=""><i class="home"></i></a>
+                <span>查看模式</span>
+            </div>
+        </div>
+        <div class="operate-warn" id="operate-warn"><span></span></div>
+        <div class="right">
+            <span class="switch">资料收集
+                <span ng-if="currentExbt.res_collect_lock==-1">:&nbsp;已关闭</span>
+                 <span ng-if="currentExbt.res_collect_lock==1">:&nbsp;已开启</span> </span>
+            <label>
+                <input class="mui-switch mui-switch-anim mui_collect" type="checkbox"
+                       value="{{currentExbt.res_collect_lock}}"></label>
+            <s ng-click="showCollection()" ng-if="currentExbt.res_collect_lock!=0">查看</s>
+            <div class="size">
+                <span>{{ExDataflow.group}}个分组 ,&nbsp;{{ExDataflow.class}}个专题 ,&nbsp;共{{ExDataflow.space | bitSize}}</span>
+            </div>
+            <div class="btn upgrade">升级</div>
+            <div class="btn save_publish" data-target="#exhibitionCode" data-toggle="modal">
+                <i class="glyphicon glyphicon-floppy-open"></i>保存和发布
+            </div>
+        </div>
+    </div>
+    <div class="FILE_ARTICLE clearfix">
+        <!--手机模型内容显示-->
+        <div class="slide-mobile">
+            <div class="mobile-phone">
+                <div class="hosted-phones">
+                    <div class="mb_header">
+                        <div class="diff">
+                            <div class="d"></div>
+                            <img ng-src="{{currentExbt.banner}}-640" alt="">
+                        </div>
+                        <div class="icon">
+                            <div>
+                                <img ng-src="{{currentExbt.logo}}" alt="">
+                            </div>
+                            <p class="title">{{currentExbt.title}}</p>
+                            <p class="time">{{currentExbt.start_date}} - {{currentExbt.end_date}}</p>
+                            <p class="ps" ng-bind="currentExbt.property.sub_title"></p>
+                        </div>
+                    </div>
+                    <div class="mb_file">
+                    <span ng-if="fileloading" class="loading"
+                          us-spinner="{lines:9,radius:5, width:3, length: 6}"
+                          spinner-on="fileloading"></span>
+                        <ul class="ui_file_Modelstyle">
+                            <li ng-repeat="file in FilesList">
+                                <a class="clearfix sl" ng-if="file.property.style==1">
+                                    <img src="{{file.property.back_pic}}-c320" alt="">
+                                    <div>{{file.property.title | parseName}}</div>
+                                </a>
+                                <a class="clearfix sr" ng-if="file.property.style==2">
+                                    <div>{{file.property.title | parseName}}</div>
+                                    <img src="{{file.property.back_pic}}-c320" alt="">
+                                </a>
+                                <a class="clearfix bl" ng-if="file.property.style==3">
+                                    <img src="{{file.property.back_pic}}-c320" alt=""
+                                         ng-click="selectFileFn($event,$index,file)">
+                                    <div>
+                                        <h5>{{file.property.title | parseName}}</h5>
+                                        <p>{{file.property.sub_title}}</p>
+                                    </div>
+                                </a>
+                                <a class="clearfix br" ng-if="file.property.style==4">
+                                    <img src="{{file.property.back_pic}}-c320"
+                                         alt="">
+                                    <div>
+                                        <h5>{{file.property.title | parseName}}</h5>
+                                        <p>{{file.property.sub_title}}</p>
+                                    </div>
+                                </a>
+                                <a class="clearfix cv" ng-if="file.property.style==5">
+                                    <img src="{{file.property.back_pic}}-c592" alt="">
+                                    <div>
+                                        <h5>{{file.property.title | parseName}}</h5>
+                                        <p>{{file.property.sub_title}}</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mb_classification">
+                        <div class="group" ng-repeat="item in GroupList track by $index" ng-init='idx=$index'>
+                            <div class="tl">
+                                <span group-toggle></span>
+                                <a ng-click="selectGroupFn($even,$index,item)">{{item.name}}</a>
+                            </div>
+
+                            <div class="ui_topic_Modelstyle topic" ng-repeat="list in item.folder"
+                                 ng-click="slideTopicFn(idx,list)">
+                                <a class="con" ng-if="list.property.position=='middle'">
+                                    <div class="bg">
+                                        <div class="diff"></div>
+                                        <div class="p1" ng-if="list.img_url.length==1">
+                                            <img src="{{list.img_url[0]}}-340" alt="">
+                                        </div>
+                                        <div class="p2 clearfix" ng-if="list.img_url.length==2">
+                                            <div>
+                                                <img src="{{list.img_url[0]}}-340" alt="">
+                                            </div>
+                                            <div>
+                                                <img src="{{list.img_url[1]}}-340" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="p3 clearfix" ng-if="list.img_url.length==3">
+                                            <div class="left">
+                                                <img src="{{list.img_url[0]}}-340" alt="">
+                                            </div>
+                                            <div class="right">
+                                                <img src="{{list.img_url[1]}}-340" alt="">
+                                                <img src="{{list.img_url[2]}}-340" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="title">
+                                        <p class="tl">{{list.title}}</p>
+                                        <p class="count">{{list.file_count}}条内容
+                                            <i class="glyphicon glyphicon-menu-right"></i>
+                                        </p>
+                                    </div>
+                                </a>
+                                <a class="con" ng-if="list.property.position=='under'">
+                                    <div class="bg">
+                                        <div class="p1" ng-if="list.img_url.length==1">
+                                            <img src="{{list.img_url[0]}}-340" alt="">
+                                        </div>
+                                        <div class="p2 clearfix" ng-if="list.img_url.length==2">
+                                            <div>
+                                                <img src="{{list.img_url[0]}}-340" alt="">
+                                            </div>
+                                            <div>
+                                                <img src="{{list.img_url[1]}}-340" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="p3 clearfix" ng-if="list.img_url.length==3">
+                                            <div class="left">
+                                                <img src="{{list.img_url[0]}}-340" alt="">
+                                            </div>
+                                            <div class="right">
+                                                <img src="{{list.img_url[1]}}-340" alt="">
+                                                <img src="{{list.img_url[2]}}-340" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-light clearfix">
+                                        <p class="pull-left">{{list.title}}</p>
+                                        <p class="pull-right">{{list.file_count}} 条内容
+                                            <i class="glyphicon glyphicon-menu-right"></i>
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="topic-page">
+                    <div class="ui_topic_Modelstyle topicdetail">
+                        <a class="glyphicon glyphicon-chevron-left" ng-click="slideBakcFn()"></a>
+                        <a class="con">
+                            <div class="bg" ng-click="setTopicFn()">
+                                <div class="diff"></div>
+                                <div class="p1" ng-if="topDetails.img_url.length==1">
+                                    <img src="{{topDetails.img_url[0]}}-340" alt="">
+                                </div>
+                                <div class="p2 clearfix" ng-if="topDetails.img_url.length==2">
+                                    <div>
+                                        <img src="{{topDetails.img_url[0]}}-340" alt="">
+                                    </div>
+                                    <div>
+                                        <img src="{{topDetails.img_url[1]}}-340" alt="">
+                                    </div>
+                                </div>
+                                <div class="p3 clearfix" ng-if="topDetails.img_url.length==3">
+                                    <div class="left">
+                                        <img src="{{topDetails.img_url[0]}}-340" alt="">
+                                    </div>
+                                    <div class="right">
+                                        <img src="{{topDetails.img_url[1]}}-340" alt="">
+                                        <img src="{{topDetails.img_url[2]}}-340" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fMask">
+                                <p class="tl">{{topDetails.title}}</p>
+                                <p class="count">{{topDetails.file_count}}条内容</p>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="project">
+                            <span ng-if="topDetails.fileloading" class="loading"
+                                  us-spinner="{lines:9,radius:5, width:3, length: 6}"
+                                  spinner-on="topDetails.fileloading"></span>
+                        <ul class="ui_file_Modelstyle">
+                            <li ng-repeat="file in topDetails.lists">
+                                <a class="clearfix sl" ng-if="file.property.style==1"
+                                   ng-click="selectFileFn($event,$index,file,'topic')">
+                                    <img src="{{file.property.back_pic}}-c320" alt="">
+                                    <div>{{file.property.title | parseName}}</div>
+                                </a>
+                                <a class="clearfix sr" ng-if="file.property.style==2"
+                                   ng-click="selectFileFn($event,$index,file,'topic')">
+                                    <div>{{file.property.title | parseName}}</div>
+                                    <img src="{{file.property.back_pic}}-c320" alt="">
+                                </a>
+                                <a class="clearfix bl" ng-if="file.property.style==3"
+                                   ng-click="selectFileFn($event,$index,file,'topic')">
+                                    <img src="{{file.property.back_pic}}-c320" alt=""
+                                         ng-click="selectFileFn($event,$index,file)">
+                                    <div>
+                                        <h5>{{file.property.title | parseName}}</h5>
+                                        <p>{{file.property.sub_title}}</p>
+                                    </div>
+                                </a>
+                                <a class="clearfix br" ng-if="file.property.style==4"
+                                   ng-click="selectFileFn($event,$index,file,'topic')">
+                                    <img src="{{file.property.back_pic}}-c320"
+                                         alt="">
+                                    <div>
+                                        <h5>{{file.property.title | parseName}}</h5>
+                                        <p>{{file.property.sub_title}}</p>
+                                    </div>
+                                </a>
+                                <a class="clearfix cv" ng-if="file.property.style==5"
+                                   ng-click="selectFileFn($event,$index,file,'topic')">
+                                    <img src="{{file.property.back_pic}}-c592" alt="">
+                                    <div>
+                                        <h5>{{file.property.title | parseName}}</h5>
+                                        <p>{{file.property.sub_title}}</p>
+                                    </div>
+                                </a>
+                                <div class="cover" ng-if="file.filewidth && file.filewidth!=100">
+                                    <span style="width: {{file.filewidth}}%"></span>
+                                    <i>X</i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--开启资料收集窗口信息-->
+<div class="modal fade" id="msgCollectFile" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel5" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="myModalLabel5">
+                    开启资料收集
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group clearfix">
+                    <div class="col-sm-8">
+                        <h5>上传地址:</h5>
+                        <p>{{collectUrl}}</p>
+                        <span class="btn" data-clipboard-text="{{collectUrl}}" ng-if="collectUrl"
+                              copy-website>复制链接</span>
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="/file/qr?size=160&text={{collectUrl | encodeURIComponent}}" alt="刷新重试">
+                    </div>
+                </div>
+
+                <div class="collect">
+                    <div class="title clearfix">
+                        <div class="col-sm-5">文件名</div>
+                        <div class="col-sm-2">大小</div>
+                        <div class="col-sm-3">上传时间</div>
+                        <div class="col-sm-2">操作</div>
+                    </div>
+
+                    <div class="info">
+                        <div class="loading" ng-if="collectLoading">
+                            <span us-spinner="{lines:11,radius:9, width:3, length: 7}"
+                                  spinner-on="collectLoading"></span>
+                        </div>
+
+                        <div class="empty_list" ng-if="collectList.length==0">
+                            <img src="../../../assets/images/1205.png" alt="">
+                        </div>
+                        <ul ng-if="collectList.length>0">
+                            <li class="clearfix" ng-repeat="list in collectList">
+                                <div class="col-sm-5" title="{{list.filename}}">{{list.filename}}</div>
+                                <div class="col-sm-2">{{list.filesize | bitSize}}</div>
+                                <div class="col-sm-3">{{list.create_dateline*1000 | date:"yyyy-MM-dd"}}</div>
+                                <div class="col-sm-2">
+                                    <a href="{{list.uri}}" title="下载">
+                                        <i class="glyphicon glyphicon-save"></i></a>
+                                    <i class="glyphicon glyphicon-trash" title="删除"
+                                       ng-click="delCollectfile($event,list.fullpath)"></i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!--  会展二维码-->
+<div class="modal fade" id="exhibitionCode" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" style="width: 400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>用微信扫描下方二维码即可浏览该会展内容</p>
+                <img src="/file/qr?size=160&text={{currentExbt.unique_code | encodeURIComponent}}"/>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="alertMsg" ng-if="alertMsg">
+    复制成功
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

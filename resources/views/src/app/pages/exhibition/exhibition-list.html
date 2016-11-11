@@ -111,14 +111,12 @@
                                         共{{exhibition.property.size_use | bitSize}} </p>
                                     <div class="mg">
                                         <i class="code-img"></i>
-                                        <a href="#/exhibition/{{exhibition.unique_code}}">查看</a>
+                                        <a href="#/exfailure/{{exhibition.unique_code}}">查看</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="thumcode">
-
-                                <img src="/file/qr?size=160&text={{exhibition.unique_code | encodeURIComponent}}"
-                                     alt="刷新重试">
+                                <img src="/file/qr?size=160&text={{exhibition.unique_code | encodeURIComponent}}" alt="刷新重试">
                                 <p>分享链接: <span>{{exhibition.property.web_site}}</span></p>
                                 <a>关闭站点</a>
                             </div>

@@ -2,7 +2,7 @@
 
 import exhibitionListTpl from './exhibition-list.html';
 
-import exhibitionDetailTpl from './exhibition-detail.html';
+import exhibitionFailureTpl from './exhibition-failure.html';
 
 import exhibitionEditorTpl from './exhibition-Editor.html';
 
@@ -20,19 +20,16 @@ function routeConfig($stateProvider) {
                 }]
             }
         })
-        // .state('main.exhibition-detail', {
-        //     url: '^/exhibition/:unicode',
-        //     templateUrl: exhibitionDetailTpl,
-        //     controller: require('./exhibition-detail.controller'),
-        //     resolve: {
-        //         currentExhibition: ['Exhibition', '$stateParams', function (Exhibition, $stateParams) {
-        //
-        //             console.log("$stateParams", $stateParams);
-        //
-        //             return Exhibition.getById($stateParams.unicode);
-        //         }]
-        //     }
-        // })
+        .state('main.exhibition-failure', {
+            url: '^/exfailure/:unicode',
+            templateUrl: exhibitionFailureTpl,
+            controller: require('./exhibition-failure.controller'),
+            resolve: {
+                currentExhibition: ['Exhibition', '$stateParams', function (Exhibition, $stateParams) {
+                    return Exhibition.getById($stateParams.unicode);
+                }]
+            }
+        })
 
 
         .state('main.exhibition-Editor', {
