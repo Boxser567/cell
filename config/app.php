@@ -33,8 +33,6 @@ return [
         'client_id' => env('YUNKU_CLIENT_ID'),
         'client_secret' => env('YUNKU_CLIENT_SECRET'),
         'api' => env('YUNKU_API_URL'),
-        'username'=>env('YUNKU_USERNAME'),
-        'password'=>env('YUNKU_PASSWORD'),
         'callback_url'=>env('YUNKU_CALLBACK_URL')
     ],
     'qiniu' => [
