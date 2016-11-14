@@ -912,7 +912,7 @@ export default function (app) {
             link: function (scope, elem, attrs) {
                 elem.on('click', function () {
                     var element = $(".filemask .preview .name");
-                    var lastname = scope.fileglobal.property.title;git
+                    var lastname = scope.fileglobal.property.title;
                     scope.$apply(function () {
                         scope.fileglobal.isEdit = true;
                     })
