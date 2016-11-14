@@ -15,5 +15,8 @@ class Member extends CreateBase
         $table->integer("ent_id");
         $table->dateTime("created_at");
         $table->dateTime("updated_at");
+        $table->index(['ent_id']);
+        $table->index(['phone']);
+
     }
 }

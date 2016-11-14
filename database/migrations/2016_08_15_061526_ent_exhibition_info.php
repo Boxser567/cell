@@ -19,5 +19,8 @@ class EntExhibitionInfo extends CreateBase
         $table->string("property",200);
         $table->dateTime("created_at");
         $table->dateTime("updated_at");
+        $table->index(['unique_code']);
+        $table->index(['org_id']);
+        $table->index(['ent_id']);
     }
 }
