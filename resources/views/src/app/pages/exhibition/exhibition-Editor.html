@@ -667,7 +667,7 @@
                     </div>
                     <div class="d3">
                         <div class="h">
-                            <i class="tl-hide"></i>有效期内隐藏专题内容
+                            <i class="tl-hide"></i>仅在有效期内显示专题内容
                         </div>
                         <div class="text">
                             <div>如设置不隐藏,用户将只能看到该专题的文件标题,但无法查看内容。</div>
@@ -736,7 +736,7 @@
                                      alt="" width="100%">
                                 <div class="content">
                                     <p class="tl">{{topDetails.title}}</p>
-                                    <p>共{{topDetails.file_size}}条内容 ></p>
+                                    <p>共{{topDetails.file_size | bitSize}}条内容 ></p>
                                 </div>
                             </div>
                             <i class="check" ng-if="topDetails['property']['position']=='middle'"></i>
@@ -747,7 +747,7 @@
                                  alt="" width="100%">
                             <div>
                                 <h4>{{topDetails.title}}</h4>
-                                <p>共{{topDetails.file_size}}条内容</p>
+                                <p>共{{topDetails.file_size | bitSize}}条内容</p>
                             </div>
                             <i class="check" ng-if="topDetails['property']['position']=='under'"></i>
                         </div>
@@ -839,7 +839,7 @@
                         <div class="col-sm-2">操作</div>
                     </div>
                     <div class="loading" ng-if="collectLoading">
-                         <span us-spinner="{lines:11,radius:9, width:3, length: 7}" spinner-on="collectLoading"></span>
+                        <span us-spinner="{lines:11,radius:9, width:3, length: 7}" spinner-on="collectLoading"></span>
                     </div>
 
                     <div class="info">

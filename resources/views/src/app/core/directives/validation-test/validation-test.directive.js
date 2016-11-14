@@ -352,7 +352,6 @@ export default function (app) {
                             filefield: 'file',
                             file: 'file',
                         },
-
                         duplicate: true,//重复文件
                         // fileNumLimit: 100,
                         fileSizeLimit: 1024 * 1024 * 1024,  //最大文件 1 个G
@@ -612,7 +611,8 @@ export default function (app) {
                             property: {
                                 style: 1,
                                 back_pic: "http://res.meetingfile.com/2168a80ad9c3a8b1a07eb78751e37e4d2491041a.jpg",
-                                title: file.name
+                                title: file.name,
+                                sub_title: '<这里是内容摘要>'
                             }
                         };
                         console.log("上传文件加入队列信息", topicfile);
@@ -639,11 +639,9 @@ export default function (app) {
                                             file.hash = returnFile.hash;
                                         })
                                     }
-
                                     scope.ExDataflow.space += file.size;
                                     ++scope.topDetails.file_count;
                                     scope.topDetails.file_size += file.size;
-
                                     //scope.updateLocalTpoicSize({stateBase: 'add', size: file.size});
                                     scope.localTopicFilesJSON.splice(i, 1);  //删除上传缓存
                                 });
@@ -682,13 +680,64 @@ export default function (app) {
                         console.log("图片上传报错", err);
                         alert("上传有误! \n\n 温馨提示您:单次上传文件大小不得大于1G。");
                     });
+                }
+            }
+        };
+    });
+
+
+    app.directive('replaceFiles', function ($timeout, Exhibition) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                $timeout(function () {
+                    Exhibition.getFileToken(scope.currentExbt.org_id).then(function (da) {
+                        uploadimg(da.data.url, da.data.org_client_id);
+                    });
+                });
+                function uploadimg(url, clientid) {
+                    var uploader = WebUploader.create({
+                        pick: {
+                            id: elem,
+                        },
+                        auto: true,
+                        swf: 'http://cdn.staticfile.org/webuploader/0.1.0/Uploader.swf',
+                        server: url,
+                        formData: {
+                            org_client_id: clientid,
+                            name: '',
+                            filefield: 'file',
+                            file: 'file',
+                        },
+                        duplicate: true,//重复文件
+                        // fileNumLimit: 100,
+                        fileSizeLimit: 1024 * 1024 * 1024,  //最大文件 1 个G
+                        fileSingleSizeLimit: 10240 * 1024 * 1024 //文件上传总量 10 个G
+                    });
+                    uploader.on('uploadStart', function () {
+                        uploader.options.formData.path = scope.currentExbt.base_folder;
+                    });
+                    uploader.on('fileQueued', function (file) {
+                        console.log("队列信息", file);
+                        uploader.options.formData.name = file.name;
+                        $("#uploadFileModal").modal('hide');
+                    });
+
+                    uploader.on('uploadSuccess', function (uploadFile, returnFile) {
+                        console.log("上传成功", arguments);
+                    });
+                    uploader.on('uploadProgress', function (fileObj, progress) {
+
+                    });
+                    uploader.on('error', function (err) {
+                        console.log("文件上传报错", err);
+                        alert("上传有误! \n\n 温馨提示您:单次上传文件大小不得大于1G。");
+                    });
 
                 }
 
 
-            }
-
-            ,
+            },
 
 
         };
@@ -876,6 +925,15 @@ export default function (app) {
                     element.find('input')[0].selectionEnd = selectionEnd;
                     element.find('input').focus();
                     element.find('input').blur(function () {
+                        if (scope.fileglobal.property.title == '') {
+                            scope.$apply(function () {
+                                scope.fileglobal.isEdit = false;
+                                scope.fileglobal.property.title = lastname;
+                            })
+                            alert("文件名称不能为空!");
+                            return;
+                        }
+                        console.log(lastname, "打印", scope.fileglobal.property.title);
                         if (lastname != scope.fileglobal.property.title) {
                             Exhibition.editFileinfo({
                                 file_id: scope.fileglobal.id,
@@ -1057,7 +1115,7 @@ export default function (app) {
                                         'top': '30px',
                                         'left': '50%',
                                         'margin-left': '-305px',
-                                        'height': '620px',
+                                        'height': '560px',
                                         'width': '610px',
                                         'zIndex': 99999
                                     },
