@@ -15,7 +15,7 @@ return [
 
     'debug' => env('APP_DEBUG', true),
 
-    'view_domain'=>env('VIEW_DOMAIN','cell.meetingfile.com'),
+    'view_domain'=>env('VIEW_DOMAIN','meetingfile.com'),
     /*
     |--------------------------------------------------------------------------
     | Application URL
