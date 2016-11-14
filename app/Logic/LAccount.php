@@ -89,6 +89,7 @@ class LAccount
         $group->forever = $forever;
         $group->save();
         GroupInfo::cacheForget();
+        GroupInfo::cacheForget(['folder']);
         return $group;
     }
 

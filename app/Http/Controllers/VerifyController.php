@@ -8,6 +8,7 @@ use VerifyCode;
 
 class VerifyController extends Controller
 {
+    const TIME_FIVE_MINUTES = 5;
     const TIME_TWO_MINUTES = 2;
     const TIME_ONE_MINUTE = 1;
     const CACHE_KEY_LOGIN = '/login/';
@@ -59,7 +60,7 @@ class VerifyController extends Controller
         return $code;
     }
 
-    public static function getSimpleDigitalCode($cache_key, $mim = self::TIME_ONE_MINUTE)
+    public static function getSimpleDigitalCode($cache_key, $mim = self::TIME_FIVE_MINUTES)
     {
         $code = get_code(6);
         VerifyController::postVerify($cache_key, $code, $mim);

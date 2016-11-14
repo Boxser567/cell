@@ -20,5 +20,7 @@
         $table->tinyInteger("hidden");
         $table->dateTime("created_at");
         $table->dateTime("updated_at");
+        $table->index(['folder_hash']);
+        $table->index(['org_id','group_id']);
     }
 }

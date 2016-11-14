@@ -13,5 +13,7 @@
         $table->string("size",20);
         $table->dateTime("created_at");
         $table->dateTime("updated_at");
+        $table->index(['hash']);
+        $table->index(['ex_id','folder_id']);
     }
 }

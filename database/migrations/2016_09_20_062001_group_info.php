@@ -14,5 +14,6 @@
         $table->tinyInteger("hidden");
         $table->dateTime("created_at");
         $table->dateTime("updated_at");
+        $table->index(['ex_id']);
     }
 }
