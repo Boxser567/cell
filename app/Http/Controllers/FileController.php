@@ -55,7 +55,6 @@ class FileController extends Controller
 
     public function getModule()
     {
-        FileInfo::cacheForget();
         if (\Request::has("folder_id")) {
             $modules = FileInfo::getFolderId(inputGet("folder_id"));
         } else {
@@ -68,9 +67,6 @@ class FileController extends Controller
     //获取分组信息
     public function getGroup($id = '')
     {
-        GroupInfo::cacheForget();
-        FolderInfo::cacheForget();
-        GroupInfo::cacheForget(['folder']);//todo shd
         $group_info = GroupInfo::getFolderInfo(inputGet('group_id', $id));
         $folder_info = $group_info->folder->toArray();
         $group_info = $group_info->toArray();
@@ -81,9 +77,7 @@ class FileController extends Controller
     //获取移动端分组信息
     public function getMobileGroup()
     {
-        GroupInfo::cacheForget();
         GroupInfo::cacheForget(['folder']);//todo shd
-        FolderInfo::cacheForget();
         $group_info = GroupInfo::getFolderInfo(inputGetOrFail('group_id'));
         $now = date('Y-m-d H:i:s');
         if ($group_info->hidden == 1) {
@@ -171,7 +165,6 @@ class FileController extends Controller
     //获取会展分组信息
     public function getExGroup($id = '')
     {
-        GroupInfo::cacheForget();//todo shd
         GroupInfo::cacheForget(['folder']);//todo shd
         return $group_info = GroupInfo::getExId(inputGet('ex_id', $id))->toArray();
     }
@@ -186,7 +179,6 @@ class FileController extends Controller
     //获取专题详情
     public function getFolderInfo()
     {
-        FolderInfo::cacheForget();
         return FolderInfo::_findOrFail(inputGetOrFail('folder_id'))->toArray();
     }
 
