@@ -20,9 +20,7 @@ class SmsMessageController extends SmsController{
     
     public function register($phone, $code)
     {
-       return $this->send($phone, "您的注册验证码为：" . $code . "，请在一分钟内输入。", StQueueSms::TYPE_REGISTER);
+       return $this->send($phone, "您的注册验证码为：" . $code . "，请在5分钟内输入。", StQueueSms::TYPE_REGISTER);
     }
-
-   
 
 }
