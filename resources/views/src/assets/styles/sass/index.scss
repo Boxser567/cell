@@ -2079,6 +2079,9 @@ body {
               }
               .ps {
                 margin-top: 20px;
+                width: 100%;
+                padding: 0 10px;
+                @extend .eclipflow;
               }
               p {
                 margin-bottom: 5px;
@@ -2937,6 +2940,7 @@ body {
         height: 24px;
         background: url("../../images/1233.png") no-repeat;
         display: none;
+        background-size: cover;
       }
     }
   }
@@ -2984,6 +2988,7 @@ body {
   .collect {
     padding: 5px;
     border-top: 1px solid #ddd;
+    position: relative;
     .title {
       color: #999;
       height: 30px;

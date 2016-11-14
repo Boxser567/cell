@@ -475,18 +475,18 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         }
         if (va == -1) {
             $("#msgCollectFile").modal('show');
-            // Exhibition.openCollection({exhibition_id: $scope.currentExbt.id, action: "open"}).then(function (res) {
-            Exhibition.getDirFilesByID({
-                org_id: $scope.currentExbt.org_id,
-                fullpath: $scope.currentExbt.res_collect//res.fullpath
-            }, false).then(function (data) {
-                console.log("返回所有的资料信息", data);
-                $scope.collectLoading = false;
-                $scope.collectList = data.list;
-                $(".mui_collect").attr("checked", true);
-                $scope.currentExbt.res_collect_lock = 1;
-            })
-            // });
+            Exhibition.openCollection({exhibition_id: $scope.currentExbt.id, action: "open"}).then(function (res) {
+                Exhibition.getDirFilesByID({
+                    org_id: $scope.currentExbt.org_id,
+                    fullpath: $scope.currentExbt.res_collect//res.fullpath
+                }, false).then(function (data) {
+                    console.log("返回所有的资料信息", data);
+                    $scope.collectLoading = false;
+                    $scope.collectList = data.list;
+                    $(".mui_collect").attr("checked", true);
+                    $scope.currentExbt.res_collect_lock = 1;
+                })
+            });
         }
     }
 

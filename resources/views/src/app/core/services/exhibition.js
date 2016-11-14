@@ -43,7 +43,7 @@ export default function (app) {
                 //注册表单提交
                 registerFrom: function (params) {
                     return $http.post('/auth/optimize', params).then(function (res) {
-                        return res.data;
+                        return res;
                     });
                 },
 

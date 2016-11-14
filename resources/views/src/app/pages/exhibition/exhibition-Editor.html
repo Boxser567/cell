@@ -161,20 +161,23 @@
                             </div>
                         </div>
                         <div class="mb_file">
-                    <span ng-if="fileloading" class="loading"
-                          us-spinner="{lines:9,radius:5, width:3, length: 6}"
-                          spinner-on="fileloading"></span>
+                            <div ng-if="fileloading">
+                                <span class="loading" us-spinner="{lines:9,radius:5, width:3, length: 6}"
+                                      spinner-on="fileloading"></span>
+                            </div>
                             <ul class="ui_file_Modelstyle">
                                 <li ng-repeat="file in FilesList">
                                     <a class="clearfix sl" ng-if="file.property.style==1"
                                        ng-click="selectFileFn($event,$index,file,'files')">
                                         <img src="{{file.property.back_pic}}-c320" alt="">
                                         <div>{{file.property.title | parseName}}</div>
+                                        <i class="check"></i>
                                     </a>
                                     <a class="clearfix sr" ng-if="file.property.style==2"
                                        ng-click="selectFileFn($event,$index,file,'files')">
                                         <div>{{file.property.title | parseName}}</div>
                                         <img src="{{file.property.back_pic}}-c320" alt="">
+                                        <i class="check"></i>
                                     </a>
                                     <a class="clearfix bl" ng-if="file.property.style==3"
                                        ng-click="selectFileFn($event,$index,file,'files')">
@@ -184,6 +187,7 @@
                                             <h5>{{file.property.title | parseName}}</h5>
                                             <p>{{file.property.sub_title}}</p>
                                         </div>
+                                        <i class="check"></i>
                                     </a>
                                     <a class="clearfix br" ng-if="file.property.style==4"
                                        ng-click="selectFileFn($event,$index,file,'files')">
@@ -193,6 +197,7 @@
                                             <h5>{{file.property.title | parseName}}</h5>
                                             <p>{{file.property.sub_title}}</p>
                                         </div>
+                                        <i class="check"></i>
                                     </a>
                                     <a class="clearfix cv" ng-if="file.property.style==5"
                                        ng-click="selectFileFn($event,$index,file,'files')">
@@ -201,6 +206,7 @@
                                             <h5>{{file.property.title | parseName}}</h5>
                                             <p>{{file.property.sub_title}}</p>
                                         </div>
+                                        <i class="check"></i>
                                     </a>
                                     <div class="cover" ng-if="file.filewidth && file.filewidth!=100">
                                         <span style="width: {{file.filewidth}}%"></span>
@@ -832,13 +838,11 @@
                         <div class="col-sm-3">上传时间</div>
                         <div class="col-sm-2">操作</div>
                     </div>
+                    <div class="loading" ng-if="collectLoading">
+                         <span us-spinner="{lines:11,radius:9, width:3, length: 7}" spinner-on="collectLoading"></span>
+                    </div>
 
                     <div class="info">
-                        <div class="loading" ng-if="collectLoading">
-                            <span us-spinner="{lines:11,radius:9, width:3, length: 7}"
-                                  spinner-on="collectLoading"></span>
-                        </div>
-
                         <div class="empty_list" ng-if="collectList.length==0">
                             <img src="../../../assets/images/1205.png" alt="">
                         </div>
@@ -848,8 +852,8 @@
                                 <div class="col-sm-2">{{list.filesize | bitSize}}</div>
                                 <div class="col-sm-3">{{list.create_dateline*1000 | date:"yyyy-MM-dd"}}</div>
                                 <div class="col-sm-2">
-                                    <a href="{{list.uri}}" title="下载"><i
-                                            class="glyphicon glyphicon-save"></i></a>
+                                    <a href="{{list.uri}}" title="下载">
+                                        <i class="glyphicon glyphicon-save"></i></a>
                                     <i class="glyphicon glyphicon-trash" title="删除"
                                        ng-click="delCollectfile($event,list.fullpath)"></i>
                                 </div>

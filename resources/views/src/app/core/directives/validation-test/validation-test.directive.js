@@ -82,10 +82,9 @@ export default function (app) {
                         $('.graphic').fadeOut(function () {
                             $(".nav-bar .left").animate({
                                 width: '508px'
-                            },function () {
+                            }, function () {
 
                             });
-
 
 
                             $(".FILE_ARTICLE").animate({
@@ -99,7 +98,6 @@ export default function (app) {
                                 })
                                 $('.motion').fadeIn();
                             })
-
 
 
                         });
@@ -146,7 +144,7 @@ export default function (app) {
     });
 
     //提交注册信息
-    app.directive('registerForm', function (Exhibition) {
+    app.directive('registerForm', function (Exhibition, $state, $location) {
         return {
             restrict: 'A',
             link: function (scope, elem) {
@@ -194,9 +192,11 @@ export default function (app) {
 
                     Exhibition.registerFrom(params).then(function (res) {
                         console.log("表单提交时间", params, res);
-                        //if(res)
-                        window.location.href = "/#/exhibition";
-                        // $(".error_msg").text(res.error_msg);
+                        if (res.status) {
+                            $state.go('http://' + $location.host() + '/#/exhibition');
+                        } else {
+                            $(".error_msg").text(res.error_msg);
+                        }
                     });
 
 
@@ -496,7 +496,9 @@ export default function (app) {
                         fileSingleSizeLimit: 1 * 1024 * 1024
                     });
                     uploader.on('fileQueued', function (file) {
-                        scope.imgloading = true;
+                        if (attrs.datawhere == "logo") {
+                            scope.imgloading = true;
+                        }
                         uploader.options.formData.key = file_name + '.' + Util.String.getExt(file.name);
                     });
                     uploader.on('uploadSuccess', function () {
