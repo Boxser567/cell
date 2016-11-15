@@ -192,7 +192,7 @@ class ExhibitionController extends BaseController
             }
             $files->setName($old_name, $new_title.'/'.$title);
             $property["title"] = $title;
-        }else{
+        }else if($title){
             $property["title"] = $title;
         }
         if ($back_pic) {
