@@ -55,13 +55,13 @@ class BaseController extends Controller
         $member_edition = inputGet("edition", $member_edition);
         if ($member_edition) {
             switch ($member_edition) {
-                case "1":
+                case 1:
                     $edition = "free";
                     break;
-                case "2":
+                case 2:
                     $edition = "standard";
                     break;
-                case "3":
+                case 3:
                     $edition = "advanced";
                     break;
                 default:
