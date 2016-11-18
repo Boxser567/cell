@@ -5,6 +5,7 @@ import '!!file-loader?name=[name].[ext]!../favicon.ico';
 
 // main App module
 import "./index.module";
+import "angular-ui-bootstrap/dist/ui-bootstrap-csp.css";
 import "../assets/styles/sass/iconCollect.scss";
 import "../assets/styles/sass/index.scss";
 import "../assets/styles/sass/mobile.scss";
@@ -14,10 +15,9 @@ import daterangepicker from 'bootstrap-daterangepicker/daterangepicker';
 import "moment/locale/zh-cn";
 
 
-
 angular.element(document).ready(function () {
     moment().locale('zh-cn');
-    angular.bootstrap(document, ['cell-ui', 'daterangepicker', 'ui.bootstrap.datetimepicker','angularSpinner', 'angular-md5', 'LocalStorageModule'], {
+    angular.bootstrap(document, ['cell-ui', 'daterangepicker', 'ui.bootstrap', 'ui.bootstrap.datetimepicker', 'angularSpinner', 'angular-md5', 'LocalStorageModule'], {
         strictDi: true
     });
 });

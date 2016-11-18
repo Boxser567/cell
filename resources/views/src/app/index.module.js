@@ -11,6 +11,7 @@ const App = angular.module(
         require('angular-ui-router'),
         "ngTouch",
         "ngSanitize",
+
         // core
         require("./core/core.module").name,
 
@@ -22,6 +23,8 @@ const App = angular.module(
 
         // pages
         require("./pages/main/main.module").name,
+
+        require("./pages/ngDialog/dialog.module").name,
 
         require("./pages/exhibition/exhibition.module").name,
 

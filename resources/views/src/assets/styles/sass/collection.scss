@@ -1,5 +1,5 @@
 .ucontent {
-  width: 1200px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -42,6 +42,7 @@
     background: #fff;
     .C_upload {
       padding: 10px;
+      padding-left: 10%;
       border-bottom: 1px solid #ddd;
       .C_upload_btn {
         background: #1898fb;
@@ -64,7 +65,7 @@
     }
 
     .C_files {
-
+      padding-left: 10%;
       .form-group {
         margin: 0;
         padding: 15px;
@@ -72,6 +73,9 @@
         .col-md-7 {
           padding-left: 40px;
         }
+      }
+      .col-xs-2 {
+        padding: 0;
       }
       .C_fileList {
         ul {
@@ -84,6 +88,7 @@
             height: 45px;
             line-height: 45px;
             color: #333;
+            margin: 0;
             &:nth-child(odd) {
               background: #f7f7f7;
             }
@@ -180,6 +185,5 @@
     }
 
   }
-
 
 }

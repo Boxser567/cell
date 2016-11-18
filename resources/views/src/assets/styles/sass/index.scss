@@ -1712,6 +1712,8 @@ body {
         display: inline-block;
         position: absolute;
         left: 0;
+        top: 0;
+        color: #0048ff;
       }
     }
     .right {
@@ -2134,6 +2136,30 @@ body {
                     z-index: 11;
                   }
                 }
+                .error {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  z-index: 11;
+                  background: rgba(0, 0, 0, .8);
+                  color: #ff0000;
+                  border-radius: 4px;
+                  > div {
+                    position: absolute;
+                    top: 50%;
+                    margin-top: -13px;
+                    left: 50%;
+                    margin-left: -117px;
+                  }
+                  i {
+                    color: #6986ff;
+                    padding: 6px;
+                    cursor: pointer;
+                    margin-left: 5px;
+                  }
+                }
                 .add {
                   cursor: pointer;
                   text-decoration: none;
@@ -2317,6 +2343,30 @@ body {
               text-align: center;
               border-radius: 4px;
             }
+            .error {
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              z-index: 11;
+              background: rgba(0, 0, 0, .8);
+              color: #ff0000;
+              border-radius: 4px;
+              > div {
+                position: absolute;
+                top: 50%;
+                margin-top: -13px;
+                left: 50%;
+                margin-left: -117px;
+              }
+              i {
+                color: #6986ff;
+                padding: 6px;
+                cursor: pointer;
+                margin-left: 5px;
+              }
+            }
             ul li {
               .cover {
                 position: absolute;
@@ -2439,6 +2489,19 @@ body {
                 color: #fff;
               }
             }
+            .webuploader-container {
+              background: none;
+              padding: 0;
+              padding-top: 6px;
+              .webuploader-pick {
+                color: #666;
+              }
+              &:hover {
+                .webuploader-pick {
+                  color: #fff;
+                }
+              }
+            }
           }
         }
 
@@ -2469,6 +2532,7 @@ body {
                 position: relative;
                 &:hover {
                   background-color: #333333;
+                  color: #fff;
                 }
                 .webuploader-pick {
                   background: none;
@@ -2482,8 +2546,15 @@ body {
                   left: 0 !important;
                   right: 0 !important;
                 }
-
               }
+              .webuploader-container {
+                &:hover {
+                  .webuploader-pick {
+                    color: #fff;
+                  }
+                }
+              }
+
             }
           }
         }
@@ -2580,6 +2651,20 @@ body {
               color: #fff;
               display: block;
               margin-top: 15px;
+              position: relative;
+              .load {
+                z-index: 9;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, .8);
+              }
+              .del {
+                z-index: 3;
+                display: block;
+              }
 
             }
           }

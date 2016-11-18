@@ -229,6 +229,13 @@ export default function (app) {
                     })
                 },
 
+                //替换文件
+                replaceFileinfo: function (params) {
+                    return $http.post('/exhibition/replace-module', params).then(function (res) {
+                        return res.data;
+                    })
+                },
+
                 //获取所有专题及详细信息
                 getGroupInfoByPath: function (exid) {
                     return $http.get('/file/ex-group', {params: {ex_id: exid}}).then(function (res) {

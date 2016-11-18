@@ -33,7 +33,8 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     $scope.FilesList = [];
     Exhibition.getFileInfoByPath({
         ex_id: $scope.currentExbt.id,
-        fullpath: $scope.currentExbt.base_folder
+        fullpath: $scope.currentExbt.base_folder,
+        size: 200
     }, false).then(function (file) {
         $scope.fileloading = false;
         _.each(file.data, function (r) {
@@ -77,7 +78,10 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         })
     })
 
+    $scope.ExDataflow = {
+        space: 0,
 
+    }
     $scope.getExCount = function (bool) {
         let params = {
             unique_code: $stateParams.unicode
@@ -124,6 +128,8 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         // $(".mui_group").prop("checked", Boolean(group.hidden));
         group.gidx = index;
         group.hidden = Boolean(group.hidden);
+        $scope.groSelectTime = group.forever;
+        group.IsShow = group.forever;
         console.log("groupglobal", group);
         $scope.dateRange.start = group.start_time == null ? "" : group.start_time;
         $scope.dateRange.end = group.end_time == null ? "" : group.end_time;
@@ -133,7 +139,6 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     }
 
 
-    $scope.groupTime = {};
     $scope.endDateBeforeRender = function ($view, $dates, $leftDate, $upDate, $rightDate, states) {
         if (states == "topic") {
             if ($scope.topicDate.start) {
@@ -158,7 +163,6 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     $scope.endDateOnSetTime = function (newDate, oldDate, states) {
         if (states == "topic") {
         } else {
-            $scope.groupTime.endTime = newDate;
         }
     }
 
@@ -188,7 +192,6 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         if (states == "topic") {
             // $scope.$broadcast('topic-start-changed');
         } else {
-            $scope.groupTime.strTime = newDate;
             // $scope.$broadcast('start-date-changed');
         }
     }
@@ -209,27 +212,37 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
 
     //分组信息修改--时间
     $scope.editGroupTimeFn = function () {
-        Exhibition.editGroupInfo({
-            group_id: $scope.groupglobal.id,
-            forever: 0,
-            start_time: $scope.groupTime.strTime,
-            end_time: $scope.groupTime.endTime
-        }).then(function (res) {
-            $scope.GroupList[$scope.groupglobal.gidx].start_time = $scope.groupTime.strTime;
-            $scope.GroupList[$scope.groupglobal.gidx].end_time = $scope.groupTime.endTime;
-            console.log($scope.groupglobal, "时间修改信息", $scope.GroupList);
-        })
+        if ($scope.dateRange.start && $scope.dateRange.start.length && $scope.dateRange.end && $scope.dateRange.end.length) {
+            Exhibition.editGroupInfo({
+                group_id: $scope.groupglobal.id,
+                forever: 0,
+                start_time: $scope.dateRange.start,
+                end_time: $scope.dateRange.end
+            }).then(function (res) {
+                $scope.groupglobal.IsShow = 0;
+                $scope.GroupList[$scope.groupglobal.gidx].forever = 0;
+                $scope.GroupList[$scope.groupglobal.gidx].start_time = $scope.dateRange.start;
+                $scope.GroupList[$scope.groupglobal.gidx].end_time = $scope.dateRange.end;
+                console.log($scope.groupglobal, "时间修改信息", $scope.GroupList);
+            })
+        } else {
+            alert("请将正确输入分组有效时间!");
+        }
     }
 
     //分组信息修改-- 时间限制切换
     $scope.changeGroTimeFn = function () {
-        if ($scope.groupglobal.forever == 1) {
+        if ($scope.groSelectTime == 1) {
             Exhibition.editGroupInfo({
                 group_id: $scope.groupglobal.id,
-                forever: 1
+                forever: 1,
+                start_time: '',
+                end_time: ''
             }).then(function (res) {
-                $scope.GroupList[$scope.groupglobal.gidx].forever = 1;
-                $warning();
+                $scope.groupglobal.start_time = null;
+                $scope.groupglobal.end_time = null;
+                $scope.groupglobal.forever = 1;
+                $warning("");
             })
         }
     }
@@ -439,21 +452,26 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         },
     };
     $scope.$watch('date', function (time) {
-        if (typeof time.startDate == "object") {
-            var start = time.startDate.format('YYYY-MM-DD');
-            var end = time.endDate.format('YYYY-MM-DD');
-            if (start == $scope.currentExbt.start_date && end == $scope.currentExbt.end_date) {
-            } else {
-                Exhibition.editExTitle({
-                    exhibition_id: currentExhibition.data.id,
-                    start_date: start,
-                    end_date: end
-                }).then(function (res) {
-                    console.log("时间", res);
-                    $scope.currentExbt.start_date = start;
-                    $scope.currentExbt.end_date = end;
-                    $warning("站点时间修改成功!");
-                })
+        if (Util.RegExp.Date.test(time.startDate) || Util.RegExp.Date.test(time.endDate)) {
+            $scope.date.startDate = $scope.currentExbt.start_date;
+            $scope.date.endDate = $scope.currentExbt.end_date;
+        } else {
+            if (typeof time.startDate == "object") {
+                var start = time.startDate.format('YYYY-MM-DD');
+                var end = time.endDate.format('YYYY-MM-DD');
+                if (start == $scope.currentExbt.start_date && end == $scope.currentExbt.end_date) {
+                } else {
+                    Exhibition.editExTitle({
+                        exhibition_id: currentExhibition.data.id,
+                        start_date: start,
+                        end_date: end
+                    }).then(function (res) {
+                        console.log("时间", res);
+                        $scope.currentExbt.start_date = start;
+                        $scope.currentExbt.end_date = end;
+                        $warning("站点时间修改成功!");
+                    })
+                }
             }
         }
     }, false);
@@ -462,7 +480,6 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     //资料收集状态
     $scope.checkCollecFn = function () {
         var va = $(".mui_collect").val();
-        console.log("vava", va)
         if (va == 0) {
             $(".mui_collect").prop("checked", false);
             $("#openCollectFile").modal('show');
@@ -573,19 +590,16 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         $(".slide-note").find(".topic_con").show().siblings().hide();
         list.oldtitle = list.title;
         list.groupIdx = groindex;
+        $scope.topicSelectTime = list.forever;
+        list.IsShow = list.forever;
         $scope.topDetails = list;
         $scope.topDetails.fileloading = true;
         $scope.topDetails.lists = [];
         $scope.uploadstate = "topic";
         $scope.topDetails.hidden = Boolean($scope.topDetails.hidden);
-
         $scope.topicDate.start = list.start_time == null ? '' : list.start_time;
         $scope.topicDate.end = list.end_time == null ? '' : list.end_time;
-
         console.log("选中的专题信息", $scope.topDetails);
-
-        //$(".mui-topic").prop("checked", Boolean($scope.topDetails.hidden));
-        // $(".topic-time").val($scope.topDetails.forever);
         Exhibition.getFileInfoByPath({
             ex_id: $scope.currentExbt.id,
             size: 1000,
@@ -615,23 +629,26 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     //专题时间修改
     $scope.editTopicTimeFn = function () {
         // console.log($scope.topDetails, "专题时间修改", $scope.topicDate);
-        Exhibition.editTopicDetail({
-            hash: $scope.topDetails.folder_hash,
-            forever: 0,
-            start_time: $scope.topicDate.start,
-            end_time: $scope.topicDate.end
-        }).then(function (res) {
-            $scope.topDetails.forever = 0;
-            $scope.topDetails.start_time = $scope.topicDate.start;
-            $scope.topDetails.end_time = $scope.topicDate.end;
-            let group = $scope.GroupList[$scope.topDetails.groupIdx].folder;
-            for (let g = 0; g < group.length; g++) {
-                if ($scope.GroupList[$scope.topDetails.groupIdx].folder[g].id == $scope.topDetails.id) {
-                    $scope.GroupList[$scope.topDetails.groupIdx].folder[g].start_time = $scope.topicDate.start;
-                    $scope.GroupList[$scope.topDetails.groupIdx].folder[g].end_time = $scope.topicDate.end;
-                }
-            }
-        })
+        if ($scope.topicDate.start && $scope.topicDate.start.length && $scope.topicDate.end && $scope.topicDate.start.length) {
+            Exhibition.editTopicDetail({
+                hash: $scope.topDetails.folder_hash,
+                forever: 0,
+                start_time: $scope.topicDate.start,
+                end_time: $scope.topicDate.end
+            }).then(function (res) {
+                $scope.topDetails.forever = 0;
+                $scope.topDetails.start_time = $scope.topicDate.start;
+                $scope.topDetails.end_time = $scope.topicDate.end;
+                $scope.topicSelectTime = 0;
+                // let group = $scope.GroupList[$scope.topDetails.groupIdx].folder;
+                // for (let g = 0; g < group.length; g++) {
+                //     if ($scope.GroupList[$scope.topDetails.groupIdx].folder[g].id == $scope.topDetails.id) {
+                //         $scope.GroupList[$scope.topDetails.groupIdx].folder[g].start_time = $scope.topicDate.start;
+                //         $scope.GroupList[$scope.topDetails.groupIdx].folder[g].end_time = $scope.topicDate.end;
+                //     }
+                // }
+            })
+        }
     }
 
     //修改专题隐藏
@@ -644,9 +661,16 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
 
     //专题时间切换
     $scope.changeTopicTimeFn = function () {
-        if ($scope.topDetails.forever == 1) {
-            Exhibition.editTopicDetail({hash: $scope.topDetails.folder_hash, forever: 1}).then(function (res) {
-                $scope.topDetails.hidden = 1;
+        if ($scope.topicSelectTime == 1) {
+            Exhibition.editTopicDetail({
+                hash: $scope.topDetails.folder_hash,
+                forever: 1,
+                start_time: null,
+                end_time: null
+            }).then(function (res) {
+                $scope.topDetails.forever = 1;
+                $scope.topDetails.start_time = null;
+                $scope.topDetails.end_time = null;
                 $warning("专题时间修改成功!");
             })
         }
@@ -654,13 +678,17 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
 
     //删除专题图片
     $scope.delTopicImgFn = function () {
-        Exhibition.updateTopicImg({
-            hash: $scope.topDetails.folder_hash,
-            img_url: $scope.topDetails.img_url[0],
-            type: 0
-        }).then(function (res) {
-            $scope.topDetails.img_url.shift();
-        })
+        if ($scope.topDetails.img_url.length > 1) {
+            $scope.del_img_loading = true;
+            Exhibition.updateTopicImg({
+                hash: $scope.topDetails.folder_hash,
+                img_url: $scope.topDetails.img_url[0],
+                type: 0
+            }).then(function (res) {
+                $scope.del_img_loading = false;
+                $scope.topDetails.img_url.shift();
+            })
+        }
     }
 
     //专题内部文件数据更新
@@ -679,6 +707,27 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                     $scope.topDetails.file_size -= rb_cFile.size;
                     //--$scope.GroupList[$scope.topDetails.groupIdx].folder[g].file_count;
                     //$scope.GroupList[$scope.topDetails.groupIdx].folder[g].file_size -= rb_cFile.size;
+                }
+            }
+        }
+    }
+
+
+    //删除正在上传的文件
+    $scope.delUploaderFile = function (backFile) {
+        if (backFile)
+            $timeout(function () {
+                backFile.loadStatus = true;
+            })
+    }
+    //删除上传出错文件
+    $scope.delErrorFileFn = function (errFile) {
+        console.log(errFile, $scope.FilesList);
+        if (errFile.indexID) {
+            for (let e = 0; e < $scope.FilesList.length; e++) {
+                if ($scope.FilesList[e].indexID == errFile.indexID) {
+                    $scope.FilesList.splice(e, 1);
+                    break;
                 }
             }
         }

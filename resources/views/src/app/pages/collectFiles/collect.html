@@ -1,7 +1,6 @@
 <div class="link-collection" refresh-load>
     <div class="headerbar">
         <div class="ucontent">
-            <span>会文件</span>
             <div>{{ExbtMessage.title}}</div>
         </div>
     </div>
@@ -12,36 +11,38 @@
         </div>
         <div class="bg" ng-if="ExbtMessage.res_collect_lock ==1">
             <div class="C_upload">
-
                 <div class="btn C_upload_btn" ng-if="ExbtMessage.org_id && ExbtMessage.res_collect"
                      dataorgid="{{ExbtMessage.org_id}}" datacollect="{{ExbtMessage.res_collect}}" collect-upload>
                     <i class="glyphicon glyphicon-open"></i>
                     上传
                 </div>
-
             </div>
 
             <div class="C_upload_warning" ng-if="fileCollect.length==0">
                 严格遵守保密法律法规,严禁在互联网上存储、处理、传输、发布涉密信息(IE10以上或极速浏览器支持)。
             </div>
             <div class="C_files" ng-if="fileCollect.length>0">
-                <div class="form-group clearfix">
-                    <div class="col-md-7">文件名</div>
-                    <div class="col-md-2">上传日期</div>
-                    <div class="col-md-3">大小</div>
+                <div class="form-group container clearfix">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-7">文件名</div>
+                        <div class="col-xs-3 col-sm-2">上传日期</div>
+                        <div class="col-xs-3 col-sm-3">大小</div>
+                    </div>
                 </div>
                 <div class="C_fileList">
                     <ul>
-                        <li class="clearfix" ng-repeat="file in fileCollect">
-                            <div class="col-md-7">
-                                <i class="img {{ file.filename | getFileIconSuffix }}"></i>
-                                <span edit-name>{{file.filename}}</span>
-                            </div>
-                            <div class="col-md-2">{{file.create_dateline | date:"yyyy-MM-dd"}}</div>
-                            <div class="col-md-3">{{file.filesize | bitSize}}</div>
-                            <div class="diff col-md-12" ng-if="file.filewidth>0 && file.filewidth !=100">
-                                <div class="db" style="width: {{file.filewidth}}%"></div>
-                                <i class="glyphicon glyphicon-remove"></i>
+                        <li class="container clearfix" ng-repeat="file in fileCollect">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-7">
+                                    <i class="img {{ file.filename | getFileIconSuffix }}"></i>
+                                    <span edit-name>{{file.filename}}</span>
+                                </div>
+                                <div class="col-xs-3 col-sm-2">{{file.create_dateline | date:"yyyy-MM-dd"}}</div>
+                                <div class="col-xs-3 col-sm-3">{{file.filesize | bitSize}}</div>
+                                <div class="diff col-sm-12" ng-if="file.filewidth>0 && file.filewidth !=100">
+                                    <div class="db" style="width: {{file.filewidth}}%"></div>
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </div>
                             </div>
                         </li>
                     </ul>

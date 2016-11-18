@@ -1,5 +1,7 @@
 'use strict';
 
+import dialogTpl from './../../pages/ngDialog/alertDialog.html';
+
 export default function (app) {
     app
         .constant('ROUTE_ERRORS', {
@@ -19,7 +21,7 @@ export default function (app) {
             'SORT_COMMON': ['exe', 'rar', 'zip', 'cmd']
             //'SORT_EXE': ['exe', 'bat', 'com']
         })
-        .factory('$warning', [function () {
+        .factory('$warning', ['$timeout', function ($timeout) {
             var msg = "更新成功";
             return function (text) {
                 if (text) {
@@ -27,19 +29,37 @@ export default function (app) {
                 }
                 let ani = $("#operate-warn").find("span");
                 ani.text(msg);
-                ani.css("top", "50px").animate({
-                    "top": "-50px"
-                }, 1200);
+                ani.fadeIn();
+                $timeout(function () {
+                    ani.fadeOut();
+                }, 1500)
             };
-        }]);
+        }])
 
-    // .factory('$modal', [$modal, function () {
-    //     return {
-    //         templateUrl:'../ngDialog/ex_collection.html',
-    //         windowClass:'',
-    //         controller:function ($scope) {
-    //         }
-    //     }
-    // }])
+
+        .factory('$popupDialog', ['$uibModal', '$document', function ($uibModal, $document) {
+            return {
+                alertDialog: function (warning, title) {
+                    if (!warning) return;
+                    var option = {
+                        templateUrl: dialogTpl,
+                        windowClass: 'alert_dialog',
+                        controller: function ($scope, $uibModalInstance) {
+                            console.log("showDialog显示显示显示");
+                            $scope.message = warning;
+                            $scope.title = title;
+                            $scope.ok = function () {
+                                $uibModalInstance.close();
+                            };
+                            $scope.cancel = function () {
+                                $uibModalInstance.dismiss('cancel');
+                            };
+                        }
+                    };
+                    option = angular.extend({}, {backdrop: 'static', animation: false}, option);
+                    return $uibModal.open(option);
+                }
+            }
+        }])
 
 }

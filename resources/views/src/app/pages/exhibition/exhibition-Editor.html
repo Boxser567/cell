@@ -67,8 +67,8 @@
             <div class="motion">
                 <p class="title">站点基本信息设置</p>
                 <p class="tl">站点(会展)名称:</p>
-                <input class="ipt_name" ng-model="currentExbt.title" datatype="title" edit-extitle type="text"
-                       placeholder="请输入站点(会展)名称">
+                <input class="ipt_name" ng-model="currentExbt.title" datatype="title" edit-extitle
+                       type="text" placeholder="请输入站点(会展)名称">
                 <p class="tl">站点(会展)标识:</p>
                 <div class="logo clearfix">
                     <img ng-src="{{currentExbt.logo}}" alt="">
@@ -140,7 +140,6 @@
             </div>
         </div>
 
-
         <!--手机模型内容显示-->
         <div class="percentfourty">
             <div class="slide-mobile">
@@ -210,7 +209,14 @@
                                     </a>
                                     <div class="cover" ng-if="file.filewidth && file.filewidth!=100">
                                         <span style="width: {{file.filewidth}}%"></span>
-                                        <i>X</i>
+                                        <i ng-click="delUploaderFile(file)">X</i>
+                                    </div>
+                                    <div class="error" ng-if="file.loadError">
+                                        <div>
+                                            <span>当前文件上传出错,请删除后重试</span>
+                                            <i class="glyphicon glyphicon-remove-circle"
+                                               ng-click="delErrorFileFn(file)"></i>
+                                        </div>
                                     </div>
                                 </li>
                                 <li>
@@ -391,8 +397,15 @@
                                         </div>
                                     </a>
                                     <div class="cover" ng-if="file.filewidth && file.filewidth!=100">
-                                        <span style="width: {{file.filewidth}}%"></span>
-                                        <i>X</i>
+                                        <span style="width: {{file.filewidth}}% "></span>
+                                        <i ng-click="delUploaderFile(file)">X</i>
+                                    </div>
+                                    <div class="error" ng-if="file.loadError">
+                                        <div>
+                                            <span>当前文件上传出错,请删除后重试</span>
+                                            <i class="glyphicon glyphicon-remove-circle"
+                                               ng-click="delErrorFileFn(file)"></i>
+                                        </div>
                                     </div>
                                 </li>
                                 <li>
@@ -436,12 +449,12 @@
                         </div>
                         <div class="name">
                             {{fileglobal.property.title}}
-                            <input type="text" ng-if="fileglobal.isEdit" class="form-control"
+                            <input type="text" ng-if="fileglobal.isEdit" maxlength="56" class="form-control"
                                    ng-model="fileglobal.property.title">
                         </div>
 
                         <div class="r">
-                            <div class="btn">替换内容</div>
+                            <div class="btn" replace-files>替换内容</div>
                             <div class="btn" edit-filename>重命名</div>
                         </div>
 
@@ -472,7 +485,7 @@
                             内容摘要(选填)
                         </div>
                         <div class="txt">
-                        <textarea placeholder="请输入内容摘要" ng-model="fileglobal.property.sub_title"
+                        <textarea ng-maxlength="140" placeholder="<这里是内容摘要>" ng-model="fileglobal.property.sub_title"
                                   edit-filesubname></textarea>
                         </div>
                     </div>
@@ -551,11 +564,11 @@
                         <div class="h">
                             <i class="tl-time"></i>分组有效时间
                         </div>
-                        <select class="form-control group-time" ng-model="groupglobal.forever"
+                        <select class="form-control group-time" ng-model="groSelectTime"
                                 ng-options=" option.value  as option.name  for option in selectArray "
                                 ng-change="changeGroTimeFn()">
                         </select>
-                        <div class="settime" ng-if="groupglobal.forever==0">
+                        <div class="settime" ng-if="groSelectTime==0">
                             <div class="dropdown form-group">
                                 <a class="dropdown-toggle" id="dropdownStart" role="button" data-toggle="dropdown"
                                    data-target="#" href="#">
@@ -597,7 +610,7 @@
                         </div>
 
                     </div>
-                    <div class="ishide">
+                    <div class="ishide" ng-if="groupglobal.IsShow==0">
                         <div class="h">
                             <i class="tl-hide"></i>仅在有效期内显示分组内容
                         </div>
@@ -623,8 +636,8 @@
                         <div class="h">
                             <i class="tl-name"></i>专题名称
                         </div>
-                        <input type="text" class="form-control" ng-model="topDetails.title" placeholder="请填写专题名称"
-                               edit-topicname>
+                        <input type="text" class="form-control" ng-model="topDetails.title" datatype="topicname"
+                               edit-extitle placeholder="请填写专题名称">
                     </div>
 
                     <div class="d2">
@@ -659,32 +672,27 @@
                                 <div class="btn" ng-if="topDetails.img_url.length<3" datawhere="topicBg" upload-logo>
                                     上传封面图
                                 </div>
-                                <div class="btn" ng-if="topDetails.img_url.length>1" ng-click="delTopicImgFn()">删除封面图
+                                <div class="btn" ng-if="topDetails.img_url.length>1">
+                                    <span class="del" ng-click="delTopicImgFn()">删除封面图</span>
+                                    <div class="load" ng-show="del_img_loading">
+                                        <span us-spinner="{color: '#fff',lines:9,radius:7, width:3, length: 7}"
+                                              spinner-on="del_img_loading"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <p class="warn">支持 JPG/PNG格式, 每张图片不超过1M,图片总数不得超过3张</p>
                     </div>
-                    <div class="d3">
-                        <div class="h">
-                            <i class="tl-hide"></i>仅在有效期内显示专题内容
-                        </div>
-                        <div class="text">
-                            <div>如设置不隐藏,用户将只能看到该专题的文件标题,但无法查看内容。</div>
-                            <label> <input class="mui-switch mui-switch-anim" ng-model="topDetails.hidden"
-                                           type="checkbox"
-                                           ng-click="topicIsHideFn()"></label>
-                        </div>
-                    </div>
+
                     <div class="d4">
                         <div class="h">
                             <i class="tl-time"></i>专题有效时间
                         </div>
-                        <select class="form-control group-time" ng-model="topDetails.forever"
+                        <select class="form-control group-time" ng-model="topicSelectTime"
                                 ng-options=" option.value  as option.name  for option in selectArray "
                                 ng-change="changeTopicTimeFn()">
                         </select>
-                        <div class="settime clearfix" ng-if="topDetails.forever==0">
+                        <div class="settime clearfix" ng-if="topicSelectTime==0">
                             <div class="dropdown form-group">
                                 <a class="dropdown-toggle" id="topicDownStart" role="button" data-toggle="dropdown"
                                    data-target="#" href="#">
@@ -723,11 +731,21 @@
                             <div class="btn" ng-click="editTopicTimeFn()">确定</div>
                         </div>
                     </div>
+                    <div class="d3" ng-if="topDetails.IsShow==0">
+                        <div class="h">
+                            <i class="tl-hide"></i>非有效期内隐藏专题
+                        </div>
+                        <div class="text">
+                            <div>开启后，专题将仅在有效期内显示。若关闭，专题本身将一直显示，但其内容无法访问。</div>
+                            <label> <input class="mui-switch mui-switch-anim" ng-model="topDetails.hidden"
+                                           type="checkbox"
+                                           ng-click="topicIsHideFn()"></label>
+                        </div>
+                    </div>
                     <div class="d5">
                         <div class="h">
                             <i class="tl-style"></i>自定义样式
                         </div>
-
                         <div class="cen">
                             <p>标题显示在封面中央</p>
                             <div dtype="middle" set-topic-style>
@@ -736,7 +754,7 @@
                                      alt="" width="100%">
                                 <div class="content">
                                     <p class="tl">{{topDetails.title}}</p>
-                                    <p>共{{topDetails.file_size | bitSize}}条内容 ></p>
+                                    <p>共{{topDetails.file_count}}条内容 ></p>
                                 </div>
                             </div>
                             <i class="check" ng-if="topDetails['property']['position']=='middle'"></i>
@@ -747,7 +765,7 @@
                                  alt="" width="100%">
                             <div>
                                 <h4>{{topDetails.title}}</h4>
-                                <p>共{{topDetails.file_size | bitSize}}条内容</p>
+                                <p>共{{topDetails.file_count}}条内容</p>
                             </div>
                             <i class="check" ng-if="topDetails['property']['position']=='under'"></i>
                         </div>
@@ -919,9 +937,13 @@
             <div class="modal-body">
                 <div class="form-group clearfix">
                     <div class="col-sm-6">
-                        <div class="btn uploadByLocal" ng-if="uploadstate=='files'" upload-files>从本地上传
+                        <div class="btn uploadByLocal" ng-if="uploadstate==='files'" upload-files file-list="FilesList"
+                             state="uploadstate" exdata-flow="ExDataflow" current-exbt="currentExbt">
+                            从本地上传
                         </div>
-                        <div class="btn uploadByLocal" ng-if="uploadstate=='topic'" upload-dir-files>从本地上传
+                        <div class="btn uploadByLocal" ng-if="uploadstate==='topic'" upload-files
+                             file-list="topDetails.lists" state="uploadstate" top-details="topDetails"
+                             exdata-flow="ExDataflow" current-exbt="currentExbt">从本地上传
                         </div>
                     </div>
                     <div class="col-sm-6">
