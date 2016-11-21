@@ -2368,6 +2368,9 @@ body {
               }
             }
             ul li {
+              & > a {
+                border: 2px solid #e6e6e6;
+              }
               .cover {
                 position: absolute;
                 top: 0;
@@ -3066,6 +3069,13 @@ body {
 }
 
 #msgCollectFile {
+  .modal-header {
+    h5 {
+      span {
+        color: #14d66a;
+      }
+    }
+  }
   .modal-body {
     padding: 0;
     height: 550px;

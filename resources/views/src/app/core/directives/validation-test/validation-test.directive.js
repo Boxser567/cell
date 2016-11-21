@@ -1076,9 +1076,9 @@ export default function (app) {
             link: function (scope, elem, attrs) {
                 elem.blur(function () {
                     var subname = scope.fileglobal.property.sub_title;
-                    if (subname == "" || subname == null) {
-                        return;
-                    }
+                    // if (subname == "" || subname == null) {
+                    //     return;
+                    // }
                     Exhibition.editFileinfo({
                         file_id: scope.fileglobal.id,
                         sub_title: scope.fileglobal.property.sub_title
