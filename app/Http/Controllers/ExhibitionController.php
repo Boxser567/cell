@@ -198,7 +198,7 @@ class ExhibitionController extends BaseController
         if ($back_pic) {
             $property["back_pic"] = $back_pic;
         }
-        if ($sub_title) {
+        if (\Request::has('sub_title')) {
             $property["sub_title"] = $sub_title;
         }
         if ($style) {

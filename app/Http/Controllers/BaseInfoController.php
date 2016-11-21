@@ -23,10 +23,8 @@ class BaseInfoController extends Controller
 
     public function getIndex()
     {
-        View::addExtension('html', 'blade');
-        $wechat=app('wechat');
-        $js = $wechat->js;
-        return view('index',['js' => $js]);
+        View::addExtension('html','blade');
+        return view('homepage');
     }
 
     public static function getVerifyInvitation($invitation_code='')
