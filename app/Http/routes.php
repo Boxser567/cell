@@ -13,9 +13,6 @@
 Route::get('/admin', 'IndexController@getIndex');
 Route::get('/', 'BaseInfoController@getIndex');
 
-Route::get('/pic', function () {
-    return view('profile');
-});
 Route::get('/login', function () {
     return view('show');
 });

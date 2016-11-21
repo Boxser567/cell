@@ -17,6 +17,6 @@ class IndexController extends BaseController
         View::addExtension('html', 'blade');
         $wechat=app('wechat');
         $js = $wechat->js;
-        return view('index',['js' => $js]);
+        return view('dist.index',['js' => $js]);
     }
 }
