@@ -12,7 +12,7 @@
 */
 Route::get('/admin', 'IndexController@getIndex');
 Route::get('/', 'BaseInfoController@getIndex');
-
+Route::get('/#/mobile', 'BaseInfoController@getMobileIndex');
 Route::get('/login', function () {
     return view('show');
 });

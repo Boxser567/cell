@@ -27,6 +27,14 @@ class BaseInfoController extends Controller
         return view('homepage');
     }
 
+    public function getMobileIndex()
+    {
+        View::addExtension('html', 'blade');
+        $wechat=app('wechat');
+        $js = $wechat->js;
+        return view('index',['js' => $js]);
+    }
+
     public static function getVerifyInvitation($invitation_code='')
     {
         $invitation=InvitationCode::getCode(inputGet('invitation_code',$invitation_code));
