@@ -210,7 +210,15 @@ class FileController extends Controller
             if (\Request::has('position')) {
                 // $base_controller=new BaseController();
                 //  $base_controller->judgePermission("class_style");//权限判断自定义专题显示样式
-                $folder->property = json_encode(['position' => inputGet('position')]);
+                $property=json_decode($folder->property,true);
+                $property['position']=inputGet('position');
+                $folder->property = json_encode($property);
+            }
+            if(\Request::has('pic_up'))
+            {
+                $property=json_decode($folder->property,true);
+                $property+=['pic_up'=>1];
+                $folder->property =json_encode($property);
             }
             $folder->save();
             FolderInfo::cacheForget();
@@ -273,7 +281,14 @@ class FileController extends Controller
         $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
         $img_url = json_decode($folder_info->img_url, true);//todo 图片个数限制
         if (inputGetOrFail('type')) {
-            array_push($img_url, inputGetOrFail("img_url"));
+            if(\Request::has('pic_up')){
+                array_push($img_url, inputGetOrFail("img_url"));
+            }else{
+                $img_url[0]=inputGetOrFail("img_url");
+                $property=json_decode($folder_info->property,true);
+                $property+=['pic_up'=>1];
+                $folder_info->property =json_encode($property);
+            }
         } else {
             foreach ($img_url as $key => &$value) {
                 if (inputGetOrFail("img_url") == $value) {
