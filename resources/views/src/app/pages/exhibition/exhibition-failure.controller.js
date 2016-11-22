@@ -9,7 +9,7 @@ import datetimepicker from  "angular-bootstrap-datetimepicker/src/js/datetimepic
 function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $timeout, currentExhibition, $location, Exhibition, $warning) {
     'ngInject';
     console.log("返回详情数据", currentExhibition);
-    $scope.siteHost = $location.host();
+    $scope.siteHost = $location.host()+"/admin";
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $rootScope.projectTitle = currentExhibition.data.title + " - 会文件";

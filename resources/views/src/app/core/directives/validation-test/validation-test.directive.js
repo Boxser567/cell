@@ -737,13 +737,14 @@ export default function (app) {
                     });
                     uploader.on('fileQueued', function (file) {
                         uploader.options.formData.name = file.name;
-                        $("#uploadFileModal").modal('hide');
-                        scope.fileglobal.loadStatus = false;
-                        scope.fileglobal.oldtitle = scope.fileglobal.property.title;
                         scope.fileglobal.property.title = file.name;
+                        scope.fileglobal.indexID = file.id;
+                        $("#uploadFileModal").modal('hide');
                     });
 
                     uploader.on('uploadSuccess', function (uploadFile, returnFile) {
+                        //根据具体情况替换内容 、 不能使用 scope.fileglobal
+                        console.log("成功后的返回", uploadFile, returnFile);
                         const parmas = {
                             org_id: scope.currentExbt.org_id,
                             file_id: scope.fileglobal.id,
@@ -755,67 +756,92 @@ export default function (app) {
                             parmas.folder_id = scope.topDetails.id;
                         }
                         Exhibition.replaceFileinfo(parmas).then(function () {
-                            scope.fileglobal.filewidth = 100;   //进度完全结束--该文件方能被操作
-                            scope.fileglobal.property.title = Util.String.baseName(returnFile.fullpath);
-                            scope.fileglobal.hash = returnFile.hash;
-                            scope.fileglobal.size = returnFile.filesize;
-                            // _.each(scope.FilesList, function (f) {
-                            //     if (f.indexID == uploadFile.id) {
-                            //         f.property.title = Util.String.baseName(returnFile.fullpath);
-                            //         f.hash = returnFile.hash;
-                            //         f.size = returnFile.filesize;
-                            //     }
-                            // })
-                            $timeout(function () {
-                                if (scope.uploadstate === 'topic') {
-                                    ++scope.topDetails.file_count;
-                                }
-                                scope.ExDataflow.space = scope.ExDataflow.space - Number(scope.fileglobal.size) + returnFile.filesize;
-                            })
+                            if (scope.uploadstate === "files")
+                                _.each(scope.FilesList, function (f) {
+                                    if (f.indexID == uploadFile.id) {
+                                        $timeout(function () {
+                                            scope.ExDataflow.space = scope.ExDataflow.space - Number(f.size) + returnFile.filesize;
+                                            f.filewidth = 100;
+                                            f.property.title = Util.String.baseName(returnFile.fullpath);
+                                            f.property.hash = returnFile.hash;
+                                            f.size = returnFile.filesize;
+                                        })
+                                    }
+                                });
+                            if (scope.uploadstate === "topic")
+                                _.each(scope.topDetails.lists, function (t) {
+                                    if (t.indexID == uploadFile.id) {
+                                        $timeout(function () {
+                                            scope.ExDataflow.space = scope.ExDataflow.space - Number(t.size) + returnFile.filesize;
+                                            t.filewidth = 100;
+                                            t.property.title = Util.String.baseName(returnFile.fullpath);
+                                            t.property.hash = returnFile.hash;
+                                            t.size = returnFile.filesize;
+                                        })
+                                    }
+                                });
                         })
                     });
                     uploader.on('uploadError', function (fileError) {
-                        //console.log("上传出错的文件", scope.FilesList, fileError);
-                        // _.each(scope.FilesList, function (f) {
-                        //     if (f.indexID == fileError.id) {
-                        //         f.filewidth = 0;
-                        //         f.loadError = true;
-                        //         f.property.title = scope.fileglobal.oldtitle;
-                        //     }
-                        // })
-                        scope.fileglobal.filewidth = 0;
-                        scope.fileglobal.loadError = true;
-                        scope.fileglobal.property.title = scope.fileglobal.oldtitle;
+                        if (scope.uploadstate === "files")
+                            _.each(scope.FilesList, function (f) {
+                                if (f.indexID == fileObj.id) {
+                                    f.filewidth = 0;
+                                    f.loadError = true;
+                                    f.property.title = f.oldtitle;
+                                }
+                            });
+                        if (scope.uploadstate === "topic")
+                            _.each(scope.topDetails.lists, function (t) {
+                                if (t.indexID == fileObj.id) {
+                                    f.filewidth = 0;
+                                    f.loadError = true;
+                                    f.property.title = f.oldtitle;
+                                }
+                            });
+
+
                     })
 
                     uploader.on('uploadProgress', function (fileObj, progress) {
-                        scope.$apply(function () {
-                            scope.fileglobal.filewidth = Number(progress) * 92;
-                        })
+                        if (scope.uploadstate == "files")
+                            _.each(scope.FilesList, function (r) {
+                                if (r.indexID == fileObj.id) {
+                                    console.log("进度FilesList", r);
+                                    if (r.loadStatus) {
+                                        uploader.cancelFile(fileObj.id);
+                                        scope.$apply(function () {
+                                            r.filewidth = 0;
+                                            r.property.title = r.oldTitle;
+                                            //r.loadError = true;
+                                        })
+                                    } else {
+                                        scope.$apply(function () {
+                                            console.log(" 进度显示", r.filewidth);
+                                            r.filewidth = Number(progress) * 92;
+                                        })
+                                    }
+                                }
+                            });
+                        if (scope.uploadstate == "topic")
+                            _.each(scope.topDetails.lists, function (t) {
+                                if (t.indexID == fileObj.id) {
+                                    if (t.loadStatus) {
+                                        uploader.cancelFile(fileObj.id);
+                                        scope.$apply(function () {
+                                            t.filewidth = 0;
+                                            t.property.title = t.oldTitle;
+                                            //t.loadError = true;
+                                        })
+                                    } else {
+                                        scope.$apply(function () {
+                                            t.filewidth = Number(progress) * 92;
+                                        })
+                                    }
+                                }
+                            });
 
-                        if (scope.fileglobal.loadStatus) {
-                            uploader.cancelFile(fileObj.id);
-                            $timeout(function () {
-                                scope.fileglobal.filewidth = 0;
-                                scope.fileglobal.property.title = scope.fileglobal.oldtitle;
-                            })
-                        }
 
-
-                        // var index = "";
-                        // _.each(scope.FilesList, function (r) {
-                        //     if (r.indexID == fileObj.id) {
-                        //         index = scope.FilesList.indexOf(r);
-                        //     }
-                        // });
-                        // var element = $(".hosted-phones .mb_file ul li:nth-child(" + (index + 1) + ")").find(".cover i");
-                        // element.off("click");
-                        // element.on('click', function () {
-                        //     uploader.cancelFile(fileObj.id);
-                        //     $timeout(function () {
-                        //         scope.fileglobal.property.title = scope.fileglobal.oldtitle;
-                        //     })
-                        // });
                     });
                     uploader.on('error', function (err) {
                         console.log("文件上传报错", err);
@@ -841,7 +867,7 @@ export default function (app) {
                 elem.on("click", function () {
                     types = attrs.datatype;
                     if (types == "title")
-                        lastname = scope.currentExbt.title;
+                        lastname = scope.currentExbt.title;      //$.extend({},scope.currentExbt.title);
                     if (types == 'groupname')
                         groname = scope.groupglobal.name;
                     if (types == 'topicname')
@@ -858,7 +884,9 @@ export default function (app) {
                                 $rootScope.projectTitle = scope.currentExbt.title + " - 会文件";
                             })
                         } else {
-                            scope.currentExbt.title = lastname;
+                            scope.$apply(function () {
+                                scope.currentExbt.title = lastname;
+                            })
                         }
                     }
                     if (types == "sub_title") {
@@ -878,7 +906,9 @@ export default function (app) {
                                 $warning("分组名称修改成功!");
                             })
                         } else {
-                            scope.groupglobal.name = groname;
+                            scope.$apply(function () {
+                                scope.groupglobal.name = groname;
+                            })
                         }
                     }
                     if (types == 'topicname') {     //专题名称修改
@@ -892,7 +922,7 @@ export default function (app) {
                                 $warning("标题名称修改成功!");
                             })
                         } else {
-                            $timeout(function () {
+                            scope.$apply(function () {
                                 scope.topDetails.title = topicname;
                             })
 

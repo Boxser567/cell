@@ -100,7 +100,7 @@
                 <div class="instructions">
                     <p class="mark">可选文字说明:</p>
                     <input type="text" datatype="sub_title" edit-extitle ng-model="currentExbt.property.sub_title"
-                           placeholder="如:  协办企业:腾讯网络">
+                           placeholder="如:  协办企业:腾讯网络" maxlength="60">
                     <p class="r">文字会显示在标题下方,可以用简单的语句描述您的站点、或者您可以协商主办方(承办方)名称。</p>
                 </div>
             </div>
@@ -167,18 +167,21 @@
                             <ul class="ui_file_Modelstyle">
                                 <li ng-repeat="file in FilesList">
                                     <a class="clearfix sl" ng-if="file.property.style==1"
+                                       ng-class="{'active':file.classActive}"
                                        ng-click="selectFileFn($event,$index,file,'files')">
                                         <img src="{{file.property.back_pic}}-c320" alt="">
                                         <div>{{file.property.title | parseName}}</div>
                                         <i class="check"></i>
                                     </a>
                                     <a class="clearfix sr" ng-if="file.property.style==2"
+                                       ng-class="{'active':file.classActive}"
                                        ng-click="selectFileFn($event,$index,file,'files')">
                                         <div>{{file.property.title | parseName}}</div>
                                         <img src="{{file.property.back_pic}}-c320" alt="">
                                         <i class="check"></i>
                                     </a>
                                     <a class="clearfix bl" ng-if="file.property.style==3"
+                                       ng-class="{'active':file.classActive}"
                                        ng-click="selectFileFn($event,$index,file,'files')">
                                         <img src="{{file.property.back_pic}}-c320" alt=""
                                              ng-click="selectFileFn($event,$index,file)">
@@ -189,6 +192,7 @@
                                         <i class="check"></i>
                                     </a>
                                     <a class="clearfix br" ng-if="file.property.style==4"
+                                       ng-class="{'active':file.classActive}"
                                        ng-click="selectFileFn($event,$index,file,'files')">
                                         <img src="{{file.property.back_pic}}-c320"
                                              alt="">
@@ -199,6 +203,7 @@
                                         <i class="check"></i>
                                     </a>
                                     <a class="clearfix cv" ng-if="file.property.style==5"
+                                       ng-class="{'active':file.classActive}"
                                        ng-click="selectFileFn($event,$index,file,'files')">
                                         <img src="{{file.property.back_pic}}-c592" alt="">
                                         <div>
@@ -361,18 +366,21 @@
                             <ul class="ui_file_Modelstyle">
                                 <li ng-repeat="file in topDetails.lists">
                                     <a class="clearfix sl" ng-if="file.property.style==1"
+                                       ng-class="{'active':file.classActive}"
                                        ng-click="selectFileFn($event,$index,file,'topic')">
                                         <img src="{{file.property.back_pic}}-c320" alt="">
                                         <div>{{file.property.title | parseName}}</div>
                                         <i class="check"></i>
                                     </a>
                                     <a class="clearfix sr" ng-if="file.property.style==2"
+                                       ng-class="{'active':file.classActive}"
                                        ng-click="selectFileFn($event,$index,file,'topic')">
                                         <div>{{file.property.title | parseName}}</div>
                                         <img src="{{file.property.back_pic}}-c320" alt="">
                                         <i class="check"></i>
                                     </a>
                                     <a class="clearfix bl" ng-if="file.property.style==3"
+                                       ng-class="{'active':file.classActive}"
                                        ng-click="selectFileFn($event,$index,file,'topic')">
                                         <img src="{{file.property.back_pic}}-c320" alt=""
                                              ng-click="selectFileFn($event,$index,file)">
@@ -383,6 +391,7 @@
                                         <i class="check"></i>
                                     </a>
                                     <a class="clearfix br" ng-if="file.property.style==4"
+                                       ng-class="{'active':file.classActive}"
                                        ng-click="selectFileFn($event,$index,file,'topic')">
                                         <img src="{{file.property.back_pic}}-c320"
                                              alt="">
@@ -393,6 +402,7 @@
                                         <i class="check"></i>
                                     </a>
                                     <a class="clearfix cv" ng-if="file.property.style==5"
+                                       ng-class="{'active':file.classActive}"
                                        ng-click="selectFileFn($event,$index,file,'topic')">
                                         <img src="{{file.property.back_pic}}-c592" alt="">
                                         <div>
@@ -563,7 +573,7 @@
                             <i class="tl-name"></i>分组名称
                         </div>
                         <input type="text" class="form-control group-name" ng-model="groupglobal.name"
-                               datatype="groupname" edit-extitle>
+                               datatype="groupname" maxlength="60" edit-extitle>
                     </div>
                     <div class="time">
                         <div class="h">
@@ -642,7 +652,7 @@
                             <i class="tl-name"></i>专题名称
                         </div>
                         <input type="text" class="form-control" ng-model="topDetails.title" datatype="topicname"
-                               edit-extitle placeholder="请填写专题名称">
+                               edit-extitle placeholder="请填写专题名称" maxlength="60">
                     </div>
 
                     <div class="d2">
@@ -1080,7 +1090,7 @@
                                     <div title="{{list.filename}}">{{list.filename}}</div>
                                 </div>
                                 <div class="col-sm-2">{{list.filesize | bitSize}}</div>
-                                <div class="col-sm-3">{{list.create_dateline | date:'yyyy-MM-dd'}}</div>
+                                <div class="col-sm-3">{{list.create_dateline*1000 | date:'yyyy-MM-dd'}}</div>
                             </li>
                         </ul>
                     </div>

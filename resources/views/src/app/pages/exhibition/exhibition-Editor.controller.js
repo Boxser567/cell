@@ -9,7 +9,7 @@ import datetimepicker from  "angular-bootstrap-datetimepicker/src/js/datetimepic
 function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $timeout, currentExhibition, $location, Exhibition, $warning) {
     'ngInject';
     console.log("返回详情数据", currentExhibition);
-    $scope.siteHost = $location.host();
+    $scope.siteHost = $location.host() + "/admin";
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $rootScope.projectTitle = currentExhibition.data.title + " - 会文件";
@@ -413,12 +413,20 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
 
     //选中常用文件
     $scope.selectFileFn = function (e, index, file, type) {
-        $(e.currentTarget).addClass("active").parent().siblings().find("a").removeClass("active");
+        if ($scope.uploadstate == "files")
+            _.each($scope.FilesList, function (r) {
+                r.classActive = false;
+            })
+        if ($scope.uploadstate == "topic")
+            _.each($scope.topDetails.lists, function (r) {
+                r.classActive = false;
+            })
         $(".slide-note").find(".filemask").show().siblings().hide();
         file.Indexer = index;
-        $timeout(function () {
-            $scope.fileglobal = file;
-        })
+        file.classActive = true;    //用于控制激活的类
+        file.loadStatus = false;
+        file.oldTitle = file.property.title;
+        $scope.fileglobal = file;
         $scope.uploadstate = type;
         console.log(file);
     }
