@@ -281,14 +281,14 @@ class FileController extends Controller
         $folder_info = FolderInfo::getByHash(inputGetOrFail('hash'));
         $img_url = json_decode($folder_info->img_url, true);//todo 图片个数限制
         if (inputGetOrFail('type')) {
-            if(\Request::has('pic_up')){
+           // if(\Request::has('pic_up')){
                 array_push($img_url, inputGetOrFail("img_url"));
-            }else{
-                $img_url[0]=inputGetOrFail("img_url");
-                $property=json_decode($folder_info->property,true);
-                $property+=['pic_up'=>1];
-                $folder_info->property =json_encode($property);
-            }
+//            }else{
+//                $img_url[0]=inputGetOrFail("img_url");
+//                $property=json_decode($folder_info->property,true);
+//                $property+=['pic_up'=>1];
+//                $folder_info->property =json_encode($property);
+//            }
         } else {
             foreach ($img_url as $key => &$value) {
                 if (inputGetOrFail("img_url") == $value) {
