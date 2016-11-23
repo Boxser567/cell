@@ -112,6 +112,7 @@ class ExhibitionController extends BaseController
         }
         $files->deleteFile($fullpath);
         $property["title"] = inputGetOrFail('title');
+        $file->title=inputGetOrFail('title');
         $file->property = json_encode($property);
         $file->save();
         FileInfo::cacheForget();
