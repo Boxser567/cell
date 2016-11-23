@@ -37,7 +37,6 @@ class AuthController extends Controller
         if (!$his_member) {
             Session::flush();
             Session::put('member', $member);
-            Session::regenerate();
         }
         return $member;
       //   return $_COOKIE['member'];
