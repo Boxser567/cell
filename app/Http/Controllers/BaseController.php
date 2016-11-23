@@ -45,6 +45,7 @@ class BaseController extends Controller
         if (!$member) {
             throw new Exception(40106);
         } else {
+            Session::put('member', $member);
             $this->member = $member;
         }
 
