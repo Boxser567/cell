@@ -359,7 +359,7 @@ class ExhibitionController extends BaseController
     public function format(&$exhibition)
     {
         $exhibition = $exhibition->toArray();
-        $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/#/mobile/" . $exhibition['unique_code'];
+        $exhibition['unique_code'] = "http://" . config("app.view_domain") . "/mobile/#/mobile/" . $exhibition['unique_code'];
         $exhibition['base_folder'] = self::BASE_FILE_NAME;
         $exhibition['res_collect'] = FileController::RES_COLLECTION_FOLDER_NAME;
     }
