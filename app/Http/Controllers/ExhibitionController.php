@@ -99,20 +99,20 @@ class ExhibitionController extends BaseController
     //更新模块
     public function postReplaceModule()
     {
-        $file=FileInfo::_find(inputGetOrFail('file_id'));
-        $file->hash=inputGetOrFail('hash');
-        $file->size=inputGetOrFail('size');
+        $file = FileInfo::_find(inputGetOrFail('file_id'));
+        $file->hash = inputGetOrFail('hash');
+        $file->size = inputGetOrFail('size');
         $property = json_decode($file->property, true);
         $files = new YunkuFile(inputGetOrFail('org_id'));
-        if(inputGet('folder_id',0)){
-            $folder=FolderInfo::_find(inputGet('folder_id'));
-            $fullpath=$folder->title.'/'.$property["title"];
-        }else{
-            $fullpath=self::BASE_FILE_NAME.'/'.$property["title"];
+        if (inputGet('folder_id', 0)) {
+            $folder = FolderInfo::_find(inputGet('folder_id'));
+            $fullpath = $folder->title . '/' . $property["title"];
+        } else {
+            $fullpath = self::BASE_FILE_NAME . '/' . $property["title"];
         }
         $files->deleteFile($fullpath);
         $property["title"] = inputGetOrFail('title');
-        $file->property= json_encode($property);
+        $file->property = json_encode($property);
         $file->save();
         FileInfo::cacheForget();
         return;
@@ -121,8 +121,8 @@ class ExhibitionController extends BaseController
     //开启关闭站点
     public function postHandleExhibition()
     {
-        $exhibition=ExhibitionInfo::_find(inputGetOrFail('ex_id'));
-        $exhibition->closed=inputGetOrFail('type');
+        $exhibition = ExhibitionInfo::_find(inputGetOrFail('ex_id'));
+        $exhibition->closed = inputGetOrFail('type');
         $exhibition->save();
         ExhibitionInfo::cacheForget();
         return;
@@ -154,7 +154,7 @@ class ExhibitionController extends BaseController
             FolderInfo::cacheForget();
         }
         $property = json_encode(["title" => $title, "back_pic" => "http://res.meetingfile.com/2168a80ad9c3a8b1a07eb78751e37e4d2491041a.jpg", "sub_title" => "", "style" => FileInfo::STYLE_LIST_LEFT, "size" => $size]);
-        return LAccount::setFile("", $ex_id, $hash, $folder_id, $order_by, $size, $property);
+        return LAccount::setFile("", $ex_id, $hash, $folder_id, $order_by, $size, $property, $title);
     }
 
     //修改模块设置
@@ -180,20 +180,26 @@ class ExhibitionController extends BaseController
         $size = inputGet("size", 0);
         $file_hash = inputGet("file_hash", 0);
         if ($title && $module->hash) {
-            $exhibition=ExhibitionInfo::_find($module->ex_id);
-            $files = new YunkuFile($exhibition->org_id);
-            if($module->folder_id){
-                $folder_info=FolderInfo::_find($module->folder_id);
-                $old_name=$folder_info->title.'/'.$property["title"];
-                $new_title=$folder_info->title;
-            }else{
-                $old_name=self::BASE_FILE_NAME.'/'.$property["title"];
-                $new_title=self::BASE_FILE_NAME;
+            $exit_file=FileInfo::getByTitle($title,$module->folder_id);
+            if($exit_file){
+                throw new \Exception('文件已存在');
             }
-            $files->setName($old_name, $new_title.'/'.$title);
+            $exhibition = ExhibitionInfo::_find($module->ex_id);
+            $files = new YunkuFile($exhibition->org_id);
+            if ($module->folder_id) {
+                $folder_info = FolderInfo::_find($module->folder_id);
+                $old_name = $folder_info->title . '/' . $property["title"];
+                $new_title = $folder_info->title;
+            } else {
+                $old_name = self::BASE_FILE_NAME . '/' . $property["title"];
+                $new_title = self::BASE_FILE_NAME;
+            }
+            $files->setName($old_name, $new_title . '/' . $title);
             $property["title"] = $title;
-        }else if($title){
-            $property["title"] = $title;
+        } else {
+            if ($title) {
+                $property["title"] = $title;
+            }
         }
         if ($back_pic) {
             $property["back_pic"] = $back_pic;
@@ -208,7 +214,7 @@ class ExhibitionController extends BaseController
             $property["file_hash"] = $file_hash;
         }
         $property = json_encode($property);
-        return LAccount::setFile($id, "", $hash, "", "", $size, $property);
+        return LAccount::setFile($id, "", $hash, "", "", $size, $property, $title);
     }
 
 
@@ -221,7 +227,7 @@ class ExhibitionController extends BaseController
         $property = json_decode($module->property, true);
         if (\Request::has("folder_id")) {
             $folder_info = FolderInfo::_find(inputGetOrFail("folder_id"));
-            $fullpath = $folder_info->title. "/" . $property['title'];
+            $fullpath = $folder_info->title . "/" . $property['title'];
             FolderInfo::delCount(inputGetOrFail("folder_id"));
             FolderInfo::cacheForget();
         } else {

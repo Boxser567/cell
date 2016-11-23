@@ -11,6 +11,7 @@
         $table->integer("folder_id");
         $table->integer("order_by");
         $table->string("size",20);
+        $table->string("title",100);
         $table->dateTime("created_at");
         $table->dateTime("updated_at");
         $table->index(['hash']);

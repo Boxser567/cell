@@ -19,6 +19,8 @@ class FolderInfo extends BaseModel
         return self::createWith()->where("folder_hash", $hash)->first();
     }
 
+   
+
     public static function deleteByGroupId($group_id)
     {
         return self::where('group_id', $group_id)->delete();

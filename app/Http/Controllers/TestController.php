@@ -12,6 +12,7 @@ use App\Logic\Yunku;
 use App\Logic\YunkuFile;
 use App\Logic\YunkuOrg;
 use App\Models\ExhibitionInfo;
+use App\Models\FileInfo;
 use App\Models\InvitationCode;
 use Session;
 use Input;
@@ -40,14 +41,14 @@ class TestController extends Controller
 
     public function getE()
     {
-        $yunku = new YunkuFile(830507);
+        $yunku = new YunkuFile(840111);
         return $yunku->getFileList();
     }
 
 
     public function getF()
     {
-        $yunku = new YunkuFile(830507);
+        $yunku = new YunkuFile(840111);
         return $yunku->getFileList('base_folder');
     }
 
@@ -270,5 +271,18 @@ class TestController extends Controller
         return $group_info;
     }
 
+
+
+    public function getChange()
+    {
+        $files=FileInfo::where('id','>',1349)->where('id','<',1900)->get()->toArray();
+        foreach ($files as $file){
+            $new_file=FileInfo::find($file['id']);
+            $property=json_decode($new_file->property,true);
+            $new_file->title=$property['title'];
+            $new_file->save();
+        }
+        return 'ok';
+    }
     
 }

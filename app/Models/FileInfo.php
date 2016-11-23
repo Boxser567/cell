@@ -24,9 +24,12 @@ class FileInfo extends BaseModel
 
 
     public static function getElseFiles($ex_id,$folder_id){
-        return self::createWith()->where('ex_id',$ex_id)->where('folder_id','<>',$folder_id)->get();
+        return self::createWith()->where('ex_id',$ex_id)->where('folder_id','<>',$folder_id)->groupBy('title')->get();
     }
-
+    public static function getByTitle($title,$folder_id)
+    {
+        return self::where('title',$title)->where('folder_id',$folder_id)->first();
+    }
 
     public static function getCount($ex_id,$folder_id)
     {

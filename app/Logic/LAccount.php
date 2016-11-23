@@ -94,7 +94,7 @@ class LAccount
     }
 
     //创建更新新模块
-    public static function setFile($id = "", $ex_id = "", $hash = "", $folder_id = "", $order_by = "",$size=0, $property = "")
+    public static function setFile($id = "", $ex_id = "", $hash = "", $folder_id = "", $order_by = "",$size=0, $property = "",$title='')
     {
         if ($id) {
             $module = FileInfo::_findOrFail($id);
@@ -107,6 +107,9 @@ class LAccount
         }
         if ($hash) {
             $module->hash = $hash;
+        }
+        if ($title) {
+            $module->title = $title;
         }
         if ($size) {
             $module->size = $size;
