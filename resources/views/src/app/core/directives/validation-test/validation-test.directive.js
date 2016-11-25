@@ -188,7 +188,7 @@ export default function (app) {
                     Exhibition.registerFrom(params).then(function (res) {
                         if (res.status) {
                             console.log("跳转的链接", 'http://' + $location.host() + '/admin/#/exhibition');
-                            window.location.href = 'http://' + $location.host() + 'admin/#/exhibition';
+                            window.location.href = 'http://' + $location.host() + '/admin/#/exhibition';
                         } else {
                             $(".error_msg").text(res.error_msg);
                         }
