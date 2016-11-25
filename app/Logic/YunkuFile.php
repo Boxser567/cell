@@ -78,7 +78,7 @@ class YunkuFile extends \GokuaiFile
     }
 
     //修改文件(夹)名
-    public function copy($from_fullpath,$fullpath)
+    public function copy($from_fullpath, $fullpath)
     {
         $data = [
             'fullpath' => $fullpath,
@@ -168,6 +168,7 @@ class YunkuFile extends \GokuaiFile
             "fullpath" => $fullpath,
             'filehash' => $file_hash,
             'filesize' => $file_size,
+            'hotfile' => 1,
             'overwrite' => 0
         ];
         $res = $this->callAPI2('POST', '/1/file/create_file', $data);
@@ -176,10 +177,10 @@ class YunkuFile extends \GokuaiFile
     }
 
     //文件信息
-    public function getInfo($hash, $attribute = 0, $fullpath='',$net = '')
+    public function getInfo($hash, $attribute = 0, $fullpath = '', $net = '')
     {
         $data = [
-            'fullpath'=>$fullpath,
+            'fullpath' => $fullpath,
             'hash' => $hash,
             'net' => $net,
             'attribute' => $attribute
