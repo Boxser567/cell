@@ -2,6 +2,8 @@
 
 function ExhibitionListController($scope, $rootScope, $state, $location, $timeout, Exhibition, currentExhibition) {
     'ngInject';
+
+
     $rootScope.projectTitle = "会文件";
     $scope.newMask = false;
     $rootScope.alertMsg = false;
@@ -74,7 +76,7 @@ function ExhibitionListController($scope, $rootScope, $state, $location, $timeou
     $scope.register = function () {
         if (confirm("注销后页面将跳转到登陆界面")) {
             Exhibition.logout().then(function () {
-                $state.go('http://' + $location.host() + '/admin');
+                window.location.href = 'http://' + $location.host() + '/admin';
             })
         }
     }

@@ -73,8 +73,6 @@ export default function (app) {
                             $(".nav-bar .left").animate({
                                 width: '218px'
                             });
-
-
                         });
                     }
                     if (!scope.stateMode) {
@@ -84,8 +82,6 @@ export default function (app) {
                             }, function () {
 
                             });
-
-
                             $(".FILE_ARTICLE").animate({
                                 "padding-left": "360px"
                             });
@@ -192,7 +188,7 @@ export default function (app) {
                     Exhibition.registerFrom(params).then(function (res) {
                         console.log("表单提交时间", params, res);
                         if (res.status) {
-                            $state.go('http://' + $location.host() + '/#/exhibition');
+                            window.localtion.href = 'http://' + $location.host() + '/admin/#/exhibition';
                         } else {
                             $(".error_msg").text(res.error_msg);
                         }
@@ -260,20 +256,6 @@ export default function (app) {
                         $("#changeBannerModal").modal("hide");
                     })
                     // })
-                });
-            },
-        };
-    });
-
-    //分组时间切换
-    app.directive('selectGrotime', function ($timeout) {
-        return {
-            restrict: 'A',
-            link: function (scope, elem) {
-                elem.on("change", function () {
-                    $timeout(function () {
-                        scope.groupSetting.forever = elem.val();
-                    })
                 });
             },
         };
@@ -461,19 +443,14 @@ export default function (app) {
     });
 
     //上传logo、banner、topicImg
-    app.directive('uploadLogo', function ($timeout, Exhibition, $popupDialog) {
+    app.directive('uploadLogo', function ($timeout, Exhibition, $warning, $popupDialog) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 $timeout(function () {
                     Exhibition.getUrlToken().then(function (da) {
-                        var imgTypes = '';
-                        if (attrs.datawhere == "banner") {
-                            imgTypes == "jpg,png";
-                        } else {
-                            imgTypes == "gif,jpg,jpeg,bmp,png";
-                        }
-                        uploadimg(imgTypes, da.data.upload_domain, da.data.token, da.data.file_name);
+                        scope.fileID = '';
+                        uploadimg(da.data.upload_domain, da.data.token, da.data.file_name);
                     });
                 })
 
@@ -492,17 +469,28 @@ export default function (app) {
                         },
                         duplicate: true,    //重复文件
                         accept: {
-                            title: 'logo',
-                            extensions: imgTypes,
+                            title: 'Images',
+                            extensions: 'gif,jpg,jpeg,png',
                             mimeTypes: 'image/*'
                         },
+                        thumb: {
+                            width: 160,
+                            height: 160,
+                            quality: 70,
+                            allowMagnify: true,
+                            crop: true,
+                            type: 'image/jpeg'
+                        },
                         //fileNumLimit: 100,
-                        fileSizeLimit: 1 * 1024 * 1024,
+                        //fileSizeLimit: 1 * 1024 * 1024,
                         fileSingleSizeLimit: 1 * 1024 * 1024
                     });
                     uploader.on('fileQueued', function (file) {
                         if (attrs.datawhere == "logo") {
                             scope.imgloading = true;
+                        }
+                        if (scope.fileglobal) {
+                            scope.fileID = scope.fileglobal.id;
                         }
                         uploader.options.formData.key = file_name + '.' + Util.String.getExt(file.name);
                     });
@@ -517,6 +505,7 @@ export default function (app) {
                                 $timeout(function () {
                                     scope.currentExbt.logo = arg;
                                     scope.imgloading = false;
+                                    $warning("logo更换成功!");
                                 })
                             });
                         }
@@ -547,13 +536,30 @@ export default function (app) {
                         }
                         if (attrs.datawhere == "fileimg") {
                             var arg = server + "/" + arguments[1].key;
+                            if (!scope.fileID) {
+                                return;
+                            }
                             Exhibition.editFileinfo({
-                                file_id: scope.fileglobal.id,
+                                file_id: scope.fileID,
                                 back_pic: arg
                             }).then(function (res) {
-                                $timeout(function () {
-                                    scope.fileglobal.property.back_pic = arg;
-                                })
+                                if (scope.uploadstate === "files")
+                                    _.each(scope.FilesList, function (f) {
+                                        if (f.id == scope.fileID) {
+                                            $timeout(function () {
+                                                f.property.back_pic = arg;
+                                            })
+                                        }
+                                    });
+                                if (scope.uploadstate === "topic")
+                                    _.each(scope.topDetails.lists, function (t) {
+                                        if (t.id == scope.fileID) {
+                                            $timeout(function () {
+                                                t.property.back_pic = arg;
+                                            })
+                                        }
+                                    });
+
                             })
                         }
                     });
@@ -566,139 +572,6 @@ export default function (app) {
             },
 
 
-        };
-    });
-
-    //上传分类所需文件
-    app.directive('uploadDirFiles', function ($timeout, Exhibition) {
-        return {
-            restrict: 'A',
-            link: function (scope, elem, attrs) {
-                $timeout(function () {
-                    Exhibition.getFileToken(scope.currentExbt.org_id).then(function (da) {
-                        uploadimg(da.data.url, da.data.org_client_id);
-                    });
-                });
-                function uploadimg(url, clientid) {
-                    var uploader = WebUploader.create({
-                        pick: {
-                            id: elem,
-                        },
-                        auto: true,
-                        swf: 'http://cdn.staticfile.org/webuploader/0.1.0/Uploader.swf',
-                        server: url,
-                        formData: {
-                            org_client_id: clientid,
-                            name: '',
-                            filefield: 'file',
-                            file: 'file',
-                            // overwrite: 0
-                        },
-                        duplicate: true,//重复文件
-                        //fileNumLimit: 100,
-                        fileSizeLimit: 10240 * 1024 * 1024,  //最大文件 10 个G
-                        fileSingleSizeLimit: 1024 * 1024 * 1024
-                    });
-                    uploader.on('uploadStart', function () {
-                        uploader.options.formData.path = scope.topDetails.title;
-                    });
-
-                    uploader.on('fileQueued', function (file) {
-                        // console.log("文件队列", file);
-                        uploader.options.formData.name = file.name;
-                        var topicfile = {
-                            indexID: file.id,
-                            id: '',
-                            ex_id: scope.currentExbt.id,
-                            hash: '',
-                            size: file.size,
-                            title: file.name,
-                            property: {
-                                style: 1,
-                                back_pic: "http://res.meetingfile.com/2168a80ad9c3a8b1a07eb78751e37e4d2491041a.jpg",
-                                title: file.name
-                            }
-                        };
-                        console.log("添加新文件到队列", topicfile);
-                        scope.topDetails.lists.push(topicfile);
-                        //scope.localTopicFilesJSON = [];
-                        //scope.localTopicFilesJSON.push(topicfile);
-                        $("#uploadFileModal").modal('hide');
-                    });
-                    uploader.on('uploadSuccess', function (uploadFile, returnFile) {
-                        console.log("专题文件上传成功", arguments);
-                        for (var i = 0; i < scope.localTopicFilesJSON.length; i++) {
-                            if (scope.localTopicFilesJSON[i].indexID == uploadFile.id) {
-                                scope.localTopicFilesJSON[i].hash = returnFile.hash;
-                                scope.localTopicFilesJSON[i].folder_id = scope.topDetails.id;
-                                console.log("scope.localTopicFilesJSON[i]", scope.localTopicFilesJSON[i])
-
-                                Exhibition.editFileinfo(scope.localTopicFilesJSON[i]).then(function (res) {
-                                    var file = _.findWhere(scope.topDetails.lists, {
-                                        indexID: scope.localTopicFilesJSON[i].indexID
-                                    });
-                                    if (file) {
-                                        $timeout(function () {
-                                            file.id = res.id;
-                                            file.hash = returnFile.hash;
-                                            file.filewidth = 100;
-                                        })
-                                    }
-                                    scope.ExDataflow.space += file.size;
-                                    ++scope.topDetails.file_count;
-                                    scope.topDetails.file_size += file.size;
-                                    //scope.updateLocalTpoicSize({stateBase: 'add', size: file.size});
-                                    scope.localTopicFilesJSON.splice(i, 1);  //删除上传缓存
-                                });
-                                break;
-                            }
-                        }
-                    });
-
-
-                    uploader.on('uploadProgress', function (fileObj, progress) {
-                        // console.log("上传进度", arguments);
-                        var index = "";
-                        for (let i = 0; i < scope.topDetails.lists.length; i++) {
-                            if (scope.topDetails.lists[i].indexID == fileObj.id) {
-                                scope.$apply(function () {
-                                    scope.topDetails.lists[i].filewidth = Number(progress) * 99;
-                                })
-                                index = i;
-                                break;
-                            }
-                        }
-
-
-                        // var Tfile = _.findWhere(scope.topDetails.lists, {
-                        //     indexID: fileObj.id
-                        // });
-                        // if (Tfile) {
-                        //     scope.$apply(function () {
-                        //         Tfile.filewidth = Number(progress) * 99;
-                        //     })
-                        // }
-                        //
-                        // _.each(scope.topDetails.lists, function (r) {
-                        //     if (r.indexID == fileObj.id) {
-                        //         index = scope.topDetails.lists.indexOf(r);
-                        //     }
-                        // });
-                        var element = $(".topic-page .project ul li:nth-child(" + (index + 1) + ")").find(".cover i");
-                        element.off("click");
-                        element.on('click', function () {
-                            uploader.cancelFile(fileObj.id);
-                            $timeout(function () {
-                                scope.topDetails.lists.splice(index, 1);
-                            })
-                        });
-                    });
-                    uploader.on('error', function (err) {
-                        console.log("图片上传报错", err);
-                        alert("上传有误! \n\n 温馨提示您:单次上传文件大小不得大于1G。");
-                    });
-                }
-            }
         };
     });
 
@@ -743,7 +616,6 @@ export default function (app) {
                     });
 
                     uploader.on('uploadSuccess', function (uploadFile, returnFile) {
-                        //根据具体情况替换内容 、 不能使用 scope.fileglobal
                         console.log("成功后的返回", uploadFile, returnFile);
                         const parmas = {
                             org_id: scope.currentExbt.org_id,
@@ -794,9 +666,9 @@ export default function (app) {
                         if (scope.uploadstate === "topic")
                             _.each(scope.topDetails.lists, function (t) {
                                 if (t.indexID == fileObj.id) {
-                                    f.filewidth = 0;
-                                    f.loadError = true;
-                                    f.property.title = f.oldtitle;
+                                    t.filewidth = 0;
+                                    t.loadError = true;
+                                    t.property.title = t.oldtitle;
                                 }
                             });
 
@@ -919,7 +791,7 @@ export default function (app) {
                                 hash: scope.topDetails.folder_hash,
                                 newpath: scope.topDetails.title
                             }).then(function () {
-                                $warning("标题名称修改成功!");
+                                $warning("专题名称修改成功!");
                             })
                         } else {
                             scope.$apply(function () {
@@ -931,126 +803,6 @@ export default function (app) {
                 })
             }
         }
-    });
-
-    //修改各种文件的名称
-    app.directive('editName', function (Exhibition, $timeout, $warning, $rootScope) {
-        return {
-            restrict: 'A',
-            link: function (scope, elem, attrs) {
-                elem.click(function (event) {
-                    if (event.target.nodeName == "INPUT") {
-                        return;
-                    }
-                    $timeout(function () {
-                        var name = $.trim(elem.text());
-                        if (attrs.dataedit == "sitename") {
-                            name = attrs.datasite;
-                        }
-                        var input = '<input type="text" class="exhibitionName" value="' + name + '" />';
-                        elem.empty().append(input);
-                        if (attrs.dataedit == "filename") {
-                            var selectionEnd = name.length;
-                            var lenIndex = name.lastIndexOf('.');
-                            if (lenIndex > 0) {
-                                selectionEnd = lenIndex;
-                            }
-                            elem.find('input')[0].selectionStart = 0;
-                            elem.find('input')[0].selectionEnd = selectionEnd;
-                            elem.find('input').focus();
-                        }
-                        else {
-                            elem.find('input').focus().select();
-                        }
-                        elem.find('input').blur(function () {
-                            var text = $.trim($(this).val());
-                            console.log(text);
-                            if (text == "" || text == name) {
-                                $(elem).empty().text(name);
-                            } else {
-                                if (attrs.dataedit == "title") {
-                                    if (text.length > 48) {
-                                        alert("会展名称不得长于48个字节!");
-                                        elem.empty().text(name);
-                                        return false;
-                                    }
-                                    Exhibition.editExTitle({
-                                        exhibition_id: attrs.dataid,
-                                        title: text
-                                    }).then(function (res) {
-                                        elem.empty().text(text);
-                                        $rootScope.projectTitle = text + " - 会文件";
-                                    })
-                                }
-                                if (attrs.dataedit == "filename") {
-                                    scope.file.fullpath = text;
-                                    Exhibition.editExFilename({
-                                        org_id: attrs.dataid,
-                                        fullpath: attrs.datapath,
-                                        newpath: text
-                                    }).then(function (res) {
-                                        elem.empty().text(text);
-                                        var idx = elem.parents('.col-md-4').index();
-                                        scope.FilesList[idx].fullpath = text;
-                                        scope.FilesList[idx].filename = text;
-                                    })
-                                }
-                                if (attrs.dataedit == "dirname") {
-                                    scope.dir.fullpath = text;
-                                    Exhibition.editExDirname({
-                                        org_id: attrs.dataid,
-                                        fullpath: attrs.datapath,
-                                        hash: attrs.datahash,
-                                        newpath: text
-                                    }).then(function (res) {
-                                        console.log(res);
-                                        elem.empty().text(text);
-                                        var idx = elem.parents('.col-md-4').index();
-                                        scope.DirsList[idx].fullpath = text;
-                                        scope.DirsList[idx].filename = text;
-                                    })
-                                }
-                                if (attrs.dataedit == "sitename") {
-                                    Exhibition.editExTitle({
-                                        exhibition_id: attrs.dataid,
-                                        website: text
-                                    }).then(function (res) {
-                                        $timeout(function () {
-                                            elem.empty().text("点击编辑主页地址");
-                                            scope.currentExbt.property.web_site = text;
-                                        })
-
-                                    })
-                                }
-
-                                // if (attrs.dataedit == "groupname") {
-                                //     Exhibition.editGroupInfo({
-                                //         group_id: attrs.dataid,
-                                //         name: text
-                                //     }).then(function (res) {
-                                //         $timeout(function () {
-                                //             elem.empty().text(text);
-                                //         })
-                                //     })
-                                // }
-
-
-                            }
-                        })
-                    })
-                })
-
-                scope.$watch(attrs.editName, function (value) {
-                    if (value === true) {
-                        elem.trigger('click');
-                        scope[attrs.editName] = false;
-                    }
-                });
-
-            },
-
-
-        };
     });
 
 
@@ -1099,6 +851,8 @@ export default function (app) {
             },
         };
     });
+
+
     //修改常用文件信息----内容摘要
     app.directive("editFilesubname", function ($timeout, Exhibition, $warning) {
         return {
@@ -1106,9 +860,6 @@ export default function (app) {
             link: function (scope, elem, attrs) {
                 elem.blur(function () {
                     var subname = scope.fileglobal.property.sub_title;
-                    // if (subname == "" || subname == null) {
-                    //     return;
-                    // }
                     Exhibition.editFileinfo({
                         file_id: scope.fileglobal.id,
                         sub_title: scope.fileglobal.property.sub_title
@@ -1119,6 +870,8 @@ export default function (app) {
             },
         };
     });
+
+
     //修改常用文件信息----样式
     app.directive("selectFilestyle", function ($timeout, Exhibition) {
         return {
@@ -1178,6 +931,7 @@ export default function (app) {
         };
     });
 
+
     //添加专题 filesortAdd
     app.directive('groupToggle', function (Exhibition, $timeout) {
         return {
@@ -1213,6 +967,7 @@ export default function (app) {
             }
         };
     });
+
 
     //从云库中选择文件
     app.directive('gokuaiCloud', function (Exhibition, $timeout) {
@@ -1397,6 +1152,7 @@ export default function (app) {
                 elem.on('click', function () {
                     $("#uploadFileModal").modal('hide');
                     scope.dataCollectList = [];
+                    scope.dataCollectList.selectAll = false;
                     if (scope.currentExbt.res_collect_lock == 0) {
                         $("#openCollectFile").modal('show');
                         return;
@@ -1422,7 +1178,7 @@ export default function (app) {
     })
 
 
-    //从已有文件或资料收集夹中选取文件
+    //从已有文件中选取文件
     app.directive('selectUpload', function ($timeout, Exhibition) {
         return {
             restrict: 'A',
@@ -1430,6 +1186,7 @@ export default function (app) {
                 elem.on('click', function () {
                     $("#uploadFileModal").modal('hide');
                     scope.dataExsitList = [];
+                    scope.dataExsitList.selectAll = false;
                     $("#fileFromExist").modal('show');
                     scope.collectLoading = true;
                     console.log("进行专题分类文件选择", scope.uploadstate);

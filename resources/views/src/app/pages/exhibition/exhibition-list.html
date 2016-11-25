@@ -45,7 +45,9 @@
                         <div class="trans" hover-trans>
                             <div class="thumbnail">
                                 <div class="img">
-                                    <img src="{{exhibition.banner}}-640" alt="刷新重试">
+                                    <a href="#/exhibition/{{exhibition.unique_code}}">
+                                        <img src="{{exhibition.banner}}-640" alt="刷新重试">
+                                    </a>
                                 </div>
                                 <div class="caption">
                                     <h4 title="{{exhibition.title}}">
@@ -100,7 +102,9 @@
                         <div class="trans" hover-trans>
                             <div class="thumbnail">
                                 <div class="img">
-                                    <img src="{{exhibition.banner}}-640" alt="等待加载">
+                                    <a href="#/exfailure/{{exhibition.unique_code}}">
+                                        <img src="{{exhibition.banner}}-640" alt="等待加载">
+                                    </a>
                                     <div class="diff"></div>
                                 </div>
                                 <div class="caption">

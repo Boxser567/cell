@@ -33,8 +33,7 @@ a {
 
 .banner {
     height: 750px;
-    background: url("../images/h00.jpg") no-repeat;
-    background-size: cover;
+    background: url("../images/h00.jpg") no-repeat center center;
     position: relative;
 }
 
@@ -58,6 +57,10 @@ a {
 }
 
 .head-bar .pull-left a {
+    transition: background-color .35s;
+    -moz-transition: background-color .35s; /* Firefox 4 */
+    -webkit-transition: background-color .35s; /* Safari and Chrome */
+    -o-transition: background-color .35s; /* Opera */
     padding: 20px 16px;
 }
 
@@ -73,6 +76,10 @@ a {
     border: 1px solid #fff;
     padding: 8px 23px;
     border-radius: 2px;
+    transition: background-color .35s;
+    -moz-transition: background-color .35s; /* Firefox 4 */
+    -webkit-transition: background-color .35s; /* Safari and Chrome */
+    -o-transition: background-color .35s; /* Opera */
 }
 
 .head-bar .pull-right .btn:hover {
@@ -91,6 +98,11 @@ a {
     font-weight: 500;
 }
 
+.banner .nav-move {
+    margin-top: 100px;
+    opacity: 0;
+}
+
 .banner .nav-con p {
     font-size: 30px;
     margin-top: 25px;
@@ -105,6 +117,10 @@ a {
     padding: 10px 60px;
     font-weight: 100;
     display: inline-block;
+    transition: background-color .25s;
+    -moz-transition: background-color .25s; /* Firefox 4 */
+    -webkit-transition: background-color .25s; /* Safari and Chrome */
+    -o-transition: background-color .25s; /* Opera */
 }
 
 .banner .nav-con .btn:hover {
@@ -162,7 +178,7 @@ a {
     padding: 100px 0 80px 0;
 }
 
-.explain> div {
+.explain > div {
     float: left;
 }
 
@@ -174,12 +190,12 @@ a {
     margin-top: 110px;
 }
 
-.explain> div h4 {
+.explain > div h4 {
     font-size: 36px;
     font-weight: 200;
 }
 
-.explain> div p {
+.explain > div p {
     font-size: 18px;
     color: #666;
 }
@@ -219,7 +235,8 @@ a {
     font-size: 18px;
 }
 
-.row {}
+.row {
+}
 
 .row .col {
     display: inline-block;
@@ -285,7 +302,7 @@ a {
     /* Chrome10+,Safari5.1+ */
     /* Opera11.10+ */
     /* IE10+ */
-    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#8087e0fd', endColorstr='#05abe0', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8087e0fd', endColorstr='#05abe0', GradientType=0);
     /* IE6-9 */
     /* W3C */
     padding-top: 80px;
@@ -321,4 +338,5 @@ a {
     margin-bottom: 20px;
 }
 
-.home-footer .contact {}
+.home-footer .contact {
+}

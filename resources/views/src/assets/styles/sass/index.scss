@@ -1672,8 +1672,7 @@ body {
     z-index: 8;
     .left {
       float: left;
-      width: 200px;
-
+      width: 508px;
       .pModel {
         float: right;
         height: 70px;
@@ -1690,7 +1689,6 @@ body {
             margin-right: 15px;
           }
           border-right: 1px solid #ddd;
-
         }
         span {
           padding: 0 10px;
@@ -1771,7 +1769,7 @@ body {
     height: 100%;
     width: 100%;
     min-width: 1200px;
-    padding-left: 70px;
+    padding-left: 360px;
     .bgimg {
       position: absolute;
       height: 1000px;
@@ -1782,7 +1780,7 @@ body {
     }
     .slide-bar {
       position: fixed;
-      width: 70px;
+      width: 360px;
       background: rgba(255, 255, 255, .8);
       top: 0px;
       left: 0;
@@ -1842,7 +1840,7 @@ body {
         left: 0;
         bottom: 0;
         z-index: 9;
-        display: block;
+        display: none;
         padding: 20px;
         height: 100%;
         ul {
@@ -1870,11 +1868,12 @@ body {
         }
 
       }
+
       .motion {
         height: 100%;
         padding: 30px;
         padding-bottom: 80px;
-        display: none;
+        display: block;
         overflow-y: scroll;
         .title {
           font-size: 24px;
@@ -1899,15 +1898,21 @@ body {
         .logo {
           padding-top: 25px;
           img {
-            float: left;
-            width: 80px;
+            width: 100px;
             border-radius: 50%;
           }
-          & > div {
+          .pull-left {
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            background: #dfdfdf;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+          }
+          .pull-right {
             position: relative;
             float: right;
-            width: 170px;
-            margin-left: 30px;
+            width: 150px;
             margin-top: 10px;
           }
           .btn {
@@ -1920,7 +1925,7 @@ body {
           }
           .loading {
             background: rgba(0, 0, 0, .6);
-            width: 170px;
+            width: 150px;
             height: 35px;
             position: absolute;
             top: 0;

@@ -9,14 +9,14 @@ import datetimepicker from  "angular-bootstrap-datetimepicker/src/js/datetimepic
 function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $timeout, currentExhibition, $location, Exhibition, $warning) {
     'ngInject';
     console.log("返回详情数据", currentExhibition);
-    $scope.siteHost = $location.host() + "/admin";
     currentExhibition.data.property = JSON.parse(currentExhibition.data.property);
     $scope.currentExbt = currentExhibition.data;
     $rootScope.projectTitle = currentExhibition.data.title + " - 会文件";
     $scope.collectLoading = true;       //资料收集
-    $scope.collectUrl = "http://" + $scope.siteHost + "/#/collect/" + $stateParams.unicode + "";
+    $scope.collectUrl = "http://" + $location.host() + "/mobile/#/collect/" + $stateParams.unicode + "";
     //logo上传加载
     $scope.imgloading = false;
+    $scope.stateMode = true;
     $scope.fileloading = true;//常用文件的加载
     $scope.localFilesJSON = [];   //用于缓存正在上传文件信息
     $scope.uploadstate = "files";
@@ -27,7 +27,6 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         name: '自定义时间',
         value: 0
     }];
-
 
     //常用文件的获取
     $scope.FilesList = [];
@@ -239,10 +238,13 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 start_time: '',
                 end_time: ''
             }).then(function (res) {
-                $scope.groupglobal.start_time = null;
-                $scope.groupglobal.end_time = null;
-                $scope.groupglobal.forever = 1;
-                $warning("");
+                $timeout(function () {
+                    $scope.groupglobal.start_time = null;
+                    $scope.groupglobal.end_time = null;
+                    $scope.groupglobal.forever = 1;
+                    $warning("");
+                })
+
             })
         }
     }
@@ -270,19 +272,47 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     }
 
 
+    //单个文件选中
+    $scope.oneSelectFn = function (list, types) {
+        $scope.collectArray = [];
+        if (types == 'exist') {
+            $scope.collectArray = $scope.dataExsitList;
+        } else {
+            $scope.collectArray = $scope.dataCollectList;
+        }
+        if (list.selects) {
+            if ($scope.collectArray.selectAll) {
+                $timeout(function () {
+                    $scope.collectArray.selectAll = false;
+                })
+            }
+        } else {
+            let ck = true;
+            _.each($scope.collectArray, function (f) {
+                if (f.filehash != list.filehash) {
+                    if (f.selects) {
+                        ck = true;
+                    }
+                }
+            })
+            $scope.collectArray.selectAll = ck;
+        }
+        list.selects = !list.selects;
+    }
+
+
     //收集资料全选事件
     $scope.ckb_selectFn = function (list) {
-        var isCheck = $(".ckb_selectAll").prop("checked");
-        if (!isCheck) {
+        if (list.selectAll) {
             $timeout(function () {
                 _.each(list, function (ck) {
-                    ck.selects = false;
+                    ck.selects = true;
                 })
             })
         } else {
             $timeout(function () {
                 _.each(list, function (ck) {
-                    ck.selects = true;
+                    ck.selects = false;
                 })
             })
         }
@@ -290,21 +320,20 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
 
     //收集资料全选----添加选中文件
     $scope.addSelectFile = function (list, collected) {
-
         console.log("选中的文件信息", list)
-
         $scope.btnloading = true;
         var params = {
             org_id: $scope.currentExbt.org_id,
             ex_id: $scope.currentExbt.id,
             files: []
         };
-        var totalSize = 0;
+        var totalSize = 0, count = 0;
         if (collected === 'exist') {
             params.type = 0;
             _.each(list, function (r) {
                 if (r.selects) {
-                    totalSize += r.size;
+                    ++count;
+                    totalSize += Number(r.size);
                     params.files.push({
                         filename: r.property.title,
                         hash: r.hash,
@@ -317,7 +346,8 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
         if (collected === 'collect') {
             _.each(list, function (r) {
                 if (r.selects) {
-                    totalSize += r.filesize;
+                    ++count;
+                    totalSize += Number(r.filesize);
                     params.files.push({
                         filename: r.filename,
                         hash: r.filehash,
@@ -345,7 +375,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                     $scope.topDetails.lists.push(r);
                 })
                 $scope.ExDataflow.space += Number(totalSize);
-                ++$scope.topDetails.file_count;
+                $scope.topDetails.file_count += count;
                 $scope.topicDetails.file_size += Number(totalSize);
             })
         }
@@ -386,6 +416,18 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
             }
         }
     }
+
+    //文件预览
+    $scope.filePreviewFn = function () {
+        Exhibition.m_getFileInfo({
+            org_id: $scope.currentExbt.org_id,
+            hash: $scope.fileglobal.hash
+        }).then(function (res) {
+            console.log("预览的信息", res);
+            window.open('' + res.data.preview + '', "_target");
+        })
+    }
+
     $scope.delTopicFn = function () { //删除专题
         if (confirm("确定要删除吗? \n 删除后,该专题及内部文件都将不可查看!")) {
             Exhibition.delExFile({
@@ -644,10 +686,14 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 start_time: $scope.topicDate.start,
                 end_time: $scope.topicDate.end
             }).then(function (res) {
-                $scope.topDetails.forever = 0;
-                $scope.topDetails.start_time = $scope.topicDate.start;
-                $scope.topDetails.end_time = $scope.topicDate.end;
-                $scope.topicSelectTime = 0;
+                $timeout(function () {
+                    $scope.topDetails.forever = 0;
+                    $scope.topDetails.start_time = $scope.topicDate.start;
+                    $scope.topDetails.end_time = $scope.topicDate.end;
+                    $scope.topicSelectTime = 0;
+                    $warning("");
+                })
+
                 // let group = $scope.GroupList[$scope.topDetails.groupIdx].folder;
                 // for (let g = 0; g < group.length; g++) {
                 //     if ($scope.GroupList[$scope.topDetails.groupIdx].folder[g].id == $scope.topDetails.id) {
@@ -676,10 +722,12 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 start_time: null,
                 end_time: null
             }).then(function (res) {
-                $scope.topDetails.forever = 1;
-                $scope.topDetails.start_time = null;
-                $scope.topDetails.end_time = null;
-                $warning("专题时间修改成功!");
+                $timeout(function () {
+                    $scope.topDetails.forever = 1;
+                    $scope.topDetails.start_time = null;
+                    $scope.topDetails.end_time = null;
+                    $warning("专题时间修改成功!");
+                })
             })
         }
     }
