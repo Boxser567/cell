@@ -186,9 +186,9 @@ export default function (app) {
                     };
 
                     Exhibition.registerFrom(params).then(function (res) {
-                        console.log("表单提交时间", params, res);
                         if (res.status) {
-                            window.localtion.href = 'http://' + $location.host() + '/admin/#/exhibition';
+                            console.log("跳转的链接", 'http://' + $location.host() + '/admin/#/exhibition');
+                            window.location.href = 'http://' + $location.host() + 'admin/#/exhibition';
                         } else {
                             $(".error_msg").text(res.error_msg);
                         }
@@ -454,7 +454,7 @@ export default function (app) {
                     });
                 })
 
-                function uploadimg(imgTypes, server, token, file_name) {
+                function uploadimg(server, token, file_name) {
                     var uploader = WebUploader.create({
                         pick: {
                             id: elem,
@@ -469,17 +469,9 @@ export default function (app) {
                         },
                         duplicate: true,    //重复文件
                         accept: {
-                            title: 'Images',
+                            title: 'logo',
                             extensions: 'gif,jpg,jpeg,png',
                             mimeTypes: 'image/*'
-                        },
-                        thumb: {
-                            width: 160,
-                            height: 160,
-                            quality: 70,
-                            allowMagnify: true,
-                            crop: true,
-                            type: 'image/jpeg'
                         },
                         //fileNumLimit: 100,
                         //fileSizeLimit: 1 * 1024 * 1024,
@@ -492,7 +484,7 @@ export default function (app) {
                         if (scope.fileglobal) {
                             scope.fileID = scope.fileglobal.id;
                         }
-                        uploader.options.formData.key = file_name + '.' + Util.String.getExt(file.name);
+                        uploader.options.formData.key = file.name;
                     });
                     uploader.on('uploadSuccess', function () {
                         console.log("图片上传成功", arguments);
