@@ -13,6 +13,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
     $scope.currentExbt = currentExhibition.data;
     $rootScope.projectTitle = currentExhibition.data.title + " - 会文件";
     $scope.collectLoading = true;       //资料收集
+    $scope.siteHost = $location.host();
     $scope.collectUrl = "http://" + $location.host() + "/mobile/#/collect/" + $stateParams.unicode + "";
     //logo上传加载
     $scope.imgloading = false;
