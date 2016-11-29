@@ -1,6 +1,6 @@
 'use strict';
 // import  wx from "weixin-js-sdk";
-function MobileController($scope, currentMobileExbt, $timeout, Exhibition, $state) {
+function MobileController($scope, currentMobileExbt, $rootScope, $timeout, Exhibition, $state) {
     'ngInject';
     console.log("currentMobileExbt", currentMobileExbt);
     currentMobileExbt.property = JSON.parse(currentMobileExbt.property);
