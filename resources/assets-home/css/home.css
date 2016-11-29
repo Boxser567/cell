@@ -54,6 +54,7 @@ a {
 
 .head-bar .pull-left {
     float: left;
+
 }
 
 .head-bar .pull-left a {
@@ -156,6 +157,15 @@ a {
     margin-top: 25px;
     font-size: 16px;
     color: #999;
+}
+.home-fit table td img{
+    -webkit-transition: all .25s ease-in;
+    -moz-transition: all .25s ease-in;
+    -o-transition: all .25s ease-in;
+    transition: all .25s ease-in;
+}
+.home-fit table td img:hover{
+    transform:scale(1.2,1.2);
 }
 
 .home-bring {

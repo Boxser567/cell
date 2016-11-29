@@ -9,7 +9,7 @@ function MobileController($scope, currentMobileExbt, $timeout, Exhibition, $stat
     $scope.showMore = false;  //显示更多
     $scope.loading = true;  //初始化动画过度
     $scope.FilesList = [];  //常用文件集合
-
+    $rootScope.projectTitle = $scope.EXfileList.title + ' - 闻见 ';
     //常用文件信息
     Exhibition.getFileInfoByPath({
         ex_id: currentMobileExbt.id,

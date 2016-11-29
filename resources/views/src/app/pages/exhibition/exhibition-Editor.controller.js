@@ -288,15 +288,14 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 })
             }
         } else {
-            let ck = true;
-            _.each($scope.collectArray, function (f) {
-                if (f.filehash != list.filehash) {
-                    if (f.selects) {
-                        ck = true;
-                    }
+            let ck = 0;
+            for (let n = 0; n < $scope.collectArray.length; n++) {
+                if ($scope.collectArray[n].selects) {
+                    ++ck;
                 }
-            })
-            $scope.collectArray.selectAll = ck;
+            }
+            if (ck === $scope.collectArray.length - 1)
+                $scope.collectArray.selectAll = true;
         }
         list.selects = !list.selects;
     }
@@ -357,6 +356,10 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 }
             });
         }
+        if (params.files.length <= 0) {
+            $scope.btnloading = false;
+            return;
+        }
         if ($scope.uploadstate == "files") {
             Exhibition.copyFilFromHad(params).then(function (res) {
                 $scope.btnloading = false;
@@ -377,7 +380,7 @@ function ExhibitionDetailController($scope, $rootScope, $window, $stateParams, $
                 })
                 $scope.ExDataflow.space += Number(totalSize);
                 $scope.topDetails.file_count += count;
-                $scope.topicDetails.file_size += Number(totalSize);
+                $scope.topDetails.file_size += Number(totalSize);
             })
         }
         $("#fileFromCollect").modal('hide');
