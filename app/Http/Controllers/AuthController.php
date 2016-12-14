@@ -39,7 +39,7 @@ class AuthController extends Controller
             Session::put('member', $member);
         }
         return $member;
-         // return $_COOKIE['member'];
+//          return $_COOKIE['member'];
     }
 
     public function getLogout()
