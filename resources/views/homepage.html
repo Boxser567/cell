@@ -25,7 +25,7 @@
             </div>
 
             <div class="nav-con">
-                <h2 class="navhh" id="navhh">15分钟创建你的专属移动网页</h2>
+                <h2>15分钟创建你的专属移动网页</h2>
                 <div class="nav-move">
                     <p>遇见下一代移动展示,发布会级的效果,全方位呈现你的效果</p>
                     <a class="btn">免费体验</a>
@@ -115,43 +115,44 @@
 <div class="home-step">
     <h3>面向主办方、参展方和观众的数字化服务体系</h3>
     <p class="warn">无论是企业展示、行业会展,Meetfile会文件为你的内容插上翅膀,快速传播</p>
-    <div class="row">
-        <div class="col">
-            <img src="../assets-home/images/1301.png" alt="">
-            <h5>降低物料与时间双重成本</h5>
-            <p>模块化设计，直观的操作体验</p>
-            <p>手机上的资料入袋、可移动的电子易拉宝</p>
-            <p>活动、展会、公司资讯便捷发布，随时更新</p>
-        </div>
 
-        <div class="col">
-            <img src="../assets-home/images/1302.png" alt="">
-            <h5>简单几步，轻松建立属于你的微站</h5>
-            <p>操作简单，15分钟创建一个展示定制内容的站点</p>
-            <p>使用者只需扫一扫，即可查看所有展览信息，轻松阅读</p>
-            <p>提升展会/企业品牌形象，内容丰富、随时更新、形式多样化</p>
-        </div>
-
-        <div class="col">
-            <img src="../assets-home/images/1303.png" alt="">
-            <h5>移动互联网时代的内容病毒式传播</h5>
-            <p>支持会议资料的在线查看</p>
-            <p>随时分享，一键收藏，会议结束，传播不止。</p>
-            <p>对接微信公众号，无止境的二次传播</p>
-        </div>
-
-        <div class="col">
-            <img src="../assets-home/images/1304.png" alt="">
-            <h5>高级定制服务专享</h5>
-            <p>定制专属展会LOGO</p>
-            <p>定制专属封面、Banner、专题信息</p>
-            <p>一键资料收集、对接企业云盘，办展更省时</p>
+    <div class="slide-warp clearfix">
+        <div class="slide">
+            <div class="col">
+                <img src="../assets-home/images/1301.png" alt="">
+                <h5>降低物料与时间双重成本</h5>
+                <p>模块化设计，直观的操作体验</p>
+                <p>手机上的资料入袋、可移动的电子易拉宝</p>
+                <p>活动、展会、公司资讯便捷发布，随时更新</p>
+            </div>
+            <div class="col">
+                <img src="../assets-home/images/1302.png" alt="">
+                <h5>简单几步，轻松建立属于你的微站</h5>
+                <p>操作简单，15分钟创建一个展示定制内容的站点</p>
+                <p>使用者只需扫一扫，即可查看所有展览信息，轻松阅读</p>
+                <p>提升展会/企业品牌形象，内容丰富、随时更新、形式多样化</p>
+            </div>
+            <div class="col">
+                <img src="../assets-home/images/1303.png" alt="">
+                <h5>移动互联网时代的内容病毒式传播</h5>
+                <p>支持会议资料的在线查看</p>
+                <p>随时分享，一键收藏，会议结束，传播不止。</p>
+                <p>对接微信公众号，无止境的二次传播</p>
+            </div>
+            <div class="col">
+                <img src="../assets-home/images/1304.png" alt="">
+                <h5>高级定制服务专享</h5>
+                <p>定制专属展会LOGO</p>
+                <p>定制专属封面、Banner、专题信息</p>
+                <p>一键资料收集、对接企业云盘，办展更省时</p>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="home-solution">
     <div class="content">
+        <div class="diff-img"></div>
         <h3>Meetingfile解决方案</h3>
         <img src="../assets-home/images/h01.png" alt="">
         <table>
@@ -178,17 +179,16 @@
     </div>
 </div>
 
+
 <div class="home-footer">
     <div class="diff">
         <div class="content">
             <p class="warn">现在注册,即可享受新手专属优惠礼包</p>
             <a class="btn">立即注册</a>
-
         </div>
     </div>
 </div>
 <div class="footer-black">
-
     <div class="content contact">
         <p class="company">够快科技股份有限公司</p>
         <p>地点:上海市浦东新区张江高科 498 号浦东软件园 12 号楼 402 &nbsp;&nbsp; 电话:400-888-8888 &nbsp;&nbsp; 邮箱:website@qq.com</p>
@@ -198,6 +198,15 @@
 <script type="text/javascript" src="../assets-home/script/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="../assets-home/script/move.js"></script>
 <script type="text/javascript" src="../assets-home/script/home.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //console.log("高度", $('.diff-img').offsetTop);
+
+    })
+    $('.diff-img').on('click', function () {
+        move('.diff-img').duration(2000).x(850).end();
+    })
+</script>
 </body>
 
 </html>

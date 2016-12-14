@@ -6,6 +6,8 @@ import exhibitionFailureTpl from './exhibition-failure.html';
 
 import exhibitionEditorTpl from './exhibition-Editor.html';
 
+import clippingTpl from './clipping.html';
+
 function routeConfig($stateProvider) {
     'ngInject';
 
@@ -20,6 +22,16 @@ function routeConfig($stateProvider) {
                 }]
             }
         })
+
+        .state('main.clipping', {
+            url: '^/clipping',
+            templateUrl: clippingTpl,
+            controller: require('./clipping.controller'),
+            resolve: {}
+        })
+
+
+
         .state('main.exhibition-failure', {
             url: '^/exfailure/:unicode',
             templateUrl: exhibitionFailureTpl,

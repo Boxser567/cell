@@ -10,6 +10,8 @@ function MobileController($scope, currentMobileExbt, $rootScope, $timeout, Exhib
     $scope.loading = true;  //初始化动画过度
     $scope.FilesList = [];  //常用文件集合
     $rootScope.projectTitle = $scope.EXfileList.title + ' - 闻见 ';
+
+
     //常用文件信息
     Exhibition.getFileInfoByPath({
         ex_id: currentMobileExbt.id,
@@ -24,6 +26,8 @@ function MobileController($scope, currentMobileExbt, $rootScope, $timeout, Exhib
         })
         $scope.FilesList = res;
     })
+
+
     //显示更多数据
     $scope.showMoreFile = function () {
         var url = $scope.FilesList.next_page_url;

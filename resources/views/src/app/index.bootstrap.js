@@ -10,8 +10,10 @@ import "../assets/styles/sass/iconCollect.scss";
 import "../assets/styles/sass/index.scss";
 import "../assets/styles/sass/mobile.scss";
 import "../assets/styles/sass/collection.scss";
+import "../assets/styles/sass/uploader.scss";
 import "angular-bootstrap-datetimepicker/src/scss/datetimepicker.scss";
 import daterangepicker from 'bootstrap-daterangepicker/daterangepicker';
+import "webuploader/examples/cropper/cropper";
 import "moment/locale/zh-cn";
 
 
