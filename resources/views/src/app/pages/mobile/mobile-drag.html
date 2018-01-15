@@ -1,0 +1,59 @@
+<div class="d-left">
+    <ul>
+        <li ng-repeat="item in list track by $index" ng-model='list1'
+            data-drag="true" data-jqyoui-options="{revert: 'invalid',animate: false}"
+            jqyoui-draggable="{animate: false,onStart:onItemStart()}"
+        >
+            <span>{{item.title}}</span>
+        </li>
+    </ul>
+
+
+
+
+    <div cropper >文件上传</div>
+    <div class="cropper-wraper webuploader-element-invisible">
+        <div class="img-container">
+            <img src="" alt="" />
+        </div>
+
+        <div class="upload-btn">上传所选区域</div>
+
+        <div class="img-preview"></div>
+    </div>
+
+    <!--<h2 draggable=true >Whose dialog is it? <em>"What is it, Precious? What is it?"</em></h2>-->
+    <!--<div>-->
+    <!--<div class='contentWrapper ng-cloak'>-->
+    <!--<div class='content'>-->
+    <!--<div class="row-fluid">-->
+    <!--<ul class="thumbnails">-->
+    <!--<li ng-repeat="item in list1 track by $index"-->
+    <!--data-drop="true"-->
+    <!--ng-model='list1'-->
+    <!--jqyoui-droppable="{index: {{$index}}, onDrop:dropCallback($event,item.title, $index)}">-->
+    <!--<div class="thumbnail"-->
+    <!--data-drag="{{item.drag}}"-->
+    <!--data-jqyoui-options="{revert: 'invalid'}"-->
+    <!--ng-model="list1"-->
+    <!--jqyoui-draggable="{index: {{$index}},animate:true}">-->
+    <!--<h1>-->
+    <!--{{item.title}}-->
+    <!--</h1>-->
+    <!--</div>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<span drag="true" jqyoui-draggable>So you think you can drag</span>-->
+
+    <!--<div class="btn btn-primary" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1"-->
+    <!--jqyoui-draggable="{animate:true}" ng-hide="!list1.title">{{list1.title}}-->
+    <!--</div>-->
+    <!--<div class="thumbnail" data-drop="true" data-jqyoui-options ng-model="list2" jqyoui-droppable style='height:50px;'>-->
+    <!--<div class="btn btn-success" data-drag="false" data-jqyoui-options ng-model="list2" jqyoui-draggable ng-hide="!list2.title">{{list2.title}}</div>-->
+    <!--</div>-->
+
+</div>

@@ -8,9 +8,7 @@ import Clipboard from "clipboard/dist/clipboard";
 
 export default function (app) {
 
-
     app.directive('validationTest', validationTestDirective);
-
 
     //图片裁剪问题
     app.directive('cropper', function ($timeout, Exhibition) {
@@ -18,9 +16,10 @@ export default function (app) {
             restrict: 'A',
             link: function (scope, elem, attrs) {
                 $timeout(function () {
-                    Exhibition.getUrlToken().then(function (da) {
-                        imageUploadFn(da.data.upload_domain, da.data.token, da.data.file_name);
-                    });
+                    //Exhibition.getUrlToken().then(function (da) {
+                    //da.data.upload_domain, da.data.token, da.data.file_name
+                        imageUploadFn();
+                    //});
                 })
 
                 var imageUploadFn = function (domain, token, filename) {
@@ -46,7 +45,6 @@ export default function (app) {
                         }, {
 
                             cropImage: function (file) {
-                                debugger
                                 var data = file._cropData,
                                     image, deferred;
 
@@ -106,7 +104,7 @@ export default function (app) {
                                         allowMagnify: false,
 
                                         // 是否采用裁剪模式。如果采用这样可以避免空白内容。
-                                        crop: false
+                                        crop: true
                                     },
                                     auto: true,
                                     duplicate: true,    //重复文件
@@ -116,7 +114,7 @@ export default function (app) {
                                     compress: false,
                                     formData: {
                                         key: '',
-                                        token: token
+                                       // token: token
                                     },
                                     server: 'http://upload.qiniu.com/',
                                     swf: 'http://cdn.staticfile.org/webuploader/0.1.0/Uploader.swf',

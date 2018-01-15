@@ -4,6 +4,9 @@
 
 import 'jquery';
 
+import "jquery-ui";
+
+import "../../bower_components/jquery-ui";
 
 import  "angular";
 

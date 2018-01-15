@@ -459,7 +459,68 @@ body {
 
 }
 
+//拖拽页面测试
+.d-left {
+  width: 100%;
+  padding: 20px 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+  background: #fff;
 
+  .webuploader-pick{
+    padding: 6px 20px;
+    color: #fff;
+    background: #009bff;
+  }
+  .thumbnail {
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    padding-top: 0px;
+    transition: none;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    cursor: pointer;
+    background: rgb(182, 173, 123);
+  }
+
+  .thumbnail[data-drag="false"] {
+    background: green;
+  }
+ul{
+  list-style: none;
+}
+  li {
+    height: 56px;
+    width: 60px;
+    line-height: 20px;
+    border: 1px solid #ddd;
+    padding: 3px;
+    margin-left: 10px;
+    display: table-cell;
+  }
+
+  //ul{
+  //  list-style: none;
+  //  padding: 0;
+  //  li{
+  //    a{
+  //      border: 1px solid #ddd;
+  //      display: block;
+  //      padding: 15px 20px;
+  //      cursor: pointer;
+  //      color: #333;
+  //      text-decoration: none;
+  //      &:hover{
+  //        background: #fefefe;
+  //      }
+  //    }
+  //
+  //  }
+  //}
+
+}
 
 
 

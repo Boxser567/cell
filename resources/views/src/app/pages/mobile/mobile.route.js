@@ -4,6 +4,7 @@ import mobileTpl from './mobile.html';
 import mobileFileTpl from './mobile-files.html';
 import mobileViewsTpl from './mobile-preview.html';
 import mobileIcantTpl from './mobile-icant.html';
+import mobileDragTpl from './mobile-drag.html';
 
 function routeConfig($stateProvider) {
     'ngInject';
@@ -36,7 +37,11 @@ function routeConfig($stateProvider) {
             templateUrl: mobileIcantTpl,
             controller: require('./mobile-icant.controller')
         })
-
+        .state('mobile_drag', {
+            url: '/mobile_drag',
+            templateUrl: mobileDragTpl,
+            controller: require('./mobile-drag.controller')
+        })
 
 
         .state('mobile-preview', {
